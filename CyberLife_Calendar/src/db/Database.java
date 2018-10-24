@@ -1,0 +1,61 @@
+package db;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+/**
+ * 
+ * Classe para criação do banco de dados, aconselhavel que só instancie ela no
+ * inicio da execução do sistema, como as funções são estaticas, podem usar elas
+ * mesmo Até agora tem função de retorno de conexão
+ * 
+ * @author jefter66
+ *
+ */
+public class Database {
+
+	private final static String SERVER = "127.0.0.1";
+	private final static String DB_NAME = "CyberLife_Calendar "; // só para testes mesmo
+	private final static String USER = "root";
+	private final static String PASSWORD = "1234";
+	private final static String CONNECTION_STRING = "jdbc:mysql://" + SERVER + "/" + DB_NAME + "?user=" + USER
+			+ "&password=" + PASSWORD;
+
+	private static Connection connection;
+
+	public Database() throws SQLException {
+		try {
+			/*
+			 * procura a biblioteca do drive do mysql no projeto
+			 */
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		connection = DriverManager.getConnection(CONNECTION_STRING);
+	}
+
+	public static Connection getConnection() throws SQLException {
+		return DriverManager.getConnection(CONNECTION_STRING);
+	}
+	/*
+	 * exemplo de query
+	 */
+	public void queryTeste() throws SQLException {
+		Statement cmd = getConnection().createStatement();
+
+		/* insert */
+		cmd.execute("insert into test_table(nThing) value ('queria morrer');");
+
+		/* select */
+		String query = "select * from test_table;";
+		ResultSet result = cmd.executeQuery(query);
+		while (result.next()) {
+			System.out.println(result.getString("nThing"));
+		}
+	}
+
+}
