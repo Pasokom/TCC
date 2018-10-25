@@ -22,7 +22,11 @@ public class Database {
 	private final static String USER = "root";
 	private final static String PASSWORD = "1234";
 	private final static String CONNECTION_STRING = "jdbc:mysql://" + SERVER + "/" + DB_NAME + "?user=" + USER
+<<<<<<< HEAD
 			+ "&password=" + PASSWORD + "&useTimezone=true&serverTimezone=UTC";
+=======
+			+ "&password=" + PASSWORD;
+>>>>>>> d4a31e007f83403928bad47df25c53de27ed6387
 
 	private static Connection connection;
 
@@ -58,10 +62,13 @@ public class Database {
 		}
 	}
 
+<<<<<<< HEAD
 	public void queryTeste2(String nome, String descricao) throws SQLException {
 		Statement cmd = getConnection().createStatement();
 
 		/* insert */
 		cmd.execute("insert into lembrete(nome, descricao) value ('"+nome+"', '"+descricao+"');");
 	}
+=======
+>>>>>>> d4a31e007f83403928bad47df25c53de27ed6387
 }
