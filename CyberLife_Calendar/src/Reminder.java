@@ -39,7 +39,8 @@ public class Reminder extends Stage {
 	
 	private TextField txtName;
 	private TextArea txtDescription;
-	private TextField txtTime;
+	
+	private TimePicker txtTime;
 	
 	private DatePicker dtDate;
 	private DatePicker dtEndRepeatDate;
@@ -93,7 +94,7 @@ public class Reminder extends Stage {
 		txtDescription = new TextArea();
 		txtDescription.setPrefSize(400, 150); //mudando tamanho da caixa de texto
 		txtDescription.setPromptText("Adicionar descrição"); //colocando texto que aparece quando o usuario ainda nao digitou
-		txtTime = new TextField();
+		txtTime = new TimePicker();
 		
 		DateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd"); //instanciando classe que formata a data em string
 		Date currentDate = new Date(); //criando uma nova data
@@ -150,7 +151,9 @@ public class Reminder extends Stage {
 			
 			try {
 				// TODO inserir todos os dados do formulario na tabela
-				database.queryTeste2(txtName.getText(), txtDescription.getText()); //fazendo um insert no banco de dados
+				int allDay = cbxAllDay.isSelected() ? 1 : 0;
+				int repeat = cbxRepeat.isSelected() ? 1 : 0;
+				database.queryLembrete(txtName.getText(), txtDescription.getText(),dtDate.getValue(), repeat); //fazendo um insert no banco de dados
 			} catch (SQLException e) {
 				e.printStackTrace();
 		} });
