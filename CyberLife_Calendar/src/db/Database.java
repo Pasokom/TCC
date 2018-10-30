@@ -18,7 +18,7 @@ import java.sql.Statement;
 public class Database {
 
 	private final static String SERVER = "127.0.0.1";
-	private final static String DB_NAME = "CyberLife_Calendar "; // só para testes mesmo
+	private final static String DB_NAME = "CYBER_LIFE"; // só para testes mesmo
 	private final static String USER = "root";
 	private final static String PASSWORD = "1234";
 	private final static String CONNECTION_STRING = "jdbc:mysql://" + SERVER + "/" + DB_NAME + "?user=" + USER
@@ -48,14 +48,37 @@ public class Database {
 		Statement cmd = getConnection().createStatement();
 
 		/* insert */
-		cmd.execute("insert into test_table(nThing) value ('queria morrer');");
+//		cmd.execute("insert into test_table(nThing) value ('queria morrer');");
 
 		/* select */
-		String query = "select * from test_table;";
-		ResultSet result = cmd.executeQuery(query);
+		String q = "CALL VALIDAR_EMAIL('JEFTER.SANTIAGO66@GMAIL.COM');";
+//		String query = "select * from test_table;";
+		ResultSet result = cmd.executeQuery(q);
 		while (result.next()) {
-			System.out.println(result.getString("nThing"));
+		System.out.println( result.getString("UEMAIL") + "\n" + result.getString("UNOME"));
 		}
 	}
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
