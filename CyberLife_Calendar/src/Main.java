@@ -10,8 +10,11 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Database db = new Database(); // carrega o banco de dados 
-		db.queryTeste(); // fazendo testes
-		
-		new Reminder();
+
+		//db.queryTeste(); // fazendo testes
+			
+		primaryStage.setScene(new HomePage());
+		primaryStage.show();
+		//		new Reminder(db);
 	}
 }
