@@ -2,11 +2,13 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 
 import db.Database;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -16,94 +18,155 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Reminder extends Stage {
 	
 	private Database database;
 	
-	private Label lblTitle;
-	private Label lblSchedule;
-	private Label lblDate;
-	private Label lblTime;
-	private Label lblRecurrence;
-	private Label lblRepeat;
-	private Label lblEndRepeat;
-	private Label lblOccurrence;
+	private Label lblDate, lblTime, lblRecurrence, lblRepeat, lblEndRepeat, lblOccurrence;
 	
 	private TextField txtName;
-	private TextArea txtDescription;
 	
 	private TimePicker txtTime;
 	
-	private DatePicker dtDate;
-	private DatePicker dtEndRepeatDate;
+	private DatePicker dtDate, dtEndRepeatDate;
+
+	private CheckBox cbxAllDay, cbxRepeat;
 	
-	private CheckBox cbxAllDay;
-	private CheckBox cbxRepeat;
-	
-	private Spinner<Integer> spnRepeat;
-	private Spinner<Integer> spnQtdRepeat;
+	private Spinner<Integer> spnRepeat, spnQtdRepeat;
 	
 	private ChoiceBox<String> chbRepeatOptions;
 	
-	private CheckBox cbxDom;
-	private CheckBox cbxSeg;
-	private CheckBox cbxTer;
-	private CheckBox cbxQua;
-	private CheckBox cbxQui;
-	private CheckBox cbxSex;
-	private CheckBox cbxSab;
+	private CheckBox cbxDom, cbxSeg, cbxTer, cbxQua, cbxQui, cbxSex, cbxSab;
 	
 	private ToggleGroup togEndRepeat;
-	private RadioButton radNever;
-	private RadioButton radOn;
-	private RadioButton radAfter;
+	private RadioButton radNever, radOn, radAfter;
 	
-	private Button btnEnviar;
+	private Button btnEnviar, btnAddHora;
 	
 	public Reminder(Database database) {
 		
 		this.database = database; //recebendo o banco de dados do construtor
+		//this.initStyle(StageStyle.UNDECORATED);
 		
-		//instanciando componentes do layout
-		lblTitle = new Label("Adicionar lembrete");
-		lblTitle.setFont(new Font(20));
-		lblSchedule = new Label("Horário:");
-		lblDate = new Label("Data:");
-		lblTime = new Label("Hora:");
-		lblRecurrence = new Label("Recorrência:");
-		lblRepeat = new Label("Repetir a cada");
-		lblEndRepeat = new Label("Termina");
-		lblOccurrence = new Label("ocorrência");
+		VBox recorrencia = recorrencia();
+		recorrencia.setDisable(true);
 		
-		cbxAllDay = new CheckBox("Dia inteiro");
-		cbxRepeat = new CheckBox("Repetir");
+		VBox vb = new VBox();
+		vb.getChildren().addAll(lembrete(recorrencia), recorrencia);
+		
+		Scene scene = new Scene(vb);
+		scene.getStylesheets().add(this.getClass().getResource("css/estilo.css").toExternalForm());
+		this.setScene(scene);
+		this.show();
+	}
+	
+	private VBox lembrete(VBox recorrencia) {
+		
+		VBox vb = new VBox();
+		
+		HBox barraTitulo = new HBox();
+		barraTitulo.setId("lBarraTitulo");
 		
 		txtName = new TextField();
-		txtName.setPromptText("Nome"); //colocando texto que aparece quando o usuario ainda nao digitou
-		txtName.setPrefSize(100, 40); //mudando tamanho da caixa de texto
-		txtName.setFont(new Font(15)); //alterando tamanho da fonte
+		txtName.setPromptText("Nome");
+		txtName.setId("lNome");
+		btnEnviar = new Button("Salvar");
+		btnEnviar.setId("btnEnviar");
+		btnEnviar.setOnAction(evento -> { 
+			
+			try {
+				// TODO inserir todos os dados do formulario na tabela
+				int allDay = cbxAllDay.isSelected() ? 1 : 0;
+				int repeat = cbxRepeat.isSelected() ? 1 : 0;
+				database.queryLembrete(txtName.getText(), "",dtDate.getValue(), repeat); //fazendo um insert no banco de dados
+			} catch (SQLException e) {
+				e.printStackTrace();
+		} });
 		
-		txtDescription = new TextArea();
-		txtDescription.setPrefSize(400, 150); //mudando tamanho da caixa de texto
-		txtDescription.setPromptText("Adicionar descrição"); //colocando texto que aparece quando o usuario ainda nao digitou
-		txtTime = new TimePicker();
+		barraTitulo.getChildren().addAll(txtName, btnEnviar);
+		
+		HBox hbData = new HBox();
+		hbData.setId("hbData");
+		
+		lblDate = new Label("Data:");
 		
 		DateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd"); //instanciando classe que formata a data em string
 		Date currentDate = new Date(); //criando uma nova data
-		LocalDate localDate = LocalDate.parse(dateFormater.format(currentDate)); //criando uma data sem time-zone
-		currentDate.setMonth(currentDate.getMonth() + 1); //adicionando um mes na data atual
-		LocalDate localDateRepeat = LocalDate.parse(dateFormater.format(currentDate)); ////criando uma data sem time-zone
+ 		LocalDate localDate = LocalDate.parse(dateFormater.format(currentDate)); //criando uma data sem time-zone
+		
+		dtDate = new DatePicker(localDate);
+		
+		hbData.getChildren().addAll(lblDate, dtDate);
+		
+		HBox horarios = new HBox();
+		horarios.setId("hbHorarios");
+		
+		lblTime = new Label("Horarios:");
+		
+		HBox horas = new HBox();
+		horas.setId("hbHoras");
+		
+		txtTime = new TimePicker();
+		btnAddHora = new Button("+");
+		
+		btnAddHora.setOnAction(evento -> {
+			
+			if(horas.getChildren().size() < 5) {
 				
-		dtDate = new DatePicker(localDate); //colocando data padrao no componente
-		dtEndRepeatDate = new DatePicker(localDateRepeat); //colocando uma data padrao no componente
+				horas.getChildren().add(new TimePicker());
+			}
+		});
+		
+		horas.getChildren().add(txtTime);
+		
+		horarios.getChildren().addAll(lblTime, horas, btnAddHora);
+		
+		HBox hbRepetir = new HBox();
+		hbRepetir.setId("hbRepetir");
+		
+		cbxAllDay = new CheckBox("Dia inteiro");
+		cbxAllDay.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            public void changed(ObservableValue<? extends Boolean> ov,Boolean oldValue, Boolean newValue) {
+			            
+            	horarios.setDisable(newValue);
+		    }
+		});
+				
+		cbxRepeat = new CheckBox("Repetir");
+		cbxRepeat.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            public void changed(ObservableValue<? extends Boolean> ov,Boolean oldValue, Boolean newValue) {
+			            
+            	recorrencia.setDisable(!newValue);
+		    }
+		});
+		
+		hbRepetir.getChildren().addAll(cbxAllDay, cbxRepeat);
+		
+		vb.getChildren().addAll(barraTitulo, hbData, hbRepetir, horarios);
+		
+		return vb;
+	}
+	
+	private VBox recorrencia() {
+		
+		lblRecurrence = new Label("Recorrência:");
+		lblRepeat = new Label("Repetir a cada");
+		lblEndRepeat = new Label("Termina");
+		lblOccurrence = new Label("ocorrência(s)");
+		lblEndRepeat = new Label("Termina");
+		
+		chbRepeatOptions = new ChoiceBox<>();
+		//populando a caixa de escolha
+		chbRepeatOptions.setItems(FXCollections.observableArrayList(
+				"dia", "semana", "mês", "ano")
+			);
+		chbRepeatOptions.getSelectionModel().select(1); //definindo o segundo item da lista como o padrao
 		
 		//criando dois spinners de 1 a 100 de 1 em 1
 		SpinnerValueFactory<Integer> repeatValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1);
@@ -117,13 +180,6 @@ public class Reminder extends Stage {
 		spnQtdRepeat.setValueFactory(qtdRepeatValueFactory);
 		spnQtdRepeat.setPrefWidth(80); //alterando a largura
 		
-		chbRepeatOptions = new ChoiceBox<>();
-		//populando a caixa de escolha
-		chbRepeatOptions.setItems(FXCollections.observableArrayList(
-				"dia", "semana", "mês", "ano")
-			);
-		chbRepeatOptions.getSelectionModel().select(1); //definindo o segundo item da lista como o padrao
-		
 		//criando checkbox para todos os dias da semana
 		cbxDom = new CheckBox("Domingo");
 		cbxSeg = new CheckBox("Segunda");
@@ -132,11 +188,7 @@ public class Reminder extends Stage {
 		cbxQui = new CheckBox("Quinta");
 		cbxSex = new CheckBox("Sexta");
 		cbxSab = new CheckBox("Sábado");
-		
-		HBox hbDayOfWeek = new HBox(); //hbox posiciona todos os itens na horizontal
-		hbDayOfWeek.getChildren().addAll(cbxDom, cbxSeg, cbxTer, cbxQua, cbxQui,cbxSex,cbxSab);
-		hbDayOfWeek.setSpacing(10); //altera o espaco entre os itens do hbox
-		
+				
 		togEndRepeat = new ToggleGroup();
 		radNever = new RadioButton("Nunca");
 		radNever.setToggleGroup(togEndRepeat);
@@ -146,49 +198,36 @@ public class Reminder extends Stage {
 		radAfter = new RadioButton("Após");
 		radAfter.setToggleGroup(togEndRepeat);
 		
-		btnEnviar = new Button("Salvar");
-		btnEnviar.setOnAction(evento -> { 
-			
-			try {
-				// TODO inserir todos os dados do formulario na tabela
-				int allDay = cbxAllDay.isSelected() ? 1 : 0;
-				int repeat = cbxRepeat.isSelected() ? 1 : 0;
-				database.queryLembrete(txtName.getText(), txtDescription.getText(),dtDate.getValue(), repeat); //fazendo um insert no banco de dados
-			} catch (SQLException e) {
-				e.printStackTrace();
-		} });
+		Calendar calendar = Calendar.getInstance();
 		
-		//posicionando totos os componentes
-		GridPane pnlLayout = new GridPane();
-		pnlLayout.setPadding(new Insets(10));
-		pnlLayout.setVgap(10);
-		pnlLayout.setHgap(10);
-		pnlLayout.add(lblTitle, 0, 0, 2, 1);
-		pnlLayout.add(txtName, 0, 1, 4, 1);
-		pnlLayout.add(btnEnviar, 4, 1, 2, 1);
-		pnlLayout.add(txtDescription, 0, 2, 4, 4);
-		pnlLayout.add(lblSchedule, 4, 2);
-		pnlLayout.add(lblDate, 4, 3);
-		pnlLayout.add(dtDate, 5, 3, 2, 1);
-		pnlLayout.add(lblTime, 4, 4);
-		pnlLayout.add(txtTime, 5, 4, 2, 1);
-		pnlLayout.add(cbxAllDay, 4, 5, 2, 1);
-		pnlLayout.add(cbxRepeat, 6, 5);
-		pnlLayout.add(lblRecurrence, 0, 6);
-		pnlLayout.add(lblRepeat, 0, 7);
-		pnlLayout.add(spnRepeat, 0, 8, 1, 1);
-		pnlLayout.add(chbRepeatOptions, 1, 8);
-		pnlLayout.add(hbDayOfWeek, 0, 9, 6, 1);
-		pnlLayout.add(lblEndRepeat, 0, 10);
-		pnlLayout.add(radNever, 0, 11);
-		pnlLayout.add(radOn, 0, 12);
-		pnlLayout.add(dtEndRepeatDate, 1, 12, 2, 1);
-		pnlLayout.add(radAfter, 0, 13);
-		pnlLayout.add(spnQtdRepeat, 1, 13);
-		pnlLayout.add(lblOccurrence, 2, 13);
+		DateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd"); //instanciando classe que formata a data em string
+		calendar.add(Calendar.MONTH, 1);
 		
-		Scene scene = new Scene(pnlLayout);
-		this.setScene(scene);
-		this.show();
+ 		LocalDate localDateRepeat = LocalDate.parse(dateFormater.format(calendar.getTime())); ////criando uma data sem time-zone
+		
+		dtEndRepeatDate = new DatePicker(localDateRepeat); //colocando uma data padrao no componente
+		
+		HBox hbRepetir = new HBox();
+		hbRepetir.setId("hbRRepetir");
+		hbRepetir.getChildren().addAll(spnRepeat, chbRepeatOptions);
+		
+		HBox hbDiasSemana = new HBox();
+		hbDiasSemana.setId("hbDiasSemana");
+		hbDiasSemana.getChildren().addAll(cbxDom, cbxSeg, cbxTer, cbxQua, cbxQui, cbxSex, cbxSab);
+		
+		HBox hbEm = new HBox();
+		hbEm.setId("hbEm");
+		hbEm.getChildren().addAll(radOn, dtEndRepeatDate);
+		
+		HBox hbApos = new HBox();
+		hbApos.setId("hbApos");
+		hbApos.getChildren().addAll(radAfter, spnQtdRepeat, lblOccurrence);
+		
+		VBox vb = new VBox();
+		vb.setId("vbRecorrencia");
+		vb.getChildren().addAll(lblRecurrence, lblRepeat, hbRepetir, hbDiasSemana, lblEndRepeat, radNever, hbEm, hbApos);
+		
+		return vb;
+		
 	}
 }

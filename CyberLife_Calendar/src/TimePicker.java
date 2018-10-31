@@ -1,16 +1,15 @@
-
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class TimePicker extends HBox{
 
@@ -21,24 +20,59 @@ public class TimePicker extends HBox{
 	public TimePicker() {
 
 		timeDisplay = new TextField();
-		timeSelector = new Button("Select");
+		timeDisplay.setPrefWidth(50);
+		timeSelector = new Button("-");
 		
 		VBox parent = new VBox();
 		Label time = new Label("17:20");
 		time.setFont(new Font(40));
 		time.setPadding(new Insets(20));
 		
+		Pane clock = new Pane();
+		clock.setPrefSize(200, 200);
 		
-		Label l1 = new Label("12");
+		Circle circuloPai = new Circle();
+		circuloPai.setRadius(90);
+		circuloPai.setFill(Color.rgb(0, 0, 0, 0.08));
+		circuloPai.setCenterX(100);
+		circuloPai.setCenterY(100);
 		
-		AnchorPane clock = new AnchorPane();
-		clock.setPrefSize(125, 100);
+		clock.getChildren().add(circuloPai);
 		
-		AnchorPane.setLeftAnchor(l1, 61d);
-		AnchorPane.setRightAnchor(l1, 61d);
-		AnchorPane.setTopAnchor(l1, 0d);
+		Pane[] circulos = new Pane[12];
 		
-		clock.getChildren().addAll(l1);
+		for (int i = 0; i < 12; i++) {
+			
+			circulos[i] = new Pane();
+			
+			Circle circulo = new Circle();
+			circulo.setRadius(10);
+			circulo.setFill(Color.rgb(0, 0, 0, 0));
+			
+			int grau = i * 30;
+			
+			double posX = Math.sin(Math.toRadians(grau)) * 75;
+			double posY = Math.cos(Math.toRadians(grau)) * 75;			
+			
+			circulo.setCenterX(5);
+			circulo.setCenterY(7);
+			
+			Label hora = new Label(String.valueOf(i == 0 ? 12 : i));
+			
+			circulos[i].setTranslateX(95 + posX - (hora.getPrefWidth() / 2));
+			circulos[i].setTranslateY(95 - posY);
+			
+			circulos[i].getChildren().add(circulo);
+			circulos[i].getChildren().add(hora);
+			
+			circulos[i].setOnMouseEntered(e -> {
+				
+				((Circle)circulos[grau / 30].getChildren().get(0)).setFill(Color.rgb(0, 0, 255, 0.3));
+				
+			});
+			
+			clock.getChildren().add(circulos[i]);
+		}
 		
 		parent.getChildren().addAll(time, clock);
 		

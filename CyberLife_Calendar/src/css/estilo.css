@@ -1,0 +1,44 @@
+.root { 
+
+}
+
+#lBarraTitulo{
+	-fx-padding: 20 30;
+	-fx-spacing: 10;
+}
+
+#lNome {
+	-fx-pref-width: 500;
+	-fx-font-size: 20;
+}
+
+#btnEnviar{
+	-fx-padding: 12 20;
+	-fx-border-color: transparent;
+	-fx-background-color: #4169e1;
+	-fx-text-fill: white;
+}
+
+#btnEnviar:hover{
+	-fx-background-color: #4444ff;
+	-fx-cursor: hand;
+}
+
+#hbData, #hbRepetir, #hbHorarios{
+	-fx-padding: 10 30;
+	-fx-spacing: 10;
+}
+
+#hbHoras{
+	-fx-spacing:10;
+}
+
+#vbRecorrencia{
+	-fx-padding: 20 30;
+	-fx-spacing: 15;
+}
+
+#hbDiasSemana, #hbRRepetir, #hbEm, #hbApos{
+	-fx-spacing: 10;
+}
+
