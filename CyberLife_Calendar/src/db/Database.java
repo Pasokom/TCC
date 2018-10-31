@@ -54,16 +54,6 @@ public class Database {
 	public void queryTeste() throws SQLException {
 		Statement cmd = getConnection().createStatement();
 
-		/* insert */
-//		cmd.execute("insert into test_table(nThing) value ('queria morrer');");
-
-		/* select */
-//		String q = "CALL VALIDAR_EMAIL('JEFTER.SANTIAGO66@GMAIL.COM');";
-//		String query = "select * from test_table;";
-//		ResultSet result = cmd.executeQuery(q);
-//		while (result.next()) {
-//			System.out.println(result.getString("UEMAIL") + "\n" + result.getString("UNOME"));
-//		}
 	}
 
 	public void queryLembrete(String nome, String descricao, LocalDate data, int repetir) throws SQLException {
@@ -74,3 +64,21 @@ public class Database {
 				+ nome + "', '" + descricao + "', '" + data + "', " + repetir + "," + 1 + ");");
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

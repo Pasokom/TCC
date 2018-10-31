@@ -1,0 +1,3 @@
+
+how to see 
+SELECT NAME, TYPE FROM mysql.proc WHERE DB = DATABASE() ORDER BY TYPE, NAME;
