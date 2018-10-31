@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+
 import component.ListReminders;
 import component.ProfileComponent;
 import javafx.scene.Scene;
@@ -14,7 +16,7 @@ public class HomePage extends Scene {
 	
 	private ProfileComponent profileContent;
 	
-	public HomePage() {
+	public HomePage() throws FileNotFoundException {
 		super (new VBox());
 		
 		this.vLeft = new VBox();
