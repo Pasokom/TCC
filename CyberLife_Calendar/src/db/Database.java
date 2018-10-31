@@ -19,12 +19,11 @@ import java.time.LocalDate;
 public class Database {
 
 	private final static String SERVER = "127.0.0.1";
-	private final static String DB_NAME = "CyberLife_Calendar "; // só para testes mesmo
+	private final static String DB_NAME = "CYBER_LIFE"; // só para testes mesmo
 	private final static String USER = "root";
 	private final static String PASSWORD = "1234";
 	private final static String CONNECTION_STRING = "jdbc:mysql://" + SERVER + "/" + DB_NAME + "?user=" + USER
-		+ "&password=" + PASSWORD + "&useTimezone=true&serverTimezone=UTC";
-
+			+ "&password=" + PASSWORD + "&useTimezone=true&serverTimezone=UTC";
 
 	private static Connection connection;
 
@@ -37,10 +36,10 @@ public class Database {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			connection = DriverManager.getConnection(CONNECTION_STRING);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 		}
 	}
@@ -48,6 +47,7 @@ public class Database {
 	public static Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(CONNECTION_STRING);
 	}
+
 	/*
 	 * exemplo de query
 	 */
@@ -55,21 +55,22 @@ public class Database {
 		Statement cmd = getConnection().createStatement();
 
 		/* insert */
-		cmd.execute("insert into test_table(nThing) value ('queria morrer');");
+//		cmd.execute("insert into test_table(nThing) value ('queria morrer');");
 
 		/* select */
-		String query = "select * from test_table;";
-		ResultSet result = cmd.executeQuery(query);
-		while (result.next()) {
-			System.out.println(result.getString("nThing"));
-		}
+//		String q = "CALL VALIDAR_EMAIL('JEFTER.SANTIAGO66@GMAIL.COM');";
+//		String query = "select * from test_table;";
+//		ResultSet result = cmd.executeQuery(q);
+//		while (result.next()) {
+//			System.out.println(result.getString("UEMAIL") + "\n" + result.getString("UNOME"));
+//		}
 	}
 
 	public void queryLembrete(String nome, String descricao, LocalDate data, int repetir) throws SQLException {
 		Statement cmd = getConnection().createStatement();
 
 		/* insert */
-		cmd.execute("insert into lembrete(LNOME, LDESCRICAO, LDATE_LEMBRETE, LQTD_REPETE, FK_USUARIO) "
-				+ "value ('"+nome+"', '"+descricao+"', '"+data+"', "+repetir+","+1+");");
+		cmd.execute("insert into lembrete(LNOME, LDESCRICAO, LDATE_LEMBRETE, LQTD_REPETE, FK_USUARIO) " + "value ('"
+				+ nome + "', '" + descricao + "', '" + data + "', " + repetir + "," + 1 + ");");
 	}
 }
