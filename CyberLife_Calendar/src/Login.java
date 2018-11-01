@@ -42,12 +42,12 @@ public class Login extends Scene{
 		
 		btnEntrar = new Button("Entrar");
 		btnEntrar.setOnAction(event->{
-			new Alert(AlertType.CONFIRMATION,"Vocï¿½ tï¿½ dentro").show();
+			new Alert(AlertType.CONFIRMATION,"Usuário conectado: " + txtNome.getText()).show();
 			
 		});
 		btnCadastrar = new Button("Cadastrar-se");
 		btnCadastrar.setOnAction(event -> {
-			Main.main_stage.setScene(new Cadastro());
+			Main.janela.setScene(new Cadastro());
 		});
 		
 		txtNome = new TextField();

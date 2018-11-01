@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-	public static Stage main_stage;
+	public static Stage janela;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -17,20 +17,19 @@ public class Main extends Application {
 
 		// db.queryTeste(); // fazendo testes
 
-<<<<<<< HEAD
-		main_stage = primaryStage;
+//		main_stage = primaryStage;
+//
+//		main_stage.setScene(new HomePage());
+//		
+//		main_stage.show();
 
-		main_stage.setScene(new HomePage());
+		janela = primaryStage;
+
+		janela.setScene(new Login());
+
+		janela.show();
 		
-		main_stage.show();
-=======
-//		janela = primaryStage;
-//
-//		janela.setScene(new Login());
-//
-//		janela.show();
-		
-		new Reminder(db);
->>>>>>> 1aa76d92c5d6d572da9c5e2777c2dd58afb7ccb7
+//		new Reminder(db);
+
 	}
 }

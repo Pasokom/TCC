@@ -3,7 +3,7 @@
 import java.sql.SQLException;
 import java.util.Optional;
 
-import db.objects.HandlerRegistration;
+//import db.objects.HandlerRegistration;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -50,7 +50,7 @@ public class Cadastro extends Scene {
 		
 		Button btnVoltar = new Button("Voltar");
 		btnVoltar.setOnAction(event->{
-			Main.main_stage.setScene(new Login());
+			Main.janela.setScene(new Login());
 		});
 		
 		btnCadastrar = new Button("Cadastrar");
@@ -59,16 +59,16 @@ public class Cadastro extends Scene {
 			
 //			if(result.get() == ButtonType.OK) 
 //				Main.main_stage.setScene(new Login());
-				
-			HandlerRegistration hr = new HandlerRegistration();
-			
-			try {
-				hr.email_exists(txtEmail.getText());
-				
-					
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+//				
+//			HandlerRegistration hr = new HandlerRegistration();
+//			
+//			try {
+//				hr.email_exists(txtEmail.getText());
+//				
+//					
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
 			
 			
 			
