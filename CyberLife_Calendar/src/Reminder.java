@@ -88,6 +88,7 @@ public class Reminder extends Scene {
 		btnEnviar.setId("btnEnviar");
 		btnEnviar.setOnAction(evento -> { 
 			
+<<<<<<< HEAD
 //			try {
 //				// TODO inserir todos os dados do formulario na tabela
 //				int allDay = cbxAllDay.isSelected() ? 1 : 0;
@@ -96,6 +97,16 @@ public class Reminder extends Scene {
 //			} catch (SQLException e) {
 //				e.printStackTrace();
 		/*}*/ });
+=======
+			try {
+				// TODO inserir todos os dados do formulario na tabela
+				//int allDay = cbxAllDay.isSelected() ? 1 : 0;
+				int repeat = cbxRepeat.isSelected() ? 1 : 0;
+				database.queryLembrete(txtName.getText(), "",dtDate.getValue(), repeat); //fazendo um insert no banco de dados
+			} catch (SQLException e) {
+				e.printStackTrace();
+		} });
+>>>>>>> 1aa76d92c5d6d572da9c5e2777c2dd58afb7ccb7
 		
 		barraTitulo.getChildren().addAll(txtName, btnEnviar);
 		
