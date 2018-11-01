@@ -38,7 +38,7 @@ public class HandlerRegistration {
 		return stmt.getBoolean(2);
 	}
 	
-	
+		
 	public boolean insert_user (String name, String last_name, String email, String password) throws SQLException { 
 									/* 1 - email, 2 - name, 3 last name, 4 - password  */
 		String query = "{CALL ADICIONAR_USUARIO(?,?,?,?)}";
@@ -50,42 +50,7 @@ public class HandlerRegistration {
 		stmt.setString(3, last_name);
 		stmt.setString(4, password);
 
-			
 		return stmt.execute();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

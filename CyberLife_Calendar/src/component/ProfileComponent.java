@@ -28,7 +28,6 @@ public class ProfileComponent extends HBox {
 		
 		image.setImage(new Image(new FileInputStream(new File("resources/tests.png"))));
 		
-		
 		image.setFitWidth(size);
 		image.setFitHeight(size);
 		
@@ -42,3 +41,13 @@ public class ProfileComponent extends HBox {
 		this.getChildren().addAll(vLabels, image);
 	}
 }
+
+
+
+
+
+
+
+
+
+

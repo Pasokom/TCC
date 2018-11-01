@@ -2,10 +2,7 @@ package db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDate;
 
 /**
  * 
@@ -26,7 +23,6 @@ public class Database {
 			+ "&password=" + PASSWORD + "&useTimezone=true&serverTimezone=UTC";
 
 	private static Connection connection;
-
 	public Database() throws SQLException {
 		try {
 			/*
@@ -38,31 +34,25 @@ public class Database {
 		}
 
 		try {
-			connection = DriverManager.getConnection(CONNECTION_STRING);
+			 connection = DriverManager.getConnection(CONNECTION_STRING);
 		} catch (Exception e) {
-			// TODO: handle exception
+				
+			System.out.println(e.getStackTrace());
 		}
+		
 	}
 
 	public static Connection getConnection() throws SQLException {
-		return DriverManager.getConnection(CONNECTION_STRING);
+		return connection;
 	}
 
-	/*
-	 * exemplo de query
-	 */
-	public void queryTeste() throws SQLException {
-		Statement cmd = getConnection().createStatement();
-
-	}
-
-	public void queryLembrete(String nome, String descricao, LocalDate data, int repetir) throws SQLException {
-		Statement cmd = getConnection().createStatement();
-
-		/* insert */
-		cmd.execute("insert into lembrete(LNOME, LDESCRICAO, LDATE_LEMBRETE, LQTD_REPETE, FK_USUARIO) " + "value ('"
-				+ nome + "', '" + descricao + "', '" + data + "', " + repetir + "," + 1 + ");");
-	}
+//	public void queryLembrete(String nome, String descricao, LocalDate data, int repetir) throws SQLException {
+//		Statement cmd = getConnection().createStatement();
+//
+//		/* insert */
+//		cmd.execute("insert into lembrete(LNOME, LDESCRICAO, LDATE_LEMBRETE, LQTD_REPETE, FK_USUARIO) " + "value ('"
+//				+ nome + "', '" + descricao + "', '" + data + "', " + repetir + "," + 1 + ");");
+//	}
 }
 
 
