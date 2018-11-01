@@ -17,10 +17,12 @@ public class Main extends Application {
 
 		// db.queryTeste(); // fazendo testes
 
-		janela = primaryStage;
-
-		janela.setScene(new Login());
-
-		janela.show();
+//		janela = primaryStage;
+//
+//		janela.setScene(new Login());
+//
+//		janela.show();
+		
+		new Reminder(db);
 	}
 }

@@ -31,7 +31,7 @@ public class Cadastro extends Scene {
 	private PasswordField pswSenhaConfirm;
 	
 	private Button btnCadastrar;
-	private Button btnVoltar;
+	//private Button btnVoltar;
 	
 	public Cadastro() {
 		/** 

@@ -82,7 +82,7 @@ public class Reminder extends Stage {
 			
 			try {
 				// TODO inserir todos os dados do formulario na tabela
-				int allDay = cbxAllDay.isSelected() ? 1 : 0;
+				//int allDay = cbxAllDay.isSelected() ? 1 : 0;
 				int repeat = cbxRepeat.isSelected() ? 1 : 0;
 				database.queryLembrete(txtName.getText(), "",dtDate.getValue(), repeat); //fazendo um insert no banco de dados
 			} catch (SQLException e) {

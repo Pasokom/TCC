@@ -1,4 +1,9 @@
-/db/
-/css/
+/Cadastro.class
+/Login.class
+/Main.class
 /Reminder$1.class
 /Reminder$2.class
+/Reminder.class
+/TimePicker.class
+/css/
+/db/
