@@ -9,6 +9,7 @@ import db.Database;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -56,14 +57,15 @@ public class Reminder extends Scene {
 		
 		lblDate = new Label("Data:");
 		lblTime = new Label("Hora:");
-		lblRecurrence = new Label("RecorrÃªncia:");
+		lblRecurrence = new Label("Recorrência:");
 		lblRepeat = new Label("Repetir a cada");
 		lblEndRepeat = new Label("Termina");
-		lblOccurrence = new Label("ocorrÃªncia");
+		lblOccurrence = new Label("ocorrência");
 		VBox recorrencia = recorrencia();
 		recorrencia.setDisable(true);
 		
 		VBox vb = new VBox();
+		vb.setPadding(new Insets(10,0,20,0));
 		vb.getChildren().addAll(lembrete(recorrencia), recorrencia);
 		
 //		Scene scene = new Scene(vb);
@@ -72,6 +74,7 @@ public class Reminder extends Scene {
 		this.setRoot(vb);
 //		this.setScene(scene);
 //		this.show();
+
 	}
 	
 	private VBox lembrete(VBox recorrencia) {
@@ -82,13 +85,12 @@ public class Reminder extends Scene {
 		barraTitulo.setId("lBarraTitulo");
 		
 		txtName = new TextField();
-		txtName.setPromptText("Nome");
+		txtName.setPromptText("Título do lembrete");
 		txtName.setId("lNome");
 		btnEnviar = new Button("Salvar");
 		btnEnviar.setId("btnEnviar");
 		btnEnviar.setOnAction(evento -> { 
 			
-<<<<<<< HEAD
 //			try {
 //				// TODO inserir todos os dados do formulario na tabela
 //				int allDay = cbxAllDay.isSelected() ? 1 : 0;
@@ -97,16 +99,7 @@ public class Reminder extends Scene {
 //			} catch (SQLException e) {
 //				e.printStackTrace();
 		/*}*/ });
-=======
-			try {
-				// TODO inserir todos os dados do formulario na tabela
-				//int allDay = cbxAllDay.isSelected() ? 1 : 0;
-				int repeat = cbxRepeat.isSelected() ? 1 : 0;
-				database.queryLembrete(txtName.getText(), "",dtDate.getValue(), repeat); //fazendo um insert no banco de dados
-			} catch (SQLException e) {
-				e.printStackTrace();
-		} });
->>>>>>> 1aa76d92c5d6d572da9c5e2777c2dd58afb7ccb7
+
 		
 		barraTitulo.getChildren().addAll(txtName, btnEnviar);
 		
@@ -174,16 +167,16 @@ public class Reminder extends Scene {
 	
 	private VBox recorrencia() {
 		
-		lblRecurrence = new Label("Recorrï¿½ncia:");
+		lblRecurrence = new Label("Recorrência:");
 		lblRepeat = new Label("Repetir a cada");
 		lblEndRepeat = new Label("Termina");
-		lblOccurrence = new Label("ocorrï¿½ncia(s)");
+		lblOccurrence = new Label("ocorrência(s)");
 		lblEndRepeat = new Label("Termina");
 		
 		chbRepeatOptions = new ChoiceBox<>();
 		//populando a caixa de escolha
 		chbRepeatOptions.setItems(FXCollections.observableArrayList(
-				"dia", "semana", "mï¿½s", "ano")
+				"dia", "semana", "mês", "ano")
 			);
 		chbRepeatOptions.getSelectionModel().select(1); //definindo o segundo item da lista como o padrao
 		
@@ -202,7 +195,7 @@ public class Reminder extends Scene {
 		chbRepeatOptions = new ChoiceBox<>();
 		//populando a caixa de escolha
 		chbRepeatOptions.setItems(FXCollections.observableArrayList(
-				"dia", "semana", "mÃªs", "ano")
+				"dia", "semana", "mês", "ano")
 			);
 		chbRepeatOptions.getSelectionModel().select(1); //definindo o segundo item da lista como o padrao
 		
@@ -213,7 +206,7 @@ public class Reminder extends Scene {
 		cbxQua = new CheckBox("Quarta");
 		cbxQui = new CheckBox("Quinta");
 		cbxSex = new CheckBox("Sexta");
-		cbxSab = new CheckBox("SÃ¡bado");
+		cbxSab = new CheckBox("Sábado");
 		
 		HBox hbDayOfWeek = new HBox(); //hbox posiciona todos os itens na horizontal
 		hbDayOfWeek.getChildren().addAll(cbxDom, cbxSeg, cbxTer, cbxQua, cbxQui,cbxSex,cbxSab);
@@ -227,7 +220,7 @@ public class Reminder extends Scene {
 		radNever.setSelected(true);
 		radOn = new RadioButton("Em");
 		radOn.setToggleGroup(togEndRepeat);
-		radAfter = new RadioButton("ApÃ³s");
+		radAfter = new RadioButton("Após");
 		radAfter.setToggleGroup(togEndRepeat);
 		
 		Calendar calendar = Calendar.getInstance();
