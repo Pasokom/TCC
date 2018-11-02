@@ -1,48 +1,25 @@
 package db.functions;
 
-import java.sql.CallableStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 
 import db.Database;
+import statics.SESSION;
 
 public class Login {
 
-	
-	public boolean do_login ( String email, String password ) throws ClassNotFoundException, SQLException  { 
-			
-		String query = "{CALL LOGIN(?,?,?}";
+	public boolean do_login(String email, String password) throws ClassNotFoundException, SQLException {
+
+		String query = "SELECT FROM INICIA_SESSAO WHERE UEMAIL ='" + email + "' AND USENHA ='" + password +"';" ;
 		
-		CallableStatement stmt = Database.get_connection().prepareCall(query);
+		ResultSet result = Database.get_connection().createStatement().executeQuery(query);
+
 		
-		stmt.setString(1, email);
-		stmt.setString(2, password);
-		stmt.setString(3, "@result");	
-			
-		stmt.registerOutParameter(3, Types.BIT);
+		System.out.println(!result.isBeforeFirst() ? "[WARNING] : no data found" : "[CONFIRMATION] : work");
+		if (!result.isBeforeFirst()) return false;
 		
-		stmt.executeUpdate();
+		SESSION.start_session(result.getInt(1), result.getString(2), result.getString(3),result.getString(4));
+		return true;
 		
-		if ( ! stmt.getBoolean(3) ) return false;
-		
-		
-		
-		
-		
-		
-		
-		return false;
 	}
-	
-		
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

@@ -1,6 +1,11 @@
-/component/
-/db/
+/Cadastro.class
+/HomePage.class
+/Login.class
+/Main.class
 /Reminder$1.class
 /Reminder$2.class
-/functions/
+/Reminder.class
+/TimePicker.class
+/component/
+/db/
 /statics/
