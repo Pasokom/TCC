@@ -71,12 +71,4 @@ public class HomePage extends Scene {
 		
 		this.setRoot(layout);
 	}
-
-
-
-
-
-
-
-
 }
