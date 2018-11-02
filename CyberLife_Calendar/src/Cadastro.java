@@ -3,7 +3,7 @@
 import java.sql.SQLException;
 import java.util.Optional;
 
-import db.objects.HandlerRegistration;
+import functions.HandlerRegistration;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -64,9 +64,7 @@ public class Cadastro extends Scene {
 			
 			try {
 				hr.email_exists(txtEmail.getText());
-				
-					
-			} catch (SQLException e) {
+			} catch (SQLException | ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 			

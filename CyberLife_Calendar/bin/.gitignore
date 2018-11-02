@@ -1,19 +1,6 @@
-/Cadastro.class
-<<<<<<< HEAD
-/HomePage.class
-=======
->>>>>>> 1aa76d92c5d6d572da9c5e2777c2dd58afb7ccb7
-/Login.class
-/Main.class
-/Reminder$1.class
-/Reminder$2.class
-/Reminder.class
-/TimePicker.class
-<<<<<<< HEAD
 /component/
 /db/
-/css/
-=======
-/css/
-/db/
->>>>>>> 1aa76d92c5d6d572da9c5e2777c2dd58afb7ccb7
+/Reminder$1.class
+/Reminder$2.class
+/functions/
+/statics/
