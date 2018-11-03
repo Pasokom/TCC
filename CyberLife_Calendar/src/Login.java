@@ -46,8 +46,6 @@ public class Login extends Scene{
 		 	n�o precisa necessariamente ser uma hbox, qualquer componente serve
 		 */
 		super(new HBox());
-
-		// rola
 		
 		lblTitleCadast = new Label("Cadastre-se");
 		lblTitleCadast.setFont(new Font(35));
