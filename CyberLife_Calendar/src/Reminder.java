@@ -69,7 +69,6 @@ public class Reminder extends Scene {
 //			} catch (SQLException e) {
 //				e.printStackTrace();
 		/*}*/ });
-
 		
 		barraTitulo.getChildren().addAll(txtName, btnEnviar);
 		

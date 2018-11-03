@@ -1,3 +1,4 @@
+<<<<<<< Upstream, based on branch 'gaio' of https://github.com/Pasokom/TCC
 /component/
 /HomePage.class
 /Login.class
@@ -7,6 +8,14 @@
 /TimePicker$2.class
 /TimePicker.class
 /db/
+=======
+>>>>>>> 611df91 aa
 /Reminder$1.class
 /Reminder$2.class
+<<<<<<< Upstream, based on branch 'gaio' of https://github.com/Pasokom/TCC
+=======
+/db/
+/HomePage.class
+>>>>>>> 611df91 aa
 /css/
+/Cadastro.class
