@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import db.Database;
 import statics.SESSION;
 
-public class Login {
+public class HandlerLogin {
 	/**
 	 * Return false had to be handled back on the login page
 	 * @param email

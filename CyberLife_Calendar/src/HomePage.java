@@ -67,8 +67,6 @@ public class HomePage extends Scene {
 		layout.getChildren().add(hLeft);
 		
 		layout.getChildren().add(hContent);
-		
-		
 		this.setRoot(layout);
 	}
 
