@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-	public static Stage janela;
+	public static Stage main_stage;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -13,23 +13,22 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		//Database db = new Database(); // carrega o banco de dados
 
+		Database.get_connection();
+		
+		
 		// db.queryTeste(); // fazendo testes
 
-//		main_stage = primaryStage;
+		main_stage = primaryStage;
+
+		main_stage.setScene(new Reminder());
+		
+		main_stage.show();
+//		janela = primaryStage;
 //
 //		main_stage.setScene(new HomePage());
 //		
-//		main_stage.show();
-
-		janela = primaryStage;
-
-		janela.setScene(new Login());
-
-		janela.show();
-
-		
+//		main_stage.show();		
 
 	}
 }
