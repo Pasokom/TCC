@@ -13,7 +13,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Database db = new Database(); // carrega o banco de dados
+		//Database db = new Database(); // carrega o banco de dados
 
 		// db.queryTeste(); // fazendo testes
 
@@ -28,8 +28,8 @@ public class Main extends Application {
 		janela.setScene(new Login());
 
 		janela.show();
+
 		
-//		new Reminder(db);
 
 	}
 }

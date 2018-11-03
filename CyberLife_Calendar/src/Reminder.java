@@ -56,22 +56,21 @@ public class Reminder extends Scene {
 		
 		lblDate = new Label("Data:");
 		lblTime = new Label("Hora:");
-		lblRecurrence = new Label("RecorrÃªncia:");
+		lblRecurrence = new Label("Recorrência:");
 		lblRepeat = new Label("Repetir a cada");
 		lblEndRepeat = new Label("Termina");
-		lblOccurrence = new Label("ocorrÃªncia");
+		lblOccurrence = new Label("ocorrência");
 		VBox recorrencia = recorrencia();
 		recorrencia.setDisable(true);
 		
 		VBox vb = new VBox();
+		vb.setId("container");
 		vb.getChildren().addAll(lembrete(recorrencia), recorrencia);
 		
-//		Scene scene = new Scene(vb);
-		/* scene */ this.getStylesheets().add(this.getClass().getResource("css/estilo.css").toExternalForm());
+		this.getStylesheets().add(this.getClass().getResource("css/estilo.css").toExternalForm());
 			
 		this.setRoot(vb);
-//		this.setScene(scene);
-//		this.show();
+		vb.requestFocus();
 	}
 	
 	private VBox lembrete(VBox recorrencia) {
@@ -173,16 +172,16 @@ public class Reminder extends Scene {
 	
 	private VBox recorrencia() {
 		
-		lblRecurrence = new Label("Recorrï¿½ncia:");
+		lblRecurrence = new Label("Recorrência:");
 		lblRepeat = new Label("Repetir a cada");
 		lblEndRepeat = new Label("Termina");
-		lblOccurrence = new Label("ocorrï¿½ncia(s)");
+		lblOccurrence = new Label("ocorrência(s)");
 		lblEndRepeat = new Label("Termina");
 		
 		chbRepeatOptions = new ChoiceBox<>();
 		//populando a caixa de escolha
 		chbRepeatOptions.setItems(FXCollections.observableArrayList(
-				"dia", "semana", "mï¿½s", "ano")
+				"dia", "semana", "mês", "ano")
 			);
 		chbRepeatOptions.getSelectionModel().select(1); //definindo o segundo item da lista como o padrao
 		
@@ -201,7 +200,7 @@ public class Reminder extends Scene {
 		chbRepeatOptions = new ChoiceBox<>();
 		//populando a caixa de escolha
 		chbRepeatOptions.setItems(FXCollections.observableArrayList(
-				"dia", "semana", "mÃªs", "ano")
+				"dia", "semana", "mês", "ano")
 			);
 		chbRepeatOptions.getSelectionModel().select(1); //definindo o segundo item da lista como o padrao
 		
@@ -212,13 +211,13 @@ public class Reminder extends Scene {
 		cbxQua = new CheckBox("Quarta");
 		cbxQui = new CheckBox("Quinta");
 		cbxSex = new CheckBox("Sexta");
-		cbxSab = new CheckBox("SÃ¡bado");
+		cbxSab = new CheckBox("Sábado");
 		
 		HBox hbDayOfWeek = new HBox(); //hbox posiciona todos os itens na horizontal
 		hbDayOfWeek.getChildren().addAll(cbxDom, cbxSeg, cbxTer, cbxQua, cbxQui,cbxSex,cbxSab);
 		hbDayOfWeek.setSpacing(10); //altera o espaco entre os itens do hbox
 		
-		cbxSab = new CheckBox("Sï¿½bado");
+		cbxSab = new CheckBox("Sábado");
 
 		togEndRepeat = new ToggleGroup();
 		radNever = new RadioButton("Nunca");
@@ -226,7 +225,7 @@ public class Reminder extends Scene {
 		radNever.setSelected(true);
 		radOn = new RadioButton("Em");
 		radOn.setToggleGroup(togEndRepeat);
-		radAfter = new RadioButton("ApÃ³s");
+		radAfter = new RadioButton("Após");
 		radAfter.setToggleGroup(togEndRepeat);
 		
 		Calendar calendar = Calendar.getInstance();
