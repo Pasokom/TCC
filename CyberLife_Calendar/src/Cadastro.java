@@ -50,7 +50,7 @@ public class Cadastro extends Scene {
 		
 		Button btnVoltar = new Button("Voltar");
 		btnVoltar.setOnAction(event->{
-			Main.janela.setScene(new Login());
+			Main.main_stage.setScene(new Login());
 		});
 		
 		btnCadastrar = new Button("Cadastrar");
