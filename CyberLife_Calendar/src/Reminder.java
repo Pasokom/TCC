@@ -1,10 +1,14 @@
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 
+import com.mysql.cj.xdevapi.Statement;
+
 import component.Recurrence;
-import component.TimePicker;
+import component.TimePickerList;
+import db.Database;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -19,19 +23,18 @@ import javafx.scene.layout.VBox;
 
 public class Reminder extends Scene {
 	
-	private Label lblDate, lblTime;
+	private Label lblDate;
 	private TextField txtName;
-	private TimePicker txtTime;
 	private DatePicker dtDate;
 	private CheckBox cbxAllDay, cbxRepeat;
-	private Button btnEnviar, btnAddHora;
+	private Button btnEnviar;
 	private Recurrence recurrence;
+	private TimePickerList timePickerList;
 	
 	public Reminder() { 
 		super(new HBox());
 		
 		lblDate = new Label("Data:");
-		lblTime = new Label("Hora:");
 		
 		recurrence = new Recurrence();
 		recurrence.setDisable(true);
@@ -61,15 +64,13 @@ public class Reminder extends Scene {
 		btnEnviar.setId("btnEnviar");
 		btnEnviar.setOnAction(evento -> { 
 			
-//			try {
-//				// TODO inserir todos os dados do formulario na tabela
-//				int allDay = cbxAllDay.isSelected() ? 1 : 0;
-//				int repeat = cbxRepeat.isSelected() ? 1 : 0;
-////				database.queryLembrete(txtName.getText(), "",dtDate.getValue(), repeat); //fazendo um insert no banco de dados
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-		/*}*/ });
-
+			try {
+				queryReminder();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
 		
 		barraTitulo.getChildren().addAll(txtName, btnEnviar);
 		
@@ -86,28 +87,7 @@ public class Reminder extends Scene {
 		
 		hbData.getChildren().addAll(lblDate, dtDate);
 		
-		HBox horarios = new HBox();
-		horarios.setId("hbHorarios");
-		
-		lblTime = new Label("Horarios:");
-		
-		HBox horas = new HBox();
-		horas.setId("hbHoras");
-		
-		txtTime = new TimePicker();
-		btnAddHora = new Button("+");
-		
-		btnAddHora.setOnAction(evento -> {
-			
-			if(horas.getChildren().size() < 5) {
-				
-				horas.getChildren().add(new TimePicker());
-			}
-		});
-		
-		horas.getChildren().add(txtTime);
-		
-		horarios.getChildren().addAll(lblTime, horas, btnAddHora);
+		timePickerList = new TimePickerList();
 		
 		HBox hbRepetir = new HBox();
 		hbRepetir.setId("hbRepetir");
@@ -116,7 +96,7 @@ public class Reminder extends Scene {
 		cbxAllDay.selectedProperty().addListener(new ChangeListener<Boolean>() {
             public void changed(ObservableValue<? extends Boolean> ov,Boolean oldValue, Boolean newValue) {
 			            
-            	horarios.setDisable(newValue);
+            	timePickerList.setDisable(newValue);
 		    }
 		});
 				
@@ -130,9 +110,25 @@ public class Reminder extends Scene {
 		
 		hbRepetir.getChildren().addAll(cbxAllDay, cbxRepeat);
 		
-		vb.getChildren().addAll(barraTitulo, hbData, hbRepetir, horarios);
+		vb.getChildren().addAll(barraTitulo, hbData, hbRepetir, timePickerList);
 		
 		return vb;
 	}
 	
+	private void queryReminder() throws SQLException {
+		
+		//		try {
+		//		// TODO inserir todos os dados do formulario na tabela
+		//		int allDay = cbxAllDay.isSelected() ? 1 : 0;
+		//		int repeat = cbxRepeat.isSelected() ? 1 : 0;
+		////		database.queryLembrete(txtName.getText(), "",dtDate.getValue(), repeat); //fazendo um insert no banco de dados
+		//	} catch (SQLException e) {
+		//		e.printStackTrace();
+		/*}*/ 
+		String queryString = "insert into lembrete()";
+		
+		Statement cmd = (Statement) Database.getConnection().createStatement();
+		
+		cmd.execute();
+	}
 }
