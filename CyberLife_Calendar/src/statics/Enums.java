@@ -5,20 +5,17 @@ public class Enums {
 	public static enum ReminderStatus {
 
 		ENABLED("ATIVADO"), DISABLED("DESATIVADO"), DELETED("DELETADO");
-
+		
 		private String value;
-
 		public String getValue() {
 			return this.value;
 		}
-
 		private ReminderStatus(String value) {
 			this.value = value;
 		}
 	}
-
 	public static enum Day {
-		SUNDAY("Dom"), MONDAY("Sed"), TUESDAY("Ter"), WEDNESDAY("Qua"), THURSDAY("Qui"), FRIDAY("Sex"), SATURDAY("Sab");
+		SUNDAY("DOMINGO"), MONDAY("SEGUNDA"), TUESDAY("TERÇA"), WEDNESDAY("QUARTA"), THURSDAY("QUINTA"), FRIDAY("SEXTA"), SATURDAY("Sab");
 
 		private String day;
 

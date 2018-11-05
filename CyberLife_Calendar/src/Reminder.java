@@ -107,6 +107,7 @@ public class Reminder extends Scene {
 		LocalDate localDate = LocalDate.parse(dateFormater.format(currentDate)); // criando uma data sem time-zone
 
 		dtDate = new DatePicker(localDate);
+		
 
 		hbData.getChildren().addAll(lblDate, dtDate);
 

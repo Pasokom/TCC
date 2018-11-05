@@ -42,7 +42,6 @@ public class HomePage extends Scene {
 		hLeft.setPrefWidth(400);
 		
 		
-		
 		hRight.setAlignment(Pos.CENTER_RIGHT);
 		hLeft.setAlignment(Pos.CENTER_LEFT);
 		

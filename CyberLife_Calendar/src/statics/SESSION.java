@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import db.Database;
-import db.pojo.UserReminders;
+import db.pojo.ReminderDB;
 
 public class SESSION {
 
@@ -14,7 +14,7 @@ public class SESSION {
 	private static String user_last_name;
 	private static String user_email;
 	
-	private static ArrayList<UserReminders> list_user_reminders;
+	private static ArrayList<ReminderDB> list_user_reminders;
 
 	public static void set_user_cod(int cod) {
 		SESSION.user_cod = cod;
@@ -35,24 +35,20 @@ public class SESSION {
 		System.out.println(!result.first() ? "[INFORMATION] the user has no reminders" : "[CONFIRMATION] user reminders go now be loaded");
 		
 		while(result.next()) { 
-			UserReminders r = new UserReminders();
+			ReminderDB r = new ReminderDB();
+
+			r.setReminder(result.getString("LEMBRETE"));
+			r.setAll_day(result.getBoolean("LDIA_TODO"));	
 			
-			r.setCod_reminder_repetition(1);
-			r.setTime(result.getTime(2));
-			r.setDate(result.getDate(3));
-			r.setCod_reminder(result.getInt(4));
-			r.setName(result.getString(5));
-			r.setDescription(result.getString(6) == null ? new String() : result.getString(6));
-			r.setStatus(result.getString(7));
-			r.setAll_day(result.getBoolean(8));		
-		
+			
+			
 			SESSION.user_reminders().add(r);
 		}
 	}
 	
 	
-	public static ArrayList<UserReminders> user_reminders() { 
-		return SESSION.list_user_reminders == null ? new ArrayList<UserReminders>() : list_user_reminders ;
+	public static ArrayList<ReminderDB> user_reminders() { 
+		return SESSION.list_user_reminders == null ? new ArrayList<ReminderDB>() : list_user_reminders ;
 	}
 	public static long get_user_cod() {
 		return user_cod;
