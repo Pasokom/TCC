@@ -1,0 +1,34 @@
+#timeSelector{
+	-fx-background-color: #f4f4f4;
+}
+
+#container{
+	-fx-background-color: transparent;
+}
+
+.label{
+	-fx-font-weight: lighter;
+}
+
+#lblSeletor{
+	-fx-cursor: hand;
+}
+
+#hbBotoes{
+	-fx-padding: 5;
+}
+
+.button{
+	-fx-background-color: transparent;
+	-fx-padding: 10;
+	-fx-font-weight: bolder;
+}
+
+.button:hover{
+	-fx-background-color: #ddd;
+	-fx-cursor: hand;
+}
+
+#btnOK{
+	-fx-text-fill: #0336ff;
+}
