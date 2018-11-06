@@ -8,7 +8,7 @@ BEGIN
                 INSERT INTO USUARIO (UEMAIL,UNOME, USENHA) VALUES (EMAIL,NOME,SENHA);         
                                                                                               
              ELSE                                                                             
-                                                                                              
+                                                                                             
                         INSERT INTO USUARIO (UEMAIL,UNOME,USOBRENOME,USENHA) VALUES           
                                (EMAIL,NOME,SOBRENOME,SENHA);                                  
               END IF;                                                                         
@@ -35,32 +35,43 @@ END
 
 
 DELIMITER // 
-CREATE PROCEDURE ADICIONAR_LEMBRETE ( IN LEMBRETE TEXT, IN DIA_TODO BIT, IN STATUS VARCHAR(20), IN USUARIO INT) 
-
-BEGIN 
- 	IF DIA_TODO IS NULL THEN 
- 	 		SET DIA_TODO = FALSE;
- 	END IF; 
- 	
- 	INSERT INTO LEMBRETE (LEMBRETE, LDIA_TODO, L_STATUS, FK_USUARIO) 
- 	 	VALUES 
- 		(LEMBRETE, DIA_TODO, STATUS, USUARIO);
-END 
+CREATE PROCEDURE ADICIONAR_LEMBRETE (IN LEMBRETE TEXT, IN DIA_TODO BIT, 
+ 				IN STATUS VARCHAR(20), IN USUARIO INT, OUT CODIGO_LEMBRETE INT) 
+ BEGIN 
+     IF DIA_TODO IS NULL THEN 
+            SET DIA_TODO = FALSE;
+    END IF; 
+       INSERT INTO LEMBRETE (LEMBRETE, LDIA_TODO, L_STATUS, FK_USUARIO) 
+  		 VALUES
+          (LEMBRETE, DIA_TODO, STATUS, HORARIO);
+         
+       SET CODIGO_LEMBRETE = LAST_INSERT_ID();
+     END 
 //
 
 
 DELIMITER // 
 
-CREATE  PROCEDURE ADICIONAR_DATA_HORARIO`IN USUARIO INT, IN HORA TIME, IN DATA DATE )
+CREATE  PROCEDURE ADICIONAR_DATA_HORARIO (IN USUARIO INT, IN HORA TIME, IN DATA DATE, OUT CODIGO INT)
 BEGIN 
      INSERT INTO DATA_HORARIO (FK_USUARIO, DH_HORA,DH_DATA) 
            VALUES (USUARIO, HORA,DATA);
+           
+      SET CODIGO = LAST_INSERT_ID();
 END 
+//
 
 
 
 
-
+DELIMITER // 
+CREATE PROCEDURE ADICIONAR_LEMBRETE_HORARIO (IN LEMBRETE INT, IN DATA_HORARIO INT) 
+BEGIN 
+ 	INSERT INTO HORARIO_LEMBRETE (FK_LEMBRETE, FK_DATA_HORARIO) 
+ 		VALUES (LEMBRETE, DATA_HORARIO); 
+ END 
+ //
+ 
 
 
 
