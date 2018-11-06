@@ -177,7 +177,9 @@ public class Login extends Scene {
 			}
 		}
 		
-		Main.main_stage.sizeToScene();
+		if(Main.main_stage.getHeight() < this.getHeight()) 
+			Main.main_stage.sizeToScene();
+
 	}
 
 }
