@@ -34,8 +34,12 @@ public class TimePicker extends HBox{
 	private Button btnCancelar;
 	private Button btnOK;
 	
-	public TimePicker() {
+	private boolean isDeletable;
+	
+	public TimePicker(boolean isDeletable) {
 
+		this.isDeletable = isDeletable;
+		
 		timeDisplay = new TextField();
 		timeDisplay.setPrefWidth(50);
 		timeDisplay.focusedProperty().addListener(new ChangeListener<Boolean>() {
@@ -135,7 +139,10 @@ public class TimePicker extends HBox{
 		timeSelectorStage.setScene(timeSelectorCena);
 		
 		
-		this.getChildren().addAll(timeDisplay, timeDeleter);
+		this.getChildren().add(timeDisplay);
+		
+		if(isDeletable)
+			this.getChildren().add(timeDeleter);
 		
 		timeDeleter.setOnAction(event -> { 
 			
@@ -154,7 +161,6 @@ public class TimePicker extends HBox{
 				((HBox)this.getParent()).getChildren().remove(i);
 			}
 		});
-		
 	}
 	
 	private Pane horaPane() {
@@ -282,5 +288,4 @@ public class TimePicker extends HBox{
 		
 		return clock;
 	}
-	
 }

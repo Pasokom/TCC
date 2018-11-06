@@ -21,11 +21,11 @@ public class TimePickerList extends HBox {
 			
 			if(horas.getChildren().size() < 5) {
 				
-				horas.getChildren().add(new TimePicker());
+				horas.getChildren().add(new TimePicker(true));
 			}
 		});
 		
-		horas.getChildren().add(new TimePicker());
+		horas.getChildren().add(new TimePicker(true));
 		
 		this.setSpacing(10);
 		this.getChildren().addAll(lblTime, horas, btnAddTime);

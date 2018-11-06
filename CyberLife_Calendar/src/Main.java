@@ -18,7 +18,7 @@ public class Main extends Application {
 
 		main_stage = primaryStage;
 
-		main_stage.setScene(new Reminder());
+		main_stage.setScene(new Event());
 		
 		main_stage.show();
 	}

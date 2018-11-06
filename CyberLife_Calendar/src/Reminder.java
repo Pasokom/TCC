@@ -1,7 +1,10 @@
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 import com.mysql.cj.xdevapi.Statement;
@@ -44,7 +47,7 @@ public class Reminder extends Scene {
 		vb.setPadding(new Insets(20,35,50,35));
 		vb.getChildren().addAll(lembrete(recurrence), recurrence);
 		
-		/* scene */ this.getStylesheets().add(this.getClass().getResource("css/estilo.css").toExternalForm());
+		/* scene */ this.getStylesheets().add(this.getClass().getResource("css/reminder.css").toExternalForm());
 			
 		this.setRoot(vb);
 	}
@@ -116,18 +119,15 @@ public class Reminder extends Scene {
 	}
 	
 	private void queryReminder() throws SQLException {
+
+		String queryString = "insert into lembrete(LNOME, LDATE_LEMBRETE, LDIA_TODO, FK_USUARIO)"
+				+ "values(?, ?, ?, ?)";
 		
-		//		try {
-		//		// TODO inserir todos os dados do formulario na tabela
-		//		int allDay = cbxAllDay.isSelected() ? 1 : 0;
-		//		int repeat = cbxRepeat.isSelected() ? 1 : 0;
-		////		database.queryLembrete(txtName.getText(), "",dtDate.getValue(), repeat); //fazendo um insert no banco de dados
-		//	} catch (SQLException e) {
-		//		e.printStackTrace();
-		/*}*/ 
-		String queryString = "insert into lembrete()";
-		
-		Statement cmd = (Statement) Database.getConnection().createStatement();
+		PreparedStatement cmd = Database.getConnection().prepareStatement(queryString);
+		cmd.setString(1, txtName.getText());
+		cmd.setDate(2, java.sql.Date.valueOf(dtDate.getValue()));
+		cmd.setBoolean(3, cbxAllDay.isSelected());
+		cmd.setInt(4, 1);
 		
 		cmd.execute();
 	}
