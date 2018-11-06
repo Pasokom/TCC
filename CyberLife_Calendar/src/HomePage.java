@@ -42,7 +42,6 @@ public class HomePage extends Scene {
 		hLeft.setPrefWidth(400);
 		
 		
-		
 		hRight.setAlignment(Pos.CENTER_RIGHT);
 		hLeft.setAlignment(Pos.CENTER_LEFT);
 		
@@ -67,8 +66,6 @@ public class HomePage extends Scene {
 		layout.getChildren().add(hLeft);
 		
 		layout.getChildren().add(hContent);
-		
-		
 		this.setRoot(layout);
 	}
 }

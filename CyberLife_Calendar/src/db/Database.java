@@ -3,6 +3,7 @@ package db;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 /**
  * 
@@ -22,28 +23,44 @@ public class Database {
 	private final static String CONNECTION_STRING = "jdbc:mysql://" + SERVER + "/" + DB_NAME + "?user=" + USER
 			+ "&password=" + PASSWORD + "&useTimezone=true&serverTimezone=UTC";
 
-	private static Connection connection;
 	public Database() throws SQLException {
-		try {
-			/*
-			 * procura a biblioteca do drive do mysql no projeto
-			 */
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			 connection = DriverManager.getConnection(CONNECTION_STRING);
-		} catch (Exception e) {
-				
-			System.out.println(e.getStackTrace());
-		}
+//		try {
+//			/*
+//			 * procura a biblioteca do drive do mysql no projeto
+//			 */
+//			Class.forName("com.mysql.jdbc.Driver");
+//		} catch (ClassNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//		try {
+//			 connection = DriverManager.getConnection(CONNECTION_STRING);
+//		} catch (Exception e) {
+//			System.out.println(e.getStackTrace());
+//		}
+	}
+	
+	/** 
+	 * Retorna um objeto de conexão com banco de dados
+	 * @return
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	public static Connection get_connection() throws SQLException, ClassNotFoundException {
+		Class.forName("com.mysql.jdbc.Driver");
 		
+		return DriverManager.getConnection(CONNECTION_STRING);
+	}
+	/**
+	 * Conexão passada por parametro é fechada
+	 * @param Connection con
+	 * @throws SQLException
+	 */
+	public static void close_connection(Connection con) throws SQLException {
+		con.close();
 	}
 
-	public static Connection getConnection() throws SQLException {
-		return connection;
+	public void queryLembrete(String text, String string, LocalDate value, int repeat) {
+
 	}
 
 //	public void queryLembrete(String nome, String descricao, LocalDate data, int repetir) throws SQLException {
@@ -54,21 +71,3 @@ public class Database {
 //				+ nome + "', '" + descricao + "', '" + data + "', " + repetir + "," + 1 + ");");
 //	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

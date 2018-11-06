@@ -12,8 +12,9 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Database db = new Database(); // carrega o banco de dados
-
+		Database.get_connection();
+			
+		
 		// db.queryTeste(); // fazendo testes
 
 		main_stage = primaryStage;
@@ -21,5 +22,11 @@ public class Main extends Application {
 		main_stage.setScene(new Event());
 		
 		main_stage.show();
+//		janela = primaryStage;
+//
+//		janela.setScene(new Login());
+//
+//		janela.show();
+		
 	}
 }
