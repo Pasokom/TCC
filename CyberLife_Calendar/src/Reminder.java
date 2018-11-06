@@ -1,11 +1,15 @@
 import java.sql.SQLException;
+import java.sql.Time;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 
 import db.Database;
+import db.functions.CreateReminder;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -22,7 +26,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class Reminder extends Scene {
 
@@ -91,8 +94,35 @@ public class Reminder extends Scene {
 			// TODO inserir todos os dados do formulario na tabela
 			// int allDay = cbxAllDay.isSelected() ? 1 : 0;
 			int repeat = cbxRepeat.isSelected() ? 1 : 0;
-			database.queryLembrete(txtName.getText(), "", dtDate.getValue(), repeat); // fazendo um insert no banco de
+//			database.queryLembrete(txtName.getText(), "", dtDate.getValue(), repeat); // fazendo um insert no banco de
 																						// dados });
+			
+			CreateReminder c = new CreateReminder();
+			
+			
+			System.out.println(dtDate.getValue());
+			
+			
+//			try {
+			
+				
+				java.sql.Date date = java.sql.Date.valueOf(dtDate.getValue());//yy + "-" + mm + "-" + dd);
+						
+				Time hour = java.sql.Time.valueOf(txtTime.get_time_selected());
+				try {
+					c.set_reminder_hour_date(hour,date);
+				} catch (ClassNotFoundException | ParseException | SQLException e) {
+					System.out.println("[ERROR] parse error");
+					
+					e.printStackTrace();
+				}
+				
+//			} catch (ClassNotFoundException | ParseException | SQLException e) {
+//				e.printStackTrace();
+//			}
+			
+		
+		
 		});
 		barraTitulo.getChildren().addAll(txtName, btnEnviar);
 
@@ -125,7 +155,6 @@ public class Reminder extends Scene {
 		btnAddHora.setOnAction(evento -> {
 
 			if (horas.getChildren().size() < 5) {
-
 				horas.getChildren().add(new TimePicker());
 			}
 		});

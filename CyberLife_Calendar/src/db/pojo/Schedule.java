@@ -1,9 +1,9 @@
 package db.pojo;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.sql.Date;
+import java.text.SimpleDateFormat;;
 
 public class Schedule {
 
@@ -20,26 +20,25 @@ public class Schedule {
 	public Date getDate() {
 		return date;
 	}
-	public void setDate(String date) throws ParseException {
-		this.date = parseDate(date, "dd/MM/yyyy");
+	public void setDate(Date date) throws ParseException {
+		this.date = date ; //parseDate(date, "dd/MM/yyyy");
 	}
 	public Time getHour() {
 		return hour;
 	}
-	public void setHour(String hour) throws ParseException {
-
-		SimpleDateFormat h = new SimpleDateFormat("hh:mm");
+	public void setHour(Time hour) throws ParseException {
+//		SimpleDateFormat h = new SimpleDateFormat("hh:mm");
 		
 		 /* not tested */
-		Date d = (Date) h.parse(hour);
-		this.hour = new Time(d.getTime());
+//		Date d = (Date) h.parse(hour);
+		this.hour = hour;// new Time(d.getTime());
 	}
 
-	private Date parseDate(String date, String format) throws ParseException {
-		SimpleDateFormat formatter = new SimpleDateFormat(format);
-		
-		 /* not tested */
-		return (Date) formatter.parse(date);
-	}
+//	private Date parseDate(String date, String format) throws ParseException {
+//		SimpleDateFormat formatter = new SimpleDateFormat(format);
+//		
+//		 /* not tested */
+//		return formatter.parse(date);
+//	}
 
 }

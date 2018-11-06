@@ -133,4 +133,10 @@ public class TimePicker extends HBox{
 		});
 	}
 	
+	
+	public String get_time_selected() { 
+		String time = hour.getText() + "-"  + min.getText(); 
+		return time;
+	}
+	
 }
