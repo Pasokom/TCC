@@ -10,8 +10,10 @@ import java.util.Calendar;
 import component.IntervalComponent;
 import component.Recurrence;
 import component.TimePickerList;
+
 import db.functions.CreateReminder;
 import db.pojo.ReminderDB;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -38,8 +40,6 @@ public class Reminder extends Scene {
 	public Reminder() {
 		super(new HBox());
 
-		lblDate = new Label("Data:");
-
 		recurrence = new Recurrence();
 		recurrence.setDisable(true);
 
@@ -51,24 +51,25 @@ public class Reminder extends Scene {
 		/* scene */ this.getStylesheets().add(this.getClass().getResource("css/reminder.css").toExternalForm());
 		this.setRoot(vb);
 	}
-
+	
 	private VBox lembrete(VBox recorrencia) {
-
+		
 		VBox vb = new VBox();
 		vb.setSpacing(20);
 
 		HBox barraTitulo = new HBox();
 		barraTitulo.setId("lBarraTitulo");
-
+		
 		txtName = new TextField();
 		txtName.setPromptText("Título do lembrete");
 		txtName.setId("lNome");
 		btnEnviar = new Button("Salvar");
 		btnEnviar.setId("btnEnviar");
+
 		btnEnviar.setOnAction(evento -> {
 			if (timePickerList.get_selected_time().isEmpty())
 				return; /* nenhum horario selecionado */
-
+	
 			CreateReminder c = new CreateReminder();
 			/**
 			 * loop para inserir os horarios no banco de dados
@@ -92,41 +93,29 @@ public class Reminder extends Scene {
 			reminder.setAll_day(cbxAllDay.isSelected());
 			reminder.setRepeat(cbxRepeat.isSelected());
 			reminder.setReminder(txtName.getText());
-			try {
-				c.insert_reminder(reminder);
-
-				/*
-				 * relaciona o lembrete com os horarios
-				 */
-				c.insert_reminder_and_date();
-			} catch (ClassNotFoundException | SQLException e) {
-				e.printStackTrace();
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
 		});
-		barraTitulo.getChildren().addAll(txtName, btnEnviar);
 
+		barraTitulo.getChildren().addAll(txtName, btnEnviar);
+		
 		HBox hbData = new HBox();
 		hbData.setId("hbData");
-
+		
 		lblDate = new Label("Data:");
 
-		DateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd"); // instanciando classe que formata a data em
-																		// string
-		Date currentDate = new Date(Calendar.getInstance().getTime().getTime()); // criando uma nova data
-		LocalDate localDate = LocalDate.parse(dateFormater.format(currentDate)); // criando uma data sem time-zone
+		DateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd"); //instanciando classe que formata a data em string
+		Date currentDate = new Date(Calendar.getInstance().getTime().getTime()); //criando uma nova data
+ 		LocalDate localDate = LocalDate.parse(dateFormater.format(currentDate)); //criando uma data sem time-zone
 
-		dtDate = new DatePicker(localDate);
-
-		hbData.getChildren().addAll(lblDate, dtDate);
-
+ 		dtDate = new DatePicker(localDate);
+ 		
+ 		hbData.getChildren().addAll(lblDate, dtDate);
+ 		
 		timePickerList = new TimePickerList();
 		interval = new IntervalComponent();
 
 		HBox hbRepetir = new HBox();
 		hbRepetir.setId("hbRepetir");
-
+		
 		cbxAllDay = new CheckBox("Dia inteiro");
 		cbxAllDay.selectedProperty().addListener(new ChangeListener<Boolean>() {
 			public void changed(ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) {
@@ -142,7 +131,7 @@ public class Reminder extends Scene {
 				recorrencia.setDisable(!newValue);
 			}
 		});
-
+		
 		hbRepetir.getChildren().addAll(cbxAllDay, cbxRepeat);
 
 		vb.getChildren().addAll(barraTitulo, hbData, hbRepetir, timePickerList, interval);
