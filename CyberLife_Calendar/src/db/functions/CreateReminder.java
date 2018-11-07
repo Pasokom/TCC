@@ -46,7 +46,6 @@ public class CreateReminder {
 		stmt.setString(1, reminder.getReminder().getText());
 		stmt.setBoolean(2, reminder.isAll_day());
 
-		reminder.setStatus(Enums.ReminderStatus.ENABLED.toString());
 
 		stmt.setString(3, reminder.getStatus());
 		stmt.setInt(4, 3);// (int) SESSION.get_user_cod());

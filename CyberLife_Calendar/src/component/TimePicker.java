@@ -312,7 +312,6 @@ public class TimePicker extends HBox {
 	}
 	
 	public void set_event_ok(EventHandler<ActionEvent> e) {
-		
 		this.btnOK.setOnAction(e);
 	}
 }

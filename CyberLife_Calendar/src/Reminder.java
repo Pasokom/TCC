@@ -20,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import statics.Enums;
 
 public class Reminder extends Scene {
 
@@ -135,6 +136,7 @@ public class Reminder extends Scene {
 		reminder.setAll_day(cbxAllDay.isSelected());
 		reminder.setRepeat(cbxRepeat.isSelected());
 		reminder.setReminder(txtName.getText());
+		reminder.setStatus(Enums.ReminderStatus.ENABLED.toString());
 		c.insert_reminder(reminder);
 
 		/**
