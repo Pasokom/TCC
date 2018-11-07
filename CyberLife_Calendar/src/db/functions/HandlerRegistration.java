@@ -52,6 +52,8 @@ public class HandlerRegistration {
 
 		CallableStatement stmt = Database.get_connection().prepareCall(query);
 
+		Statement x = Database.get_connection().createStatement();
+		
 		stmt.setString(1, email);
 		stmt.setString(2, name);
 		stmt.setString(3, last_name);

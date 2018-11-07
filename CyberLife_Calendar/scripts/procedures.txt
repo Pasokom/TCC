@@ -12,12 +12,8 @@ BEGIN
                         INSERT INTO USUARIO (UEMAIL,UNOME,USOBRENOME,USENHA) VALUES           
                                (EMAIL,NOME,SOBRENOME,SENHA);                                  
               END IF;                                                                         
-                                                                                              
-                                                                                              
 END 
 //
-
-
 DELIMITER // 
 CREATE PROCEDURE EMAIL_EXISTE(IN EMAIL VARCHAR(255), OUT RESULT BIT)
 BEGIN 
@@ -31,8 +27,6 @@ BEGIN
    END IF;    
 END 
 //
-
-
 
 DELIMITER // 
 CREATE PROCEDURE ADICIONAR_LEMBRETE (IN LEMBRETE TEXT, IN DIA_TODO BIT, 
@@ -48,66 +42,4 @@ CREATE PROCEDURE ADICIONAR_LEMBRETE (IN LEMBRETE TEXT, IN DIA_TODO BIT,
        SET CODIGO_LEMBRETE = LAST_INSERT_ID();
      END 
 //
-
-
-DELIMITER // 
-
-CREATE  PROCEDURE ADICIONAR_DATA_HORARIO (IN USUARIO INT, IN HORA TIME, IN DATA DATE, OUT CODIGO INT)
-BEGIN 
-     INSERT INTO DATA_HORARIO (FK_USUARIO, DH_HORA,DH_DATA) 
-           VALUES (USUARIO, HORA,DATA);
-           
-      SET CODIGO = LAST_INSERT_ID();
-END 
-//
-
-
-
-
-DELIMITER // 
-CREATE PROCEDURE ADICIONAR_LEMBRETE_HORARIO (IN LEMBRETE INT, IN DATA_HORARIO INT) 
-BEGIN 
- 	INSERT INTO HORARIO_LEMBRETE (FK_LEMBRETE, FK_DATA_HORARIO) 
- 		VALUES (LEMBRETE, DATA_HORARIO); 
- END 
- //
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

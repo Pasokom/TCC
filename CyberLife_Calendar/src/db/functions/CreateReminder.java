@@ -93,7 +93,6 @@ public class CreateReminder {
 		stmt.setInt(4, 3);// (int) SESSION.get_user_cod());
 		stmt.setString(5, "@returned_value");
 		
-		
 		stmt.registerOutParameter(5,Types.INTEGER);
 		
 		stmt.executeUpdate();
@@ -102,15 +101,6 @@ public class CreateReminder {
 		
 		return this.getReminder_cod() == 0 ? false : true ;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public int getReminder_cod() {
 		return reminder_cod;
 	}

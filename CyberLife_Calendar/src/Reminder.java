@@ -86,6 +86,7 @@ public class Reminder extends Scene {
 					e.printStackTrace();
 				}
 			}
+			
 
 			/*
 			 * insere lembrete no banco
