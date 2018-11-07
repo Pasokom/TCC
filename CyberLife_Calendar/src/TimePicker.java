@@ -8,10 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -20,6 +17,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import listeners.CloseWindowEsc;
 
 public class TimePicker extends HBox{
 
@@ -52,6 +50,8 @@ public class TimePicker extends HBox{
 			
 		});
 		
+		
+		
 		timeDeleter = new Button("-");
 		
 		HBox horario = new HBox();
@@ -77,7 +77,14 @@ public class TimePicker extends HBox{
 		timeDisplay.setOnMouseClicked(e -> { 
 		
 			timeSelector.getChildren().set(1, horaPane());
+			
+			  timeSelector.setOnKeyPressed(new CloseWindowEsc(timeSelectorStage));
+			
+			
 			timeSelectorStage.showAndWait(); 
+			
+			
+			
 		});
 		
 		HBox hbBotoes = new HBox(4);
