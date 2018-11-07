@@ -1,6 +1,4 @@
 package listeners;
-
-import db.Database;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;

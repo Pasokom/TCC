@@ -47,6 +47,7 @@ public class Database {
 	 */
 	public static Connection get_connection() throws SQLException, ClassNotFoundException {
 		Class.forName("com.mysql.jdbc.Driver");
+		
 		return DriverManager.getConnection(CONNECTION_STRING);
 	}
 	/**
