@@ -1,17 +1,12 @@
 import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
 
-import com.mysql.cj.xdevapi.Statement;
-
 import component.Recurrence;
 import component.TimePickerList;
-import db.Database;
 import db.functions.CreateReminder;
 import db.pojo.ReminderDB;
 import javafx.beans.value.ChangeListener;
@@ -20,9 +15,14 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -34,7 +34,6 @@ public class Reminder extends Scene {
 	private CheckBox cbxAllDay, cbxRepeat;
 	private Button btnEnviar;
 	private Recurrence recurrence;
-	private TimePickerList timePickerList;
 
 	public Reminder() {
 		super(new HBox());
@@ -52,6 +51,11 @@ public class Reminder extends Scene {
 		/* scene */ this.getStylesheets().add(this.getClass().getResource("css/estilo.css").toExternalForm());
 
 		this.setRoot(vb);
+		
+		this.getStylesheets().add(this.getClass().getResource("css/estilo.css").toExternalForm());
+			
+		this.setRoot(vb);
+		vb.requestFocus();
 	}
 
 	private VBox lembrete(VBox recorrencia) {
@@ -86,8 +90,6 @@ public class Reminder extends Scene {
 //					e.printStackTrace();
 //				}
 //			}
-			
-				
 			/*
 			 * insere lembrete no banco
 			 */
@@ -98,13 +100,9 @@ public class Reminder extends Scene {
 				try {
 					c.insert_reminder(reminder);
 				
-					String value = dtDate.getValue() + " " + timePickerList.get_selected_time().get(0);
+//					String value = dtDate.getValue() + " " + timePickerList.get_selected_time().get(0);
 					
-					c.insert_reminder_schedule(true, value, value, 60, c.getReminder_cod());
-					
-				
-				
-				
+//					c.insert_reminder_schedule(true, value, value, 60, c.getReminder_cod());
 				} catch (ClassNotFoundException | SQLException e) {
 					e.printStackTrace();
 				}
@@ -125,7 +123,7 @@ public class Reminder extends Scene {
 
 		hbData.getChildren().addAll(lblDate, dtDate);
 
-		timePickerList = new TimePickerList();
+//		timePickerList = new TimePickerList();
 
 		HBox hbRepetir = new HBox();
 		hbRepetir.setId("hbRepetir");
@@ -134,7 +132,7 @@ public class Reminder extends Scene {
 		cbxAllDay.selectedProperty().addListener(new ChangeListener<Boolean>() {
 			public void changed(ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) {
 
-				timePickerList.setDisable(newValue);
+//				timePickerList.setDisable(newValue);
 			}
 		});
 
@@ -148,26 +146,9 @@ public class Reminder extends Scene {
 
 		hbRepetir.getChildren().addAll(cbxAllDay, cbxRepeat);
 
-		vb.getChildren().addAll(barraTitulo, hbData, hbRepetir, timePickerList);
+		vb.getChildren().addAll(barraTitulo, hbData, hbRepetir);
 
 		return vb;
 	}
 
-	private void queryReminder() throws SQLException, ClassNotFoundException {
-
-		// try {
-		// // TODO inserir todos os dados do formulario na tabela
-		// int allDay = cbxAllDay.isSelected() ? 1 : 0;
-		// int repeat = cbxRepeat.isSelected() ? 1 : 0;
-		//// database.queryLembrete(txtName.getText(), "",dtDate.getValue(), repeat);
-		// //fazendo um insert no banco de dados
-		// } catch (SQLException e) {
-		// e.printStackTrace();
-		/* } */
-		String queryString = "insert into lembrete()";
-
-		Statement cmd = (Statement) Database.get_connection().createStatement();
-
-		cmd.execute();
-	}
 }
