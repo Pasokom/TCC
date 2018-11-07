@@ -68,26 +68,26 @@ public class Reminder extends Scene {
 		btnEnviar = new Button("Salvar");
 		btnEnviar.setId("btnEnviar");
 		btnEnviar.setOnAction(evento -> {
-			if (timePickerList.get_selected_time().isEmpty())
-				return; /* nenhum horario selecionado */
+//			if (timePickerList.get_selected_time().isEmpty())
+//				return; /* nenhum horario selecionado */
 
 			CreateReminder c = new CreateReminder();
 			/**
 			 * loop para inserir os horarios no banco de dados
 			 */
-			for (int i = 0; i < timePickerList.get_selected_time().size(); i++) {
-				String date = String.valueOf(dtDate.getValue());
-				Date d = Date.valueOf(date);
-				String time = timePickerList.get_selected_time().get(i) + ":00"; /* the zeros are fucking important */
-				Time t = Time.valueOf(time);
-				try {
-					c.set_date_hour(t, d);
-				} catch (ClassNotFoundException | ParseException | SQLException e) {
-					e.printStackTrace();
-				}
-			}
+//			for (int i = 0; i < timePickerList.get_selected_time().size(); i++) {
+//				String date = String.valueOf(dtDate.getValue());
+//				Date d = Date.valueOf(date);
+//				String time = timePickerList.get_selected_time().get(i) + ":00"; /* the zeros are fucking important */
+//				Time t = Time.valueOf(time);
+//				try {
+//					c.set_date_hour(t, d);
+//				} catch (ClassNotFoundException | ParseException | SQLException e) {
+//					e.printStackTrace();
+//				}
+//			}
 			
-
+				
 			/*
 			 * insere lembrete no banco
 			 */
@@ -95,18 +95,19 @@ public class Reminder extends Scene {
 			reminder.setAll_day(cbxAllDay.isSelected());
 			reminder.setRepeat(cbxRepeat.isSelected());
 			reminder.setReminder(txtName.getText());
-			try {
-				c.insert_reminder(reminder);
-
-				/*
-				 * relaciona o lembrete com os horarios
-				 */
-				c.insert_reminder_and_date();
-			} catch (ClassNotFoundException | SQLException e) {
-				e.printStackTrace();
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+				try {
+					c.insert_reminder(reminder);
+				
+					String value = dtDate.getValue() + " " + timePickerList.get_selected_time().get(0);
+					
+					c.insert_reminder_schedule(true, value, value, 60, c.getReminder_cod());
+					
+				
+				
+				
+				} catch (ClassNotFoundException | SQLException e) {
+					e.printStackTrace();
+				}
 		});
 		barraTitulo.getChildren().addAll(txtName, btnEnviar);
 
