@@ -109,10 +109,10 @@ public class TimePicker extends HBox {
 		btnCancelar = new Button("Cancelar");
 		btnOK = new Button("OK");
 		btnOK.setId("btnOK");
-//		btnOK.setOnAction(e -> {
-//			timeDisplay.setText(hour.getText() + ":" + min.getText());
-//			timeSelectorStage.close();
-//		});
+		btnOK.setOnAction(e -> {
+			change_label();
+			timeSelectorStage.close();
+		});
 		btnCancelar.setOnAction(e -> {
 			timeSelectorStage.close();
 		});

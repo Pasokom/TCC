@@ -19,7 +19,7 @@ public class Main extends Application {
 
 		main_stage = primaryStage;
 
-		main_stage.setScene(new Event());
+		main_stage.setScene(new Login());
 		
 		main_stage.show();
 //		janela = primaryStage;

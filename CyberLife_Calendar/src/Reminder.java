@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
 
+import component.IntervalComponent;
 import component.Recurrence;
 import component.TimePickerList;
 import db.functions.CreateReminder;
@@ -32,6 +33,7 @@ public class Reminder extends Scene {
 	private Button btnEnviar;
 	private Recurrence recurrence;
 	private TimePickerList timePickerList;
+	private IntervalComponent interval;
 
 	public Reminder() {
 		super(new HBox());
@@ -59,7 +61,7 @@ public class Reminder extends Scene {
 		barraTitulo.setId("lBarraTitulo");
 
 		txtName = new TextField();
-		txtName.setPromptText("Tï¿½tulo do lembrete");
+		txtName.setPromptText("Título do lembrete");
 		txtName.setId("lNome");
 		btnEnviar = new Button("Salvar");
 		btnEnviar.setId("btnEnviar");
@@ -120,6 +122,7 @@ public class Reminder extends Scene {
 		hbData.getChildren().addAll(lblDate, dtDate);
 
 		timePickerList = new TimePickerList();
+		interval = new IntervalComponent();
 
 		HBox hbRepetir = new HBox();
 		hbRepetir.setId("hbRepetir");
@@ -142,7 +145,7 @@ public class Reminder extends Scene {
 
 		hbRepetir.getChildren().addAll(cbxAllDay, cbxRepeat);
 
-		vb.getChildren().addAll(barraTitulo, hbData, hbRepetir, timePickerList);
+		vb.getChildren().addAll(barraTitulo, hbData, hbRepetir, timePickerList, interval);
 
 		return vb;
 	}
