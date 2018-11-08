@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.Optional;
 
 import javafx.geometry.Insets;
@@ -24,10 +25,8 @@ public class Login extends Scene {
 
 	private Label lblTitleCadast;
 	private Label lblNomeCadast;
-	private Label lblSobrenomeCadast;
 	private Label lblEmailCadast;
 	private Label lblSenhaCadast;
-	private Label lblSenhaConfirmCadast;
 
 	private Button btnEntrar;
 	private Button btnCadastrar;
@@ -68,25 +67,67 @@ public class Login extends Scene {
 		lblTitleCadast = new Label("Cadastro");
 		lblTitleCadast.setFont(new Font(25));
 		
-		lblEmail = new Label("E-mail ");
+		/* Email*/
+		HBox hbEmail = new HBox();
+		
+		lblEmail = new Label();
+		lblEmail.setId("lblEmail");
+		
 		txtEmail = new TextField();
-		lblEmailCadast = new Label("E-mail");	
-		txtEmailCadast = new TextField();
-		lblNomeCadast = new Label("Nome");
-		txtNomeCadast = new TextField();
-		lblSobrenomeCadast = new Label("Sobrenome");
-		txtSobrenomeCadast = new TextField();
-		lblSenhaCadast = new Label("Senha: ");
-		txtSenhaCadast = new PasswordField();
-		lblSenhaConfirmCadast = new Label("Confirmar senha");
-		txtSenhaConfirmCadast = new PasswordField();
+		txtEmail.setPromptText("Email");
 		
+		hbEmail.getChildren().addAll(lblEmail, txtEmail);
 		
-		lblSenha = new Label("Senha: ");
+		/* Senha*/
+		HBox hbPwd = new HBox();
+		
+		lblSenha = new Label();
+		lblSenha.setId("lblPsw");
+		
 		pswSenha = new PasswordField();
+		pswSenha.setPromptText("Senha");
 		
-		lblEmailCadast = new Label("E-mail: ");
-		lblSenhaCadast = new Label("Senha: ");
+		hbPwd.getChildren().addAll(lblSenha, pswSenha);
+		
+		/* Cadastro nome*/
+		HBox hbNome = new HBox();
+		
+		lblNomeCadast = new Label();
+		lblNomeCadast.setId("lblNomeCadast");
+		txtNomeCadast = new TextField();
+		txtNomeCadast.setPromptText("Nome");
+		
+		hbNome.setVisible(true);
+		hbNome.getChildren().addAll(lblNomeCadast, txtNomeCadast);
+		
+		/* Cadastro sobrenome*/
+		txtSobrenomeCadast = new TextField();
+		txtSobrenomeCadast.setPromptText("Sobrenome");
+		
+		/* Cadastro email*/
+		HBox hbEmailCadast = new HBox();
+		
+		lblEmailCadast = new Label();
+		lblEmailCadast.setId("lblEmail");
+		
+		txtEmailCadast = new TextField();
+		txtEmailCadast.setPromptText("Email");
+		
+		hbEmailCadast.getChildren().addAll(lblEmailCadast, txtEmailCadast);
+		
+		/* Cadastro senha*/
+		HBox hbPwdCadast = new HBox();
+		
+		lblSenhaCadast = new Label();
+		lblSenhaCadast.setId("lblPsw");
+		
+		txtSenhaCadast = new PasswordField();
+		txtSenhaCadast.setPromptText("Senha");
+		
+		hbPwdCadast.getChildren().addAll(lblSenhaCadast, txtSenhaCadast);
+		
+		txtSenhaConfirmCadast = new PasswordField();
+		txtSenhaConfirmCadast.setPromptText("Confirmar senha");
 		
 		rdHabilitarCadast = new Button("Cadastrar-se");
 		rdHabilitarCadast.setOnAction(e -> {
@@ -100,8 +141,12 @@ public class Login extends Scene {
 		
 		btnEntrar = new Button("Entrar");
 		btnEntrar.setOnAction(event->{
-			
-			
+			try {
+				Main.main_stage.setScene(new HomePage());
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		});
 		btnCadastrar = new Button("Cadastrar-se");
 		btnCadastrar.setOnAction(event -> {
@@ -112,26 +157,8 @@ public class Login extends Scene {
 			}
 		});  
 		
-		GridPane pnlLayout = new GridPane();
-	    
-	    AnchorPane.setRightAnchor(pnlLayout, 5d);
-	    AnchorPane.setTopAnchor(pnlLayout, 5d);
-	    
-		pnlCadastro.add(lblTitleCadast, 0, 6, 2, 1);	
-		pnlCadastro.add(lblNomeCadast, 0, 7, 2, 1);
-		pnlCadastro.add(txtNomeCadast, 0, 8, 2, 1);
-		pnlCadastro.add(lblSobrenomeCadast, 0, 9, 2, 1);
-		pnlCadastro.add(txtSobrenomeCadast, 0, 10, 2, 1);
-		pnlCadastro.add(lblEmailCadast, 0, 11, 2, 1);
-		pnlCadastro.add(txtEmailCadast, 0, 12, 2, 1);
-		pnlCadastro.add(lblSenhaCadast, 0, 13, 2, 1);
-		pnlCadastro.add(txtSenhaCadast, 0, 14, 2, 1);
-		pnlCadastro.add(lblSenhaConfirmCadast, 0, 15, 2, 1);
-		pnlCadastro.add(txtSenhaConfirmCadast, 0, 16, 2, 1);
-		pnlCadastro.add(btnCadastrar, 0, 17, 2, 2);
-		
-		vbLogin.getChildren().addAll(lblTitle, lblEmail, txtEmail, lblSenha, pswSenha, hLogin);
-		vbCadastro.getChildren().addAll(lblTitleCadast, lblNomeCadast, txtNomeCadast, lblSobrenomeCadast, txtSobrenomeCadast, lblEmailCadast, txtEmailCadast, lblSenhaCadast, txtSenhaCadast, lblSenhaConfirmCadast, txtSenhaConfirmCadast, hCadastro);
+		vbLogin.getChildren().addAll(lblTitle, hbEmail, hbPwd, hLogin);
+		vbCadastro.getChildren().addAll(lblTitleCadast, hbNome, txtSobrenomeCadast, hbEmailCadast, hbPwdCadast, txtSenhaConfirmCadast, hCadastro);
 			    
 		hCadastro.getChildren().addAll(backLogin, btnCadastrar);
 		hCadastro.setAlignment(Pos.CENTER_LEFT);
@@ -145,9 +172,9 @@ public class Login extends Scene {
 
 		aPane.getChildren().add(vbLogin);
 		vbLogin.setSpacing(10);
-		vbLogin.setPadding(new Insets(25,100,25,25));
+		vbLogin.setPadding(new Insets(25,35,25,25));
 		vbCadastro.setSpacing(7);
-		vbCadastro.setPadding(new Insets(25,100,25,25));
+		vbCadastro.setPadding(new Insets(25,35,25,25));
 		
 
 		AnchorPane.setTopAnchor(vbLogin, 0d);
@@ -157,6 +184,8 @@ public class Login extends Scene {
 		AnchorPane.setTopAnchor(vbCadastro, 0d);
 		AnchorPane.setBottomAnchor(vbCadastro, 0d);
 		AnchorPane.setRightAnchor(vbCadastro, 0d);
+		
+		aPane.requestFocus();
 		
 		this.setRoot(aPane);
 		
@@ -175,6 +204,8 @@ public class Login extends Scene {
 				aPane.getChildren().set(0, vbLogin);
 			}
 		}
+		
+		aPane.requestFocus();
 		
 		if(Main.main_stage.getHeight() < this.getHeight()) 
 			Main.main_stage.sizeToScene();

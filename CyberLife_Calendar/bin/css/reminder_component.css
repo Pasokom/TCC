@@ -1,5 +1,28 @@
+#this{
+	-fx-background-color: #e0e0e0;
+}
+
+#card{
+	-fx-background-color: royalBlue;
+	-fx-padding: 10;
+	-fx-background-radius: 3;
+}
+
+#card .label{
+	-fx-text-fill: white;
+}
+
+#hora{
+	-fx-font-size: 8pt;
+}
+
+#hidden{
+	-fx-background-color: #ffffff;
+	-fx-padding: 10;
+	-fx-background-radius: 3;
+}
+
 .button { 
-	-fx-background-color: black;
 	
 }
 
