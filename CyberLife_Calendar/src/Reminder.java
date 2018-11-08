@@ -20,7 +20,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import statics.Enums;
@@ -34,6 +36,8 @@ public class Reminder extends Scene {
 	private Button btnEnviar;
 	private Recurrence recurrence;
 	private IntervalComponent interval;
+	private RadioButton radTime, radInterval;
+	private ToggleGroup radGroup;
 
 	private TimePickerList time_picker_list;
 
@@ -92,8 +96,20 @@ public class Reminder extends Scene {
  		
  		hbData.getChildren().addAll(lblDate, dtDate);
  		
+ 		radGroup = new ToggleGroup();
+ 		
+ 		HBox hTime = new HBox();
+ 		radTime = new RadioButton();
+ 		radTime.setToggleGroup(radGroup);
+ 		radTime.setSelected(true);
 		time_picker_list = new TimePickerList();
-		interval = new IntervalComponent();
+		hTime.getChildren().addAll(radTime, time_picker_list);
+		
+		HBox hInterval = new HBox();
+ 		radInterval = new RadioButton();
+ 		radInterval.setToggleGroup(radGroup);
+ 		interval = new IntervalComponent();
+ 		hInterval.getChildren().addAll(radInterval, interval);
 
 
 		HBox hbRepetir = new HBox();
@@ -117,7 +133,7 @@ public class Reminder extends Scene {
 		
 		hbRepetir.getChildren().addAll(cbxAllDay, cbxRepeat);
 
-		vb.getChildren().addAll(barraTitulo, hbData, hbRepetir);
+		vb.getChildren().addAll(barraTitulo, hbData, hbRepetir, hTime, hInterval);
 
 		return vb;
 	}
@@ -143,7 +159,7 @@ public class Reminder extends Scene {
 		/**
 		 * time picker selecionado ou repetição hora a hora
 		 */
-		boolean time_picker_selecionado = true;
+		boolean time_picker_selecionado = radTime.isSelected();
 		if (time_picker_selecionado) {
 			if (time_picker_list.get_selected_time().isEmpty())
 				return; /* nenhum horario selecionado */
