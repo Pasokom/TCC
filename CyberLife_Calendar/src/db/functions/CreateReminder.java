@@ -103,14 +103,6 @@ public class CreateReminder {
 		return this.getReminder_cod() == 0 ? false : true ;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	public int getReminder_cod() {
 		return reminder_cod;
 	}
@@ -135,19 +127,8 @@ public class CreateReminder {
 		  }
 		  return sb.toString();
 	}
+	
 	public void add_to_list(int cod) { 
 		this.list_cod_schedule.add(cod);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

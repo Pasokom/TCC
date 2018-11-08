@@ -25,12 +25,10 @@ public class TimePickerList extends HBox {
 
 			if (horas.getChildren().size() < 5) {
 
-				TimePicker tp = new TimePicker();
-				/** 
-				 */
+				TimePicker tp = new TimePicker(true);
+
 				tp.set_event_ok(e -> {
-					System.out.println("[COFNIRMATION] its working");
-//					System.out.println(tp.get_value());
+					System.out.println("[CONFIRMATION] it's working");
 					tp.change_label();
 					add_value(tp.get_value());
 					tp.close_stage();
@@ -39,6 +37,9 @@ public class TimePickerList extends HBox {
 			}
 		});
 
+		
+		horas.getChildren().add(new TimePicker(true));
+		
 		this.setSpacing(10);
 		this.getChildren().addAll(lblTime, horas, btnAddTime);
 	}

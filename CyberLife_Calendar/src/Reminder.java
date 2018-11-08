@@ -6,10 +6,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
-import db.functions.CreateReminder;
-import db.pojo.ReminderDB;
+
+import component.IntervalComponent;
 import component.Recurrence;
 import component.TimePickerList;
+
+import db.functions.CreateReminder;
+import db.pojo.ReminderDB;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -32,11 +35,10 @@ public class Reminder extends Scene {
 	private Button btnEnviar;
 	private Recurrence recurrence;
 	private TimePickerList timePickerList;
+	private IntervalComponent interval;
 
 	public Reminder() {
 		super(new HBox());
-
-		lblDate = new Label("Data:");
 
 		recurrence = new Recurrence();
 		recurrence.setDisable(true);
@@ -45,9 +47,8 @@ public class Reminder extends Scene {
 		vb.setSpacing(20);
 		vb.setPadding(new Insets(20, 35, 50, 35));
 		vb.getChildren().addAll(lembrete(recurrence), recurrence);
-
-		/* scene */ this.getStylesheets().add(this.getClass().getResource("css/estilo.css").toExternalForm());
-			
+		
+		/* scene */ this.getStylesheets().add(this.getClass().getResource("css/reminder.css").toExternalForm());
 		this.setRoot(vb);
 	}
 	
@@ -60,7 +61,7 @@ public class Reminder extends Scene {
 		barraTitulo.setId("lBarraTitulo");
 		
 		txtName = new TextField();
-		txtName.setPromptText("Tï¿½tulo do lembrete");
+		txtName.setPromptText("Título do lembrete");
 		txtName.setId("lNome");
 		btnEnviar = new Button("Salvar");
 		btnEnviar.setId("btnEnviar");
@@ -68,7 +69,7 @@ public class Reminder extends Scene {
 		btnEnviar.setOnAction(evento -> {
 			if (timePickerList.get_selected_time().isEmpty())
 				return; /* nenhum horario selecionado */
-		});
+	
 			CreateReminder c = new CreateReminder();
 			/**
 			 * loop para inserir os horarios no banco de dados
@@ -92,6 +93,7 @@ public class Reminder extends Scene {
 			reminder.setAll_day(cbxAllDay.isSelected());
 			reminder.setRepeat(cbxRepeat.isSelected());
 			reminder.setReminder(txtName.getText());
+		});
 
 		barraTitulo.getChildren().addAll(txtName, btnEnviar);
 		
@@ -104,7 +106,12 @@ public class Reminder extends Scene {
 		Date currentDate = new Date(Calendar.getInstance().getTime().getTime()); //criando uma nova data
  		LocalDate localDate = LocalDate.parse(dateFormater.format(currentDate)); //criando uma data sem time-zone
 
+ 		dtDate = new DatePicker(localDate);
+ 		
+ 		hbData.getChildren().addAll(lblDate, dtDate);
+ 		
 		timePickerList = new TimePickerList();
+		interval = new IntervalComponent();
 
 		HBox hbRepetir = new HBox();
 		hbRepetir.setId("hbRepetir");
@@ -127,9 +134,8 @@ public class Reminder extends Scene {
 		
 		hbRepetir.getChildren().addAll(cbxAllDay, cbxRepeat);
 
-		vb.getChildren().addAll(barraTitulo, hbData, hbRepetir, timePickerList);
+		vb.getChildren().addAll(barraTitulo, hbData, hbRepetir, timePickerList, interval);
 
 		return vb;
 	}
-
 }

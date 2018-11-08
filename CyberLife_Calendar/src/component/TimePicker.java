@@ -15,7 +15,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -39,9 +38,13 @@ public class TimePicker extends HBox {
 
 	private Button btnCancelar;
 	private Button btnOK;
+	
+	private boolean isDeletable;
+	
+	public TimePicker(boolean isDeletable) {
 
-	public TimePicker() {
-
+		this.isDeletable = isDeletable;
+		
 		timeDisplay = new TextField();
 		timeDisplay.setPrefWidth(50);
 		timeDisplay.focusedProperty().addListener(new ChangeListener<Boolean>() {
@@ -106,10 +109,10 @@ public class TimePicker extends HBox {
 		btnCancelar = new Button("Cancelar");
 		btnOK = new Button("OK");
 		btnOK.setId("btnOK");
-//		btnOK.setOnAction(e -> {
-//			timeDisplay.setText(hour.getText() + ":" + min.getText());
-//			timeSelectorStage.close();
-//		});
+		btnOK.setOnAction(e -> {
+			change_label();
+			timeSelectorStage.close();
+		});
 		btnCancelar.setOnAction(e -> {
 			timeSelectorStage.close();
 		});
@@ -149,10 +152,13 @@ public class TimePicker extends HBox {
 
 		timeSelectorStage.setScene(timeSelectorCena);
 
-		this.getChildren().addAll(timeDisplay, timeDeleter);
+		this.getChildren().add(timeDisplay);
+
+		if(isDeletable)
+			this.getChildren().add(timeDeleter);
 
 		timeDeleter.setOnAction(event -> {
-
+			
 			int i;
 
 			for (i = 0; i < this.getParent().getChildrenUnmodifiable().size(); i++) {
@@ -312,8 +318,11 @@ public class TimePicker extends HBox {
 	}
 	
 	public void set_event_ok(EventHandler<ActionEvent> e) {
-		
 		this.btnOK.setOnAction(e);
+	}
+	
+	public boolean isDeletable() {
+		return isDeletable;
 	}
 }
 
