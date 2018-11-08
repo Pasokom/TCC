@@ -21,8 +21,8 @@ public class HomePage extends Scene {
 	public HomePage() throws FileNotFoundException {
 		super (new VBox());
 		
-		//Main.main_stage.setWidth(600);
-		//Main.main_stage.setHeight(500);
+		Main.main_stage.setWidth(600);
+		Main.main_stage.setHeight(500);
 		
 		this.vRight = new VBox();
 		

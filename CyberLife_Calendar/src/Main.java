@@ -13,12 +13,10 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Database.get_connection();
-		
-		// db.queryTeste(); // fazendo testes
 
 		main_stage = primaryStage;
 
-		main_stage.setScene(new Login());
+		main_stage.setScene(new Reminder());
 		
 		main_stage.show();
 	}

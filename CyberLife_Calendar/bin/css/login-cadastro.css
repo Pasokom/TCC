@@ -1,0 +1,7 @@
+AnchorPane{
+	-fx-background-image: url("../aliens.gif");
+}
+
+VBox{
+	-fx-background-color: white;
+}
