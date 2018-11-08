@@ -32,7 +32,6 @@ public class Login extends Scene {
 	private Button btnCadastrar;
 	private Button rdHabilitarCadast;
 	private Button backLogin;
-
 	private TextField txtEmail;
 	private PasswordField pswSenha;
 
@@ -188,7 +187,6 @@ public class Login extends Scene {
 		aPane.requestFocus();
 		
 		this.setRoot(aPane);
-		
 	}
 
 	private void componenteLogin() {
@@ -209,7 +207,5 @@ public class Login extends Scene {
 		
 		if(Main.main_stage.getHeight() < this.getHeight()) 
 			Main.main_stage.sizeToScene();
-
 	}
-
 }

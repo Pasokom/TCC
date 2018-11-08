@@ -32,7 +32,7 @@ public class ListReminders extends VBox{
 		
 		listReminder.setComponent(vContent);
 		
-		for ( int i = 0 ; i < 10 ; i ++) { 
+		for ( int i = 0 ; i < 5 ; i ++) { 
 			
 			ReminderComponent rc = new ReminderComponent();
 			rc.lblDay.setText("segunda");

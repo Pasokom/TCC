@@ -46,7 +46,7 @@ public class TimePicker extends HBox {
 		this.isDeletable = isDeletable;
 		
 		timeDisplay = new TextField();
-		timeDisplay.setPrefWidth(50);
+		timeDisplay.setPrefWidth(60);
 		timeDisplay.focusedProperty().addListener(new ChangeListener<Boolean>() {
 
 			@Override
