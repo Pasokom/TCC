@@ -12,11 +12,11 @@ public class DayOfWeekSelector extends HBox {
 		//criando checkbox para todos os dias da semana
 		cbxDom = new CheckBox("Domingo");
 		cbxSeg = new CheckBox("Segunda");
-		cbxTer = new CheckBox("Terça");
+		cbxTer = new CheckBox("TerÃ§a");
 		cbxQua = new CheckBox("Quarta");
 		cbxQui = new CheckBox("Quinta");
 		cbxSex = new CheckBox("Sexta");
-		cbxSab = new CheckBox("Sábado");
+		cbxSab = new CheckBox("SÃ¡bado");
 		
 		this.setSpacing(10);
 		this.getChildren().addAll(cbxDom, cbxSeg, cbxTer, cbxQua, cbxQui,cbxSex,cbxSab);

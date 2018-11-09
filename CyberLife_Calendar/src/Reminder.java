@@ -18,7 +18,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import statics.Enums;
@@ -33,6 +35,9 @@ public class Reminder extends Scene {
 	private Recurrence recurrence;
 	private TimePickerList time_picker_list;
 	private IntervalComponent interval;
+	private RadioButton radTime, radInterval;
+	private ToggleGroup radGroup;
+
 
 	public Reminder() {
 		super(new HBox());
@@ -65,6 +70,7 @@ public class Reminder extends Scene {
 		txtName.setId("lNome");
 		btnEnviar = new Button("Salvar");
 		btnEnviar.setId("btnEnviar");
+
 		btnEnviar.setOnAction(evento -> {
 			try {
 				create_reminder();
@@ -73,8 +79,6 @@ public class Reminder extends Scene {
 			}
 		});
 		barraTitulo.getChildren().addAll(txtName, btnEnviar);
-
-
 		HBox hbData = new HBox();
 		hbData.setId("hbData");
 
@@ -91,6 +95,25 @@ public class Reminder extends Scene {
 
 		time_picker_list = new TimePickerList();
 		interval = new IntervalComponent();
+ 		dtDate = new DatePicker(localDate);
+ 		
+ 		hbData.getChildren().addAll(lblDate, dtDate);
+ 		
+ 		radGroup = new ToggleGroup();
+ 		
+ 		HBox hTime = new HBox();
+ 		radTime = new RadioButton();
+ 		radTime.setToggleGroup(radGroup);
+ 		radTime.setSelected(true);
+		time_picker_list = new TimePickerList();
+		hTime.getChildren().addAll(radTime, time_picker_list);
+		
+		HBox hInterval = new HBox();
+ 		radInterval = new RadioButton();
+ 		radInterval.setToggleGroup(radGroup);
+ 		interval = new IntervalComponent();
+ 		hInterval.getChildren().addAll(radInterval, interval);
+
 
 		HBox hbRepetir = new HBox();
 		hbRepetir.setId("hbRepetir");
@@ -117,7 +140,6 @@ public class Reminder extends Scene {
 
 		return vb;
 	}
-
 	/**
 	 * função para criar lembrete e adicionar seus respectivos horarios colocar
 	 * condição ali para checar qual dos tipos de horario o usuario vai querer usar
@@ -140,7 +162,7 @@ public class Reminder extends Scene {
 		/**
 		 * time picker selecionado ou repetição hora a hora
 		 */
-		boolean time_picker_selecionado = true;
+		boolean time_picker_selecionado = radTime.isSelected();
 		if (time_picker_selecionado) {
 			if (time_picker_list.get_selected_time().isEmpty())
 				return; /* nenhum horario selecionado */

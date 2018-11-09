@@ -12,7 +12,7 @@ public class Recurrence extends VBox {
 	
 	public Recurrence() {
 		
-		lblRecurrence = new Label("Recorrência:");
+		lblRecurrence = new Label("RecorrÃªncia:");
 		lblRepeat = new Label("Repetir a cada");
 		
 		frequency = new FrequencyComponent();

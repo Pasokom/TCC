@@ -17,7 +17,9 @@ public class ListReminders extends VBox{
 	
 	public ListReminders () { 
 		
-		this.lblReminder = new Label("Lembretes");
+		this.setStyle("-fx-background-color: #DEDEDE");
+		
+		this.lblReminder = new Label("Programação");
 		
 		this.vContent = new VBox();
 		this.listReminder =  new CustomScroll();
@@ -35,7 +37,7 @@ public class ListReminders extends VBox{
 			ReminderComponent rc = new ReminderComponent();
 			rc.lblDay.setText("segunda");
 			rc.lblHour.setText("17:20");
-			rc.lblReminderTitle.setText("limpar quarto");
+			rc.lblReminderTitle.setText("Limpar o quarto");
 			
 			vContent.getChildren().add(rc);
 		}
@@ -47,8 +49,10 @@ public class ListReminders extends VBox{
 		this.getChildren().add(lblReminder);
 		this.getChildren().add(listReminder);
 		this.getChildren().add(hButtons);
+	}
+	
+	public void addReminder() {
 		
-		
-		
+		vContent.getChildren().add(new ReminderComponent());
 	}
 }
