@@ -33,10 +33,10 @@ public class ProfileComponent extends HBox {
 		
 		this.vLabels = new VBox();
 		
-		vLabels.setAlignment(Pos.CENTER_RIGHT);
+		vLabels.setAlignment(Pos.CENTER);
 		vLabels.getChildren().addAll(lblName, lblEmail);
 	
-		this.setAlignment(Pos.CENTER_RIGHT);
+		this.setAlignment(Pos.CENTER);
 				
 		this.getChildren().addAll(vLabels, image);
 	}

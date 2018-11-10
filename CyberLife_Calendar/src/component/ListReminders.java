@@ -1,10 +1,14 @@
 package component;
 
+import java.awt.Window;
+import java.awt.event.WindowStateListener;
+
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class ListReminders extends VBox{
 
@@ -17,25 +21,29 @@ public class ListReminders extends VBox{
 	
 	public ListReminders () { 
 		
-		this.lblReminder = new Label("Lembretes");
+		this.setStyle("-fx-background-color: #DEDEDE");
+		
+		this.lblReminder = new Label("Programação");
 		
 		this.vContent = new VBox();
 		this.listReminder =  new CustomScroll();
 		
 		this.hButtons=new HBox();
 		hButtons.setAlignment(Pos.CENTER_RIGHT);
-		this.btnAddReminder=new  Button("icode de + ");
+		this.btnAddReminder = new Button("+");
+		this.btnAddReminder.setOnAction(e -> {
+		});
 		
 		hButtons.getChildren().add(btnAddReminder);
 		
 		listReminder.setComponent(vContent);
 		
-		for ( int i = 0 ; i < 55 ; i ++) { 
+		for ( int i = 0 ; i < 5 ; i ++) { 
 			
 			ReminderComponent rc = new ReminderComponent();
 			rc.lblDay.setText("segunda");
 			rc.lblHour.setText("17:20");
-			rc.lblReminderTitle.setText("limpar quarto");
+			rc.lblReminderTitle.setText("Limpar o quarto");
 			
 			vContent.getChildren().add(rc);
 		}
@@ -47,8 +55,10 @@ public class ListReminders extends VBox{
 		this.getChildren().add(lblReminder);
 		this.getChildren().add(listReminder);
 		this.getChildren().add(hButtons);
+	}
+	
+	public void addReminder() {
 		
-		
-		
+		vContent.getChildren().add(new ReminderComponent());
 	}
 }
