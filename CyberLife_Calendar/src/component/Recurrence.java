@@ -2,6 +2,9 @@ package component;
 
 import java.util.ArrayList;
 
+import component.reminder.DayOfWeekSelector;
+import component.reminder.EndRecurrenceComponent;
+import component.reminder.FrequencyComponent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 

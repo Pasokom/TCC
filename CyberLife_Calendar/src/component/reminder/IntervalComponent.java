@@ -1,4 +1,4 @@
-package component;
+package component.reminder;
 
 import javafx.collections.FXCollections;
 import javafx.scene.control.ChoiceBox;

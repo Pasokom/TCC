@@ -1,4 +1,4 @@
-package component;
+package component.reminder;
 
 import java.util.ArrayList;
 

@@ -12,6 +12,12 @@ public class ReminderDB {
 	private boolean repeat;
 	private int user_cod;
 
+	public int getUser_cod() {
+		return user_cod;
+	}
+	public void setUser_cod(int user_cod) {
+		this.user_cod = user_cod;
+	}
 	public ReminderDB() {
 		this.reminder = new Text();
 	}

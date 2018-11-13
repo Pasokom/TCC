@@ -1,4 +1,4 @@
-package component;
+package component.reminder;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

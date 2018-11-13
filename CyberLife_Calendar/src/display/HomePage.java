@@ -1,12 +1,14 @@
+package display;
 import java.io.FileNotFoundException;
 
-import component.ListReminders;
 import component.ProfileComponent;
+import component.reminder.ListReminders;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import main.Main;
 
 public class HomePage extends Scene {
 

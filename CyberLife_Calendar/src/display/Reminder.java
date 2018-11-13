@@ -1,3 +1,4 @@
+package display;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -5,12 +6,12 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
 
-import component.DayOfWeekSelector;
-import component.EndRecurrenceComponent;
-import component.FrequencyComponent;
-import component.IntervalComponent;
 import component.Recurrence;
 import component.TimePickerList;
+import component.reminder.DayOfWeekSelector;
+import component.reminder.EndRecurrenceComponent;
+import component.reminder.FrequencyComponent;
+import component.reminder.IntervalComponent;
 import db.functions.CreateReminder;
 import db.pojo.ReminderDB;
 import db.pojo.ReminderSchedule;
@@ -80,7 +81,7 @@ public class Reminder extends Scene {
 		
 		vb.getChildren().addAll(lembrete(vb_recurrence), recurrence);
 		
-		/* scene */ this.getStylesheets().add(this.getClass().getResource("css/reminder.css").toExternalForm());
+		/* scene */ this.getStylesheets().add(this.getClass().getResource("/css/reminder.css").toExternalForm());
 		this.setRoot(vb);
 
 	}
@@ -160,11 +161,9 @@ public class Reminder extends Scene {
 
 		return vb;
 	}
-
-	/**
-	 * função para criar lembrete e adicionar seus respectivos horarios colocar
-	 * condição ali para checar qual dos tipos de horario o usuario vai querer usar
-	 * 
+	/** 
+	 * função para criar lembrete e adicionar seus respectivos horarios 
+	 * colocar condição ali para checar qual dos tipos de horario o usuario vai querer usar
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
