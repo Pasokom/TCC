@@ -69,7 +69,7 @@ public class Reminder extends Scene {
 		barraTitulo.setId("lBarraTitulo");
 		
 		txtName = new TextField();
-		txtName.setPromptText("T�tulo do lembrete");
+		txtName.setPromptText("T�tulo do lembrete");
 		txtName.setId("lNome");
 		btnEnviar = new Button("Salvar");
 		btnEnviar.setId("btnEnviar");
@@ -137,7 +137,6 @@ public class Reminder extends Scene {
 
 		return vb;
 	}
-	
 	/** 
 	 * função para criar lembrete e adicionar seus respectivos horarios 
 	 * colocar condição ali para checar qual dos tipos de horario o usuario vai querer usar
