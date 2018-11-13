@@ -5,11 +5,15 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
 
+import component.DayOfWeekSelector;
+import component.EndRecurrenceComponent;
+import component.FrequencyComponent;
 import component.IntervalComponent;
 import component.Recurrence;
 import component.TimePickerList;
 import db.functions.CreateReminder;
 import db.pojo.ReminderDB;
+import db.pojo.ReminderSchedule;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -23,7 +27,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import statics.Enums;
+import statics.SESSION;
 
 public class Reminder extends Scene {
 
@@ -38,23 +42,47 @@ public class Reminder extends Scene {
 	private RadioButton radTime, radInterval;
 	private ToggleGroup radGroup;
 
+	private CreateReminder create_reminder;
 
+	private Label lblRecurrence, lblRepeat;
+	private FrequencyComponent frequency;
+	private DayOfWeekSelector dayOfWeekSelector;
+	private EndRecurrenceComponent endRecurrence;
+	
+	private VBox vb_recurrence;
+	
 	public Reminder() {
 		super(new HBox());
 
+		this.create_reminder = new CreateReminder();
+
 		recurrence = new Recurrence();
-		recurrence.setDisable(true);
+		
+		vb_recurrence = new VBox();
+		vb_recurrence.setDisable(true);
 
-//		time_picker_list = new TimePickerList();
+		time_picker_list = new TimePickerList();
 
+
+		lblRecurrence = new Label("Recorrência:");
+		lblRepeat = new Label("Repetir a cada");
+		frequency = new FrequencyComponent();
+		dayOfWeekSelector = new DayOfWeekSelector();
+		endRecurrence = new EndRecurrenceComponent();
+		
 		VBox vb = new VBox();
 		vb.setSpacing(20);
 		vb.setPadding(new Insets(20, 35, 50, 35));
-		vb.getChildren().addAll(lembrete(recurrence), recurrence);
-
+		
+//		vb_recurrence.getChildren().addAll(lblRecurrence,lblRepeat,frequency,dayOfWeekSelector);
+//		vb_recurrence.getChildren().addAll(endRecurrence);
+//		vb_recurrence.setSpacing(15);	
+		
+		vb.getChildren().addAll(lembrete(vb_recurrence), recurrence);
+		
 		/* scene */ this.getStylesheets().add(this.getClass().getResource("css/reminder.css").toExternalForm());
-
 		this.setRoot(vb);
+
 	}
 
 	private VBox lembrete(VBox recorrencia) {
@@ -72,13 +100,12 @@ public class Reminder extends Scene {
 		btnEnviar.setId("btnEnviar");
 
 		btnEnviar.setOnAction(evento -> {
-			try {
-				create_reminder();
-			} catch (ClassNotFoundException | SQLException e) {
-				e.printStackTrace();
-			}
+//			System.out.println(frequency.get_selected_option());
+			System.out.println(endRecurrence.get_amount_repetition());
+			System.out.println(recurrence.endRecurrence.get_amount_repetition());
 		});
 		barraTitulo.getChildren().addAll(txtName, btnEnviar);
+
 		HBox hbData = new HBox();
 		hbData.setId("hbData");
 
@@ -93,27 +120,20 @@ public class Reminder extends Scene {
 
 		hbData.getChildren().addAll(lblDate, dtDate);
 
-		time_picker_list = new TimePickerList();
-		interval = new IntervalComponent();
- 		dtDate = new DatePicker(localDate);
- 		
- 		hbData.getChildren().addAll(lblDate, dtDate);
- 		
- 		radGroup = new ToggleGroup();
- 		
- 		HBox hTime = new HBox();
- 		radTime = new RadioButton();
- 		radTime.setToggleGroup(radGroup);
- 		radTime.setSelected(true);
+		radGroup = new ToggleGroup();
+
+		HBox hTime = new HBox();
+		radTime = new RadioButton();
+		radTime.setToggleGroup(radGroup);
+		radTime.setSelected(true);
 		time_picker_list = new TimePickerList();
 		hTime.getChildren().addAll(radTime, time_picker_list);
-		
-		HBox hInterval = new HBox();
- 		radInterval = new RadioButton();
- 		radInterval.setToggleGroup(radGroup);
- 		interval = new IntervalComponent();
- 		hInterval.getChildren().addAll(radInterval, interval);
 
+		HBox hInterval = new HBox();
+		radInterval = new RadioButton();
+		radInterval.setToggleGroup(radGroup);
+		interval = new IntervalComponent();
+		hInterval.getChildren().addAll(radInterval, interval);
 
 		HBox hbRepetir = new HBox();
 		hbRepetir.setId("hbRepetir");
@@ -122,7 +142,7 @@ public class Reminder extends Scene {
 		cbxAllDay.selectedProperty().addListener(new ChangeListener<Boolean>() {
 			public void changed(ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) {
 
-				time_picker_list.setDisable(newValue);
+//				timePickerList.setDisable(newValue);
 			}
 		});
 
@@ -136,10 +156,11 @@ public class Reminder extends Scene {
 
 		hbRepetir.getChildren().addAll(cbxAllDay, cbxRepeat);
 
-		vb.getChildren().addAll(barraTitulo, hbData, hbRepetir, time_picker_list, interval);
+		vb.getChildren().addAll(barraTitulo, hbData, hbRepetir, hTime, hInterval);
 
 		return vb;
 	}
+
 	/**
 	 * função para criar lembrete e adicionar seus respectivos horarios colocar
 	 * condição ali para checar qual dos tipos de horario o usuario vai querer usar
@@ -148,37 +169,67 @@ public class Reminder extends Scene {
 	 * @throws SQLException
 	 */
 	private void create_reminder() throws ClassNotFoundException, SQLException {
-		CreateReminder c = new CreateReminder();
-		/**
-		 * cria o lembrete
-		 */
+
 		ReminderDB reminder = new ReminderDB();
-		reminder.setAll_day(cbxAllDay.isSelected());
-		reminder.setRepeat(cbxRepeat.isSelected());
+
 		reminder.setReminder(txtName.getText());
-		reminder.setStatus(Enums.ReminderStatus.ENABLED.getValue());
-		c.insert_reminder(reminder);
+		reminder.setAll_day(cbxAllDay.selectedProperty().get());
+		reminder.setRecurrence_by_minute(cbxAllDay.selectedProperty().get());
+		reminder.setRepeat(cbxRepeat.selectedProperty().get());
+		reminder.setType_recurrence(frequency.get_selected_option());
+		reminder.set_user_cod((int) SESSION.get_user_cod());
+
+		this.create_reminder.insert_reminder(reminder);
+
+		insert_shedule();
 
 		/**
 		 * time picker selecionado ou repetição hora a hora
 		 */
 		boolean time_picker_selecionado = radTime.isSelected();
 		if (time_picker_selecionado) {
-			if (time_picker_list.get_selected_time().isEmpty())
-				return; /* nenhum horario selecionado */
-			for (int i = 0; i < time_picker_list.get_selected_time().size(); i++) {
 
-				/* valor da data e da hora */
-				String val = time_picker_list.get_selected_time().get(i);
-				String date = dtDate.getValue().toString();
-
-				String date_time = date + " " + val;
-
-				c.insert_reminder_schedule(false, date_time, date_time, 0, c.get_reminder_cod());
-			}
-			return;
 		}
 		String value = dtDate.getValue() + " " + time_picker_list.get_selected_time().get(0);
-		c.insert_reminder_schedule(true, value, value, 60, c.get_reminder_cod());
+		create_reminder.insert_reminder_schedule(true, value, value, 60, create_reminder.get_reminder_cod());
 	}
+
+	private void insert_shedule() {
+
+		boolean all_day_and_repeat = this.cbxAllDay.selectedProperty().get() && this.cbxRepeat.selectedProperty().get();
+
+		if (all_day_and_repeat) {
+				
+			ReminderSchedule rs = new ReminderSchedule();
+			
+			
+			
+			return;
+		}
+		
+		return;
+	}
+
+	public void create_reminder_with_time_picker(ReminderDB reminder, CreateReminder c)
+			throws ClassNotFoundException, SQLException {
+
+		if (time_picker_list.get_selected_time().isEmpty())
+			return; /* nenhum horario selecionado */
+		/*
+		 * loop para salvar os horarios do lembrete
+		 */
+		for (int i = 0; i < time_picker_list.get_selected_time().size(); i++) {
+
+			/* valor da data e da hora */
+			String val = time_picker_list.get_selected_time().get(i);
+			String date = dtDate.getValue().toString();
+
+			String date_time = date + " " + val;
+
+			c.insert_reminder_schedule(false, date_time, date_time, 0, c.get_reminder_cod());
+		}
+		System.out.println("[CONFIRMATION] - stored in the db");
+		return;
+	}
+
 }

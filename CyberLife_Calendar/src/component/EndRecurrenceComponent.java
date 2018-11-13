@@ -21,6 +21,12 @@ public class EndRecurrenceComponent extends VBox {
 	private ToggleGroup togEndRepeat;
 	private RadioButton radNever, radOn, radAfter;
 
+	private DatePicker date_picker;
+	
+	private String choosed_date;
+	
+	private boolean never_selected;
+	
 	
 	public EndRecurrenceComponent() {
 		
@@ -28,47 +34,20 @@ public class EndRecurrenceComponent extends VBox {
 		
 		togEndRepeat = new ToggleGroup();
 		
-		this.setSpacing(15);
-		this.getChildren().addAll(lblEndRepeat, setupRadNever(), setupRadOn(), setupRadAfter());
-	}
-	
-	private RadioButton setupRadNever() {
-		
 		radNever = new RadioButton("Nunca");
 		radNever.setToggleGroup(togEndRepeat);
 		radNever.setSelected(true);
 		
-		return radNever;
-	}
-	
-	private HBox setupRadOn() {
-		
+
 		radOn = new RadioButton("Em");
 		radOn.setToggleGroup(togEndRepeat);
 		
 		HBox hbOn = new HBox();
 		hbOn.setSpacing(10);
-		hbOn.getChildren().addAll(radOn, setupDate());
-		
-		return hbOn;
-	}
-	
-	private HBox setupRadAfter() {
-		
-		radAfter = new RadioButton("Após");
-		radAfter.setToggleGroup(togEndRepeat);
-		
-		lblOccurrence = new Label("ocorrência(s)");
-	
-		HBox hbAfter = new HBox();
-		hbAfter.setSpacing(10);
-		hbAfter.getChildren().addAll(radAfter, setupSpinner(), lblOccurrence);
-		
-		return hbAfter;
-	}
-	
-	private DatePicker setupDate() {
-		
+
+		/* 
+		 * tive que fazer isso pra poder usar o time picker
+		 */
 		Calendar calendar = Calendar.getInstance();
 		
 		DateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd"); //instanciando classe que formata a data em string
@@ -76,11 +55,16 @@ public class EndRecurrenceComponent extends VBox {
 		
  		LocalDate localDateRepeat = LocalDate.parse(dateFormater.format(calendar.getTime())); ////criando uma data sem time-zone
 		
-		return new DatePicker(localDateRepeat); //colocando uma data padrao no componente
-	}
-	
-	private Spinner<Integer> setupSpinner(){
+		this.date_picker = new DatePicker(localDateRepeat); //colocando uma data padrao no componente
+
 		
+		hbOn.getChildren().addAll(radOn, date_picker);
+		
+		radAfter = new RadioButton("Apï¿½s");
+		radAfter.setToggleGroup(togEndRepeat);
+		
+		lblOccurrence = new Label("ocorrï¿½ncia(s)");
+
 		//criando dois spinners de 1 a 100 de 1 em 1
 		SpinnerValueFactory<Integer> qtdRepeatValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1);
 		
@@ -88,6 +72,27 @@ public class EndRecurrenceComponent extends VBox {
 		spnQtdRepeat.setValueFactory(qtdRepeatValueFactory);
 		spnQtdRepeat.setPrefWidth(80); //alterando a largura
 		
-		return spnQtdRepeat;
+		
+		HBox hbAfter = new HBox();
+		hbAfter.setSpacing(10);
+		hbAfter.getChildren().addAll(radAfter, spnQtdRepeat, lblOccurrence);
+
+		
+		this.setSpacing(15);
+		this.getChildren().addAll(lblEndRepeat, radNever, hbOn, hbAfter );
+	}
+		
+		
+	/* 
+	 * para pegar a data selecionada no date picker
+	 */
+	public String getChoosed_date() {
+		return date_picker.getValue().toString();
+	}
+	public int get_amount_repetition( ) { 
+		return spnQtdRepeat.getValue();
+	}
+	public boolean is_never_end_selected() {
+		return this.never_selected;
 	}
 }

@@ -29,11 +29,8 @@ public class CreateReminder {
 		stmt.setString(2, end);
 		stmt.setInt(3, minutes_interval);
 		stmt.setInt(4, reminder_cod);
-		
 		stmt.execute();
-		
 	}
-	
 	public boolean insert_reminder (ReminderDB reminder) throws ClassNotFoundException, SQLException { 
 			
 		String sql = "{CALL ADICIONAR_LEMBRETE(?,?,?,?,?)}";
