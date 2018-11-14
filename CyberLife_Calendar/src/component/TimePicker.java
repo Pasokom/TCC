@@ -159,22 +159,8 @@ public class TimePicker extends HBox {
 
 		timeDeleter.setOnAction(event -> {
 			
-			int i;
-
-			for (i = 0; i < this.getParent().getChildrenUnmodifiable().size(); i++) {
-
-				if (((HBox) this.getParent()).getChildren().get(i) == this) {
-
-					break;
-				}
-			}
-
-			if (((HBox) this.getParent()).getChildren().size() > 1) {
-
-				((HBox) this.getParent()).getChildren().remove(i);
-			}
+			((HBox) this.getParent()).getChildren().remove(this.getParent().getChildrenUnmodifiable().indexOf(this));
 		});
-
 	}
 
 	private Pane horaPane() {

@@ -30,4 +30,12 @@ public class FrequencyComponent extends HBox {
 		this.setSpacing(10);
 		this.getChildren().addAll(repeatOptions, repeat);
 	}
+	
+	public int getSelectedMode() {
+		return repeatOptions.getSelectionModel().getSelectedIndex();
+	}
+	
+	public int getQtdInterval() {
+		return repeat.getValue();
+	}
 }
