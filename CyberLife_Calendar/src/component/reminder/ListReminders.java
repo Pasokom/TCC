@@ -1,10 +1,15 @@
-package component;
+package component.reminder;
 
+import component.CustomScroll;
+import component.ReminderComponent;
+import display.Reminder;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import main.Main;
 
 public class ListReminders extends VBox{
 
@@ -26,7 +31,11 @@ public class ListReminders extends VBox{
 		
 		this.hButtons=new HBox();
 		hButtons.setAlignment(Pos.CENTER_RIGHT);
-		this.btnAddReminder=new  Button("icode de + ");
+		this.btnAddReminder=new  Button("+");
+		this.btnAddReminder.setOnAction(e ->{
+			
+			Main.main_stage.setScene(new Reminder());
+		});
 		
 		hButtons.getChildren().add(btnAddReminder);
 		

@@ -1,4 +1,8 @@
+package main;
+
 import db.Database;
+import display.Login;
+import display.Reminder;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -12,13 +16,12 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
 		Database.get_connection();
-		
+
 		main_stage = primaryStage;
 
-		main_stage.setScene(new Reminder());
-		
+		main_stage.setScene(new Login());
+
 		main_stage.setWidth(800);
 		main_stage.setHeight(500);
 		main_stage.show();
