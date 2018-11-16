@@ -1,9 +1,12 @@
 package component.reminder;
 
+import java.util.ArrayList;
+
 import component.CustomScroll;
 import component.ReminderComponent;
+import db.functions.RetrieveReminders;
+import db.pojo.ReminderBanco;
 import display.Reminder;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -31,9 +34,8 @@ public class ListReminders extends VBox{
 		
 		this.hButtons=new HBox();
 		hButtons.setAlignment(Pos.CENTER_RIGHT);
-		this.btnAddReminder=new  Button("+");
-		this.btnAddReminder.setOnAction(e ->{
-			
+		this.btnAddReminder = new Button("+");
+		this.btnAddReminder.setOnAction(e -> {
 			Main.main_stage.setScene(new Reminder());
 		});
 		
@@ -41,27 +43,26 @@ public class ListReminders extends VBox{
 		
 		listReminder.setComponent(vContent);
 		
-		for ( int i = 0 ; i < 5 ; i ++) { 
-			
-			ReminderComponent rc = new ReminderComponent();
-			rc.lblDay.setText("segunda");
-			rc.lblHour.setText("17:20");
-			rc.lblReminderTitle.setText("Limpar o quarto");
-			
-			vContent.getChildren().add(rc);
-		}
-		
+		addReminders();
 		
 		this.setAlignment(Pos.CENTER);
-		
 		
 		this.getChildren().add(lblReminder);
 		this.getChildren().add(listReminder);
 		this.getChildren().add(hButtons);
 	}
 	
-	public void addReminder() {
+	public void addReminders() {
 		
-		vContent.getChildren().add(new ReminderComponent());
+		RetrieveReminders reminders = new RetrieveReminders();
+		ArrayList<ReminderBanco> lista = reminders.getReminders();
+		
+		for (ReminderBanco reminderBanco : lista) {
+			
+			ReminderComponent rc = new ReminderComponent();
+			rc.lblReminderTitle.setText(reminderBanco.getTitulo());
+			
+			vContent.getChildren().add(rc);
+		}
 	}
 }

@@ -9,6 +9,10 @@ VBox{
 	-fx-spacing: 10;
 }
 
+GridPane{
+	-fx-background-color: white;
+}
+
 HBox{
 	-fx-spacing: 10;
 }

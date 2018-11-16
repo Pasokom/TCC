@@ -1,10 +1,13 @@
 package db.functions;
 
 import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Types;
 
 import db.Database;
+import db.pojo.ReminderBanco;
 import db.pojo.ReminderDB;
 import statics.Enums;
 
@@ -56,6 +59,22 @@ public class CreateReminder {
 		
 		return this.get_reminder_cod() == 0 ? false : true ;
 	}
+	
+	public void insert_into_lembrete (ReminderBanco reminder) throws ClassNotFoundException, SQLException {
+		
+		/* insert sem procedures*/
+		String sql = "insert into LEMBRETE(LEMBRETE, LDIA_TODO, L_STATUS, LRECORRENCIA_MINUTOS, LRECORRENCIA_TIPO) values (?,?,?,?,?)";
+		
+		PreparedStatement stmt = Database.get_connection().prepareStatement(sql);
+		stmt.setString(1, reminder.getTitulo());
+		stmt.setBoolean(2, reminder.isDia_todo());
+		stmt.setString(3, reminder.getStatus());
+		stmt.setBoolean(4, reminder.isRecorrencia_minutos());
+		stmt.setString(5, reminder.getRecorrencia_tipo());
+		
+		stmt.execute();
+	}
+	
 	public int get_reminder_cod() {
 		return reminder_cod;
 	}

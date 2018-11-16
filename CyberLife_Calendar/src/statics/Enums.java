@@ -24,7 +24,7 @@ public class Enums {
 		public String get_value() {
 			return this.value;
 		}
-
+		
 		private TypeRecurrence(String value) {
 			this.value = value;
 		}

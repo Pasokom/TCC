@@ -3,9 +3,7 @@ package component;
 import java.util.ArrayList;
 
 import javafx.scene.Node;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 
 public class DayOfWeekSelector extends HBox {
