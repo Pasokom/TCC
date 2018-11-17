@@ -9,13 +9,10 @@ VBox{
 	-fx-spacing: 10;
 }
 
-<<<<<<< HEAD
 GridPane{
 	-fx-background-color: white;
 }
 
-=======
->>>>>>> db
 HBox{
 	-fx-spacing: 10;
 }
