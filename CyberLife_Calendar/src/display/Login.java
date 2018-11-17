@@ -1,3 +1,4 @@
+package display;
 import java.io.FileNotFoundException;
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import main.Main;
 
 public class Login extends Scene {
 
@@ -54,7 +56,7 @@ public class Login extends Scene {
 	public Login() {
 
 		/**
-		 * quando voce extender Scene tem que colocar isso aqui, OBRIGATORIO n�o precisa
+		 * quando voce extender Scene tem que colocar isso aqui, OBRIGATORIO nï¿½o precisa
 		 * necessariamente ser uma hbox, qualquer componente serve
 		 */
 		super(new HBox());
@@ -150,7 +152,7 @@ public class Login extends Scene {
 		});
 		btnCadastrar = new Button("Cadastrar-se");
 		btnCadastrar.setOnAction(event -> {
-			Optional<ButtonType> vOptional = new Alert(AlertType.CONFIRMATION, "Voc� foi cadastrado " + txtNomeCadast.getText() + " " + txtSobrenomeCadast.getText()).showAndWait();
+			Optional<ButtonType> vOptional = new Alert(AlertType.CONFIRMATION, "Você foi cadastrado " + txtNomeCadast.getText() + " " + txtSobrenomeCadast.getText()).showAndWait();
 
 			if(vOptional.get() == ButtonType.OK){
 				componenteLogin();

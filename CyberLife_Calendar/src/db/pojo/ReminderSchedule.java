@@ -14,6 +14,26 @@ public class ReminderSchedule {
 
 	private int reminder_cod;
 
+	private int recurrence;
+	
+	private int amount_of_repetition;
+	
+	public int getRecurrence() {
+		return recurrence;
+	}
+
+	public void setRecurrence(int recurrence) {
+		this.recurrence = recurrence;
+	}
+
+	public int getAmount_of_repetition() {
+		return amount_of_repetition;
+	}
+
+	public void setAmount_of_repetition(int amount_of_repetition) {
+		this.amount_of_repetition = amount_of_repetition;
+	}
+
 	public int getCod() {
 		return cod;
 	}

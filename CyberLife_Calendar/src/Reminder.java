@@ -5,13 +5,11 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
 
-import component.IntervalComponent;
 import component.Recurrence;
 import component.TimePickerList;
-
+import component.reminder.IntervalComponent;
 import db.functions.CreateReminder;
 import db.pojo.ReminderDB;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -170,11 +168,11 @@ public class Reminder extends Scene {
 				
 				String date_time = date + " " + val;
 
-				c.insert_reminder_schedule(false, date_time, date_time, 0, c.get_reminder_cod());
+//				c.insert_reminder_schedule(false, date_time, date_time, 0, c.get_reminder_cod());
 			}
 			return;
 		}
 		String value = dtDate.getValue() + " " + time_picker_list.get_selected_time().get(0);
-		c.insert_reminder_schedule(true, value, value, 60, c.get_reminder_cod());
+//		c.insert_reminder_schedule(true, value, value, 60, c.get_reminder_cod());
 	}
 }

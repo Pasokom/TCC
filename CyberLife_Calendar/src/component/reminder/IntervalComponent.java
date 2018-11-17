@@ -1,4 +1,4 @@
-package component;
+package component.reminder;
 
 import javafx.collections.FXCollections;
 import javafx.scene.control.ChoiceBox;
@@ -17,7 +17,7 @@ public class IntervalComponent extends HBox {
 		
 		lblFrom = new Label("De");
 		timeStart = new TimePicker(false);
-		lblUntil = new Label("até");
+		lblUntil = new Label("atÃ©");
 		timeEnd = new TimePicker(false);
 		lblEach = new Label("a cada");
 		txtTime = new TextField();
@@ -29,4 +29,9 @@ public class IntervalComponent extends HBox {
 		this.setSpacing(10);
 		this.getChildren().addAll(lblFrom, timeStart, lblUntil, timeEnd, lblEach, txtTime, cbxTime);
 	}
+	
+	public String selected_interval() { 
+		return this.txtTime.getText();
+	}
+	
 }

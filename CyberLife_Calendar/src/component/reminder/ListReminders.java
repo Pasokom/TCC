@@ -1,14 +1,12 @@
-package component;
+package component.reminder;
 
-import java.awt.Window;
-import java.awt.event.WindowStateListener;
-
+import component.CustomScroll;
+import component.ReminderComponent;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class ListReminders extends VBox{
 
@@ -23,7 +21,7 @@ public class ListReminders extends VBox{
 		
 		this.setStyle("-fx-background-color: #DEDEDE");
 		
-		this.lblReminder = new Label("Programação");
+		this.lblReminder = new Label("Programaï¿½ï¿½o");
 		
 		this.vContent = new VBox();
 		this.listReminder =  new CustomScroll();
@@ -47,10 +45,7 @@ public class ListReminders extends VBox{
 			
 			vContent.getChildren().add(rc);
 		}
-		
-		
 		this.setAlignment(Pos.CENTER);
-		
 		
 		this.getChildren().add(lblReminder);
 		this.getChildren().add(listReminder);

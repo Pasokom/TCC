@@ -1,3 +1,4 @@
+package display;
 
 
 import java.sql.SQLException;
@@ -12,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
+import main.Main;
 
 public class Cadastro extends Scene {
 	

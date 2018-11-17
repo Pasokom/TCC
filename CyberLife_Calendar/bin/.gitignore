@@ -1,2 +1,10 @@
+<<<<<<< HEAD
 /component/
 /statics/
+=======
+/display/
+/db/
+/component/
+>>>>>>> db
+/css/
+/main/

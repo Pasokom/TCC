@@ -1,10 +1,11 @@
-package component;
+package component.reminder;
 
 import javafx.collections.FXCollections;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.HBox;
+import statics.Enums;
 
 public class FrequencyComponent extends HBox {
 
@@ -12,11 +13,10 @@ public class FrequencyComponent extends HBox {
 	Spinner<Integer> repeat;
 	
 	public FrequencyComponent() {
-		
 		repeatOptions = new ChoiceBox<>();
 		//populando a caixa de escolha
 		repeatOptions.setItems(FXCollections.observableArrayList(
-				"dia", "semana", "m�s", "ano")
+				"dia", "semana", "mês", "ano")
 			);
 		repeatOptions.getSelectionModel().select(1); //definindo o segundo item da lista como o padrao
 		
@@ -30,4 +30,45 @@ public class FrequencyComponent extends HBox {
 		this.setSpacing(10);
 		this.getChildren().addAll(repeatOptions, repeat);
 	}
+	
+	public int get_choosed_value () { 
+		return this.repeat.getValue();
+	}
+	/* 
+	 * retorna o tipo de recorrencia selecionado
+	 */
+	public String get_selected_option() { 
+		switch (repeatOptions.getSelectionModel().getSelectedItem()) {
+		case "mês":
+			return Enums.TypeRecurrence.MONTHLY.get_value();
+		case "dia": 
+			return Enums.TypeRecurrence.DAYLY.get_value();
+		case "semana": 
+			return Enums.TypeRecurrence.WEEKLY.get_value();
+		case "ano": 
+			return Enums.TypeRecurrence.YEARLY.get_value();
+		}
+		return null;
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
