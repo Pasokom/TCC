@@ -41,7 +41,29 @@ public class CreateReminder {
 
 		stmt.execute();
 	}
-
+	/** <h1> É importe que ao usar a função, de acordo com o tipo de horario passar os parametros corretos </h1> 
+	 *  <p>  
+	 *  
+	 *  @example schedule_without_recurrence (date, new String(), false, 0);
+	 *  se o tipo de horario for lembrete com time picker, deve ser usado assim 
+	 *  dessa forma dentro da função ele vai alterar os parametros que vão para o banco
+	 *  
+	 *  @example schedule_whithout_recurrence (date_begin,date_end, false, some_value);
+	 *  se o tipo de horario for por intervalo de tempo tem que usar a função dessa forma
+	 *  
+	 *  @example schedule_whithout_recurrence(date, new String, true, 0);
+	 *  como usar a função para quando o horario de lembrete for dia todo
+	 *  
+	 * 	@param boolean all_day 
+	 *  @param int interval
+	 *  @param String date_time_begin
+	 * 	@param String date_time_end 
+	 * 
+	 *  @throws ClassNotFoundException 
+	 *  @throws SQLException
+	 * <p>
+	 * 
+	 *   */
 	public void schedule_without_recurrence(String date_time_begin,String date_time_end, boolean all_day, int interval)
 			throws ClassNotFoundException, SQLException {
 
@@ -51,8 +73,11 @@ public class CreateReminder {
 
 		CallableStatement stmt = Database.get_connection().prepareCall(sql);
 		stmt.setString(1, datetime);
+		
+		
 		stmt.setString(2, date_time_end == new String() ? null : date_time_end);
 		stmt.setString(3, interval == 0 ? null : date_time_begin);
+		
 		stmt.setInt(4, this.get_reminder_cod());
 		stmt.execute();
 	}

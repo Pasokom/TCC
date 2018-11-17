@@ -44,7 +44,7 @@ public class Reminder extends Scene {
 	private RadioButton radTime, radInterval;
 	private ToggleGroup radGroup;
 
-	private VBox vb_recurrence;
+//	private VBox vb_recurrence;
 	private CreateReminder create_reminder;
 
 	public Reminder() {
@@ -137,16 +137,15 @@ public class Reminder extends Scene {
 		}
 		/* 
 		 * se chegou aqui é pq escolheu intervalos
+		 *
+		 *montando os horarios de inicio e fim do intervalo
 		 */
-		int interval = Integer.valueOf(this.interval.selected_interval());
+		int interval = this.interval.selected_interval();
+		String date_begin = date + " " + this.interval.start_time() ;
+		String date_end = date  + " " + this.interval.end_time();
 		
-		String date_begin = "" ; 
-		String date_end ;
-		
-//		
-		
-//		create_reminder.schedule_without_recurrence(date, date_end ,false, interval);
-		System.out.println("[INFO] inserido com intervalo");
+		create_reminder.schedule_without_recurrence(date_begin, date_end ,false, interval);
+		System.out.println("[INFO] horaio de lembrete com intervalo");
 		return;
 	}
 
