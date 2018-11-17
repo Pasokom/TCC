@@ -79,8 +79,6 @@ public class EndRecurrenceComponent extends VBox {
 		this.setSpacing(15);
 		this.getChildren().addAll(lblEndRepeat, radNever, hbOn, hbAfter );
 	}
-		
-		
 	/* 
 	 * para pegar a data selecionada no date picker
 	 */

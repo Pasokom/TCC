@@ -30,17 +30,25 @@ public class FrequencyComponent extends HBox {
 		this.setSpacing(10);
 		this.getChildren().addAll(repeatOptions, repeat);
 	}
-	
 	public int get_choosed_value () { 
 		return this.repeat.getValue();
 	}
 	/* 
 	 * retorna o tipo de recorrencia selecionado
 	 */
-	public int get_selected_option() { 
-		return repeatOptions.getSelectionModel().getSelectedIndex();
-	}
-	
+	public String get_selected_option() { 
+		switch (repeatOptions.getSelectionModel().getSelectedItem()) {
+		case "mês":
+			return Enums.TypeRecurrence.MONTHLY.get_value();
+		case "dia": 
+			return Enums.TypeRecurrence.DAYLY.get_value();
+		case "semana": 
+			return Enums.TypeRecurrence.WEEKLY.get_value();
+		case "ano": 
+			return Enums.TypeRecurrence.YEARLY.get_value();
+		}
+		return null;
+}
 }
 
 

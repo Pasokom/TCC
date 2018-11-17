@@ -70,18 +70,12 @@ public class Login extends Scene {
 		 * precisa necessariamente ser uma hbox, qualquer componente serve
 		 */
 		super(new HBox());
-<<<<<<< HEAD
 
 		this.getStylesheets().add(this.getClass().getResource("/css/login-cadastro.css").toExternalForm());
 
 		this.login = new HandlerLogin();
 		this.registration = new HandlerRegistration();
 
-=======
-		
-		this.getStylesheets().add(this.getClass().getResource("../css/login-cadastro.css").toExternalForm());
-		
->>>>>>> b1523a8d9520892be0774e0ae5edb118042ccb09
 		lblTitle = new Label("Login");
 		lblTitle.setFont(new Font(25));
 
