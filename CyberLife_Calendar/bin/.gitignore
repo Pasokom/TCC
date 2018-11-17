@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 /component/
+<<<<<<< HEAD
 /statics/
 =======
 /display/
@@ -8,3 +9,11 @@
 >>>>>>> db
 /css/
 /main/
+=======
+/css/
+/db/
+/display/
+/listeners/
+/main/
+/statics/
+>>>>>>> b1523a8d9520892be0774e0ae5edb118042ccb09
