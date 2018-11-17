@@ -164,10 +164,15 @@ public class Reminder extends Scene {
 								 * para cada dia selecionado, vai inserir um time picker diferente, os
 								 * selecionados, claro
 								 */
-								for (int j = 0; j < this.time_picker_values().size(); i++) {
-									create_reminder.schedule_recurrence_never_end(date, new String(), false, 0,
+								int j;
+								for (j = 0; j < this.time_picker_values().size(); j++) {
+
+									String date_choosed = this.time_picker_values().get(j);
+
+									create_reminder.schedule_recurrence_never_end(date_choosed, new String(), false, 0,
 											recurrence, week_day);
 								}
+								j = 0;
 							}
 						}
 						System.out.println("[INFO] esse return é util");
