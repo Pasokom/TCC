@@ -101,7 +101,8 @@ public class Reminder extends Scene {
 		}
 	}
 	
-	/** 
+	/** 	<H1> testado e funcionando  </H1>
+	 * 
 	 * insere na tabela de horarios de lembrete, insert para lembretes sem recorrencia
 	 * pode usar o time picker ou intervalo por horas
 	 * utiliza a classe {@link db.functions.CreateReminder}
@@ -173,19 +174,17 @@ public class Reminder extends Scene {
 
 			System.out.println(date);
 			
-//			insert_reminder();
+			insert_reminder();
 
-//			System.out.println(interval.selected_interval());
 			
-			
-//			if (is_not_repeat) {
-//				try {
-//					insert_shedule_no_recurrence(is_all_day_selected, is_time_picker, date);
-//				} catch (ClassNotFoundException | SQLException e) {
-//					e.printStackTrace();
-//				}
-//				return;
-//			}
+			if (is_not_repeat) {
+				try {
+					insert_shedule_no_recurrence(is_all_day_selected, is_time_picker, date);
+				} catch (ClassNotFoundException | SQLException e) {
+					e.printStackTrace();
+				}
+				return;
+			}
 
 		});
 		barraTitulo.getChildren().addAll(txtName, btnEnviar);

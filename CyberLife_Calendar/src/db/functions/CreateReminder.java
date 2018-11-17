@@ -73,10 +73,8 @@ public class CreateReminder {
 
 		CallableStatement stmt = Database.get_connection().prepareCall(sql);
 		stmt.setString(1, datetime);
-		
-		
 		stmt.setString(2, date_time_end == new String() ? null : date_time_end);
-		stmt.setString(3, interval == 0 ? null : date_time_begin);
+		stmt.setInt(3, interval == 0 ? null : interval);
 		
 		stmt.setInt(4, this.get_reminder_cod());
 		stmt.execute();
