@@ -65,6 +65,91 @@ public class Reminder extends Scene {
 
 	}
 
+	private void insert_reminder() {
+
+		/**
+		 * montando o lembrete
+		 */
+		ReminderDB reminder = new ReminderDB();
+
+		reminder.setReminder(txtName.getText());
+
+		/*
+		 * por enquanto to fazendo isso, depois deixamos o codigo menos feio
+		 */
+		if (cbxAllDay.selectedProperty().get()) {
+			reminder.setAll_day(true);
+			reminder.setRecurrence_by_minute(false);
+		}
+		if (!cbxAllDay.selectedProperty().get()) {
+			reminder.setAll_day(false);
+			/*
+			 * nem sei se essa recorrencia por minuto vai ser util, mas descobriremos no
+			 * futuro
+			 */
+			reminder.setRecurrence_by_minute(true);
+		}
+
+		reminder.set_user_cod((int) SESSION.get_user_cod());
+		reminder.setRepeat(cbxRepeat.selectedProperty().get());
+		reminder.setStatus(Enums.ReminderStatus.ENABLED.get_value());
+
+		try {
+			create_reminder.insert_reminder(reminder);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/** 
+	 * insere na tabela de horarios de lembrete, insert para lembretes sem recorrencia
+	 * pode usar o time picker ou intervalo por horas
+	 * utiliza a classe {@link db.functions.CreateReminder}
+	 * @param is_all_day_selected
+	 * @param is_time_picker
+	 * @param date
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	private void insert_shedule_no_recurrence(boolean is_all_day_selected, boolean is_time_picker, String date) throws ClassNotFoundException, SQLException {
+		/* se  a opção dia todo estiver selecionada entra nessa condição
+		 * inserts para essa opção são diferentes pq lá dentro da função é feita uma formatação na data */
+		if (is_all_day_selected) {
+				create_reminder.schedule_without_recurrence(date, new String(),  true, 0);
+			return;
+		}
+		if ( is_time_picker ) { /* se entrou aqui, então o time picker foi selecionado */
+			if (time_picker_list.get_selected_time().isEmpty()) { /* se o time picker estiver vazio ele sai da função */
+				System.out.println("[INFO] time picker vazio, saindo da funçao");
+				return;
+			}
+			/* loop para formatar os valores do time picker e inserir um a um no banco de dados*/
+			for (int i = 0; i < time_picker_list.get_selected_time().size(); i++) {
+				String val = time_picker_list.get_selected_time().get(i);
+				
+				String date_time = date + " " + val;
+				
+				create_reminder.schedule_without_recurrence(date_time,new String(), false, 0);
+				System.out.println("\n [INFO] valor " + date_time + "inserido no banco \n \n loop numero : " + i);
+			}
+			/* quando acabar o loop sai da função */
+			return ;
+		}
+		/* 
+		 * se chegou aqui é pq escolheu intervalos
+		 */
+		int interval = Integer.valueOf(this.interval.selected_interval());
+		
+		String date_begin = "" ; 
+		String date_end ;
+		
+//		
+		
+//		create_reminder.schedule_without_recurrence(date, date_end ,false, interval);
+		System.out.println("[INFO] inserido com intervalo");
+		return;
+	}
+
 	private VBox lembrete(VBox recorrencia) {
 
 		VBox vb = new VBox();
@@ -80,6 +165,28 @@ public class Reminder extends Scene {
 		btnEnviar.setId("btnEnviar");
 
 		btnEnviar.setOnAction(evento -> {
+
+			boolean is_not_repeat = cbxRepeat.selectedProperty().get() == false;
+			boolean is_all_day_selected = cbxAllDay.selectedProperty().get();
+			boolean is_time_picker = radTime.selectedProperty().get();
+			
+			String date = dtDate.getValue().toString();
+
+			System.out.println(date);
+			
+//			insert_reminder();
+
+//			System.out.println(interval.selected_interval());
+			
+			
+//			if (is_not_repeat) {
+//				try {
+//					insert_shedule_no_recurrence(is_all_day_selected, is_time_picker, date);
+//				} catch (ClassNotFoundException | SQLException e) {
+//					e.printStackTrace();
+//				}
+//				return;
+//			}
 
 		});
 		barraTitulo.getChildren().addAll(txtName, btnEnviar);

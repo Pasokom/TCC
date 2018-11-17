@@ -3,7 +3,6 @@ package db.functions;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Types;
 
 import db.Database;
@@ -30,7 +29,7 @@ public class CreateReminder {
 		String begin = interval_by_minute ? this.format(begin_in) : begin_in;
 		String end = end_in == new String() ? null : format(end_in);
 
-		String sql = "";
+		String sql = "{CALL HORARIO_SEM_RECORRENCIA(?,?,?)}";
 
 		CallableStatement stmt = Database.get_connection().prepareCall(sql);
 
@@ -40,6 +39,21 @@ public class CreateReminder {
 		stmt.setInt(4, interval);
 		stmt.setInt(5, amount_repetition == 0 ? null : amount_repetition);
 
+		stmt.execute();
+	}
+
+	public void schedule_without_recurrence(String date_time_begin,String date_time_end, boolean all_day, int interval)
+			throws ClassNotFoundException, SQLException {
+
+		String datetime = all_day ? format(date_time_begin) : date_time_begin ;
+
+		String sql = "{CALL HORARIO_SEM_RECORRENCIA(?,?,?,?)}";
+
+		CallableStatement stmt = Database.get_connection().prepareCall(sql);
+		stmt.setString(1, datetime);
+		stmt.setString(2, date_time_end == new String() ? null : date_time_end);
+		stmt.setString(3, interval == 0 ? null : date_time_begin);
+		stmt.setInt(4, this.get_reminder_cod());
 		stmt.execute();
 	}
 
@@ -165,10 +179,13 @@ public class CreateReminder {
 		String t = str;
 		StringBuilder sb = new StringBuilder();
 
-		if (t.length() > 10)
+		if (t.length() > 10) {
 			for (int i = 0; i <= 10; i++) {
 				sb.append(t.charAt(i));
 			}
-		return sb.toString();
-	}
+			return sb.toString();
+		}
+		return t;
+	} 
+
 }
