@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 import db.functions.HandlerLogin;
+import db.functions.HandlerRegistration;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -38,7 +39,7 @@ public class Login extends Scene {
 	private Button rdHabilitarCadast;
 	private Button backLogin;
 	private TextField txtEmail;
-	private PasswordField pswSenha;
+	private PasswordField txtSenha;
 
 	private TextField txtNomeCadast;
 	private TextField txtSobrenomeCadast;
@@ -60,6 +61,8 @@ public class Login extends Scene {
 	private HBox h_wrong_login;
 	private Label lbl_error_message;
 
+	private HandlerRegistration registration;
+
 	public Login() {
 
 		/**
@@ -69,7 +72,9 @@ public class Login extends Scene {
 		super(new HBox());
 
 		this.getStylesheets().add(this.getClass().getResource("/css/login-cadastro.css").toExternalForm());
+
 		this.login = new HandlerLogin();
+		this.registration = new HandlerRegistration();
 
 		lblTitle = new Label("Login");
 		lblTitle.setFont(new Font(25));
@@ -94,10 +99,10 @@ public class Login extends Scene {
 		lblSenha = new Label();
 		lblSenha.setId("lblPsw");
 
-		pswSenha = new PasswordField();
-		pswSenha.setPromptText("Senha");
+		txtSenha = new PasswordField();
+		txtSenha.setPromptText("Senha");
 
-		hbPwd.getChildren().addAll(lblSenha, pswSenha);
+		hbPwd.getChildren().addAll(lblSenha, txtSenha);
 
 		/* Cadastro nome */
 		HBox hbNome = new HBox();
@@ -157,23 +162,11 @@ public class Login extends Scene {
 
 		btnEntrar = new Button("Entrar");
 		this.btnEntrar.setOnAction(e -> {
-
-			boolean is_email_empty = txtEmail.getText().trim().isEmpty();
-			boolean is_password_empy = pswSenha.getText().isEmpty();
-
-			if (!is_email_empty && !is_password_empy) {
-				try {
-					if (login.do_login(txtEmail.getText(), pswSenha.getText())) {
-						Main.main_stage.setScene(new HomePage());
-						return;
-					}
-				} catch (ClassNotFoundException | SQLException e1) {
-					e1.printStackTrace();
-				} catch (FileNotFoundException e1) {
-					e1.printStackTrace();
-				}
+			try {
+				login();
+			} catch (ClassNotFoundException | SQLException e1) {
+				e1.printStackTrace();
 			}
-			this.lbl_error_message.setVisible(true);
 		});
 		this.setOnMouseClicked(e -> {
 			this.lbl_error_message.setVisible(false);
@@ -181,18 +174,16 @@ public class Login extends Scene {
 		this.txtEmail.setOnMouseClicked(e -> {
 			this.lbl_error_message.setVisible(false);
 		});
-		this.pswSenha.setOnMouseClicked(e -> {
+		this.txtSenha.setOnMouseClicked(e -> {
 			this.lbl_error_message.setVisible(false);
 		});
 
 		btnCadastrar = new Button("Cadastrar-se");
 		btnCadastrar.setOnAction(event -> {
-			Optional<ButtonType> vOptional = new Alert(AlertType.CONFIRMATION,
-					"Você foi cadastrado " + txtNomeCadast.getText() + " " + txtSobrenomeCadast.getText())
-							.showAndWait();
-
-			if (vOptional.get() == ButtonType.OK) {
-				componenteLogin();
+			try {
+				registration();
+			} catch (ClassNotFoundException | SQLException e1) {
+				e1.printStackTrace();
 			}
 		});
 
@@ -266,4 +257,82 @@ public class Login extends Scene {
 			Main.main_stage.sizeToScene();
 	}
 
+	/**
+	 * usa a classe {@link HandlerLogin} para fazer o login, se os dados informados
+	 * estiverem errados a label de mensagem de erro vai ficar visivel se o login
+	 * for feito com sucesso irá iniciar as variaveis globais da classe
+	 * {@link statics.SESSION} e abrir a tela principal
+	 * 
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	private void login() throws ClassNotFoundException, SQLException {
+		boolean is_email_empty = txtEmail.getText().trim().isEmpty();
+		boolean is_password_empy = txtSenha.getText().isEmpty();
+
+		if (!is_email_empty && !is_password_empy) {
+			try {
+				if (login.do_login(txtEmail.getText(), txtSenha.getText())) {
+					Main.main_stage.setScene(new HomePage());
+					return;
+				}
+			} catch (ClassNotFoundException | SQLException e1) {
+				e1.printStackTrace();
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			}
+		}
+		this.lbl_error_message.setVisible(true);
+	}
+
+	/**
+	 * usa a classe {@link HandlerRegistration} para fazer o cadastro e a validação
+	 * de email já cadastrado no banco
+	 * 
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	private void registration() throws ClassNotFoundException, SQLException {
+
+		if (txtSenhaCadast.getText().isEmpty() || txtSenhaConfirmCadast.getText().isEmpty()) {
+			new Alert(AlertType.ERROR, "campo não preenchido").show();
+			return;
+		}
+		boolean password_are_diferent = txtSenhaCadast.getText().equals(txtSenhaConfirmCadast.getText());
+
+		if (!password_are_diferent) {
+			new Alert(AlertType.ERROR, "senhas diferentes").showAndWait();
+			return;
+		}
+
+		boolean is_email_field_empty = txtEmailCadast.getText().isEmpty();
+		boolean is_name_field_empty = txtNomeCadast.getText().isEmpty();
+
+		if (is_email_field_empty || is_name_field_empty) {
+			new Alert(AlertType.ERROR, "campo não preenchido").showAndWait();
+			return;
+		}
+		if (!this.registration.email_exists(txtEmailCadast.getText())) {
+
+			String name = txtNomeCadast.getText();
+			String last_name = txtSobrenomeCadast.getText();
+			String email = txtEmailCadast.getText();
+			String password = txtSenhaCadast.getText();
+
+			/* insere o usuario 
+			 * 
+			 * aparentemente o valor que a query retorna para quando o insert dá certo é false heuehueh*/
+			if (this.registration.insert_user(name, last_name, email, password)) {
+				Optional<ButtonType> vOptional = new Alert(AlertType.CONFIRMATION,
+						"Você foi cadastrado " + txtNomeCadast.getText() + " " + txtSobrenomeCadast.getText()).showAndWait();
+
+				if (vOptional.get() == ButtonType.OK) {
+					componenteLogin();
+				}
+			}
+			return;
+		}
+		new Alert(AlertType.INFORMATION, "email informado já está cadastrado").showAndWait();
+		return;
+	}
 }

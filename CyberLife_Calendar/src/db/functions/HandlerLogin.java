@@ -28,10 +28,9 @@ public class HandlerLogin {
 		
 		SESSION.start_session(result.getInt(1), result.getString(2), result.getString(3),result.getString(4));
 
-		System.out.println(SESSION.get_user_cod());
-		System.out.println(SESSION.get_user_email());
-		System.out.println(SESSION.get_user_name());
-		
+//		System.out.println(SESSION.get_user_cod());
+//		System.out.println(SESSION.get_user_email());
+//		System.out.println(SESSION.get_user_name());
 		
 		return true	;
 	}
