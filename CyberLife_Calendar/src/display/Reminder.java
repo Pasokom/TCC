@@ -273,7 +273,7 @@ public class Reminder extends Scene {
 	 * @throws SQLException
 	 */
 	private void insert_date_or_amount(int amount) throws ClassNotFoundException, SQLException {
-		System.out.println("[INFO] função :  ");
+		System.out.println("[INFO] função : insert_date_or_amount ");
 
 		String begin_in = dtDate.getValue().toString();
 		String end_date = endRecurrence.getChoosed_date();
