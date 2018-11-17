@@ -40,7 +40,8 @@ public class Login extends Scene {
 	private TextField txtEmailCadast;
 	private PasswordField txtSenhaCadast;
 	private PasswordField txtSenhaConfirmCadast;
-
+	
+	GridPane pnlLayout = new GridPane();
 	VBox vbLogin = new VBox();
 	VBox vbCadastro = new VBox();
 	HBox hCadastro = new HBox();
@@ -157,7 +158,7 @@ public class Login extends Scene {
 		});  
 		
 		vbLogin.getChildren().addAll(lblTitle, hbEmail, hbPwd, hLogin);
-		vbCadastro.getChildren().addAll(lblTitleCadast, hbNome, txtSobrenomeCadast, hbEmailCadast, hbPwdCadast, txtSenhaConfirmCadast, hCadastro);
+		vbCadastro.getChildren().addAll(lblTitleCadast, hbNome, txtSobrenomeCadast, hbEmailCadast, hbPwdCadast, hCadastro);
 			    
 		hCadastro.getChildren().addAll(backLogin, btnCadastrar);
 		hCadastro.setAlignment(Pos.CENTER_LEFT);
@@ -175,14 +176,31 @@ public class Login extends Scene {
 		vbCadastro.setSpacing(7);
 		vbCadastro.setPadding(new Insets(25,35,25,25));
 		
+		pnlLayout.setAlignment(Pos.CENTER_LEFT);
+		pnlLayout.setPadding(new Insets(25,35,25,25));
+		
+		pnlLayout.setHgap(10);
+		pnlLayout.setVgap(10);
+				
+		pnlLayout.add(lblTitleCadast, 0, 0, 2, 1);
+		pnlLayout.add(lblNomeCadast, 0, 1);
+		pnlLayout.add(txtNomeCadast, 1, 1);
+		pnlLayout.add(txtSobrenomeCadast, 1, 2);
+		pnlLayout.add(lblEmailCadast, 0, 3);
+		pnlLayout.add(txtEmailCadast, 1, 3);
+		pnlLayout.add(lblSenhaCadast, 0, 4);
+		pnlLayout.add(txtSenhaCadast, 1, 4);
+		pnlLayout.add(txtSenhaConfirmCadast, 1, 5);
+		pnlLayout.add(hCadastro, 0, 6, 2, 1);
+		
 
 		AnchorPane.setTopAnchor(vbLogin, 0d);
 		AnchorPane.setBottomAnchor(vbLogin, 0d);
 		AnchorPane.setRightAnchor(vbLogin, 0d);
 		
-		AnchorPane.setTopAnchor(vbCadastro, 0d);
-		AnchorPane.setBottomAnchor(vbCadastro, 0d);
-		AnchorPane.setRightAnchor(vbCadastro, 0d);
+		AnchorPane.setTopAnchor(pnlLayout, 0d);
+		AnchorPane.setBottomAnchor(pnlLayout, 0d);
+		AnchorPane.setRightAnchor(pnlLayout, 0d);
 		
 		aPane.requestFocus();
 		
@@ -193,10 +211,10 @@ public class Login extends Scene {
 		
 		if ( aPane.getChildren().size() > 0) { 
 			
-			boolean x  = aPane.getChildren().get(0) == vbCadastro;
+			boolean x  = aPane.getChildren().get(0) == pnlLayout;
 			
 			if (! x ) { 
-				aPane.getChildren().set(0, vbCadastro);
+				aPane.getChildren().set(0, pnlLayout);
 				
 			}else {
 				aPane.getChildren().set(0, vbLogin);

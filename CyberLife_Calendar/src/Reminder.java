@@ -41,7 +41,6 @@ public class Reminder extends Scene {
 
 	private TimePickerList time_picker_list;
 
-
 	public Reminder() {
 		super(new HBox());
 
@@ -75,11 +74,14 @@ public class Reminder extends Scene {
 		btnEnviar.setId("btnEnviar");
 
 		btnEnviar.setOnAction(evento -> {
+
 			try {
 				create_reminder();
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
+
 			}
+
 		});
 		barraTitulo.getChildren().addAll(txtName, btnEnviar);
 		
@@ -111,7 +113,6 @@ public class Reminder extends Scene {
  		interval = new IntervalComponent();
  		hInterval.getChildren().addAll(radInterval, interval);
 
-
 		HBox hbRepetir = new HBox();
 		hbRepetir.setId("hbRepetir");
 		
@@ -134,7 +135,6 @@ public class Reminder extends Scene {
 		hbRepetir.getChildren().addAll(cbxAllDay, cbxRepeat);
 
 		vb.getChildren().addAll(barraTitulo, hbData, hbRepetir, hTime, hInterval);
-
 		return vb;
 	}
 	/** 
