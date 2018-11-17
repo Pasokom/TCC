@@ -47,6 +47,10 @@ public class Recurrence extends VBox {
 	public String get_recurrence_type() { 
 		return frequency.get_selected_option();
 	}
+	
+	public int get_recurrence_value () { 
+		return frequency.get_choosed_value();
+	}
 	/* 
 	 * retorna dias selecionados para repetição 
 	 */
@@ -59,7 +63,6 @@ public class Recurrence extends VBox {
 	public int get_amount_choosed() { 
 		return endRecurrence.get_amount_repetition();
 	}
-	
 	public boolean is_never_selected() { 
 		return endRecurrence.is_never_end_selected();
 	}

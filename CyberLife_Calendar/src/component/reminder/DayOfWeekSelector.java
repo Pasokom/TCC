@@ -26,6 +26,9 @@ public class DayOfWeekSelector extends HBox {
 	
 	/** 
 	 * adiciona os dias da semana selecionados em uma lista e retorna ela 
+	 * 
+	 * tem que tratar isso do jeito certo, ou vai dar muita bosta
+	 * 
 	 * @return
 	 */
 	public ArrayList<Boolean> selected_day() { 

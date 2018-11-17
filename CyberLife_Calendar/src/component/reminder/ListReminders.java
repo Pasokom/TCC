@@ -1,5 +1,6 @@
 package component.reminder;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import component.CustomScroll;
@@ -36,7 +37,11 @@ public class ListReminders extends VBox{
 		hButtons.setAlignment(Pos.CENTER_RIGHT);
 		this.btnAddReminder = new Button("+");
 		this.btnAddReminder.setOnAction(e -> {
-			Main.main_stage.setScene(new Reminder());
+			try {
+				Main.main_stage.setScene(new Reminder());
+			} catch (ClassNotFoundException | SQLException e1) {
+				e1.printStackTrace();
+			}
 		});
 		
 		hButtons.getChildren().add(btnAddReminder);

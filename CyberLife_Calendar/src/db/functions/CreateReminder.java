@@ -1,6 +1,7 @@
 package db.functions;
 
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -13,8 +14,9 @@ import statics.Enums;
 public class CreateReminder {
 
 	private int reminder_cod;
-
-	public CreateReminder() {
+	private Connection connection;
+	public CreateReminder() throws ClassNotFoundException, SQLException {
+		this.connection = Database.get_connection();
 	}
 
 	/**
@@ -68,18 +70,48 @@ public class CreateReminder {
 			throws ClassNotFoundException, SQLException {
 
 		String datetime = all_day ? format(date_time_begin) : date_time_begin ;
-
+		
+		
 		String sql = "{CALL HORARIO_SEM_RECORRENCIA(?,?,?,?)}";
 
-		CallableStatement stmt = Database.get_connection().prepareCall(sql);
+		CallableStatement stmt = connection.prepareCall(sql);
 		stmt.setString(1, datetime);
 		stmt.setString(2, date_time_end == new String() ? null : date_time_end);
-		stmt.setInt(3, interval == 0 ? null : interval);
+		stmt.setInt(3, interval);
 		
 		stmt.setInt(4, this.get_reminder_cod());
 		stmt.execute();
 	}
 
+	/** 
+	 * nem sempre data inicial e ffialalal
+	 * @param date_begin
+	 * @param date_end
+	 * @param all_day
+	 * @param interval
+	 * @param recurrence
+	 * @param week_day
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	public void schedule_recurrence_never_end (String date_begin, String date_end, boolean all_day, int interval, int recurrence, int week_day)throws SQLException, ClassNotFoundException { 
+		
+		String date_time_begin = all_day ? this.format(date_begin) : date_begin;
+		
+		String sql = "{CALL HORARIO_RECORRENCIA_SEM_FIM(?,?,?,?,?,?)}";
+		
+		CallableStatement stmt = connection.prepareCall(sql);
+
+		stmt.setString(1, date_time_begin);
+		stmt.setString(2, date_end.equals(new String()) ? null : date_end);
+		stmt.setInt(3, interval);
+		stmt.setInt(4, recurrence);
+		stmt.setInt(5, week_day);
+		stmt.setInt(6, this.get_reminder_cod());
+		
+		stmt.execute();
+	}
+	
 	public void shedule_repetition(boolean interval_by_minute, String begin_in, String end_in, int recurrence,
 			int week_day, int interval, int amount_repetition) throws ClassNotFoundException, SQLException {
 
@@ -88,7 +120,7 @@ public class CreateReminder {
 
 		String sql = "";
 
-		CallableStatement stmt = Database.get_connection().prepareCall(sql);
+		CallableStatement stmt = connection.prepareCall(sql);
 
 		stmt.setString(1, begin);
 		stmt.setString(2, end);
@@ -119,7 +151,7 @@ public class CreateReminder {
 
 		String sql = "";
 
-		CallableStatement stmt = Database.get_connection().prepareCall(sql);
+		CallableStatement stmt = connection.prepareCall(sql);
 
 		stmt.setString(1, begin);
 		stmt.setString(2, end);

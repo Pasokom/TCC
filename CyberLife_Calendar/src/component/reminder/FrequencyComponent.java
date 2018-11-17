@@ -48,7 +48,7 @@ public class FrequencyComponent extends HBox {
 			return Enums.TypeRecurrence.YEARLY.get_value();
 		}
 		return null;
-}
+	}
 }
 
 
