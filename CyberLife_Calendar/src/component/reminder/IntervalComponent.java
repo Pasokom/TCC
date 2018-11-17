@@ -29,4 +29,9 @@ public class IntervalComponent extends HBox {
 		this.setSpacing(10);
 		this.getChildren().addAll(lblFrom, timeStart, lblUntil, timeEnd, lblEach, txtTime, cbxTime);
 	}
+	
+	public String selected_interval() { 
+		return this.txtTime.getText();
+	}
+	
 }

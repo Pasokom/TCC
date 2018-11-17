@@ -40,7 +40,7 @@ public class Recurrence extends VBox {
 	 * retorna dias selecionados para repetição 
 	 */
 	public ArrayList<Boolean> get_test() { 
-		return this.dayOfWeekSelector.test();
+		return this.dayOfWeekSelector.selected_day();
 	}
 	
 	public String get_end_date() { 

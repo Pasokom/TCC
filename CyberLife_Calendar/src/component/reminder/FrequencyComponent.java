@@ -31,6 +31,9 @@ public class FrequencyComponent extends HBox {
 		this.getChildren().addAll(repeatOptions, repeat);
 	}
 	
+	public int get_choosed_value () { 
+		return this.repeat.getValue();
+	}
 	/* 
 	 * retorna o tipo de recorrencia selecionado
 	 */

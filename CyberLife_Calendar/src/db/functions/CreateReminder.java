@@ -13,24 +13,95 @@ public class CreateReminder {
 	private int reminder_cod;
 	public CreateReminder() {
 	}
-	/**
-	 * insere os horarios para cada lembrete
-	 * deve ser usado só depois de inserir o lembrete, para poder pegar a chave primaria do lembrete
+	/** 	
+	 * insere os horarios ( com time picker ou sem ) 
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
 	 */
-	public void insert_reminder_schedule(boolean is_all_day, String begin_in, String end_in, int minutes_interval, int reminder_cod) throws ClassNotFoundException, SQLException {//Date begin, Date end) {  
-		String begin = is_all_day ? format(begin_in) : begin_in;
-		String end = is_all_day ? format(end_in) : end_in;
+	public void shedule_repetition(boolean interval_by_minute, String begin_in, String end_in, int recurrence, int interval, int amount_repetition) throws ClassNotFoundException, SQLException { 
 		
-		String sql = "{CALL ADICIONAR_HORARIO_LEMBRETE(?,?,?,?)}";
+		String begin = interval_by_minute ? this.format(begin_in) : begin_in;
+		String end = end_in == new String() ? null : format(end_in);
+		
+		String sql = "";
+		
+		CallableStatement stmt = Database.get_connection().prepareCall(sql);
+			
+		stmt.setString(1, begin);
+		stmt.setString(2, end);
+		stmt.setInt(3, recurrence == 0 ? null : recurrence);
+		stmt.setInt(4, interval);
+		stmt.setInt(5, amount_repetition == 0 ? null : amount_repetition);
 
+		stmt.execute();
+	}
+	public void shedule_repetition(boolean interval_by_minute, String begin_in, String end_in, int recurrence, int week_day , int interval, int amount_repetition) throws ClassNotFoundException, SQLException { 
+		
+		String begin = interval_by_minute ? this.format(begin_in) : begin_in;
+		String end = end_in == new String() ? null : format(end_in);
+		
+		String sql = "";
+		
+		CallableStatement stmt = Database.get_connection().prepareCall(sql);
+			
+		stmt.setString(1, begin);
+		stmt.setString(2, end);
+		stmt.setInt(3, recurrence == 0 ? null : recurrence);
+		stmt.setInt(4, interval);
+		stmt.setInt(5, week_day);
+		stmt.setInt(6, amount_repetition == 0 ? null : amount_repetition);
+
+		stmt.execute();
+	}
+	/** 
+	 * usado para inserir horarios para quando a opção "dia todo" estiver selecionado e também para a recorrencia com 
+	 * dias da semana escolhidos
+	 * @param begin_in
+	 * @param end_in
+	 * @param recurrence
+	 * @param amount_repetition
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public void all_day_shedule (String begin_in, String end_in, int recurrence, int week_day, int amount_repetition) throws ClassNotFoundException, SQLException { 
+		
+		String begin = format(begin_in);
+		String end  = end_in == new String() ? null : format(end_in);
+		
+		String sql = "";
+		
 		CallableStatement stmt = Database.get_connection().prepareCall(sql);
 		
 		stmt.setString(1, begin);
 		stmt.setString(2, end);
-		stmt.setInt(3, minutes_interval);
-		stmt.setInt(4, reminder_cod);
+		stmt.setInt(3, recurrence == 0 ? null : recurrence);
+		stmt.setInt(4, week_day);
+		stmt.setInt(5, amount_repetition == 0 ? null : amount_repetition);
+		stmt.setInt(6, get_reminder_cod());	
+		
 		stmt.execute();
 	}
+	
+	public void all_day_schedule (String begin_in, String end_in, int recurrence) throws ClassNotFoundException, SQLException { 
+		
+		String begin = format(begin_in);
+		String end  = end_in == new String() ? null : format(end_in);
+		
+		String sql = "";
+		
+		CallableStatement stmt = Database.get_connection().prepareCall(sql);
+		
+		stmt.setString(1, begin);
+		stmt.setString(2, end);
+		stmt.setInt(3, recurrence == 0 ? null : recurrence);
+		stmt.setInt(4, get_reminder_cod());	
+		
+		stmt.execute();
+	}
+	
+	
+	
+	
 	public boolean insert_reminder (ReminderDB reminder) throws ClassNotFoundException, SQLException { 
 			
 		String sql = "{CALL ADICIONAR_LEMBRETE(?,?,?,?,?)}";
@@ -40,7 +111,7 @@ public class CreateReminder {
 		stmt.setString(1, reminder.getReminder().getText());
 		stmt.setBoolean(2, reminder.isAll_day());
 
-		reminder.setStatus(Enums.ReminderStatus.ENABLED.toString());
+		reminder.setStatus(Enums.ReminderStatus.ENABLED.get_value());
 		
 		stmt.setString(3, reminder.getStatus());
 		stmt.setInt(4, 3);// (int) SESSION.get_user_cod());
@@ -56,14 +127,16 @@ public class CreateReminder {
 		
 		return this.get_reminder_cod() == 0 ? false : true ;
 	}
-	public int get_reminder_cod() {
+	
+	
+	private int get_reminder_cod() {
 		return reminder_cod;
 	}
-	public void set_reminder_cod(int reminder_cod) {
+	private void set_reminder_cod(int reminder_cod) {
 		this.reminder_cod = reminder_cod;
 	}
 	
-	public String format (String str){ 
+	private String format (String str){ 
 		  String t = str;
 		  StringBuilder sb = new StringBuilder();
 		  

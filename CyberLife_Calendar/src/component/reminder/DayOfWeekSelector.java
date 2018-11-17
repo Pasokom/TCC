@@ -28,15 +28,15 @@ public class DayOfWeekSelector extends HBox {
 	 * adiciona os dias da semana selecionados em uma lista e retorna ela 
 	 * @return
 	 */
-	public ArrayList<Boolean> test() { 
+	public ArrayList<Boolean> selected_day() { 
 		ArrayList<Boolean> list = new ArrayList<>();
-		list.add(cbxDom.selectedProperty().get());
 		list.add(cbxSeg.selectedProperty().get());
 		list.add(cbxTer.selectedProperty().get());
 		list.add(cbxQua.selectedProperty().get());
 		list.add(cbxQui.selectedProperty().get());
 		list.add(cbxSex.selectedProperty().get());
 		list.add(cbxSab.selectedProperty().get());
+		list.add(cbxDom.selectedProperty().get());
 		return list;
 	}
 	
