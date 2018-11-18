@@ -44,7 +44,7 @@ public class Recurrence extends VBox {
 	/**
 	 * retorna o tipo de recorrencia 
 	 */
-	public String get_recurrence_type() { 
+	public int get_recurrence_type() { 
 		return frequency.get_selected_option();
 	}
 	

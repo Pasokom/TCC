@@ -82,7 +82,6 @@ public class Reminder extends Scene {
 		 */
 		if (cbxAllDay.selectedProperty().get()) {
 			reminder.setAll_day(true);
-			reminder.setRecurrence_by_minute(false);
 		}
 		if (!cbxAllDay.selectedProperty().get()) {
 			reminder.setAll_day(false);
@@ -90,114 +89,15 @@ public class Reminder extends Scene {
 			 * nem sei se essa recorrencia por minuto vai ser util, mas descobriremos no
 			 * futuro
 			 */
-			reminder.setRecurrence_by_minute(true);
 		}
-
 		reminder.set_user_cod((int) SESSION.get_user_cod());
 		reminder.setRepeat(cbxRepeat.selectedProperty().get());
 		reminder.setStatus(Enums.ReminderStatus.ENABLED.get_value());
-
+		reminder.setType_recurrence(this.recurrence.get_recurrence_type());
 		try {
 			create_reminder.insert_reminder(reminder);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * <p>
-	 * <h1>Insere os horarios de lembretes com recorrencia quando a recorrencia não
-	 * tem final</h1>
-	 * </p>
-	 * <p>
-	 * Deve ser ser usada somete se a opção "nunca repete" estiver selecionada
-	 * </p>
-	 * <h2>Usa a classe {@link CreateReminder} para realização de inserts</h2>
-	 * 
-	 * <p>
-	 * Se o o parametro all_day for true a função do insert fará uma formatação no
-	 * horario do lembrete Condicionais para checar qual o tipo de horario o usuario
-	 * escolheu, se é com o time picker ou por intervalo de horas.
-	 * </p>
-	 *
-	 *
-	 * 
-	 * @author jefter66
-	 *
-	 * @param date
-	 * @param all_day
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
-	 */
-	private void schedule_repetition_never_end(String date, boolean all_day, boolean is_time_picker_selected)
-			throws ClassNotFoundException, SQLException {
-
-		/*
-		 * tem que saber se o tipo de recorrencia é por semana para poder fazer o loop
-		 * dos dias selecionados
-		 */
-		boolean is_week_recurrence = this.recurrence.get_recurrence_type()
-				.equals(Enums.TypeRecurrence.WEEKLY.get_value());
-
-		/* aqui dentro acontece os inserts dos dias da semana */
-		if (is_week_recurrence) {
-
-			int recurrence = this.recurrence.get_recurrence_value();
-
-			if (!all_day) {
-				/* entra aqui se o time picker estiver selecionado */
-				if (is_time_picker_selected) {
-					/* se a lista de dias nao estiver vazia */
-					if (!week_day_selected().isEmpty()) {
-
-						/* loop vai acontecer de acordo com a quantidade de dias escolhidos */
-						for (int i = 0; i < week_day_selected().size(); i++) {
-
-							int week_day = week_day_selected().get(i);
-
-							/* a condição só vai aceitar dias entre 0 e 6, pq assim que funciona no db */
-							if (is_time_picker_selected) {
-								if (time_picker_list.get_selected_time().isEmpty())
-									return; /* nenhum horario selecionado */
-
-								/*
-								 * para cada dia selecionado, vai inserir um time picker diferente, os
-								 * selecionados, claro
-								 */
-								int j;
-								for (j = 0; j < this.time_picker_values().size(); j++) {
-
-									String date_choosed = this.time_picker_values().get(j);
-
-									create_reminder.schedule_recurrence_never_end(date_choosed, new String(), false, 0,
-											recurrence, week_day);
-								}
-								j = 0;
-							}
-						}
-						System.out.println("[INFO] esse return é util");
-						return;
-					}
-				} /* se o time picker não estiver selecionado */
-				int interval = this.interval.selected_interval();
-				String date_begin = date + " " + this.interval.start_time();
-				String date_end = date + " " + this.interval.end_time();
-
-				for (int i = 0; i < week_day_selected().size(); i++) {
-					int week_day = week_day_selected().get(i);
-					create_reminder.schedule_recurrence_never_end(date_begin, date_end, false, interval, recurrence,
-							week_day);
-					System.out.println(
-							"[INFO] inserindo data de repetição por intervalo \n interação nº:" + i + " do loop");
-				}
-				return;
-			}
-			for (int i = 0; i < week_day_selected().size(); i++) {
-
-				int week_day = this.week_day_selected().get(i);
-				create_reminder.schedule_recurrence_never_end(date, new String(), true, 0, recurrence, week_day);
-			}
-			return;
 		}
 	}
 
@@ -224,7 +124,8 @@ public class Reminder extends Scene {
 			boolean is_never_end_selected = recurrence.is_never_selected();
 
 			String date = dtDate.getValue().toString();
-
+			
+			
 			insert_reminder();
 
 			if (is_not_repeat) {
@@ -245,8 +146,7 @@ public class Reminder extends Scene {
 					e.printStackTrace();
 				}
 			}
-//			System.out.println("NAO ENTROU");
-
+			System.out.println("NAO ENTROU");
 		});
 		barraTitulo.getChildren().addAll(txtName, btnEnviar);
 
@@ -322,15 +222,14 @@ public class Reminder extends Scene {
 
 		reminder.setReminder(txtName.getText());
 		reminder.setAll_day(cbxAllDay.selectedProperty().get());
-		reminder.setRecurrence_by_minute(!cbxAllDay.selectedProperty().get());
+//		reminder.setRecurrence_by_minute(!cbxAllDay.selectedProperty().get());
 		reminder.setRepeat(cbxRepeat.selectedProperty().get());
 		reminder.setType_recurrence(recurrence.get_recurrence_type());
-
 		reminder.set_user_cod((int) SESSION.get_user_cod());
 
 //		this.create_reminder.insert_reminder(reminder);
 
-		insert_shedule(reminder.getType_recurrence());
+//		insert_shedule(reminder.getType_recurrence());
 		CreateReminder c = new CreateReminder();
 		/**
 		 * cria o lembrete
@@ -389,7 +288,7 @@ public class Reminder extends Scene {
 		boolean is_all_day = cbxAllDay.selectedProperty().get();
 
 		if (is_all_day) {
-			create_reminder.all_day_schedule(date, new String(), 0);
+//			create_reminder.all_day_schedule(date, new String(), 0);
 			return;
 		}
 
@@ -430,7 +329,7 @@ public class Reminder extends Scene {
 		int interval = Integer.valueOf(this.interval.selected_interval());
 
 		if (cbxAllDay.selectedProperty().get()) {
-			create_reminder.all_day_schedule(begin_in, end_date, recurrence);
+//			create_reminder.all_day_schedule(begin_in, end_date, recurrence);
 			return;
 		}
 		if (radInterval.selectedProperty().get()) {
@@ -469,7 +368,7 @@ public class Reminder extends Scene {
 		/*
 		 * só entra nas condiçoes abaixo se o tipo de recorrencia for semanal
 		 */
-		if (recurrence.get_recurrence_type().equals(Enums.TypeRecurrence.WEEKLY.get_value())) {
+		if (recurrence.get_recurrence_type() == Enums.TypeRecurrence.WEEKLY.get_value()) {
 			/*
 			 * se a recorrencia for por semana e o usuario escolheu dias para isso, entra
 			 * nessa estrutura
@@ -656,6 +555,113 @@ public class Reminder extends Scene {
 		System.out.println("[INFO] horario de lembrete com intervalo");
 		System.out.println("[CONFIRMATION] repetirá entre " + date_begin + " e " + date_end + " \n à cada " + interval
 				+ " minutos.");
+		return;
+	}
+
+	/**
+	 * <p>
+	 * <h1>Insere os horarios de lembretes com recorrencia quando a recorrencia não
+	 * tem final</h1>
+	 * </p>
+	 * <p>
+	 * Deve ser ser usada somete se a opção "nunca repete" estiver selecionada
+	 * </p>
+	 * <h2>Usa a classe {@link CreateReminder} para realização de inserts</h2>
+	 * 
+	 * <p>
+	 * Se o o parametro all_day for true a função do insert fará uma formatação no
+	 * horario do lembrete Condicionais para checar qual o tipo de horario o usuario
+	 * escolheu, se é com o time picker ou por intervalo de horas.
+	 * </p>
+	 * 
+	 * @author jefter66
+	 * @param date
+	 * @param all_day
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	private void schedule_repetition_never_end(String date, boolean all_day, boolean is_time_picker_selected)
+			throws ClassNotFoundException, SQLException {
+		/*
+		 * tem que saber se o tipo de recorrencia é semanal para poder fazer o loop
+		 * dos dias selecionados
+		 */
+		boolean is_week_recurrence = this.recurrence.get_recurrence_type() == Enums.TypeRecurrence.WEEKLY.get_value();
+		int recurrence = this.recurrence.get_recurrence_value();
+		
+		/* aqui dentro acontece os inserts dos dias da semana */
+		if (is_week_recurrence) {
+			if (!all_day) {
+				/* entra aqui se o time picker estiver selecionado */
+				if (is_time_picker_selected) {
+					/* se a lista de dias nao estiver vazia */
+					if (!week_day_selected().isEmpty()) {
+
+						/* loop vai acontecer de acordo com a quantidade de dias escolhidos */
+						for (int i = 0; i < week_day_selected().size(); i++) {
+
+							int week_day = week_day_selected().get(i);
+
+							/* a condição só vai aceitar dias entre 0 e 6, pq assim que funciona no db */
+							if (is_time_picker_selected) {
+								if (time_picker_list.get_selected_time().isEmpty())
+									return; /* nenhum horario selecionado */
+
+								/*
+								 * para cada dia selecionado, vai inserir um time picker diferente, os
+								 * selecionados, claro
+								 */
+								int j;
+								for (j = 0; j < this.time_picker_values().size(); j++) {
+
+									String date_choosed = this.time_picker_values().get(j);
+
+									create_reminder.schedule_recurrence_never_end(date_choosed, new String(), false, 0,
+											recurrence, week_day);
+								}
+								j = 0;
+							}
+						}
+						System.out.println("[INFO] esse return é util \n [INFO] aproximadamente linha : 631");
+						return;
+					}
+				} /* se o time picker não estiver selecionado */
+				int interval = this.interval.selected_interval();
+				String date_begin = date + " " + this.interval.start_time();
+				String date_end = date + " " + this.interval.end_time();
+
+				for (int i = 0; i < week_day_selected().size(); i++) {
+					int week_day = week_day_selected().get(i);
+					create_reminder.schedule_recurrence_never_end(date_begin, date_end, false, interval, recurrence,week_day);
+					System.out.println("[INFO] inserindo data de repetição por intervalo \n interação nº:" + i + " do loop");
+				}
+				System.out.println("[INFO] esse return é util \n [INFO] aproximadamente linha : 644");
+				return;
+			}
+			/* se a opção 'dia todo' for selecionada */
+			for (int i = 0; i < week_day_selected().size(); i++) {
+				int week_day = this.week_day_selected().get(i);
+				create_reminder.schedule_recurrence_never_end(date, new String(), true, 0, recurrence, week_day);
+			}
+			return;
+		}
+		/* recorrencia diferente de semanal */
+		if (all_day) { 
+			create_reminder.schedule_recurrence_never_end(date, new String(), true, 0, recurrence, 0);
+			return;
+		}
+		
+		if (is_time_picker_selected) { 
+			for (int i = 0 ; i < this.time_picker_values().size(); i++ ) {
+				String right_date = this.time_picker_values().get(i);
+				create_reminder.schedule_recurrence_never_end(right_date, new String(), false, 0, recurrence, 0);
+			}
+			return;
+		}
+		int interval = this.interval.selected_interval();
+		String date_begin = date + " " + this.interval.start_time();
+		String date_end = date + " " + this.interval.end_time();
+		create_reminder.schedule_recurrence_never_end(date_begin, date_end, all_day, interval, recurrence, 0);
 		return;
 	}
 

@@ -36,7 +36,7 @@ public class FrequencyComponent extends HBox {
 	/* 
 	 * retorna o tipo de recorrencia selecionado
 	 */
-	public String get_selected_option() { 
+	public int get_selected_option() { 
 		switch (repeatOptions.getSelectionModel().getSelectedItem()) {
 		case "mês":
 			return Enums.TypeRecurrence.MONTHLY.get_value();
@@ -47,7 +47,7 @@ public class FrequencyComponent extends HBox {
 		case "ano": 
 			return Enums.TypeRecurrence.YEARLY.get_value();
 		}
-		return null;
+		return 0;
 	}
 }
 

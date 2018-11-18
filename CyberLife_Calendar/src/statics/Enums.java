@@ -16,19 +16,27 @@ public class Enums {
 		}
 	}
 	public static enum TypeRecurrence {
+						// tem que achar uma maneira de tratar as datas corretas
+		DAYLY(1), WEEKLY(7), MONTHLY(30), YEARLY(365);
 
-		DAYLY("DIARIA"), WEEKLY("SEMANAL"), MONTHLY("MENSAL"), YEARLY("ANUAL");
+		private int  value;
 
-		private String value;
-
-		public String get_value() {
+		public int get_value() {
 			return this.value;
 		}
 		
-		private TypeRecurrence(String value) {
+		private TypeRecurrence(int value) {
 			this.value = value;
 		}
-
 	}
-
 }
+
+
+
+
+
+
+
+
+
+

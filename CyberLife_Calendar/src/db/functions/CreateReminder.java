@@ -71,7 +71,6 @@ public class CreateReminder {
 
 		String datetime = all_day ? format(date_time_begin) : date_time_begin ;
 		
-		
 		String sql = "{CALL HORARIO_SEM_RECORRENCIA(?,?,?,?)}";
 
 		CallableStatement stmt = connection.prepareCall(sql);
@@ -163,38 +162,18 @@ public class CreateReminder {
 		stmt.execute();
 	}
 
-	public void all_day_schedule(String begin_in, String end_in, int recurrence)
-			throws ClassNotFoundException, SQLException {
-
-		String begin = format(begin_in);
-		String end = end_in == new String() ? null : format(end_in);
-
-		String sql = "";
-
-		CallableStatement stmt = Database.get_connection().prepareCall(sql);
-
-		stmt.setString(1, begin);
-		stmt.setString(2, end);
-		stmt.setInt(3, recurrence == 0 ? null : recurrence);
-		stmt.setInt(4, get_reminder_cod());
-
-		stmt.execute();
-	}
-
 	public boolean insert_reminder(ReminderDB reminder) throws ClassNotFoundException, SQLException {
 
-		String sql = "{CALL ADICIONAR_LEMBRETE(?,?,?,?,?)}";
+		String sql = "{CALL ADICIONAR_LEMBRETE(?,?,?,?,?,?)}";
 
 		CallableStatement stmt = Database.get_connection().prepareCall(sql);
 
 		stmt.setString(1, reminder.getReminder().getText());
 		stmt.setBoolean(2, reminder.isAll_day());
-
-		reminder.setStatus(Enums.ReminderStatus.ENABLED.get_value());
-
 		stmt.setString(3, reminder.getStatus());
-		stmt.setInt(4, 3);// (int) SESSION.get_user_cod());
+		stmt.setInt(4, reminder.getType_recurrence());
 		stmt.setString(5, "@returned_value");
+		stmt.setInt(6, 3);// (int) SESSION.get_user_cod());
 
 		stmt.registerOutParameter(5, Types.INTEGER);
 
