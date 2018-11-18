@@ -30,7 +30,6 @@ public class FrequencyComponent extends HBox {
 		this.setSpacing(10);
 		this.getChildren().addAll(repeatOptions, repeat);
 	}
-	
 	public int get_choosed_value () { 
 		return this.repeat.getValue();
 	}
@@ -49,8 +48,7 @@ public class FrequencyComponent extends HBox {
 			return Enums.TypeRecurrence.YEARLY.get_value();
 		}
 		return null;
-	}
-	
+}
 }
 
 

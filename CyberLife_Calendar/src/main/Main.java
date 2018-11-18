@@ -20,7 +20,6 @@ public class Main extends Application {
 		main_stage = primaryStage;
 
 		main_stage.setScene(new Reminder());
-
 		main_stage.setWidth(800);
 		main_stage.setHeight(500);
 		main_stage.show();

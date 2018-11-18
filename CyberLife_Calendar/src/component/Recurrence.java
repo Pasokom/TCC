@@ -10,6 +10,17 @@ import javafx.scene.layout.VBox;
 
 public class Recurrence extends VBox {
 
+	/* 
+	 * já tem isso pronto em outro lugar
+	 */
+	public enum IntervalMode{
+		DIA, SEMANA, MES, ANO;
+	}
+	
+	public enum DaysOfWeek{
+		DOM, SEG, TER, QUA, QUI, SEX, SAB;
+	}
+	
 	private Label lblRecurrence, lblRepeat;
 	private FrequencyComponent frequency;
 	private DayOfWeekSelector dayOfWeekSelector;
@@ -33,16 +44,15 @@ public class Recurrence extends VBox {
 	/**
 	 * retorna o tipo de recorrencia 
 	 */
-	public String get_frequency() { 
+	public String get_recurrence_type() { 
 		return frequency.get_selected_option();
 	}
 	/* 
 	 * retorna dias selecionados para repetição 
 	 */
-	public ArrayList<Boolean> get_test() { 
+	public ArrayList<Boolean> get_selected_day() { 
 		return this.dayOfWeekSelector.selected_day();
 	}
-	
 	public String get_end_date() { 
 		return endRecurrence.getChoosed_date();
 	}
@@ -51,8 +61,19 @@ public class Recurrence extends VBox {
 	}
 	
 	public boolean is_never_selected() { 
-		endRecurrence.get_amount_repetition();
 		return endRecurrence.is_never_end_selected();
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
