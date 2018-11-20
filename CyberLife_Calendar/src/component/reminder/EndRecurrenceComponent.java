@@ -85,6 +85,13 @@ public class EndRecurrenceComponent extends VBox {
 	public String getChoosed_date() {
 		return radOn.selectedProperty().get() ?  date_picker.getValue().toString() : new String();
 	}
+	public boolean is_choosed_by_date () { 
+		return radOn.selectedProperty().get();
+	}
+
+	public boolean by_amount_selected() { 
+		return this.radAfter.selectedProperty().get();
+	}
 	public int get_amount_repetition( ) { 
 		if (radAfter.selectedProperty().get()) { 
 			return spnQtdRepeat.getValue();

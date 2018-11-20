@@ -37,12 +37,12 @@ public class IntervalComponent extends HBox {
 	public int selected_interval() {
 		boolean is_minute_selected = cbxTime.getSelectionModel().getSelectedIndex() == 0;
 		if (is_minute_selected)
-			return Integer.valueOf(this.txtTime.getText());
-		return Integer.valueOf(txtTime.getText()) * 60;
+			return !txtTime.getText().isEmpty() ? Integer.valueOf(this.txtTime.getText()) : 0;
+		return !txtTime.getText().isEmpty() ? Integer.valueOf(this.txtTime.getText()) * 60 : 0;
 	}
-	
+
 	/*
-	 * funções para retornar o horario de inicio e o de fim 
+	 * funções para retornar o horario de inicio e o de fim
 	 */
 	public String start_time() {
 		return this.timeStart.get_value();
@@ -53,8 +53,3 @@ public class IntervalComponent extends HBox {
 	}
 
 }
-
-
-
-
-
