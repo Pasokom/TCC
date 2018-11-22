@@ -39,13 +39,13 @@ public class FrequencyComponent extends HBox {
 	public int get_selected_option() { 
 		switch (repeatOptions.getSelectionModel().getSelectedItem()) {
 		case "mês":
-			return Enums.TypeRecurrence.MONTHLY.get_value();
+			return Enums.TypeRecurrence.MONTHLY.getValue();
 		case "dia": 
-			return Enums.TypeRecurrence.DAYLY.get_value();
+			return Enums.TypeRecurrence.DAYLY.getValue();
 		case "semana": 
-			return Enums.TypeRecurrence.WEEKLY.get_value();
+			return Enums.TypeRecurrence.WEEKLY.getValue();
 		case "ano": 
-			return Enums.TypeRecurrence.YEARLY.get_value();
+			return Enums.TypeRecurrence.YEARLY.getValue();
 		}
 		return 0;
 	}

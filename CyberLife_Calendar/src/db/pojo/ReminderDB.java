@@ -5,7 +5,7 @@ import javafx.scene.text.Text;
 public class ReminderDB {
 
 	private Text reminder;
-	private String status;
+	private boolean status;
 	private int type_recurrence;
 	private boolean all_day;
 	private boolean repeat;
@@ -26,11 +26,11 @@ public class ReminderDB {
 	public void setType_recurrence(int type_recurrence) {
 		this.type_recurrence = type_recurrence;
 	}
-	public String getStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(boolean status) {
 		this.status = status;
 	}
 

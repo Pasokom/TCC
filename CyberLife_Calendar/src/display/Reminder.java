@@ -8,13 +8,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import javax.swing.plaf.synth.SynthStyle;
-
 import component.Recurrence;
 import component.TimePickerList;
 import component.reminder.IntervalComponent;
 import db.functions.CreateReminder;
-import db.pojo.ReminderBanco;
 import db.pojo.ReminderDB;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -66,36 +63,6 @@ public class Reminder extends Scene {
 		/* scene */ this.getStylesheets().add(this.getClass().getResource("../css/reminder.css").toExternalForm());
 		this.setRoot(vb);
 
-	}
-
-	private void insert_reminder() {
-
-		/**
-		 * montando o lembrete
-		 */
-		ReminderDB reminder = new ReminderDB();
-
-		reminder.setReminder(txtName.getText());
-
-		/*
-		 * por enquanto to fazendo isso, depois deixamos o codigo menos feio
-		 */
-		if (cbxAllDay.selectedProperty().get()) {
-			reminder.setAll_day(true);
-		} else {
-			reminder.setAll_day(false);
-		}
-		reminder.set_user_cod((int) SESSION.get_user_cod());
-		reminder.setRepeat(cbxRepeat.selectedProperty().get());
-		reminder.setStatus(Enums.ReminderStatus.ENABLED.get_value());
-		reminder.setType_recurrence(
-				this.cbxRepeat.selectedProperty().get() ? this.recurrence.get_recurrence_type() : 0);
-
-		try {
-			create_reminder.insert_reminder(reminder);
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
 	}
 
 	private VBox lembrete(VBox recorrencia) {
@@ -182,6 +149,7 @@ public class Reminder extends Scene {
 	}
 
 	private void insert_reminder_and_schedule() throws SQLException, ClassNotFoundException {
+
 		boolean is_not_repeat = cbxRepeat.selectedProperty().get() == false;
 		boolean is_all_day_selected = cbxAllDay.selectedProperty().get();
 		boolean is_time_picker = radTime.selectedProperty().get();
@@ -209,8 +177,32 @@ public class Reminder extends Scene {
 		}
 
 	}
+
+	private void insert_reminder() {
+		ReminderDB reminder = new ReminderDB();
+
+		reminder.setReminder(txtName.getText());
+
+		if (cbxAllDay.selectedProperty().get()) {
+			reminder.setAll_day(true);
+		} else {
+			reminder.setAll_day(false);
+		}
+		reminder.set_user_cod((int) SESSION.get_user_cod());
+		reminder.setRepeat(cbxRepeat.selectedProperty().get());
+		reminder.setStatus(Enums.ReminderStatus.ACTIVE.get_value());
+		reminder.setType_recurrence(
+				this.cbxRepeat.selectedProperty().get() ? this.recurrence.get_recurrence_type() : 0);
+
+		try {
+			create_reminder.insert_reminder(reminder);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
-	 * <H1>testado e funcionando</H1>
+	 * <h2>testado e funcionando</h2>
 	 * 
 	 * insere na tabela de horarios de lembrete, insert para lembretes sem
 	 * recorrencia pode usar o time picker ou intervalo por horas utiliza a classe
@@ -228,7 +220,7 @@ public class Reminder extends Scene {
 		 * se a opção dia todo estiver selecionada entra nessa condição inserts para
 		 * essa opção são diferentes pq lá dentro da função é feita uma formatação na
 		 * data
-		 */	
+		 */
 		String date = this.dtDate.getValue().toString();
 		if (is_all_day_selected) {
 			create_reminder.schedule_without_recurrence(date, new String(), new String(), true, 0);
@@ -272,8 +264,8 @@ public class Reminder extends Scene {
 
 	/**
 	 * <p>
-	 * <h1>Insere os horarios de lembretes com recorrencia quando a recorrencia não
-	 * tem final</h1>
+	 * <h2>Insere os horarios de lembretes com recorrencia quando a recorrencia não
+	 * tem final</h2>
 	 * </p>
 	 * <p>
 	 * Deve ser ser usada somete se a opção "nunca repete" estiver selecionada
@@ -296,7 +288,7 @@ public class Reminder extends Scene {
 
 		boolean by_time_picker = this.radTime.selectedProperty().get();
 
-		boolean by_week = this.recurrence.get_recurrence_type() == Enums.TypeRecurrence.WEEKLY.get_value();
+		boolean by_week = this.recurrence.get_recurrence_type() == Enums.TypeRecurrence.WEEKLY.getValue();
 		boolean is_all_day_selected = this.cbxAllDay.selectedProperty().get();
 
 		String time_begin = this.interval.start_time();
@@ -359,7 +351,7 @@ public class Reminder extends Scene {
 
 		boolean by_time_picker = this.radTime.selectedProperty().get();
 
-		boolean by_week = this.recurrence.get_recurrence_type() == Enums.TypeRecurrence.WEEKLY.get_value();
+		boolean by_week = this.recurrence.get_recurrence_type() == Enums.TypeRecurrence.WEEKLY.getValue();
 		boolean is_all_day_selected = this.cbxAllDay.selectedProperty().get();
 
 		String time_begin = this.interval.start_time();
@@ -436,6 +428,7 @@ public class Reminder extends Scene {
 
 		return;
 	}
+
 	/*
 	 * como essas esses dois algoritmos estavam se repetindo bastante no codigo
 	 * criei funções para eles
@@ -458,10 +451,11 @@ public class Reminder extends Scene {
 		}
 		return list;
 	}
+
 	/**
 	 * @author jefter66
 	 *         <p>
-	 *         <h1>Retorna os dias da semana selecionados</h1>
+	 *         <h2>Retorna os dias da semana selecionados</h2>
 	 *         </p>
 	 *         Se o dia referente ao valor atual do contador for true, ou seja, foi
 	 *         selecionado vai adicionar o valor do contador a uma variavel por
@@ -482,6 +476,7 @@ public class Reminder extends Scene {
 		}
 		return list;
 	}
+
 	private void setVisiblility(Node node, boolean state) {
 		node.setVisible(state);
 		node.setManaged(state);
