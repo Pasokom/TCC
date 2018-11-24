@@ -4,8 +4,9 @@ import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.Optional;
 
+import db.function.mysql.HandlerRegistration;
 import db.functions.HandlerLogin;
-import db.functions.HandlerRegistration;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -33,6 +34,8 @@ public class Login extends Scene {
 	private Label lblNomeCadast;
 	private Label lblEmailCadast;
 	private Label lblSenhaCadast;
+	
+	private Label lblLog;
 
 	private Button btnEntrar;
 	private Button btnCadastrar;
@@ -81,6 +84,8 @@ public class Login extends Scene {
 
 		lblTitleCadast = new Label("Cadastro");
 		lblTitleCadast.setFont(new Font(25));
+		
+		lblLog = new Label();
 
 		/* Email */
 		HBox hbEmail = new HBox();
@@ -222,7 +227,8 @@ public class Login extends Scene {
 		pnlLayout.add(lblSenhaCadast, 0, 4);
 		pnlLayout.add(txtSenhaCadast, 1, 4);
 		pnlLayout.add(txtSenhaConfirmCadast, 1, 5);
-		pnlLayout.add(hCadastro, 0, 6, 2, 1);
+		pnlLayout.add(lblLog, 0, 6);
+		pnlLayout.add(hCadastro, 0, 7, 2, 1);
 
 		AnchorPane.setTopAnchor(vbLogin, 0d);
 		AnchorPane.setBottomAnchor(vbLogin, 0d);
@@ -295,13 +301,13 @@ public class Login extends Scene {
 	private void registration() throws ClassNotFoundException, SQLException {
 
 		if (txtSenhaCadast.getText().isEmpty() || txtSenhaConfirmCadast.getText().isEmpty()) {
-			new Alert(AlertType.ERROR, "campo n√£o preenchido").show();
+			lblLog.setText("campo n„o preenchido");
 			return;
 		}
 		boolean password_are_diferent = txtSenhaCadast.getText().equals(txtSenhaConfirmCadast.getText());
 
 		if (!password_are_diferent) {
-			new Alert(AlertType.ERROR, "senhas diferentes").showAndWait();
+			lblLog.setText("senhas informadas n„o correspondem");
 			return;
 		}
 
@@ -309,7 +315,7 @@ public class Login extends Scene {
 		boolean is_name_field_empty = txtNomeCadast.getText().isEmpty();
 
 		if (is_email_field_empty || is_name_field_empty) {
-			new Alert(AlertType.ERROR, "campo n√£o preenchido").showAndWait();
+			lblLog.setText("campo n„o preenchido");
 			return;
 		}
 		if (!this.registration.email_exists(txtEmailCadast.getText())) {
@@ -330,9 +336,10 @@ public class Login extends Scene {
 					componenteLogin();
 				}
 			}
+			lblLog.setText("Usu·rio cadastrado com sucesso");
 			return;
 		}
-		new Alert(AlertType.INFORMATION, "email informado j√° est√° cadastrado").showAndWait();
+		lblLog.setText("email informado j· foi cadastrado");
 		return;
 	}
 }

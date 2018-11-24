@@ -8,8 +8,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import javax.swing.plaf.synth.SynthStyle;
-
 import component.Recurrence;
 import component.TimePickerList;
 import component.reminder.IntervalComponent;
@@ -50,14 +48,19 @@ public class Reminder extends Scene {
 //	private VBox vb_recurrence;
 	private CreateReminder create_reminder;
 
-	public Reminder() throws ClassNotFoundException, SQLException {
+	public Reminder() {
 		super(new HBox());
 
 		recurrence = new Recurrence();
 		setVisiblility(recurrence, false);
 
 		time_picker_list = new TimePickerList();
-		this.create_reminder = new CreateReminder();
+		try {
+			this.create_reminder = new CreateReminder();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		VBox vb = new VBox();
 		vb.setSpacing(20);
 		vb.setPadding(new Insets(20, 35, 50, 35));
@@ -124,7 +127,6 @@ public class Reminder extends Scene {
 			boolean is_never_end_selected = recurrence.is_never_selected();
 
 			String date = dtDate.getValue().toString();
-			
 			
 			insert_reminder();
 

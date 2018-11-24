@@ -1,7 +1,8 @@
 package main;
 
 import db.Database;
-import display.Reminder;
+import display.HomePage;
+import display.Login;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -19,7 +20,7 @@ public class Main extends Application {
 
 		main_stage = primaryStage;
 
-		main_stage.setScene(new Reminder());
+		main_stage.setScene(new HomePage());
 		main_stage.setWidth(800);
 		main_stage.setHeight(500);
 		main_stage.show();

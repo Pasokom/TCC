@@ -57,6 +57,9 @@ public class Recurrence extends VBox {
 	public ArrayList<Boolean> get_selected_day() { 
 		return this.dayOfWeekSelector.selected_day();
 	}
+	public boolean[] get_selected_days() { 
+		return this.dayOfWeekSelector.selected_days();
+	}
 	public String get_end_date() { 
 		return endRecurrence.getChoosed_date();
 	}
@@ -65,6 +68,10 @@ public class Recurrence extends VBox {
 	}
 	public boolean is_never_selected() { 
 		return endRecurrence.is_never_end_selected();
+	}
+	
+	public int getSelectedEnd() {
+		return endRecurrence.getSelectedEnd();
 	}
 }
 

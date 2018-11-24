@@ -19,7 +19,7 @@ public class HandlerLogin {
 
 		// JEFTER.SANTIAGO66@GMAIL.COM
 			
-		String sql = "SELECT UCODIGO, UNOME, USOBRENOME, UEMAIL, USENHA FROM VIEW_INICIA_SESSAO WHERE UEMAIL='"+email+"' AND USENHA='"+ password +"';";
+		String sql = "SELECT UCODIGO, UEMAIL, UNOME, USOBRENOME, USENHA FROM USUARIO WHERE UEMAIL='"+email+"' AND USENHA='"+ password +"';";
 		ResultSet result = Database.get_connection().createStatement().executeQuery(sql);
 		
 		System.out.println(!result.first() ? "[WARNING] : no data found" : "[CONFIRMATION] : work");

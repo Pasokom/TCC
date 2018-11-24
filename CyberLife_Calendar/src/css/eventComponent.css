@@ -1,0 +1,12 @@
+
+Label{
+	-fx-text-fill: white;
+}
+
+#card{
+	-fx-border-radius: 10;
+	-fx-border-color: black;
+	-fx-background-color: blue;
+	-fx-background-radius: 10;
+	-fx-padding: 5 50 5 10;
+}

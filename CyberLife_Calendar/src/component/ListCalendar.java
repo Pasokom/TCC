@@ -1,65 +1,45 @@
-package component.reminder;
+package component;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import component.CustomScroll;
+import component.EventComponent;
 import component.ReminderComponent;
+import db.functions.RetrieveEvents;
 import db.functions.RetrieveReminders;
+import db.pojo.EventDB;
 import db.pojo.ReminderBanco;
-import display.Event;
-import display.Reminder;
-import javafx.geometry.Pos;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import main.Main;
 
-public class ListReminders extends VBox{
+public class ListCalendar extends VBox{
 
-	
 	private Label lblReminder;
 	private VBox vContent;
 	private CustomScroll listReminder;
-	private HBox hButtons;
-	private Button btnAddReminder;
 	
-	public ListReminders () { 
+	RetrieveEvents retrieveEvents = new RetrieveEvents();
+	
+	public ListCalendar () { 
 		
 		this.setStyle("-fx-background-color: #DEDEDE");
 		
-		this.lblReminder = new Label("Programaï¿½ï¿½o");
+		this.lblReminder = new Label("Programação");
 		
 		this.vContent = new VBox();
+		vContent.setPadding(new Insets(10));
+		vContent.setSpacing(10);
 		this.listReminder =  new CustomScroll();
-		
-		this.hButtons=new HBox();
-		hButtons.setAlignment(Pos.CENTER_RIGHT);
-		this.btnAddReminder = new Button("+");
-		this.btnAddReminder.setOnAction(e -> {
-		
-			Main.main_stage.setScene(new Event());
-		});
-		
-		hButtons.getChildren().add(btnAddReminder);
 		
 		listReminder.setComponent(vContent);
 		
-		for ( int i = 0 ; i < 5 ; i ++) { 
-			
-			ReminderComponent rc = new ReminderComponent();
-			rc.lblDay.setText("segunda");
-			rc.lblHour.setText("17:20");
-			rc.lblReminderTitle.setText("Limpar o quarto");
-			
-			vContent.getChildren().add(rc);
-		}
-		this.setAlignment(Pos.CENTER);
-		
 		this.getChildren().add(lblReminder);
 		this.getChildren().add(listReminder);
-		this.getChildren().add(hButtons);
+		
+		addEvents();
 	}
 	
 	public void addReminders() {
@@ -73,6 +53,19 @@ public class ListReminders extends VBox{
 			rc.lblReminderTitle.setText(reminderBanco.getTitulo());
 			
 			vContent.getChildren().add(rc);
+		}
+	}
+	
+	public void addEvents() {
+		retrieveEvents.updateList();
+		
+		for(EventDB event : RetrieveEvents.listEvents) {		
+			EventComponent eC = new EventComponent();
+			
+			eC.getLbl_titulo().setText(event.getTitulo());
+			eC.getLbl_hora().setText(event.getData_inicio().toString());
+			
+			this.vContent.getChildren().add(eC);
 		}
 	}
 }
