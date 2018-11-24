@@ -6,3 +6,7 @@
 HBox{
 	-fx-spacing: 10;
 }
+
+Label{
+	-fx-text-fill: white;
+}

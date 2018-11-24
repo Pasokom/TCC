@@ -2,6 +2,8 @@ package component;
 
 import display.Event;
 import display.Reminder;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -62,6 +64,19 @@ public class AddFloatingActionButton extends StackPane {
 		
 		Stage stage = new Stage();
 		stage.initStyle(StageStyle.UNDECORATED);
+		
+		stage.focusedProperty().addListener(new ChangeListener<Boolean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+
+				if (!newValue) {
+
+					stage.close();
+				}
+			}
+
+		});
 		
 		VBox vOptions = new VBox();
 		

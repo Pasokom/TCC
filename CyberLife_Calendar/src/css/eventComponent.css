@@ -1,12 +1,17 @@
+#this{
+	-fx-background-color: transparent;
+}
 
 Label{
 	-fx-text-fill: white;
 }
 
 #card{
-	-fx-border-radius: 10;
-	-fx-border-color: black;
-	-fx-background-color: blue;
-	-fx-background-radius: 10;
+	-fx-background-color: #0336FF;
+	-fx-background-radius: 7 0 0 7;
 	-fx-padding: 5 50 5 10;
+}
+
+#titulo{
+	-fx-font-weight: bold;
 }

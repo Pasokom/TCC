@@ -1,6 +1,7 @@
 package component;
 
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class EventComponent extends VBox {
@@ -15,8 +16,9 @@ public class EventComponent extends VBox {
 		
 		lbl_hora = new Label();
 		lbl_titulo = new Label();
+		lbl_titulo.setId("titulo");
 		
-		VBox card = new VBox();
+		HBox card = new HBox();
 		card.getChildren().addAll(lbl_titulo, lbl_hora);
 		card.setId("card");
 		
