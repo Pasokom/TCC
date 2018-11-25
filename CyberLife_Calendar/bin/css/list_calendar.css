@@ -1,0 +1,20 @@
+#this{
+	-fx-background-color: #DEDEDE;
+}
+
+#header{
+	-fx-background-color: #009688;
+	-fx-padding: 20 20 20 10;
+}
+
+#header Label{
+	-fx-text-fill: white;
+}
+
+#content{
+	-fx-background-color: transparent;
+}
+
+#list{
+	-fx-background-color: transparent;
+}

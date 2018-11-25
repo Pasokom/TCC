@@ -1,0 +1,12 @@
+#this{
+	-fx-background-color: rgb(9, 84, 178);
+	-fx-padding: 15 30 15 15;
+}
+
+HBox{
+	-fx-spacing: 10;
+}
+
+Label{
+	-fx-text-fill: white;
+}
