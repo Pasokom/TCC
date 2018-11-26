@@ -127,7 +127,7 @@ public class CreateReminder {
 		date_begin = is_all_day ? this.format(date_begin) : date_begin;
 		date_end = is_all_day ? this.format(date_end) : date_end;
 
-		String sql = "{ CALL RECORRENCIA_DATA_DEFINIDA(?,?,?,?,?,?,?,?,)}";
+		String sql = "{ CALL RECORRENCIA_DATA_DEFINIDA(?,?,?,?,?,?,?,?)}";
 
 		CallableStatement stmt = this.connection.prepareCall(sql);
 
@@ -148,7 +148,7 @@ public class CreateReminder {
 
 		date_begin = is_all_day ? this.format(date_begin) : date_begin;
 
-		String sql = "{CALL RECORRENCIA_QTD_REPETICAO(?,?,?,?,?,?,?,?)}";
+		String sql = "{CALL RECORRENCIA_POR_QTDE_REPETICAO(?,?,?,?,?,?,?,?)}";
 
 		CallableStatement stmt = this.connection.prepareCall(sql);
 
@@ -157,8 +157,9 @@ public class CreateReminder {
 		stmt.setString(3, time_end);
 		stmt.setInt(4, interval);
 		stmt.setInt(5, recurrence);
-		stmt.setInt(6, amount);
-		stmt.setInt(7, this.get_reminder_cod());
+		stmt.setInt(6, week_day);
+		stmt.setInt(7, amount);
+		stmt.setInt(8, this.get_reminder_cod());
 
 		stmt.execute();
 		return;
@@ -169,7 +170,7 @@ public class CreateReminder {
 		String sql = "{CALL ADICIONAR_LEMBRETE(?,?,?,?,?,?)}";
 
 		CallableStatement stmt = Database.get_connection().prepareCall(sql);
-		
+
 		stmt.setString("LEMBRETE", reminder.getTitle());
 		stmt.setBoolean("ATIVO", reminder.isActive());
 		stmt.setInt("TIPO_REPETICAO", reminder.getRepetitionType());

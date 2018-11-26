@@ -28,7 +28,6 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import statics.Enums;
-import statics.SESSION;
 
 public class Reminder extends Scene {
 
@@ -82,10 +81,10 @@ public class Reminder extends Scene {
 		btnEnviar.setOnAction(evento -> {
 			try {
 				insert_reminder_and_schedule();
+				return;
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
-			System.out.println("NAO ENTROU");
 		});
 		barraTitulo.getChildren().addAll(txtName, btnEnviar);
 
@@ -175,14 +174,14 @@ public class Reminder extends Scene {
 			schedule_amount_or_date(true);
 			return;
 		}
-
 	}
 
 	private void insert_reminder() {
 		ReminderDB reminder = new ReminderDB();
 
 		reminder.setTitle(txtName.getText());
-		reminder.setRecurrenceType(!this.cbxRepeat.selectedProperty().get() ? 0 : this.recurrence.get_recurrence_type());
+		reminder.setRecurrenceType(
+				!this.cbxRepeat.selectedProperty().get() ? 0 : this.recurrence.get_recurrence_type());
 
 		if (cbxAllDay.selectedProperty().get()) {
 			reminder.setRepetitionType(Enums.RepetitionType.ALL_DAY.getValue());
@@ -217,7 +216,7 @@ public class Reminder extends Scene {
 				e.printStackTrace();
 			}
 		}
-	
+
 	}
 
 	/**
@@ -305,7 +304,8 @@ public class Reminder extends Scene {
 	 */
 	private void never_end_schedule() throws SQLException, ClassNotFoundException {
 
-		boolean by_time_picker = this.radTime.selectedProperty().get();
+		boolean by_time_picker = !this.cbxAllDay.selectedProperty().get() ? this.radTime.selectedProperty().get()
+				: false;
 
 		boolean by_week = this.recurrence.get_recurrence_type() == Enums.TypeRecurrence.WEEKLY.getValue();
 		boolean is_all_day_selected = this.cbxAllDay.selectedProperty().get();
@@ -318,7 +318,7 @@ public class Reminder extends Scene {
 
 		int recurrence = this.recurrence.get_recurrence_value();
 
-		while (by_week) {
+		if (by_week) {
 
 			while (!is_all_day_selected) {
 				if (by_time_picker) {
@@ -334,7 +334,6 @@ public class Reminder extends Scene {
 
 							this.create_reminder.schedule_recurrence_never_end(date_choosed, new String(), new String(),
 									false, 0, recurrence, week_day);
-							j = 0;
 						}
 					}
 					return;
@@ -351,6 +350,7 @@ public class Reminder extends Scene {
 				this.create_reminder.schedule_recurrence_never_end(date_time, new String(), new String(), true, 0,
 						recurrence, week_day);
 			}
+			return;
 		}
 
 		if (by_time_picker) {
@@ -368,8 +368,8 @@ public class Reminder extends Scene {
 
 	private void schedule_amount_or_date(boolean is_by_amount) throws SQLException, ClassNotFoundException {
 
-		boolean by_time_picker = this.radTime.selectedProperty().get();
-
+		boolean by_time_picker = !this.cbxAllDay.selectedProperty().get() ? this.radTime.selectedProperty().get()
+				: false;
 		boolean by_week = this.recurrence.get_recurrence_type() == Enums.TypeRecurrence.WEEKLY.getValue();
 		boolean is_all_day_selected = this.cbxAllDay.selectedProperty().get();
 
