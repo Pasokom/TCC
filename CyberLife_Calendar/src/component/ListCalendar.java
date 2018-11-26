@@ -1,5 +1,11 @@
 package component;
 
+import java.sql.Timestamp;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,6 +29,7 @@ import javafx.scene.text.TextAlignment;
 
 public class ListCalendar extends VBox{
 
+	private Date date;
 	private Label lblSelectedDate, lblReminder;
 	private VBox vContent;
 	private CustomScroll listReminder;
@@ -30,12 +37,13 @@ public class ListCalendar extends VBox{
 	
 	RetrieveEvents retrieveEvents = new RetrieveEvents();
 	
-	public ListCalendar () { 
+	public ListCalendar (Date date) { 
+		
+		this.date = date;
 		
 		this.prefWidthProperty().set(250);
 		this.setId("this");
 		
-		Date date = new Date();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 	
@@ -115,18 +123,27 @@ public class ListCalendar extends VBox{
 	public void addEvents() {
 		retrieveEvents.updateList();
 		
-		for(EventDB event : RetrieveEvents.listEvents) {		
-			EventComponent eC = new EventComponent();
+		for(EventDB event : RetrieveEvents.listEvents) {
 			
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(event.getData_inicio());
+			Date eventDate = new Date(event.getData_inicio().getTime());
 			
-			eC.getLbl_titulo().setText(event.getTitulo());
-			eC.getLbl_hora().setText(" - " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + String.format("%02d", calendar.get(Calendar.MINUTE)));
+			LocalDate myDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			LocalDate myEventDate = eventDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			
-			calendar.setTime(event.getData_inicio());
-			
-			((VBox)((VBox)this.vContent.getChildren().get(calendar.get(Calendar.HOUR_OF_DAY))).getChildren().get(1)).getChildren().add(eC);
+			if(myDate.compareTo(myEventDate) == 0) {
+				
+				EventComponent eC = new EventComponent();
+				
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(event.getData_inicio());
+				
+				eC.getLbl_titulo().setText(event.getTitulo());
+				eC.getLbl_hora().setText(" - " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + String.format("%02d", calendar.get(Calendar.MINUTE)));
+				
+				calendar.setTime(event.getData_inicio());
+				
+				((VBox)((VBox)this.vContent.getChildren().get(calendar.get(Calendar.HOUR_OF_DAY))).getChildren().get(1)).getChildren().add(eC);
+			}
 		}
 	}
 }
