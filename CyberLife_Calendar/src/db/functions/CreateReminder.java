@@ -169,13 +169,13 @@ public class CreateReminder {
 		String sql = "{CALL ADICIONAR_LEMBRETE(?,?,?,?,?,?)}";
 
 		CallableStatement stmt = Database.get_connection().prepareCall(sql);
-
-		stmt.setString(1, reminder.getReminder().getText());
-		stmt.setBoolean(2, reminder.isAll_day());
-		// stmt.setString(3, reminder.getStatus());
-		stmt.setString(4, reminder.getType_recurrence() == 0 ? null : String.valueOf(reminder.getType_recurrence()));
-		stmt.setString(5, "@returned_value");
-		stmt.setInt(6, 3);// (int) SESSION.get_user_cod());
+		
+		stmt.setString("LEMBRETE", reminder.getTitle());
+		stmt.setBoolean("ATIVO", reminder.isActive());
+		stmt.setInt("TIPO_REPETICAO", reminder.getRepetitionType());
+		stmt.setInt("TIPO_RECORRENCIA", reminder.getRecurrenceType());
+		stmt.setString("CODIGO_LEMBRETE", "@returned_value");
+		stmt.setInt("USUARIO", reminder.getUserID());
 
 		stmt.registerOutParameter(5, Types.INTEGER);
 

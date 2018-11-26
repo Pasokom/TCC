@@ -181,24 +181,43 @@ public class Reminder extends Scene {
 	private void insert_reminder() {
 		ReminderDB reminder = new ReminderDB();
 
-		reminder.setReminder(txtName.getText());
+		reminder.setTitle(txtName.getText());
+		reminder.setRecurrenceType(!this.cbxRepeat.selectedProperty().get() ? 0 : this.recurrence.get_recurrence_type());
 
 		if (cbxAllDay.selectedProperty().get()) {
-			reminder.setAll_day(true);
-		} else {
-			reminder.setAll_day(false);
+			reminder.setRepetitionType(Enums.RepetitionType.ALL_DAY.getValue());
+			reminder.setActive(true);
+			reminder.setUserID(1); // (int) SESSION.get_user_cod());
+			try {
+				create_reminder.insert_reminder(reminder);
+				return;
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		reminder.set_user_cod((int) SESSION.get_user_cod());
-		reminder.setRepeat(cbxRepeat.selectedProperty().get());
-		reminder.setStatus(Enums.ReminderStatus.ACTIVE.get_value());
-		reminder.setType_recurrence(
-				this.cbxRepeat.selectedProperty().get() ? this.recurrence.get_recurrence_type() : 0);
-
-		try {
-			create_reminder.insert_reminder(reminder);
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+		if (radInterval.selectedProperty().get()) {
+			reminder.setRepetitionType(Enums.RepetitionType.INTERVAL.getValue());
+			reminder.setActive(true);
+			reminder.setUserID(1); // (int) SESSION.get_user_cod());
+			try {
+				create_reminder.insert_reminder(reminder);
+				return;
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+			}
 		}
+		if (radTime.selectedProperty().get()) {
+			reminder.setRepetitionType(Enums.RepetitionType.TIME_PICKER.getValue());
+			reminder.setActive(true);
+			reminder.setUserID(1); // (int) SESSION.get_user_cod());
+			try {
+				create_reminder.insert_reminder(reminder);
+				return;
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	
 	}
 
 	/**

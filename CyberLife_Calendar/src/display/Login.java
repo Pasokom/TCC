@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import db.functions.HandlerLogin;
 import db.functions.HandlerRegistration;
+import db.functions.LoadReminder;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -162,11 +163,20 @@ public class Login extends Scene {
 
 		btnEntrar = new Button("Entrar");
 		this.btnEntrar.setOnAction(e -> {
+
 			try {
-				login();
-			} catch (ClassNotFoundException | SQLException e1) {
+				LoadReminder l = new LoadReminder();
+				l.get_user_reminders();
+			} catch (SQLException | ClassNotFoundException e1) {
 				e1.printStackTrace();
 			}
+
+
+			// try {
+			// login();
+			// } catch (ClassNotFoundException | SQLException e1) {
+			// e1.printStackTrace();
+			// }
 		});
 		this.setOnMouseClicked(e -> {
 			this.lbl_error_message.setVisible(false);
@@ -319,12 +329,16 @@ public class Login extends Scene {
 			String email = txtEmailCadast.getText();
 			String password = txtSenhaCadast.getText();
 
-			/* insere o usuario 
+			/*
+			 * insere o usuario
 			 * 
-			 * aparentemente o valor que a query retorna para quando o insert dá certo é false heuehueh*/
+			 * aparentemente o valor que a query retorna para quando o insert dá certo é
+			 * false heuehueh
+			 */
 			if (this.registration.insert_user(name, last_name, email, password)) {
 				Optional<ButtonType> vOptional = new Alert(AlertType.CONFIRMATION,
-						"Você foi cadastrado " + txtNomeCadast.getText() + " " + txtSobrenomeCadast.getText()).showAndWait();
+						"Você foi cadastrado " + txtNomeCadast.getText() + " " + txtSobrenomeCadast.getText())
+								.showAndWait();
 
 				if (vOptional.get() == ButtonType.OK) {
 					componenteLogin();

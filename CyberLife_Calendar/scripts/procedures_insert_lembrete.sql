@@ -132,29 +132,6 @@ END IF;
 END
 //
   
-
-
-
-	IF INTERVALO  =  0 THEN  
-           IF DIA_SEMANA = 7 THEN 
-              INSERT INTO HORARIO_LEMBRETE ( DATA_LEMBRETE, DATA_FINAL_LEMBRETE, HL_RECORRENCIA, FK_LEMBRETE) 
-                 VALUES 
-                   ( DATA_INICIO, DATA_FINAL,RECORRENCIA, CODIGO_LEMBRETE);
-          ELSE 
-                 INSERT INTO HORARIO_LEMBRETE ( DATA_LEMBRETE, DATA_FINAL_LEMBRETE, HL_RECORRENCIA, HL_SEMANA_DIA,FK_LEMBRETE) 
-                 VALUES 
-                   ( DATA_INICIO, DATA_FINAL, RECORRENCIA, DIA_SEMANA, CODIGO_LEMBRETE);
-          END IF ;
-    ELSE IF INTERVALO > 0 THEN 
-     	IF DIA_SEMANA = 7 THEN 
-     	 	
-    
-         
-    END IF ; 
-      
-      
-      
-    END // 
 	
 
 
