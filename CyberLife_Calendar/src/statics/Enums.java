@@ -6,26 +6,37 @@ public class Enums {
 
 		ENABLED("ATIVADO"), DISABLED("DESATIVADO"), DELETED("DELETADO");
 		private String value;
-		public String getValue() {
+
+		public String get_value() {
 			return this.value;
 		}
+
 		private ReminderStatus(String value) {
 			this.value = value;
 		}
 	}
-	public static enum Day {
-		SUNDAY("DOMINGO"), MONDAY("SEGUNDA"), TUESDAY("TERÇA"), WEDNESDAY("QUARTA"), THURSDAY("QUINTA"), FRIDAY("SEXTA"), SATURDAY("Sab");
+	public static enum TypeRecurrence {
+						// tem que achar uma maneira de tratar as datas corretas
+		DAYLY(1), WEEKLY(7), MONTHLY(30), YEARLY(365);
 
-		private String day;
+		private int  value;
 
-		public String get_day() {
-			return this.day;
+		public int get_value() {
+			return this.value;
 		}
-
-		private Day(String day) {
-			this.day = day;
+		
+		private TypeRecurrence(int value) {
+			this.value = value;
 		}
-
 	}
-
 }
+
+
+
+
+
+
+
+
+
+

@@ -19,7 +19,7 @@ public class SESSION {
 	public static void set_user_cod(int cod) {
 		SESSION.user_cod = cod;
 	}
-	public static void start_session(int cod, String name, String last_name, String email)
+	public static void start_session(int cod, String email, String name, String last_name)
 			throws ClassNotFoundException, SQLException {
 		SESSION.user_cod = cod;
 		SESSION.user_name = name;
@@ -45,8 +45,6 @@ public class SESSION {
 			SESSION.user_reminders().add(r);
 		}
 	}
-	
-	
 	public static ArrayList<ReminderDB> user_reminders() { 
 		return SESSION.list_user_reminders == null ? new ArrayList<ReminderDB>() : list_user_reminders ;
 	}
