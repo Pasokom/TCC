@@ -1,23 +1,81 @@
 package db.pojo;
 
-import java.sql.Date;
+import java.sql.Time;
+import java.util.Date;
 
 public class ReminderSchedule {
 
 	private int cod;
-
+	private int fk_reminder;
 	private Date datetime_begin;
-
 	private Date datetime_end;
-
-	private int minutes_interval;
-
-	private int reminder_cod;
-
+	private Time timeBegin;
+	private Time timeEnd;
+	private int weekDay;
 	private int recurrence;
-	
+	private int minutesInterval;
 	private int amount_of_repetition;
-	
+
+	/**
+	 * @param fk_reminder the fk_reminder to set
+	 */
+	public void setFk_reminder(int fk_reminder) {
+		this.fk_reminder = fk_reminder;
+	}
+	/**
+	 * @return the fk_reminder
+	 */
+	public int getFk_reminder() {
+		return fk_reminder;
+	}
+	/**
+	 * @return the minutesInterval
+	 */
+	public int getMinutesInterval() {
+		return minutesInterval;
+	}
+	/**
+	 * @param minutesInterval the minutesInterval to set
+	 */
+	public void setMinutesInterval(int minutesInterval) {
+		this.minutesInterval = minutesInterval;
+	}
+	/**
+	 * @param timeBegin the timeBegin to set
+	 */
+	public void setTimeBegin(Time timeBegin) {
+		this.timeBegin = timeBegin;
+	}
+	/**
+	 * @param timeEnd the timeEnd to set
+	 */
+	public void setTimeEnd(Time timeEnd) {
+		this.timeEnd = timeEnd;
+	}
+	/**
+	 * @return the timeBegin
+	 */
+	public Time getTimeBegin() {
+		return timeBegin;
+	}
+	/**
+	 * @return the timeEnd
+	 */
+	public Time getTimeEnd() {
+		return timeEnd;
+	}
+	/**
+	 * @return the weekDay
+	 */
+	public int getWeekDay() {
+		return weekDay;
+	}
+	/**
+	 * @param weekDay the weekDay to set
+	 */
+	public void setWeekDay(int weekDay) {
+		this.weekDay = weekDay;
+	}
 	public int getRecurrence() {
 		return recurrence;
 	}
@@ -56,21 +114,5 @@ public class ReminderSchedule {
 
 	public void setDatetime_end(Date datetime_end) {
 		this.datetime_end = datetime_end;
-	}
-
-	public int getMinutes_interval() {
-		return minutes_interval;
-	}
-
-	public void setMinutes_interval(int minutes_interval) {
-		this.minutes_interval = minutes_interval;
-	}
-
-	public int getReminder_cod() {
-		return reminder_cod;
-	}
-
-	public void setReminder_cod(int reminder_cod) {
-		this.reminder_cod = reminder_cod;
 	}
 }

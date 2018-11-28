@@ -63,8 +63,14 @@ public class Recurrence extends VBox {
 	public String get_end_date() { 
 		return endRecurrence.getChoosed_date();
 	}
+	public Boolean on_date()  { 
+		return this.endRecurrence.is_choosed_by_date();
+	}
 	public int get_amount_choosed() { 
 		return endRecurrence.get_amount_repetition();
+	}
+	public boolean is_by_amount() { 
+		return endRecurrence.by_amount_selected();
 	}
 	public boolean is_never_selected() { 
 		return endRecurrence.is_never_end_selected();

@@ -1,7 +1,6 @@
 package main;
 
 import db.Database;
-import display.HomePage;
 import display.Login;
 import javafx.application.Application;
 import javafx.stage.Stage;
