@@ -279,7 +279,6 @@ public class Reminder extends Scene {
 				+ " minutos.");
 		return;
 	}
-
 	/**
 	 * <p>
 	 * <h2>Insere os horarios de lembretes com recorrencia quando a recorrencia não

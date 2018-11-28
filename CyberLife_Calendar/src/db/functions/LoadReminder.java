@@ -3,9 +3,7 @@ package db.functions;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Date;
 
 import db.Database;
 import db.pojo.ReminderDB;
@@ -21,88 +19,91 @@ public class LoadReminder {
 
 	public void get_user_reminders() throws SQLException, ClassNotFoundException {
 
-		String sql = "SELECT * FROM VIEW_CARREGAR_LEMBRETES WHERE UCODIGO = 1 "; // + SESSION.get_user_cod();
+		// String sql = "SELECT * FROM VIEW_CARREGAR_LEMBRETES WHERE UCODIGO = 1 "; // +
+		// SESSION.get_user_cod();
 
-		ResultSet result = Database.get_connection().createStatement().executeQuery(sql);
+		final String sql = "SELECT LCOD_LEMBRETE, GROUP_CONCAT(HL_CODIGO) CODIGOS FROM VIEW_CARREGAR_LEMBRETES  WHERE UCODIGO = 1  GROUP BY LCOD_LEMBRETE; ";
 
-		ArrayList<ReminderDB> l_reminder = new ArrayList<ReminderDB>();
+		ResultSet result = this.connection.createStatement().executeQuery(sql);
 
-//		System.out.println(!result.first() ? "[WARNING] : no data found" : "[CONFIRMATION] : work");
-//		if (!result.first())
-//			return;
+		ArrayList<ReminderDB> l_listReminders = new ArrayList<ReminderDB>();
 
-		try {
+		System.out.println(!result.first() ? "[WARNING] : no data found" : "[CONFIRMATION] : work");
+		if (!result.first())
+			return;
 
-			ReminderDB reminder = new ReminderDB();
-			
-			while (result.next()) {
-				
-				final int current_id = result.getInt(1);
-				
-				
-				/* starts with one because the index 0 is just to the where clause*/
-				int r_id = result.getInt(1);
-				String r_title = result.getString(2);
-				boolean r_active = result.getBoolean(3);
-				int r_recurrenceType  = result.getInt(4);
-				int r_repetitionType = result.getInt(5);
-				
-				int h_id = result.getInt(6);
-				Date h_dateBegin = result.getDate(5);
-				Date h_finalDate = result.getDate(6);
-				Time h_timeBegin = result.getTime(7);
-				Time h_timeEnd = result.getTime(8);
-				int h_minuteInterval = result.getInt(9);
-				int h_recurrence = result.getInt(10);
-				int h_weekDay = result.getInt(11);
-				int h_repetitionAmount = result.getInt(12);
-				
-				reminder.setReminderId(r_id);
-				if (reminder.getReminderId() == current_id) {
+		while (result.next()) {
 
-					reminder.setReminderId(h_id);	
-					reminder.setActive(r_active);
-					reminder.setTitle(r_title);
-					reminder.setRecurrenceType(r_recurrenceType);
-					reminder.setRepetitionType(r_repetitionType);
-					
-					ReminderSchedule rs = new ReminderSchedule();
-					
-					
-					
-					
-					
-					reminder.getlReminderSchedule().add(rs);
-					
-		
+			System.out.println("dentro");
+
+			int l_reminderId = result.getInt(1);
+
+			final String l_queryReminder = "SELECT * FROM LEMBRETE WHERE LCOD_LEMBRETE = " + l_reminderId + " ;";
+
+			// System.out.println(l_queryReminder);
+
+			ResultSet l_bringReminder = this.connection.createStatement().executeQuery(l_queryReminder);
+
+			ReminderDB l_reminder = new ReminderDB();
+
+			if (!l_bringReminder.first())
+				return;
+
+			l_reminder.setReminderId(l_bringReminder.getInt(1));
+			l_reminder.setTitle(l_bringReminder.getString(2));
+			l_reminder.setActive(l_bringReminder.getBoolean(3));
+			l_reminder.setRecurrenceType(l_bringReminder.getInt(4));
+			l_reminder.setRepetitionType(l_bringReminder.getInt(5));
+
+			int[] l_scheduleIds = schedulesIDs(result.getString(2));
+			for (int i = 0; i < l_scheduleIds.length; i++) {
+
+				final String l_querySchedule = "SELECT  * FROM HORARIO_LEMBRETE WHERE HL_CODIGO =" + l_scheduleIds[i]
+						+ ";";
+
+				// System.out.println(l_querySchedule);
+
+				ResultSet l_bringSchedules = this.connection.createStatement().executeQuery(l_querySchedule);
+
+				ReminderSchedule rs = new ReminderSchedule();
+
+				while (l_bringSchedules.next()) {
+
+					rs.setCod(l_bringSchedules.getInt(1));
+					rs.setDatetime_begin(l_bringSchedules.getDate(2));
+					rs.setDatetime_end(l_bringSchedules.getDate(3));
+					rs.setTimeBegin(l_bringSchedules.getTime(4));
+					rs.setTimeEnd(l_bringSchedules.getTime(5));
+					rs.setMinutesInterval(l_bringSchedules.getInt(6));
+					rs.setRecurrence(l_bringSchedules.getInt(7));
+					rs.setWeekDay(l_bringSchedules.getInt(8));
+					rs.setAmount_of_repetition(l_bringSchedules.getInt(9));
+					rs.setFk_reminder(l_bringSchedules.getInt(10));
+
+					l_reminder.getlReminderSchedule().add(rs);
+
+					// System.out.println(rs.getCod());
+
 				}
-				
-				
-				
-				
-				
-				
-				
-				System.out.println(result.getString("TITULO"));
-				
+				l_listReminders.add(l_reminder);
 			}
-		} finally {
-			connection.close();
+		}
+		ArrayList<ReminderSchedule> x = l_listReminders.get(0).getlReminderSchedule();
+		for (int i = 0; i < x.size(); i++) {
+			System.out.println(x.get(i).getCod());
 		}
 	}
+	/**
+	 * Formata os valores vindos da consulta (os ids dos lembretes) função para
+	 * recuperar cada um deles por vez do banco
+	 */
+	private int[] schedulesIDs(String reference) {
+
+		String[] x = reference.split(",");
+		int l_listReturn[] = new int[x.length];
+		for (int i = 0; i < x.length; i++) {
+			l_listReturn[i] = Integer.valueOf(String.valueOf(x[i]));
+		}
+		return l_listReturn;
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

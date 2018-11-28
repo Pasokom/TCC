@@ -1,11 +1,12 @@
 package db.pojo;
 
-import java.sql.Date;
 import java.sql.Time;
+import java.util.Date;
 
 public class ReminderSchedule {
 
 	private int cod;
+	private int fk_reminder;
 	private Date datetime_begin;
 	private Date datetime_end;
 	private Time timeBegin;
@@ -15,6 +16,18 @@ public class ReminderSchedule {
 	private int minutesInterval;
 	private int amount_of_repetition;
 
+	/**
+	 * @param fk_reminder the fk_reminder to set
+	 */
+	public void setFk_reminder(int fk_reminder) {
+		this.fk_reminder = fk_reminder;
+	}
+	/**
+	 * @return the fk_reminder
+	 */
+	public int getFk_reminder() {
+		return fk_reminder;
+	}
 	/**
 	 * @return the minutesInterval
 	 */

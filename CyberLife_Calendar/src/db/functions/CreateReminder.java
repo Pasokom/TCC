@@ -25,7 +25,7 @@ public class CreateReminder {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public void shedule_repetition(boolean interval_by_minute, String begin_in, String end_in, int recurrence,
+	public void shedule_whithout_repetition(boolean interval_by_minute, String begin_in, String end_in, int recurrence,
 			int interval, int amount_repetition) throws ClassNotFoundException, SQLException {
 
 		String begin = interval_by_minute ? this.format(begin_in) : begin_in;
