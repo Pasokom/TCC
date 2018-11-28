@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class ReminderDB {
 
-
 	private int reminderId;
 	private String title;
 	private boolean active;

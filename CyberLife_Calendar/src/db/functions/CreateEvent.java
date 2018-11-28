@@ -1,4 +1,4 @@
-package db.function.mysql;
+package db.functions;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,7 +8,8 @@ import java.sql.Statement;
 import java.util.Calendar;
 
 import db.Database;
-import db.pojo.EventDB;import db.pojo.EventEndSchedule;
+import db.pojo.EventDB;
+import db.pojo.EventEndSchedule;
 import db.pojo.EventSchedule;
 import statics.SESSION;
 
@@ -25,7 +26,7 @@ public class CreateEvent {
 		String sql = "insert into EVENTO (TITULO, DATA_INICIO, DATA_FIM, LOCAL_EVENTO, DESCRICAO, TIPO_REPETICAO, TIPO_FIM_REPETICAO, FK_USUARIO) "
 				+ "values(?,?,?,?,?,?,?,?)";
 		
-		PreparedStatement statement = Database.get_connection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement statement = this.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		statement.setString(1, event.getTitulo());
 		statement.setTimestamp(2, event.getData_inicio(), Calendar.getInstance());
 		statement.setTimestamp(3, event.getData_fim(), Calendar.getInstance());
@@ -49,7 +50,7 @@ public class CreateEvent {
 		String sql = "insert into E_REPETIR (INTERVALO, DIAS_SEMANA, FK_EVENTO)"
 				+ "values(?,?,?)";
 		
-		PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+		PreparedStatement statement = this.connection.prepareStatement(sql);
 		statement.setInt(1, schedule.getIntervalo());
 		statement.setString(2, schedule.getDias_semanaToString());
 		statement.setInt(3, schedule.getFk_evento());
@@ -62,7 +63,7 @@ public class CreateEvent {
 		String sql = "insert into E_FIM_REPETICAO(DIA_FIM, QTD_RECORRENCIAS, FK_EVENTO)"
 				+ "values(?,?,?)";
 		
-		PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+		PreparedStatement statement = this.connection.prepareStatement(sql);
 		statement.setDate(1, schedule.getDia_fim());
 		statement.setInt(2, schedule.getQtd_recorrencias());
 		statement.setInt(3, schedule.getFk_evento());
