@@ -314,7 +314,6 @@ public class Reminder extends Scene {
 	 * horario do lembrete Condicionais para checar qual o tipo de horario o usuario
 	 * escolheu, se é com o time picker ou por intervalo de horas.
 	 * </p>
-	 * 
 	 * @author jefter66
 	 * @param date
 	 * @param all_day

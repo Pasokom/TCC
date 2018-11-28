@@ -174,12 +174,6 @@ public class Login extends Scene {
 			} catch (SQLException | ClassNotFoundException e1) {
 				e1.printStackTrace();
 			}
-
-			// try {
-			// login();
-			// } catch (ClassNotFoundException | SQLException e1) {
-			// e1.printStackTrace();
-			// }
 		});
 		this.setOnMouseClicked(e -> {
 			this.lbl_error_message.setVisible(false);

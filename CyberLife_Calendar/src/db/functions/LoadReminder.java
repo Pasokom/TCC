@@ -29,6 +29,7 @@ public class LoadReminder {
 		ArrayList<ReminderDB> l_listReminders = new ArrayList<ReminderDB>();
 
 		System.out.println(!result.first() ? "[WARNING] : no data found" : "[CONFIRMATION] : work");
+
 		if (!result.first())
 			return;
 
@@ -56,12 +57,12 @@ public class LoadReminder {
 			l_reminder.setRepetitionType(l_bringReminder.getInt(5));
 
 			int[] l_scheduleIds = schedulesIDs(result.getString(2));
+
 			for (int i = 0; i < l_scheduleIds.length; i++) {
 
-				final String l_querySchedule = "SELECT  * FROM HORARIO_LEMBRETE WHERE HL_CODIGO =" + l_scheduleIds[i]
-						+ ";";
+				final String l_querySchedule = "SELECT  * FROM HORARIO_LEMBRETE WHERE HL_CODIGO =" + l_scheduleIds[i]+ ";";
 
-				// System.out.println(l_querySchedule);
+				System.out.println(l_querySchedule);
 
 				ResultSet l_bringSchedules = this.connection.createStatement().executeQuery(l_querySchedule);
 
@@ -80,11 +81,12 @@ public class LoadReminder {
 
 				l_reminder.getlReminderSchedule().add(rs);
 
-				// System.out.println(rs.getCod());
+				System.out.println(rs.getCod());
 
 				l_listReminders.add(l_reminder);
 			}
 		}
+		// TODO delete some day...
 		ArrayList<ReminderSchedule> x = l_listReminders.get(0).getlReminderSchedule();
 		for (int i = 0; i < x.size(); i++) {
 			System.out.println(x.get(i).getCod());
