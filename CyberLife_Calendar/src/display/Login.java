@@ -35,6 +35,8 @@ public class Login extends Scene {
 	private Label lblEmailCadast;
 	private Label lblSenhaCadast;
 
+	private Label lblLog;
+
 	private Button btnEntrar;
 	private Button btnCadastrar;
 	private Button rdHabilitarCadast;
@@ -82,6 +84,8 @@ public class Login extends Scene {
 
 		lblTitleCadast = new Label("Cadastro");
 		lblTitleCadast.setFont(new Font(25));
+
+		lblLog = new Label();
 
 		/* Email */
 		HBox hbEmail = new HBox();
@@ -171,7 +175,6 @@ public class Login extends Scene {
 				e1.printStackTrace();
 			}
 
-
 			// try {
 			// login();
 			// } catch (ClassNotFoundException | SQLException e1) {
@@ -232,7 +235,8 @@ public class Login extends Scene {
 		pnlLayout.add(lblSenhaCadast, 0, 4);
 		pnlLayout.add(txtSenhaCadast, 1, 4);
 		pnlLayout.add(txtSenhaConfirmCadast, 1, 5);
-		pnlLayout.add(hCadastro, 0, 6, 2, 1);
+		pnlLayout.add(lblLog, 0, 6, 2, 1);
+		pnlLayout.add(hCadastro, 0, 7, 2, 1);
 
 		AnchorPane.setTopAnchor(vbLogin, 0d);
 		AnchorPane.setBottomAnchor(vbLogin, 0d);
@@ -270,7 +274,7 @@ public class Login extends Scene {
 	/**
 	 * usa a classe {@link HandlerLogin} para fazer o login, se os dados informados
 	 * estiverem errados a label de mensagem de erro vai ficar visivel se o login
-	 * for feito com sucesso irá iniciar as variaveis globais da classe
+	 * for feito com sucesso ir�o iniciar as variaveis globais da classe
 	 * {@link statics.SESSION} e abrir a tela principal
 	 * 
 	 * @throws ClassNotFoundException
@@ -305,13 +309,18 @@ public class Login extends Scene {
 	private void registration() throws ClassNotFoundException, SQLException {
 
 		if (txtSenhaCadast.getText().isEmpty() || txtSenhaConfirmCadast.getText().isEmpty()) {
-			new Alert(AlertType.ERROR, "campo não preenchido").show();
+			lblLog.setText("Podem haver campos n�o preenchidos!");
+			return;
+		}
+
+		if (txtSenhaCadast.getText().length() < 8) {
+			lblLog.setText("Senha deve conter no min�mo 8 caracteres!");
 			return;
 		}
 		boolean password_are_diferent = txtSenhaCadast.getText().equals(txtSenhaConfirmCadast.getText());
 
 		if (!password_are_diferent) {
-			new Alert(AlertType.ERROR, "senhas diferentes").showAndWait();
+			lblLog.setText("senhas informadas n�o correspondem!");
 			return;
 		}
 
@@ -319,9 +328,16 @@ public class Login extends Scene {
 		boolean is_name_field_empty = txtNomeCadast.getText().isEmpty();
 
 		if (is_email_field_empty || is_name_field_empty) {
-			new Alert(AlertType.ERROR, "campo não preenchido").showAndWait();
+			lblLog.setText("pode haver campos n�o preenchidos!");
 			return;
 		}
+
+		if (!txtEmailCadast.getText().contains("@")
+				&& (!txtEmailCadast.getText().contains(".com") || !txtEmailCadast.getText().contains(".br"))) {
+			lblLog.setText("Formato de e-mail n�o reconhecido!");
+			return;
+		}
+
 		if (!this.registration.email_exists(txtEmailCadast.getText())) {
 
 			String name = txtNomeCadast.getText();
@@ -336,17 +352,16 @@ public class Login extends Scene {
 			 * false heuehueh
 			 */
 			if (this.registration.insert_user(name, last_name, email, password)) {
-				Optional<ButtonType> vOptional = new Alert(AlertType.CONFIRMATION,
-						"Você foi cadastrado " + txtNomeCadast.getText() + " " + txtSobrenomeCadast.getText())
-								.showAndWait();
-
+				Optional<ButtonType> vOptional = new Alert(AlertType.CONFIRMATION, "Voc� foi cadastrado coom sucesso! "
+						+ txtNomeCadast.getText() + " " + txtSobrenomeCadast.getText()).showAndWait();
 				if (vOptional.get() == ButtonType.OK) {
 					componenteLogin();
 				}
 			}
+			lblLog.setText("Usu�rio cadastrado com sucesso");
 			return;
 		}
-		new Alert(AlertType.INFORMATION, "email informado já está cadastrado").showAndWait();
+		lblLog.setText("email informado já foi cadastrado");
 		return;
 	}
 }

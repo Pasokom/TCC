@@ -1,70 +1,81 @@
 package display;
 import java.io.FileNotFoundException;
+import java.util.Calendar;
+import java.util.Date;
 
+import component.CalendarBar;
+import component.CalendarComponent;
+import component.ListCalendar;
+import component.NavigationMenu;
 import component.ProfileComponent;
 import component.reminder.ListReminders;
-import javafx.geometry.Pos;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.Main;
 
 public class HomePage extends Scene {
 
-	private VBox vRight;
-	//private HBox hContent;
-	private HBox hLeft, hRight;
-	
-	private ListReminders reminderList;
-	
+	private NavigationMenu menu;
+	public static ListCalendar reminderList;
 	private ProfileComponent profileContent;
+	private AnchorPane layout;
 	
 	public HomePage() throws FileNotFoundException {
 		super (new VBox());
 		
 		Main.main_stage.setWidth(800);
 		Main.main_stage.setHeight(500);
-		
-		this.vRight = new VBox();
-		
-		//this.hContent = new HBox();
-		
-		this.profileContent = new ProfileComponent();
-		
-		this.reminderList = new ListReminders();
-		
-		vRight.getChildren().add(profileContent);
-		
-		this.hRight = new HBox();
-		this.hLeft = new HBox();
 
-		hRight.getChildren().add(vRight);
-		hLeft.getChildren().add(reminderList);
-		hLeft.setPrefWidth(400);
+		/* Configurando menu de navegação */
+		menu = new NavigationMenu();
+		AnchorPane.setLeftAnchor(menu, 0d);
+		AnchorPane.setTopAnchor(menu, 0d);
+		AnchorPane.setBottomAnchor(menu, 0d);
 		
+		/* Configurando lista de itens do calendario */
+		reminderList = new ListCalendar(Calendar.getInstance());
+		AnchorPane.setLeftAnchor(reminderList, menu.getPrefWidth());
+		AnchorPane.setTopAnchor(reminderList, 0d);
+		AnchorPane.setBottomAnchor(reminderList, 0d);
 		
-		hRight.setAlignment(Pos.CENTER_RIGHT);
-		hLeft.setAlignment(Pos.CENTER_LEFT);
+		/* Configurando barra de seleção do calendario */
+		CalendarBar calendarBar = new CalendarBar();
+		AnchorPane.setLeftAnchor(calendarBar, menu.getPrefWidth() + reminderList.getPrefWidth());
+		AnchorPane.setRightAnchor(calendarBar, 0d);
+		AnchorPane.setTopAnchor(calendarBar, 0d);
 		
-		//this.hContent.getChildren().addAll(hLeft, hRight);
+		CalendarComponent calendar = new CalendarComponent();
 		
-		AnchorPane.setLeftAnchor(hRight, 0d);
-		AnchorPane.setRightAnchor(hRight, 0d);
-		AnchorPane.setTopAnchor(hRight, 0d);
-		AnchorPane.setBottomAnchor(hRight, 0d);
+//		TextField dia = new TextField();
+//		Button buttonDia = new Button("Enviar");
+//		
+//		calendar.getChildren().addAll(dia, buttonDia);
 		
-		AnchorPane.setRightAnchor(hLeft, 0d);
-		AnchorPane.setLeftAnchor(hLeft, 0d);
-		AnchorPane.setTopAnchor(hLeft, 0d);
-		AnchorPane.setBottomAnchor(hLeft, 0d);
+		AnchorPane.setLeftAnchor(calendar,menu.getPrefWidth() + reminderList.getPrefWidth() + 20);
+		AnchorPane.setRightAnchor(calendar, 0d);
+		AnchorPane.setTopAnchor(calendar, 100d);
+		AnchorPane.setBottomAnchor(calendar, 0d);
+				
+		layout = new  AnchorPane();
+		layout.getChildren().addAll(menu, reminderList, calendarBar, calendar);
+
+//		buttonDia.setOnAction(e ->{
+//			
+//			reminderList = new ListCalendar(new Date(dia.getText()));
+//			AnchorPane.setLeftAnchor(reminderList, menu.getPrefWidth());
+//			AnchorPane.setTopAnchor(reminderList, 0d);
+//			AnchorPane.setBottomAnchor(reminderList, 0d);
+//			
+//			layout.getChildren().set(1, reminderList);
+//		});
 		
-		AnchorPane layout= new  AnchorPane();
-		
-		layout.getChildren().add(hRight);
-		layout.getChildren().add(hLeft);
-		
-		//layout.getChildren().add(hContent);
 		this.setRoot(layout);
 	}
 }

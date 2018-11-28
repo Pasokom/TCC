@@ -18,7 +18,6 @@ public class CreateReminder {
 	public CreateReminder() throws ClassNotFoundException, SQLException {
 		this.connection = Database.get_connection();
 	}
-
 	/**
 	 * insere os horarios ( com time picker ou sem )
 	 * 
@@ -48,12 +47,10 @@ public class CreateReminder {
 	 * <H2>É importe que ao usar a função, de acordo com o tipo de horario passar os
 	 * parametros corretos</H2>
 	 * <p>
-	 * 
 	 * @example schedule_without_recurrence (date, new String(), false, 0); se o
 	 *          tipo de horario for lembrete com time picker, deve ser usado assim
 	 *          dessa forma dentro da função ele vai alterar os parametros que vão
 	 *          para o banco
-	 * 
 	 * @example schedule_whithout_recurrence (date_begin,date_end, false,
 	 *          some_value); se o tipo de horario for por intervalo de tempo tem que
 	 *          usar a função dessa forma
@@ -83,14 +80,10 @@ public class CreateReminder {
 		stmt.setString(2, time_begin);
 		stmt.setString(3, time_end);
 		stmt.setInt(4, interval);
-
 		stmt.setInt(5, this.get_reminder_cod());
 		stmt.execute();
 	}
-
 	/**
-	 *
-	 * 
 	 * @param date_begin
 	 * @param date_end
 	 * @param all_day

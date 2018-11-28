@@ -23,9 +23,6 @@ public class EndRecurrenceComponent extends VBox {
 
 	private DatePicker date_picker;
 	
-	
-	
-	
 	public EndRecurrenceComponent() {
 		
 		lblEndRepeat = new Label("Termina");
@@ -58,10 +55,10 @@ public class EndRecurrenceComponent extends VBox {
 		
 		hbOn.getChildren().addAll(radOn, date_picker);
 		
-		radAfter = new RadioButton("Apï¿½s");
+		radAfter = new RadioButton("Após");
 		radAfter.setToggleGroup(togEndRepeat);
 		
-		lblOccurrence = new Label("ocorrï¿½ncia(s)");
+		lblOccurrence = new Label("ocorrência(s)");
 
 		//criando dois spinners de 1 a 100 de 1 em 1
 		SpinnerValueFactory<Integer> qtdRepeatValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1);
@@ -83,7 +80,7 @@ public class EndRecurrenceComponent extends VBox {
 	 * para pegar a data selecionada no date picker
 	 */
 	public String getChoosed_date() {
-		return radOn.selectedProperty().get() ?  date_picker.getValue().toString() : new String();
+		return radOn.selectedProperty().get() ?  date_picker.getValue().toString() : "2000-01-01";
 	}
 	public boolean is_choosed_by_date () { 
 		return radOn.selectedProperty().get();
@@ -100,5 +97,9 @@ public class EndRecurrenceComponent extends VBox {
 	}
 	public boolean is_never_end_selected() {
 		return this.radNever.selectedProperty().get();
+	}
+	
+	public int getSelectedEnd() {
+		return togEndRepeat.getToggles().indexOf(togEndRepeat.getSelectedToggle());
 	}
 }

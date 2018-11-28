@@ -7,6 +7,7 @@ import component.CustomScroll;
 import component.ReminderComponent;
 import db.functions.RetrieveReminders;
 import db.pojo.ReminderBanco;
+import display.Event;
 import display.Reminder;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -27,8 +28,7 @@ public class ListReminders extends VBox{
 	public ListReminders () { 
 		
 		this.setStyle("-fx-background-color: #DEDEDE");
-		
-		this.lblReminder = new Label("Programaï¿½ï¿½o");
+		this.lblReminder = new Label("Programação");
 		
 		this.vContent = new VBox();
 		this.listReminder =  new CustomScroll();
@@ -37,11 +37,8 @@ public class ListReminders extends VBox{
 		hButtons.setAlignment(Pos.CENTER_RIGHT);
 		this.btnAddReminder = new Button("+");
 		this.btnAddReminder.setOnAction(e -> {
-			try {
-				Main.main_stage.setScene(new Reminder());
-			} catch (ClassNotFoundException | SQLException e1) {
-				e1.printStackTrace();
-			}
+		
+			Main.main_stage.setScene(new Event());
 		});
 		
 		hButtons.getChildren().add(btnAddReminder);
@@ -62,19 +59,5 @@ public class ListReminders extends VBox{
 		this.getChildren().add(lblReminder);
 		this.getChildren().add(listReminder);
 		this.getChildren().add(hButtons);
-	}
-	
-	public void addReminders() {
-		
-		RetrieveReminders reminders = new RetrieveReminders();
-		ArrayList<ReminderBanco> lista = reminders.getReminders();
-		
-		for (ReminderBanco reminderBanco : lista) {
-			
-			ReminderComponent rc = new ReminderComponent();
-			rc.lblReminderTitle.setText(reminderBanco.getTitulo());
-			
-			vContent.getChildren().add(rc);
-		}
 	}
 }

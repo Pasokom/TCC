@@ -1,7 +1,8 @@
 AnchorPane{
-	-fx-background-image: url("../../images/abc.gif");
+	-fx-background-image: url("../../images/Logo.png");
 	-fx-background-repeat: no-repeat;
-	-fx-background-color: #00796B;
+	-fx-background-color: transparent;
+	-fx-padding: 10;
 	}
 
 VBox{

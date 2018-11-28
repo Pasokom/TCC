@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import component.CustomScroll;
 import component.Recurrence;
 import component.TimePickerList;
 import component.reminder.IntervalComponent;
@@ -46,21 +47,32 @@ public class Reminder extends Scene {
 	// private VBox vb_recurrence;
 	private CreateReminder create_reminder;
 
-	public Reminder() throws ClassNotFoundException, SQLException {
+	public Reminder() {
 		super(new HBox());
+
+		CustomScroll customScroll = new CustomScroll();
+
+		VBox vb = new VBox();
+
+		customScroll.setComponent(vb);
 
 		recurrence = new Recurrence();
 		setVisiblility(recurrence, false);
 
 		time_picker_list = new TimePickerList();
-		this.create_reminder = new CreateReminder();
-		VBox vb = new VBox();
+		try {
+			this.create_reminder = new CreateReminder();
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+
 		vb.setSpacing(20);
 		vb.setPadding(new Insets(20, 35, 50, 35));
 		vb.getChildren().addAll(lembrete(recurrence), recurrence);
 
 		/* scene */ this.getStylesheets().add(this.getClass().getResource("../css/reminder.css").toExternalForm());
-		this.setRoot(vb);
+
+		this.setRoot(customScroll);
 
 	}
 
@@ -145,7 +157,12 @@ public class Reminder extends Scene {
 
 		vb.getChildren().addAll(barraTitulo, hbData, hbRepetir, hTime, hInterval);
 		return vb;
-	}
+	}	
+
+	/**
+	 * FUNÇÕES PARA INSERIR LEMBRETE E HORARIOS DE LEMBRETE NO BANCO  
+	 * 
+	 */
 
 	private void insert_reminder_and_schedule() throws SQLException, ClassNotFoundException {
 
@@ -166,13 +183,16 @@ public class Reminder extends Scene {
 			never_end_schedule();
 			return;
 		}
-		if (is_by_choosed_date) {
-			schedule_amount_or_date(false);
-			return;
-		}
-		if (is_by_amount) {
-			schedule_amount_or_date(true);
-			return;
+		if (time_picker_list.get_selected_time().isEmpty()) {
+			System.out.println("[INFO] time picker vazio, saindo da fun��o");
+			if (is_by_choosed_date) {
+				schedule_amount_or_date(false);
+				return;
+			}
+			if (is_by_amount) {
+				schedule_amount_or_date(true);
+				return;
+			}
 		}
 	}
 
@@ -216,7 +236,6 @@ public class Reminder extends Scene {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 	/**
@@ -246,7 +265,7 @@ public class Reminder extends Scene {
 		}
 		if (is_time_picker) { /* se entrou aqui, então o time picker foi selecionado */
 			if (time_picker_list.get_selected_time().isEmpty()) { /* se o time picker estiver vazio ele sai da função */
-				System.out.println("[INFO] time picker vazio, saindo da funçao");
+				System.out.println("[INFO] time picker vazio, saindo da fun��o");
 				return;
 			}
 			/*
@@ -279,6 +298,7 @@ public class Reminder extends Scene {
 				+ " minutos.");
 		return;
 	}
+
 	/**
 	 * <p>
 	 * <h2>Insere os horarios de lembretes com recorrencia quando a recorrencia não

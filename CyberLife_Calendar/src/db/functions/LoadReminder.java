@@ -67,24 +67,21 @@ public class LoadReminder {
 
 				ReminderSchedule rs = new ReminderSchedule();
 
-				while (l_bringSchedules.next()) {
+				rs.setCod(l_bringSchedules.getInt(1));
+				rs.setDatetime_begin(l_bringSchedules.getDate(2));
+				rs.setDatetime_end(l_bringSchedules.getDate(3));
+				rs.setTimeBegin(l_bringSchedules.getTime(4));
+				rs.setTimeEnd(l_bringSchedules.getTime(5));
+				rs.setMinutesInterval(l_bringSchedules.getInt(6));
+				rs.setRecurrence(l_bringSchedules.getInt(7));
+				rs.setWeekDay(l_bringSchedules.getInt(8));
+				rs.setAmount_of_repetition(l_bringSchedules.getInt(9));
+				rs.setFk_reminder(l_bringSchedules.getInt(10));
 
-					rs.setCod(l_bringSchedules.getInt(1));
-					rs.setDatetime_begin(l_bringSchedules.getDate(2));
-					rs.setDatetime_end(l_bringSchedules.getDate(3));
-					rs.setTimeBegin(l_bringSchedules.getTime(4));
-					rs.setTimeEnd(l_bringSchedules.getTime(5));
-					rs.setMinutesInterval(l_bringSchedules.getInt(6));
-					rs.setRecurrence(l_bringSchedules.getInt(7));
-					rs.setWeekDay(l_bringSchedules.getInt(8));
-					rs.setAmount_of_repetition(l_bringSchedules.getInt(9));
-					rs.setFk_reminder(l_bringSchedules.getInt(10));
+				l_reminder.getlReminderSchedule().add(rs);
 
-					l_reminder.getlReminderSchedule().add(rs);
+				// System.out.println(rs.getCod());
 
-					// System.out.println(rs.getCod());
-
-				}
 				l_listReminders.add(l_reminder);
 			}
 		}
@@ -93,12 +90,12 @@ public class LoadReminder {
 			System.out.println(x.get(i).getCod());
 		}
 	}
+
 	/**
 	 * Formata os valores vindos da consulta (os ids dos lembretes) função para
 	 * recuperar cada um deles por vez do banco
 	 */
 	private int[] schedulesIDs(String reference) {
-
 		String[] x = reference.split(",");
 		int l_listReturn[] = new int[x.length];
 		for (int i = 0; i < x.length; i++) {

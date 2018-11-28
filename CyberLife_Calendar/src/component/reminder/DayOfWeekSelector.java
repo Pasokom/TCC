@@ -43,5 +43,18 @@ public class DayOfWeekSelector extends HBox {
 		return list;
 	}
 	
-	
+	public boolean[] selected_days() {
+		
+		boolean[] days = new boolean[7];
+ 		
+		days[0] = cbxDom.isSelected();
+		days[1] = cbxSeg.isSelected();
+		days[2] = cbxTer.isSelected();
+		days[3] = cbxQua.isSelected();
+		days[4] = cbxQui.isSelected();
+		days[5] = cbxSex.isSelected();
+		days[6] = cbxSab.isSelected();
+		
+		return days;
+	}
 }
