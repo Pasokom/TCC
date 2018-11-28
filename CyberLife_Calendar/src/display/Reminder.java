@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
-
+import component.CustomScroll;
 import component.Recurrence;
 import component.TimePickerList;
 import component.reminder.IntervalComponent;
@@ -28,6 +28,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import statics.Enums;
 import statics.SESSION;
 
@@ -51,6 +52,12 @@ public class Reminder extends Scene {
 	public Reminder() {
 		super(new HBox());
 
+		CustomScroll customScroll = new CustomScroll();
+		
+		VBox vb = new VBox();
+		
+		customScroll.setComponent(vb);
+		
 		recurrence = new Recurrence();
 		setVisiblility(recurrence, false);
 
@@ -61,13 +68,14 @@ public class Reminder extends Scene {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		VBox vb = new VBox();
+
 		vb.setSpacing(20);
 		vb.setPadding(new Insets(20, 35, 50, 35));
 		vb.getChildren().addAll(lembrete(recurrence), recurrence);
 
 		/* scene */ this.getStylesheets().add(this.getClass().getResource("../css/reminder.css").toExternalForm());
-		this.setRoot(vb);
+		
+		this.setRoot(customScroll);
 
 	}
 
@@ -113,7 +121,7 @@ public class Reminder extends Scene {
 		barraTitulo.setId("lBarraTitulo");
 
 		txtName = new TextField();
-		txtName.setPromptText("Tï¿½tulo do lembrete");
+		txtName.setPromptText("Título do lembrete");
 		txtName.setId("lNome");
 		btnEnviar = new Button("Salvar");
 		btnEnviar.setId("btnEnviar");
@@ -133,6 +141,7 @@ public class Reminder extends Scene {
 			if (is_not_repeat) {
 				try {
 					insert_shedule_no_recurrence(is_all_day_selected, is_time_picker, date);
+					((Stage) this.getWindow()).close();
 					return;
 				} catch (ClassNotFoundException | SQLException e) {
 					System.err.println("[ERR0R] problema com o banco de dados");
@@ -142,6 +151,7 @@ public class Reminder extends Scene {
 			if (is_never_end_selected) {
 				try {
 					schedule_repetition_never_end(date, is_all_day_selected, is_time_picker);
+					((Stage) this.getWindow()).close();					
 					return;
 				} catch (ClassNotFoundException | SQLException e) {
 //					System.err.println("[ERR0R] problema com o banco de dados");
@@ -149,6 +159,8 @@ public class Reminder extends Scene {
 				}
 			}
 			System.out.println("NAO ENTROU");
+			
+			
 		});
 		barraTitulo.getChildren().addAll(txtName, btnEnviar);
 
@@ -302,7 +314,7 @@ public class Reminder extends Scene {
 		}
 
 		if (time_picker_list.get_selected_time().isEmpty()) {
-			System.out.println("[INFO] time picker vazio, saindo da funÃ§ao");
+			System.out.println("[INFO] time picker vazio, saindo da função");
 			return;
 		}
 		for (int i = 0; i < time_picker_list.get_selected_time().size(); i++) {
@@ -323,7 +335,7 @@ public class Reminder extends Scene {
 	 * @throws SQLException
 	 */
 	private void insert_date_or_amount(int amount) throws ClassNotFoundException, SQLException {
-		System.out.println("[INFO] funÃ§Ã£o : insert_date_or_amount ");
+		System.out.println("[INFO] função : insert_date_or_amount ");
 
 		String begin_in = dtDate.getValue().toString();
 		String end_date = recurrence.get_end_date();
@@ -335,7 +347,7 @@ public class Reminder extends Scene {
 			return;
 		}
 		if (radInterval.selectedProperty().get()) {
-			System.out.println("[INFO] condicional : escolheu repetiÃ§Ã£o por intervalo de tempo");
+			System.out.println("[INFO] condicional : escolheu repetição por intervalo de tempo");
 			/* se escolheu repetiÃ§Ã£o por intervalos */
 			create_reminder.shedule_repetition(true, begin_in, end_date, recurrence, interval, amount);
 			return;
@@ -356,7 +368,7 @@ public class Reminder extends Scene {
 				create_reminder.shedule_repetition(false, date_time, end_date, recurrence, 0, amount);
 				System.out.println("[INFO] valor " + date_time + "inserido no banco \n loop numero : " + i);
 			}
-			System.out.println("[INFO] saindo do funÃ§Ã£o");
+			System.out.println("[INFO] saindo do função");
 			return;
 		}
 	}
@@ -366,7 +378,7 @@ public class Reminder extends Scene {
 	 */
 	private void insert_never_end() throws ClassNotFoundException, SQLException {
 
-		System.out.println("[INFO] funÃ§Ã£o: insert_never_end");
+		System.out.println("[INFO] função: insert_never_end");
 		/*
 		 * sÃ³ entra nas condiÃ§oes abaixo se o tipo de recorrencia for semanal
 		 */
@@ -456,7 +468,7 @@ public class Reminder extends Scene {
 
 		boolean is_all_day = cbxAllDay.selectedProperty().get();
 
-		System.out.println("[INFO] opÃ§Ã£o dia todo selecionada");
+		System.out.println("[INFO] opção dia todo selecionada");
 
 		if (is_all_day) {
 			create_reminder.all_day_shedule(date, new String(), recurrence, 0, 0);
@@ -464,7 +476,7 @@ public class Reminder extends Scene {
 			return;
 		}
 		if (!is_all_day)
-			System.out.println("[INFO] a opÃ§Ã£o dia todo nÃ£o foi selecionada");
+			System.out.println("[INFO] a opção dia todo não foi selecionada");
 
 		int interval = Integer.valueOf(this.interval.selected_interval());
 		boolean interval_by_minute = radInterval.selectedProperty().get();
@@ -497,7 +509,7 @@ public class Reminder extends Scene {
 		}
 		/* se nÃ£o entrou no loop, insere o intervalo em minutos */
 		create_reminder.shedule_repetition(true, date, new String(), recurrence, interval, 0);
-		System.out.println("[ERROR] se chegou atÃ© aqui, nÃ£o entrou em nenhuma condiÃ§Ã£o");
+		System.out.println("[ERROR] se chegou até aqui, não entrou em nenhuma condição");
 	}
 
 	/**
@@ -526,7 +538,7 @@ public class Reminder extends Scene {
 		}
 		if (is_time_picker) { /* se entrou aqui, entÃ£o o time picker foi selecionado */
 			if (time_picker_list.get_selected_time().isEmpty()) { /* se o time picker estiver vazio ele sai da funÃ§Ã£o */
-				System.out.println("[INFO] time picker vazio, saindo da funÃ§ao");
+				System.out.println("[INFO] time picker vazio, saindo da função");
 				return;
 			}
 			/*
@@ -555,7 +567,7 @@ public class Reminder extends Scene {
 
 		create_reminder.schedule_without_recurrence(date_begin, date_end, false, interval);
 		System.out.println("[INFO] horario de lembrete com intervalo");
-		System.out.println("[CONFIRMATION] repetirÃ¡ entre " + date_begin + " e " + date_end + " \n Ã  cada " + interval
+		System.out.println("[CONFIRMATION] repetição entre " + date_begin + " e " + date_end + " \n à cada " + interval
 				+ " minutos.");
 		return;
 	}
@@ -624,7 +636,7 @@ public class Reminder extends Scene {
 								j = 0;
 							}
 						}
-						System.out.println("[INFO] esse return Ã© util \n [INFO] aproximadamente linha : 631");
+						System.out.println("[INFO] esse return é util \n [INFO] aproximadamente linha : 631");
 						return;
 					}
 				} /* se o time picker nÃ£o estiver selecionado */
@@ -635,9 +647,9 @@ public class Reminder extends Scene {
 				for (int i = 0; i < week_day_selected().size(); i++) {
 					int week_day = week_day_selected().get(i);
 					create_reminder.schedule_recurrence_never_end(date_begin, date_end, false, interval, recurrence,week_day);
-					System.out.println("[INFO] inserindo data de repetiÃ§Ã£o por intervalo \n interaÃ§Ã£o nÂº:" + i + " do loop");
+					System.out.println("[INFO] inserindo data de repetição por intervalo \n interação nº:" + i + " do loop");
 				}
-				System.out.println("[INFO] esse return Ã© util \n [INFO] aproximadamente linha : 644");
+				System.out.println("[INFO] esse return é útil \n [INFO] aproximadamente linha : 644");
 				return;
 			}
 			/* se a opÃ§Ã£o 'dia todo' for selecionada */

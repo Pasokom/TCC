@@ -7,21 +7,22 @@ import java.util.ArrayList;
 
 import db.Database;
 import db.pojo.ReminderBanco;
+import db.pojo.ReminderDB;
+import statics.SESSION;
 
 public class RetrieveReminders {
 
 	private String query_string;
-	
+	public static ArrayList<ReminderBanco> listReminders = new ArrayList<>();
+
 	public RetrieveReminders() {
 		
 	}
 	
-	public ArrayList<ReminderBanco> getReminders(){
-	
-		ArrayList<ReminderBanco> lista = new ArrayList<>();
-		
+	public void update(){
+			
 		if(query_string == null) 
-			query_string = "select * from lembrete";
+			query_string = "select * from lembrete where FK_USUARIO = " + SESSION.get_user_cod();
 
 		try {
 			
@@ -37,7 +38,7 @@ public class RetrieveReminders {
 				reminder.setStatus(r7.getString(4));
 				reminder.setRecorrencia_minutos(r7.getBoolean(5));
 				
-				lista.add(reminder);
+				listReminders.add(reminder);
 			}
 			
 		} 
@@ -46,7 +47,6 @@ public class RetrieveReminders {
 			e.printStackTrace();
 		}
 		
-		return lista;
 	}
 	
 	public void setQueryString(String query_string) {

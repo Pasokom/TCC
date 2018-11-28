@@ -3,26 +3,20 @@ package component;
 import java.util.Calendar;
 
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-public class CalendarComponent extends Scene {
-
-	private GridPane calendar;
+public class CalendarComponent extends GridPane {
 	
 	public CalendarComponent() {
-		super(new VBox());
-
-		calendar = new GridPane();
-		calendar.setPadding(new Insets(10));
+		
+		this.setPadding(new Insets(10));
 		
 		Calendar date = Calendar.getInstance();
 		date.set(2018, 10, 28);
 		createCalendar(date);
-		
-		this.setRoot(calendar);
 	}
 	
 	public void createCalendar(Calendar date) {
@@ -36,10 +30,11 @@ public class CalendarComponent extends Scene {
 			Label lblDay = new Label(String.valueOf(i));
 			
 			VBox box = new VBox();
-			box.setPrefSize(100, 100);
 			box.getChildren().add(lblDay);
 			
-			calendar.add(box, aux1 - 1, aux2);
+			GridPane.setHgrow(box, Priority.ALWAYS);
+			GridPane.setVgrow(box, Priority.ALWAYS);
+			this.add(box, aux1 - 1, aux2);
 			
 			aux1++;
 			

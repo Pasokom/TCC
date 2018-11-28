@@ -1,5 +1,5 @@
 package component;
-
+import db.pojo.EventDB;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
@@ -14,15 +14,15 @@ public class EventComponent extends VBox {
 
 	private Label lbl_titulo;
 	private Label lbl_hora;
-	private Stage eventDetails;
+	private EventInfo eventDetails;
 	
-	public EventComponent() {
+	public EventComponent(EventDB eventDB) {
 		
 		this.getStylesheets().add(this.getClass().getResource("/css/eventComponent.css").toExternalForm());
 		this.setId("this");
 		
 		/* instanciando componentes */
-		eventDetails = eventDetailsStage();
+		eventDetails = new EventInfo(eventDB);
 		
 		lbl_hora = new Label();
 		lbl_titulo = new Label();
@@ -39,42 +39,11 @@ public class EventComponent extends VBox {
 			
 			Point2D point2d = this.localToScreen(0d,0d);
 			
-			eventDetails.setX(point2d.getX() + this.widthProperty().doubleValue());
+			eventDetails.setX(point2d.getX() + this.widthProperty().doubleValue() + 10);
 			eventDetails.setY(point2d.getY());
 			
 			eventDetails.show();
 		});
-		
-	}
-
-	private Stage eventDetailsStage() {
-		
-		Stage stage = new Stage();
-		stage.setWidth(100);
-		stage.setHeight(100);
-		
-		stage.initStyle(StageStyle.UNDECORATED);
-		
-		Label label = new Label("oi");
-		label.setStyle("fx-background-color: #000000");
-		
-		Scene scene = new Scene(label);
-		stage.setScene(scene);
-		
-		stage.focusedProperty().addListener(new ChangeListener<Boolean>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-
-				if (!newValue) {
-
-					stage.close();
-				}
-			}
-
-		});
-		
-		return stage;
 	}
 	
 	public Label getLbl_titulo() {

@@ -3,6 +3,7 @@ package display;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.Optional;
+import javax.swing.text.html.HTMLDocument.HTMLReader.FormAction;
 
 import db.function.mysql.HandlerRegistration;
 import db.functions.HandlerLogin;
@@ -227,7 +228,7 @@ public class Login extends Scene {
 		pnlLayout.add(lblSenhaCadast, 0, 4);
 		pnlLayout.add(txtSenhaCadast, 1, 4);
 		pnlLayout.add(txtSenhaConfirmCadast, 1, 5);
-		pnlLayout.add(lblLog, 0, 6);
+		pnlLayout.add(lblLog, 0, 6, 2, 1);
 		pnlLayout.add(hCadastro, 0, 7, 2, 1);
 
 		AnchorPane.setTopAnchor(vbLogin, 0d);
@@ -266,7 +267,7 @@ public class Login extends Scene {
 	/**
 	 * usa a classe {@link HandlerLogin} para fazer o login, se os dados informados
 	 * estiverem errados a label de mensagem de erro vai ficar visivel se o login
-	 * for feito com sucesso irÃ¡ iniciar as variaveis globais da classe
+	 * for feito com sucesso irão iniciar as variaveis globais da classe
 	 * {@link statics.SESSION} e abrir a tela principal
 	 * 
 	 * @throws ClassNotFoundException
@@ -300,14 +301,19 @@ public class Login extends Scene {
 	 */
 	private void registration() throws ClassNotFoundException, SQLException {
 
-		if (txtSenhaCadast.getText().isEmpty() || txtSenhaConfirmCadast.getText().isEmpty()) {
-			lblLog.setText("campo não preenchido");
+		if (txtSenhaCadast.getText().isEmpty() || txtSenhaConfirmCadast.getText().isEmpty() ) {
+			lblLog.setText("Podem haver campos não preenchidos!");
+			return;
+		}
+		
+		if (txtSenhaCadast.getText().length() < 8) {
+			lblLog.setText("Senha deve conter no minímo 8 caracteres!");
 			return;
 		}
 		boolean password_are_diferent = txtSenhaCadast.getText().equals(txtSenhaConfirmCadast.getText());
 
 		if (!password_are_diferent) {
-			lblLog.setText("senhas informadas não correspondem");
+			lblLog.setText("senhas informadas não correspondem!");
 			return;
 		}
 
@@ -315,9 +321,15 @@ public class Login extends Scene {
 		boolean is_name_field_empty = txtNomeCadast.getText().isEmpty();
 
 		if (is_email_field_empty || is_name_field_empty) {
-			lblLog.setText("campo não preenchido");
+			lblLog.setText("pode haver campos não preenchidos!");
 			return;
 		}
+		
+		if(!txtEmailCadast.getText().contains("@") && (!txtEmailCadast.getText().contains(".com") || !txtEmailCadast.getText().contains(".br"))){
+			lblLog.setText("Formato de e-mail não reconhecido!");
+			return;
+		}
+		
 		if (!this.registration.email_exists(txtEmailCadast.getText())) {
 
 			String name = txtNomeCadast.getText();
@@ -330,7 +342,7 @@ public class Login extends Scene {
 			 * aparentemente o valor que a query retorna para quando o insert dÃ¡ certo Ã© false heuehueh*/
 			if (this.registration.insert_user(name, last_name, email, password)) {
 				Optional<ButtonType> vOptional = new Alert(AlertType.CONFIRMATION,
-						"VocÃª foi cadastrado " + txtNomeCadast.getText() + " " + txtSobrenomeCadast.getText()).showAndWait();
+						"Você foi cadastrado coom sucesso! " + txtNomeCadast.getText() + " " + txtSobrenomeCadast.getText()).showAndWait();
 
 				if (vOptional.get() == ButtonType.OK) {
 					componenteLogin();

@@ -36,6 +36,7 @@ public class ListCalendar extends VBox{
 	private ArrayList<VBox> hours;
 	
 	RetrieveEvents retrieveEvents = new RetrieveEvents();
+	RetrieveReminders reminders = new RetrieveReminders();
 	
 	public ListCalendar (Date date) { 
 		
@@ -108,15 +109,15 @@ public class ListCalendar extends VBox{
 	
 	public void addReminders() {
 		
-		RetrieveReminders reminders = new RetrieveReminders();
-		ArrayList<ReminderBanco> lista = reminders.getReminders();
+		reminders.update();
 		
-		for (ReminderBanco reminderBanco : lista) {
+		for (ReminderBanco reminderBanco : RetrieveReminders.listReminders) {
 			
 			ReminderComponent rc = new ReminderComponent();
 			rc.lblReminderTitle.setText(reminderBanco.getTitulo());
+			rc.lblHour.setText("00:00");
 			
-			vContent.getChildren().add(rc);
+			((VBox)((VBox)this.vContent.getChildren().get(1)).getChildren().get(1)).getChildren().add(rc);
 		}
 	}
 	
@@ -132,7 +133,7 @@ public class ListCalendar extends VBox{
 			
 			if(myDate.compareTo(myEventDate) == 0) {
 				
-				EventComponent eC = new EventComponent();
+				EventComponent eC = new EventComponent(event);
 				
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(event.getData_inicio());

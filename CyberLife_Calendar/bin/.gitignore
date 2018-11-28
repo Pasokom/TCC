@@ -1,4 +1,12 @@
 /component/
 /display/
 /db/
+<<<<<<< HEAD
 /main/
+=======
+/display/
+/listeners/
+/main/
+/statics/
+>>>>>>> branch 'rOri' of https://github.com/Pasokom/TCC
+/css/

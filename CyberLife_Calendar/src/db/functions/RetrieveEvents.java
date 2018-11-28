@@ -8,6 +8,7 @@ import java.util.Calendar;
 
 import db.Database;
 import db.pojo.EventDB;
+import statics.SESSION;
 
 public class RetrieveEvents {
 
@@ -19,7 +20,7 @@ public class RetrieveEvents {
 		
 		try {
 			Statement statement = Database.get_connection().createStatement();
-			ResultSet r7 = statement.executeQuery("select * from EVENTO");
+			ResultSet r7 = statement.executeQuery("select * from EVENTO where FK_USUARIO = " + SESSION.get_user_cod());
 			
 			Calendar calendar = Calendar.getInstance();
 			
