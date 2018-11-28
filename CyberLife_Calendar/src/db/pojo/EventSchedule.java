@@ -1,7 +1,5 @@
 package db.pojo;
 
-import java.util.Arrays;
-
 public class EventSchedule {
 
 	private int cod_repeticao;
