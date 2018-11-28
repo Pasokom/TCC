@@ -1,5 +1,6 @@
 package display;
 import java.io.FileNotFoundException;
+import java.util.Calendar;
 import java.util.Date;
 
 import component.CalendarBar;
@@ -22,8 +23,9 @@ import main.Main;
 public class HomePage extends Scene {
 
 	private NavigationMenu menu;
-	private ListCalendar reminderList;
+	public static ListCalendar reminderList;
 	private ProfileComponent profileContent;
+	private AnchorPane layout;
 	
 	public HomePage() throws FileNotFoundException {
 		super (new VBox());
@@ -38,7 +40,7 @@ public class HomePage extends Scene {
 		AnchorPane.setBottomAnchor(menu, 0d);
 		
 		/* Configurando lista de itens do calendario */
-		reminderList = new ListCalendar(new Date());
+		reminderList = new ListCalendar(Calendar.getInstance());
 		AnchorPane.setLeftAnchor(reminderList, menu.getPrefWidth());
 		AnchorPane.setTopAnchor(reminderList, 0d);
 		AnchorPane.setBottomAnchor(reminderList, 0d);
@@ -61,8 +63,7 @@ public class HomePage extends Scene {
 		AnchorPane.setTopAnchor(calendar, 100d);
 		AnchorPane.setBottomAnchor(calendar, 0d);
 				
-		AnchorPane layout = new  AnchorPane();
-		
+		layout = new  AnchorPane();
 		layout.getChildren().addAll(menu, reminderList, calendarBar, calendar);
 
 //		buttonDia.setOnAction(e ->{

@@ -20,7 +20,9 @@ public class RetrieveEvents {
 		
 		try {
 			Statement statement = Database.get_connection().createStatement();
-			ResultSet r7 = statement.executeQuery("select * from EVENTO where FK_USUARIO = " + SESSION.get_user_cod());
+			ResultSet r7 = statement.executeQuery("select * from evento " + 
+					"    left join e_repetir on evento.cod_evento = e_repetir.fk_evento\n" + 
+					"    left join e_fim_repeticao on evento.cod_evento = e_fim_repeticao.fk_evento where fk_usuario = " + SESSION.get_user_cod());
 			
 			Calendar calendar = Calendar.getInstance();
 			

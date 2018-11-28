@@ -36,4 +36,8 @@ select * from usuario;
 select * from evento 
 	left join e_repetir on evento.cod_evento = e_repetir.fk_evento
 	left join e_fim_repeticao on evento.cod_evento = e_fim_repeticao.fk_evento;
+    
+select * from evento 
+	left join e_repetir on evento.cod_evento = e_repetir.fk_evento
+    left join e_fim_repeticao on evento.cod_evento = e_fim_repeticao.fk_evento where fk_usuario = 9 ;
 

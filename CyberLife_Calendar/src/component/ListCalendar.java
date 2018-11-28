@@ -1,5 +1,6 @@
 package component;
 
+import java.lang.reflect.Constructor;
 import java.sql.Timestamp;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -29,7 +30,7 @@ import javafx.scene.text.TextAlignment;
 
 public class ListCalendar extends VBox{
 
-	private Date date;
+	private Calendar date;
 	private Label lblSelectedDate, lblReminder;
 	private VBox vContent;
 	private CustomScroll listReminder;
@@ -38,15 +39,12 @@ public class ListCalendar extends VBox{
 	RetrieveEvents retrieveEvents = new RetrieveEvents();
 	RetrieveReminders reminders = new RetrieveReminders();
 	
-	public ListCalendar (Date date) { 
+	public ListCalendar (Calendar date) { 
 		
 		this.date = date;
 		
 		this.prefWidthProperty().set(250);
 		this.setId("this");
-		
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
 	
 		this.getStylesheets().add(this.getClass().getResource("/css/list_calendar.css").toExternalForm());
 		
@@ -54,8 +52,8 @@ public class ListCalendar extends VBox{
 		HBox hHeader = new HBox();
 		hHeader.setId("header");
 		
-		this.lblSelectedDate = new Label(calendar.get(Calendar.DAY_OF_MONTH)
-				+ "/" + (calendar.get(Calendar.MONTH) + 1));
+		this.lblSelectedDate = new Label(date.get(Calendar.DAY_OF_MONTH)
+				+ "/" + (date.get(Calendar.MONTH) + 1));
 		lblSelectedDate.setFont(new Font(30));
 		
 		this.lblReminder = new Label(" - Programação");
@@ -84,10 +82,10 @@ public class ListCalendar extends VBox{
 		this.getChildren().add(hHeader);
 		this.getChildren().add(listReminder);
 		
-		addEvents();
+		addEvents(this.date);
 	}
 	
-	public void addHours() {
+	private void addHours() {
 		
 		for(int i = 0; i < 24; i++) {
 			
@@ -107,7 +105,7 @@ public class ListCalendar extends VBox{
 		}
 	}
 	
-	public void addReminders() {
+	private void addReminders() {
 		
 		reminders.update();
 		
@@ -121,7 +119,7 @@ public class ListCalendar extends VBox{
 		}
 	}
 	
-	public void addEvents() {
+	private void addEvents(Calendar date) {
 		retrieveEvents.updateList();
 		
 		for(EventDB event : RetrieveEvents.listEvents) {
@@ -146,5 +144,31 @@ public class ListCalendar extends VBox{
 				((VBox)((VBox)this.vContent.getChildren().get(calendar.get(Calendar.HOUR_OF_DAY))).getChildren().get(1)).getChildren().add(eC);
 			}
 		}
+	}
+	
+	public void update(Calendar date) {
+		
+		lblSelectedDate.setText(date.get(Calendar.DAY_OF_MONTH)
+				+ "/" + (date.get(Calendar.MONTH) + 1));
+		
+		hours = new ArrayList<>();
+		addHours();
+		
+		this.vContent = new VBox();
+		this.vContent.setId("content");
+		vContent.setPadding(new Insets(10,0,10,10));
+		vContent.setSpacing(10);
+		vContent.getChildren().addAll(hours);
+		
+		this.listReminder =  new CustomScroll();
+		
+		vContent.prefWidthProperty().bind(listReminder.widthProperty());
+		
+		listReminder.setComponent(vContent);
+		listReminder.setId("list");
+		
+		this.getChildren().set(1, listReminder);
+		
+		addEvents(date);
 	}
 }

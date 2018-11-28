@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -20,8 +21,23 @@ public class EventInfo extends Stage {
 	private Label dtFim;
 	private Label lclEvent;
 	private Label descricao;
+	private Label segunda;
+	private Label terca;
+	private Label quarta;
+	private Label quinta;
+	private Label sexta;
+	private Label sabado;
+	private Label domingo;
 	
 	public EventInfo(EventDB eventDB) {
+		
+		segunda = new Label("S");
+		terca = new Label("T");
+		quarta = new Label("Q");
+		quinta = new Label("Q");
+		sexta = new Label("S");
+		sabado = new Label("S");
+		domingo = new Label("D");
 		
 		Format formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 		
@@ -34,13 +50,20 @@ public class EventInfo extends Stage {
 		lclEvent = new Label("Local: " + eventDB.getLocal_evento());
 		descricao = new Label("Descrição: " + eventDB.getDescricao());
 		
+		HBox hBox = new HBox();
+		
+		hBox.getChildren().addAll(domingo, segunda, terca, quarta, quinta, sexta, sabado);
+		hBox.setSpacing(15);
+		
 		GridPane gp = new GridPane();
+		
+		gp.add(hBox, 0, 5, 2, 1);
 		
 		gp.add(lblTitulo, 0, 0, 2, 1);
 		gp.add(dtInicio, 0, 1);
 		gp.add(dtFim, 1, 1);
 		gp.add(lclEvent, 0, 3, 2, 1);
-		gp.add(descricao, 0, 4, 2, 1);
+		gp.add(descricao, 0, 4);
 		
 		this.initStyle(StageStyle.UNDECORATED);
 
