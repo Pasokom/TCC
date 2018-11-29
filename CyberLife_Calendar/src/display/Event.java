@@ -42,7 +42,6 @@ public class Event extends Scene {
 	private TimePicker timeStart, timeEnd;
 	private CheckBox cbxAllDay, cbxRepeat;
 	private Recurrence recurrence;
-
 	private CreateEvent createEvent;
 
 	public Event() {
@@ -168,7 +167,7 @@ public class Event extends Scene {
 		Timestamp data_fim = Timestamp.valueOf(dtEnd.getValue().toString() + " "
 				+ (cbxAllDay.isSelected() ? "00:00:00" : timeEnd.get_value() + ":00"));
 
-		createEvent = new CreateEvent();
+		this.createEvent = new CreateEvent();
 
 		EventDB event = new EventDB();
 		event.setTitulo(txtTitle.getText());
