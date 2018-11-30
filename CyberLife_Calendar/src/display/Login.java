@@ -166,7 +166,6 @@ public class Login extends Scene {
 
 		btnEntrar = new Button("Entrar");
 		this.btnEntrar.setOnAction(e -> {
-
 			try {	
 				if(this.login.do_login(txtEmail.getText(), txtSenha.getText())) { 
 					try {
@@ -175,8 +174,6 @@ public class Login extends Scene {
 						e1.printStackTrace();
 					}
 				}
-				// LoadReminder l = new LoadReminder();
-				// ArrayList<ReminderDB> r =  l.get_user_reminders();
 			} catch (SQLException | ClassNotFoundException e1) {
 				e1.printStackTrace();
 			}
