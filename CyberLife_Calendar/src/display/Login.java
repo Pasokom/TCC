@@ -3,11 +3,9 @@ package display;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.Optional;
-import javax.swing.text.html.HTMLDocument.HTMLReader.FormAction;
 
-import db.functions.HandlerRegistration;
 import db.functions.HandlerLogin;
-
+import db.functions.HandlerRegistration;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -35,7 +33,7 @@ public class Login extends Scene {
 	private Label lblNomeCadast;
 	private Label lblEmailCadast;
 	private Label lblSenhaCadast;
-	
+
 	private Label lblLog;
 
 	private Button btnEntrar;
@@ -85,7 +83,7 @@ public class Login extends Scene {
 
 		lblTitleCadast = new Label("Cadastro");
 		lblTitleCadast.setFont(new Font(25));
-		
+
 		lblLog = new Label();
 
 		/* Email */
@@ -168,9 +166,18 @@ public class Login extends Scene {
 
 		btnEntrar = new Button("Entrar");
 		this.btnEntrar.setOnAction(e -> {
-			try {
-				login();
-			} catch (ClassNotFoundException | SQLException e1) {
+
+			try {	
+				if(this.login.do_login(txtEmail.getText(), txtSenha.getText())) { 
+					try {
+						Main.main_stage.setScene(new HomePage());
+					} catch (FileNotFoundException e1) {
+						e1.printStackTrace();
+					}
+				}
+				// LoadReminder l = new LoadReminder();
+				// ArrayList<ReminderDB> r =  l.get_user_reminders();
+			} catch (SQLException | ClassNotFoundException e1) {
 				e1.printStackTrace();
 			}
 		});
@@ -267,7 +274,7 @@ public class Login extends Scene {
 	/**
 	 * usa a classe {@link HandlerLogin} para fazer o login, se os dados informados
 	 * estiverem errados a label de mensagem de erro vai ficar visivel se o login
-	 * for feito com sucesso irão iniciar as variaveis globais da classe
+	 * for feito com sucesso irï¿½o iniciar as variaveis globais da classe
 	 * {@link statics.SESSION} e abrir a tela principal
 	 * 
 	 * @throws ClassNotFoundException
@@ -301,19 +308,19 @@ public class Login extends Scene {
 	 */
 	private void registration() throws ClassNotFoundException, SQLException {
 
-		if (txtSenhaCadast.getText().isEmpty() || txtSenhaConfirmCadast.getText().isEmpty() ) {
-			lblLog.setText("Podem haver campos não preenchidos!");
+		if (txtSenhaCadast.getText().isEmpty() || txtSenhaConfirmCadast.getText().isEmpty()) {
+			lblLog.setText("Podem haver campos nï¿½o preenchidos!");
 			return;
 		}
-		
+
 		if (txtSenhaCadast.getText().length() < 8) {
-			lblLog.setText("Senha deve conter no minímo 8 caracteres!");
+			lblLog.setText("Senha deve conter no minï¿½mo 8 caracteres!");
 			return;
 		}
 		boolean password_are_diferent = txtSenhaCadast.getText().equals(txtSenhaConfirmCadast.getText());
 
 		if (!password_are_diferent) {
-			lblLog.setText("senhas informadas não correspondem!");
+			lblLog.setText("senhas informadas nï¿½o correspondem!");
 			return;
 		}
 
@@ -321,15 +328,16 @@ public class Login extends Scene {
 		boolean is_name_field_empty = txtNomeCadast.getText().isEmpty();
 
 		if (is_email_field_empty || is_name_field_empty) {
-			lblLog.setText("pode haver campos não preenchidos!");
+			lblLog.setText("pode haver campos nï¿½o preenchidos!");
 			return;
 		}
-		
-		if(!txtEmailCadast.getText().contains("@") && (!txtEmailCadast.getText().contains(".com") || !txtEmailCadast.getText().contains(".br"))){
-			lblLog.setText("Formato de e-mail não reconhecido!");
+
+		if (!txtEmailCadast.getText().contains("@")
+				&& (!txtEmailCadast.getText().contains(".com") || !txtEmailCadast.getText().contains(".br"))) {
+			lblLog.setText("Formato de e-mail nï¿½o reconhecido!");
 			return;
 		}
-		
+
 		if (!this.registration.email_exists(txtEmailCadast.getText())) {
 
 			String name = txtNomeCadast.getText();
@@ -337,21 +345,23 @@ public class Login extends Scene {
 			String email = txtEmailCadast.getText();
 			String password = txtSenhaCadast.getText();
 
-			/* insere o usuario 
+			/*
+			 * insere o usuario
 			 * 
-			 * aparentemente o valor que a query retorna para quando o insert dÃ¡ certo Ã© false heuehueh*/
+			 * aparentemente o valor que a query retorna para quando o insert dÃ¡ certo Ã©
+			 * false heuehueh
+			 */
 			if (this.registration.insert_user(name, last_name, email, password)) {
-				Optional<ButtonType> vOptional = new Alert(AlertType.CONFIRMATION,
-						"Você foi cadastrado coom sucesso! " + txtNomeCadast.getText() + " " + txtSobrenomeCadast.getText()).showAndWait();
-
+				Optional<ButtonType> vOptional = new Alert(AlertType.CONFIRMATION, "Vocï¿½ foi cadastrado coom sucesso! "
+						+ txtNomeCadast.getText() + " " + txtSobrenomeCadast.getText()).showAndWait();
 				if (vOptional.get() == ButtonType.OK) {
 					componenteLogin();
 				}
 			}
-			lblLog.setText("Usuário cadastrado com sucesso");
+			lblLog.setText("Usuï¿½rio cadastrado com sucesso");
 			return;
 		}
-		lblLog.setText("email informado já foi cadastrado");
+		lblLog.setText("email informado jÃ¡ foi cadastrado");
 		return;
 	}
 }

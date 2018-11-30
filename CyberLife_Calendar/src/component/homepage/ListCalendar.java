@@ -9,11 +9,10 @@ import java.util.Date;
 
 import component.CustomScroll;
 import component.EventComponent;
-import component.ReminderComponent;
+import db.functions.LoadReminder;
 import db.functions.RetrieveEvents;
 import db.functions.RetrieveReminders;
 import db.pojo.EventDB;
-import db.pojo.ReminderBanco;
 import db.pojo.ReminderDB;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -33,7 +32,7 @@ public class ListCalendar extends VBox{
 	private ArrayList<VBox> hours;
 	
 	RetrieveEvents retrieveEvents = new RetrieveEvents();
-	RetrieveReminders reminders = new RetrieveReminders();
+	LoadReminder loadReminders;
 	
 	public ListCalendar (Calendar date) { 
 		
@@ -79,6 +78,7 @@ public class ListCalendar extends VBox{
 		this.getChildren().add(listReminder);
 		
 		addEvents(this.date);
+		addReminders();
 	}
 	
 	private void addHours() {
@@ -103,18 +103,27 @@ public class ListCalendar extends VBox{
 	
 	private void addReminders() {
 		
+		ArrayList<ReminderDB> reminders = new ArrayList<>();
+		
 		try {
-			SESSION.update_reminders();
+			loadReminders = new LoadReminder();
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		for(ReminderDB reminder : SESSION.user_reminders()) {
-			
-			System.out.println("reminder loaded " + reminder.getReminder());
-			
+		try {
+			reminders = loadReminders.getReminderForToday((int)SESSION.get_user_cod(), LoadReminder.TypeOfQuery.ALL_REMINDERS);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+//		for(ReminderDB reminder : reminders) {
+//			
+//			System.out.println("reminder loaded " + reminder.getTitle());
+//			
+//		}
 		
 	}
 	

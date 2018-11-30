@@ -1,5 +1,6 @@
 package db.functions;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -8,6 +9,8 @@ import java.util.Calendar;
 
 import db.Database;
 import db.pojo.EventDB;
+import db.pojo.EventEndSchedule;
+import db.pojo.EventSchedule;
 import statics.SESSION;
 
 public class RetrieveEvents {
@@ -20,10 +23,14 @@ public class RetrieveEvents {
 		
 		try {
 			Statement statement = Database.get_connection().createStatement();
-			ResultSet r7 = statement.executeQuery("select * from evento " + 
-					"    left join e_repetir on evento.cod_evento = e_repetir.fk_evento\n" + 
-					"    left join e_fim_repeticao on evento.cod_evento = e_fim_repeticao.fk_evento where fk_usuario = " + SESSION.get_user_cod());
+		
+			 ResultSet r7 = statement.executeQuery("SELECT * FROM EVENTO " + 
+			 		"    LEFT JOIN E_REPETIR ON EVENTO.COD_EVENTO = E_REPETIR.FK_EVENTO" + 
+			 		"    LEFT JOIN E_FIM_REPETICAO ON EVENTO.COD_EVENTO = E_FIM_REPETICAO.FK_EVENTO WHERE FK_USUARIO = " + SESSION.get_user_cod());
 			
+//			final String sql = " SELECT * FROM EVENTO  LEFT JOIN E_REPETIR ON EVENTO.COD_EVENTO = E_REPETIR.FK_EVENTO  LEFT JOIN E_FIM_REPETICAO ON EVENTO.COD_EVENTO = E_FIM_REPETICAO.FK_EVENTO WHERE  FK_USUARIO = 1";
+//			ResultSet r7 = statement.executeQuery(sql);
+
 			Calendar calendar = Calendar.getInstance();
 			
 			while(r7.next()) {
@@ -37,6 +44,22 @@ public class RetrieveEvents {
 				event.setDescricao(r7.getString(6));
 				event.setTipo_repeticao(r7.getInt(7));
 				event.setTipo_fim_repeticao(r7.getInt(8));
+				event.setFk_usuario(r7.getInt(9));
+				
+				EventSchedule schedule = new EventSchedule();
+				schedule.setCod_repeticao(r7.getInt(10));
+				schedule.setIntervalo(r7.getInt(11));
+				schedule.setDias_semanaToArray(r7.getString(12));
+				schedule.setFk_evento(r7.getInt(13));
+				
+				EventEndSchedule endSchedule = new EventEndSchedule();
+				endSchedule.setCod_fim_repeticao(r7.getInt(14));
+				endSchedule.setDia_fim(r7.getDate(15));
+				endSchedule.setQtd_recorrencias(r7.getInt(16));
+				endSchedule.setFk_evento(r7.getInt(17));
+
+				event.setHorario_evento(schedule);
+				event.setHorario_fim_evento(endSchedule);
 				
 				listEvents.add(event);
 			}

@@ -18,8 +18,7 @@ import javafx.stage.StageStyle;
 public class AddFloatingActionButton extends StackPane {
 
 	private Stage addSelectorStage;
-	
-	private Circle circulo;
+
 	private Label addImg;
 	
 	public AddFloatingActionButton() {

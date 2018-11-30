@@ -9,24 +9,22 @@ import java.sql.Types;
 import db.Database;
 import db.pojo.ReminderBanco;
 import db.pojo.ReminderDB;
-import statics.Enums;
-import statics.SESSION;
 
 public class CreateReminder {
 
 	private int reminder_cod;
 	private Connection connection;
+
 	public CreateReminder() throws ClassNotFoundException, SQLException {
 		this.connection = Database.get_connection();
 	}
-
 	/**
 	 * insere os horarios ( com time picker ou sem )
 	 * 
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public void shedule_repetition(boolean interval_by_minute, String begin_in, String end_in, int recurrence,
+	public void shedule_whithout_repetition(boolean interval_by_minute, String begin_in, String end_in, int recurrence,
 			int interval, int amount_repetition) throws ClassNotFoundException, SQLException {
 
 		String begin = interval_by_minute ? this.format(begin_in) : begin_in;
@@ -44,47 +42,48 @@ public class CreateReminder {
 
 		stmt.execute();
 	}
-	/** <h1> É importe que ao usar a função, de acordo com o tipo de horario passar os parametros corretos </h1> 
-	 *  <p>  
-	 *  
-	 *  @example schedule_without_recurrence (date, new String(), false, 0);
-	 *  se o tipo de horario for lembrete com time picker, deve ser usado assim 
-	 *  dessa forma dentro da função ele vai alterar os parametros que vão para o banco
-	 *  
-	 *  @example schedule_whithout_recurrence (date_begin,date_end, false, some_value);
-	 *  se o tipo de horario for por intervalo de tempo tem que usar a função dessa forma
-	 *  
-	 *  @example schedule_whithout_recurrence(date, new String, true, 0);
-	 *  como usar a função para quando o horario de lembrete for dia todo
-	 *  
-	 * 	@param boolean all_day 
-	 *  @param int interval
-	 *  @param String date_time_begin
-	 * 	@param String date_time_end 
-	 * 
-	 *  @throws ClassNotFoundException 
-	 *  @throws SQLException
-	 * <p>
-	 * 
-	 *   */
-	public void schedule_without_recurrence(String date_time_begin,String date_time_end, boolean all_day, int interval)
-			throws ClassNotFoundException, SQLException {
 
-		String datetime = all_day ? format(date_time_begin) : date_time_begin ;
-		
-		String sql = "{CALL HORARIO_SEM_RECORRENCIA(?,?,?,?)}";
+	/**
+	 * <H2>É importe que ao usar a função, de acordo com o tipo de horario passar os
+	 * parametros corretos</H2>
+	 * <p>
+	 * @example schedule_without_recurrence (date, new String(), false, 0); se o
+	 *          tipo de horario for lembrete com time picker, deve ser usado assim
+	 *          dessa forma dentro da função ele vai alterar os parametros que vão
+	 *          para o banco
+	 * @example schedule_whithout_recurrence (date_begin,date_end, false,
+	 *          some_value); se o tipo de horario for por intervalo de tempo tem que
+	 *          usar a função dessa forma
+	 * 
+	 * @example schedule_whithout_recurrence(date, new String, true, 0); como usar a
+	 *          função para quando o horario de lembrete for dia todo
+	 * 
+	 * @param        boolean all_day
+	 * @param        int interval
+	 * @param String date_time_begin
+	 * @param String date_time_end
+	 * 
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 *                                <p>
+	 * 
+	 */
+	public void schedule_without_recurrence(String date_time_begin, String time_begin, String time_end, boolean all_day,
+			int interval) throws ClassNotFoundException, SQLException {
+
+		String datetime = all_day ? format(date_time_begin) : date_time_begin;
+
+		String sql = "{CALL HORARIO_SEM_RECORRENCIA(?,?,?,?,?)}";
 
 		CallableStatement stmt = connection.prepareCall(sql);
 		stmt.setString(1, datetime);
-		stmt.setString(2, date_time_end == new String() ? null : date_time_end);
-		stmt.setInt(3, interval);
-		
-		stmt.setInt(4, this.get_reminder_cod());
+		stmt.setString(2, time_begin);
+		stmt.setString(3, time_end);
+		stmt.setInt(4, interval);
+		stmt.setInt(5, this.get_reminder_cod());
 		stmt.execute();
 	}
-
-	/** 
-	 * nem sempre data inicial e ffialalal
+	/**
 	 * @param date_begin
 	 * @param date_end
 	 * @param all_day
@@ -94,73 +93,69 @@ public class CreateReminder {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public void schedule_recurrence_never_end (String date_begin, String date_end, boolean all_day, int interval, int recurrence, int week_day)throws SQLException, ClassNotFoundException { 
-		
-		String date_time_begin = all_day ? this.format(date_begin) : date_begin;
-		
-		String sql = "{CALL HORARIO_RECORRENCIA_SEM_FIM(?,?,?,?,?,?)}";
-		
-		CallableStatement stmt = connection.prepareCall(sql);
+	public void schedule_recurrence_never_end(String date_begin, String time_begin, String time_end, boolean all_day,
+			int interval, int recurrence, int week_day) throws SQLException, ClassNotFoundException {
 
-		stmt.setString(1, date_time_begin);
-		stmt.setString(2, date_end.equals(new String()) ? null : date_end);
-		stmt.setInt(3, interval);
-		stmt.setInt(4, recurrence);
-		stmt.setInt(5, week_day);
-		stmt.setInt(6, this.get_reminder_cod());
-		
-		stmt.execute();
-	}
-	
-	public void shedule_repetition(boolean interval_by_minute, String begin_in, String end_in, int recurrence,
-			int week_day, int interval, int amount_repetition) throws ClassNotFoundException, SQLException {
+		date_begin = all_day ? this.format(date_begin) : date_begin;
 
-		String begin = interval_by_minute ? this.format(begin_in) : begin_in;
-		String end = end_in == new String() ? null : format(end_in);
-
-		String sql = "";
+		String sql = "{CALL RECORRENCIA_SEM_FIM(?,?,?,?,?,?,?)}";
 
 		CallableStatement stmt = connection.prepareCall(sql);
 
-		stmt.setString(1, begin);
-		stmt.setString(2, end);
-		stmt.setInt(3, recurrence == 0 ? null : recurrence);
+		stmt.setString(1, date_begin);
+		stmt.setString(2, time_begin);
+		stmt.setString(3, time_end);
 		stmt.setInt(4, interval);
-		stmt.setInt(5, week_day);
-		stmt.setInt(6, amount_repetition == 0 ? null : amount_repetition);
+		stmt.setInt(5, recurrence);
+		stmt.setInt(6, week_day);
+		stmt.setInt(7, this.get_reminder_cod());
 
 		stmt.execute();
 	}
 
-	/**
-	 * usado para inserir horarios para quando a opção "dia todo" estiver
-	 * selecionado e também para a recorrencia com dias da semana escolhidos
-	 * 
-	 * @param begin_in
-	 * @param end_in
-	 * @param recurrence
-	 * @param amount_repetition
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
-	 */
-	public void all_day_shedule(String begin_in, String end_in, int recurrence, int week_day, int amount_repetition)
-			throws ClassNotFoundException, SQLException {
+	public void schedule_recurrence_by_choosed_date(String date_begin, String date_end, String time_begin,
+			String time_end, boolean is_all_day, int interval, int recurrence, int week_day)
+			throws SQLException, ClassNotFoundException {
 
-		String begin = format(begin_in);
-		String end = end_in == new String() ? null : format(end_in);
+		date_begin = is_all_day ? this.format(date_begin) : date_begin;
+		date_end = is_all_day ? this.format(date_end) : date_end;
 
-		String sql = "";
+		String sql = "{ CALL RECORRENCIA_DATA_DEFINIDA(?,?,?,?,?,?,?,?)}";
 
-		CallableStatement stmt = connection.prepareCall(sql);
+		CallableStatement stmt = this.connection.prepareCall(sql);
 
-		stmt.setString(1, begin);
-		stmt.setString(2, end);
-		stmt.setInt(3, recurrence == 0 ? null : recurrence);
-		stmt.setInt(4, week_day);
-		stmt.setInt(5, amount_repetition == 0 ? null : amount_repetition);
-		stmt.setInt(6, get_reminder_cod());
+		stmt.setString(1, date_begin);
+		stmt.setString(2, date_end);
+		stmt.setString(3, time_begin);
+		stmt.setString(4, time_end);
+		stmt.setInt(5, interval);
+		stmt.setInt(6, recurrence);
+		stmt.setInt(7, week_day);
+		stmt.setInt(8, this.get_reminder_cod());
 
 		stmt.execute();
+	}
+
+	public void schedule_by_amount(String date_begin, String time_begin, String time_end, boolean is_all_day,
+			int interval, int recurrence, int week_day, int amount) throws SQLException, ClassNotFoundException {
+
+		date_begin = is_all_day ? this.format(date_begin) : date_begin;
+
+		String sql = "{CALL RECORRENCIA_POR_QTDE_REPETICAO(?,?,?,?,?,?,?,?)}";
+
+		CallableStatement stmt = this.connection.prepareCall(sql);
+
+		stmt.setString(1, date_begin);
+		stmt.setString(2, time_begin);
+		stmt.setString(3, time_end);
+		stmt.setInt(4, interval);
+		stmt.setInt(5, recurrence);
+		stmt.setInt(6, week_day);
+		stmt.setInt(7, amount);
+		stmt.setInt(8, this.get_reminder_cod());
+
+		stmt.execute();
+		return;
 	}
 
 	public boolean insert_reminder(ReminderDB reminder) throws ClassNotFoundException, SQLException {
@@ -169,12 +164,12 @@ public class CreateReminder {
 
 		CallableStatement stmt = Database.get_connection().prepareCall(sql);
 
-		stmt.setString(1, reminder.getReminder().getText());
-		stmt.setBoolean(2, reminder.);
-		stmt.setString(3, reminder.getStatus());
-		stmt.setInt(4, reminder.getType_recurrence());
-		stmt.setString(5, "@returned_value");
-		stmt.setInt(6, (int)SESSION.get_user_cod());
+		stmt.setString("LEMBRETE", reminder.getTitle());
+		stmt.setBoolean("ATIVO", reminder.isActive());
+		stmt.setInt("TIPO_REPETICAO", reminder.getRepetitionType());
+		stmt.setInt("TIPO_RECORRENCIA", reminder.getRecurrenceType());
+		stmt.setString("CODIGO_LEMBRETE", "@returned_value");
+		stmt.setInt("USUARIO", reminder.getUserID());
 
 		stmt.registerOutParameter(5, Types.INTEGER);
 
@@ -221,6 +216,6 @@ public class CreateReminder {
 			return sb.toString();
 		}
 		return t;
-	} 
+	}
 
 }

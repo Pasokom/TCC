@@ -1,10 +1,10 @@
 package main;
 
 import db.Database;
-import display.HomePage;
 import display.Login;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class Main extends Application {
 
@@ -19,6 +19,8 @@ public class Main extends Application {
 		Database.get_connection();
 
 		main_stage = primaryStage;
+
+		// main_stage.initStyle(StageStyle.UNDECORATED);
 
 		main_stage.setScene(new Login());
 		main_stage.setWidth(800);

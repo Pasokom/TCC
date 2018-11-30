@@ -2,8 +2,6 @@ package component;
 
 import java.util.ArrayList;
 
-import javax.sound.midi.Synthesizer;
-
 import component.reminder.TimePicker;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -36,16 +34,10 @@ public class TimePickerList extends HBox {
 					System.out.println(tp.get_value());
 					add_value(tp.get_value());
 					tp.close_stage();
-//					System.out.println("apertou ok");
 				});
 				horas.getChildren().add(tp);
 			}
 		});
-
-		/* 
-		 * não dava pra pegar a informação desse componente
-		 */
-//		horas.getChildren().add(new TimePicker(true));
 		
 		this.setSpacing(10);
 		this.getChildren().addAll(lblTime, horas, btnAddTime);

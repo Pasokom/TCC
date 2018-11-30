@@ -36,7 +36,9 @@ public class EventSchedule {
 		
 		return list;
 	}
-	public void setDias_semanaToIntArray(String dias_semana) {
+	public void setDias_semanaToArray(String dias_semana) {
+		
+		this.dias_semana = new boolean[7];
 		
 		for (int i = 0; i < this.dias_semana.length; i++) {
 			this.dias_semana[i] = Boolean.parseBoolean(dias_semana.split(",")[i]);

@@ -1,6 +1,5 @@
 package db.pojo;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class EventDB {
@@ -14,6 +13,8 @@ public class EventDB {
 	private int tipo_repeticao;
 	private int tipo_fim_repeticao;
 	private int fk_usuario;
+	private EventSchedule horario_evento;
+	private EventEndSchedule horario_fim_evento;
 	
 	public int getCod_evento() {
 		return cod_evento;
@@ -68,5 +69,17 @@ public class EventDB {
 	}
 	public void setFk_usuario(int fk_usuario) {
 		this.fk_usuario = fk_usuario;
+	}
+	public EventSchedule getHorario_evento() {
+		return horario_evento;
+	}
+	public void setHorario_evento(EventSchedule horario_evento) {
+		this.horario_evento = horario_evento;
+	}
+	public EventEndSchedule getHorario_fim_evento() {
+		return horario_fim_evento;
+	}
+	public void setHorario_fim_evento(EventEndSchedule horario_fim_evento) {
+		this.horario_fim_evento = horario_fim_evento;
 	}
 }

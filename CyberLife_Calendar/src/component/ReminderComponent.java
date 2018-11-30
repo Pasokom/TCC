@@ -4,6 +4,13 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * 
+ * @author manoel
+ *
+ * Componente responsavel por mostrar os lembretes na lista de compromissos do dia.
+ *
+ */
 public class ReminderComponent extends VBox{
 
 	public Label lblDay, lblHour, lblReminderTitle;

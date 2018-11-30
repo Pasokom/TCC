@@ -1,67 +1,111 @@
 package db.pojo;
 
-import javafx.scene.text.Text;
+import java.util.ArrayList;
 
 public class ReminderDB {
 
-	private Text reminder;
-	private String status;
-	private int type_recurrence;
-	private boolean all_day;
-	private boolean repeat;
-	private int user_cod;
+	private int reminderId;
+	private String title;
+	private boolean active;
+	private int recurrenceType;
+	private int repetitionType;
+	private int userID;
+	private ArrayList<ReminderSchedule> lReminderSchedule;
 
-	public int getUser_cod() {
-		return user_cod;
+	public ReminderDB () { 
+		this.lReminderSchedule=new ArrayList<ReminderSchedule>();
 	}
-	public void setUser_cod(int user_cod) {
-		this.user_cod = user_cod;
+	/**
+	 * @return the lReminderSchedule
+	 */
+	public ArrayList<ReminderSchedule> getlReminderSchedule() {
+		return lReminderSchedule;
 	}
-	public ReminderDB() {
-		this.reminder = new Text();
+	/**
+	 * @param active the active to set
+	 */
+	public void setActive(boolean active) {
+		this.active = active;
 	}
-	public int getType_recurrence() {
-		return type_recurrence;
+	/**
+	 * @return the active
+	 */
+	public boolean isActive() {
+		return active;
 	}
-	public void setType_recurrence(int type_recurrence) {
-		this.type_recurrence = type_recurrence;
+	/**
+	 * @param recurrenceType the recurrenceType to set
+	 */
+	public void setRecurrenceType(int recurrenceType) {
+		this.recurrenceType = recurrenceType;
 	}
-	public String getStatus() {
-		return status;
+	/**
+	 * @param reminderId the reminderId to set
+	 */
+	public void setReminderId(int reminderId) {
+		this.reminderId = reminderId;
+	}
+	/**
+	 * @param repetitionType the repetitionType to set
+	 */
+	public void setRepetitionType(int repetitionType) {
+		this.repetitionType = repetitionType;
+	}
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	/**
+	 * @param userID the userID to set
+	 */
+	public void setUserID(int userID) {
+		this.userID = userID;
+	}
+	/**
+	 * @return the recurrenceType
+	 */
+	public int getRecurrenceType() {
+		return recurrenceType;
+	}
+	/**
+	 * @return the reminderId
+	 */
+	public int getReminderId() {
+		return reminderId;
+	}
+	/**
+	 * @return the repetitionType
+	 */
+	public int getRepetitionType() {
+		return repetitionType;
+	}
+	/**
+	 * @return the title
+	 */
+	public String getTitle() {
+		return title;
+	}
+	/**
+	 * @return the userID
+	 */
+	public int getUserID() {
+		return userID;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
-	public void setReminder(Text reminder) {
-		this.reminder = reminder;
-	}
 
-	public Text getReminder() {
-		return reminder;
-	}
 
-	public void setReminder(String reminder) {
-		this.reminder.setText(reminder);
-	}
 
-	public boolean isAll_day() {
-		return all_day;
-	}
 
-	public void setAll_day(boolean all_day) {
-		this.all_day = all_day;
-	}
-	public boolean isRepeat() {
-		return repeat;
-	}
 
-	public void setRepeat(boolean repeat) {
-		this.repeat = repeat;
-	}
-	public void set_user_cod(int cod) {
-		this.user_cod = cod;
-	}
+
+
+
+
+
+
+
 
 }

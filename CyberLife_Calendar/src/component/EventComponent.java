@@ -1,15 +1,17 @@
 package component;
 import db.pojo.EventDB;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
+/**
+ * 
+ * @author manoel
+ *
+ * Componente responsavel por mostrar os eventos na lista de compromissos do dia.
+ *
+ */
 public class EventComponent extends VBox {
 
 	private Label lbl_titulo;
@@ -37,10 +39,11 @@ public class EventComponent extends VBox {
 		/* configurando eventos */
 		this.setOnMouseClicked(e ->{
 			
+			/* Pega a localizacao atual do componente em relacao a tela */
 			Point2D point2d = this.localToScreen(0d,0d);
 			
-			eventDetails.setX(point2d.getX() + this.widthProperty().doubleValue() + 10);
-			eventDetails.setY(point2d.getY());
+			eventDetails.setX(point2d.getX() + this.widthProperty().doubleValue() + 10); //posiciona ao lado do componente
+			eventDetails.setY(point2d.getY()); //posiciona na mesma altura
 			
 			eventDetails.show();
 		});
