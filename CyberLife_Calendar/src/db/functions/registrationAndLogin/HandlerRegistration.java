@@ -1,9 +1,7 @@
-package db.functions;
+package db.functions.registrationAndLogin;
 
 import java.sql.CallableStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Types;
 
 import db.Database;
@@ -26,7 +24,7 @@ public class HandlerRegistration {
 		String query = "{CALL EMAIL_EXISTE(?, ?)}";
 
 		CallableStatement stmt = Database.get_connection().prepareCall(query);
-
+		
 		stmt.setString(1, email);
 		stmt.setString(2, "@result");
 

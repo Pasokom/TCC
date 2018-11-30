@@ -1,5 +1,5 @@
 AnchorPane{
-	-fx-background-image: url("../../images/Logo.png");
+	-fx-background-image: url("../../resources/images/Logo.png");
 	-fx-background-repeat: no-repeat;
 	-fx-background-color: transparent;
 	-fx-padding: 10;

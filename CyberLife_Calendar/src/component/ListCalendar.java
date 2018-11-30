@@ -1,32 +1,22 @@
 package component;
 
-import java.lang.reflect.Constructor;
-import java.sql.Timestamp;
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import component.CustomScroll;
-import component.EventComponent;
-import component.ReminderComponent;
 import db.functions.RetrieveEvents;
 import db.functions.RetrieveReminders;
 import db.pojo.EventDB;
 import db.pojo.ReminderBanco;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 
 public class ListCalendar extends VBox{
 
@@ -48,7 +38,7 @@ public class ListCalendar extends VBox{
 	
 		this.getStylesheets().add(this.getClass().getResource("/css/list_calendar.css").toExternalForm());
 		
-		/* Cabeçario da programação */
+		/* Cabeï¿½ario da programaï¿½ï¿½o */
 		HBox hHeader = new HBox();
 		hHeader.setId("header");
 		
@@ -56,12 +46,12 @@ public class ListCalendar extends VBox{
 				+ "/" + (date.get(Calendar.MONTH) + 1));
 		lblSelectedDate.setFont(new Font(30));
 		
-		this.lblReminder = new Label(" - Programação");
+		this.lblReminder = new Label(" - Programaï¿½ï¿½o");
 
 		hHeader.setAlignment(Pos.CENTER_LEFT);
 		
 		hHeader.getChildren().addAll(lblSelectedDate, lblReminder);
-		/* Fim do cabeçario da programação */
+		/* Fim do cabeï¿½ario da programaï¿½ï¿½o */
 		
 		hours = new ArrayList<>();
 		addHours();

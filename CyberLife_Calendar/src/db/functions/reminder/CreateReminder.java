@@ -1,4 +1,4 @@
-package db.functions;
+package db.functions.reminder;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;

@@ -12,7 +12,7 @@ import component.CustomScroll;
 import component.Recurrence;
 import component.TimePickerList;
 import component.reminder.IntervalComponent;
-import db.functions.CreateReminder;
+import db.functions.reminder.CreateReminder;
 import db.pojo.ReminderDB;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

@@ -4,8 +4,8 @@ import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.Optional;
 
-import db.functions.HandlerLogin;
-import db.functions.HandlerRegistration;
+import db.functions.registrationAndLogin.HandlerLogin;
+import db.functions.registrationAndLogin.HandlerRegistration;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

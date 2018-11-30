@@ -1,4 +1,4 @@
-package db.functions;
+package db.functions.reminder;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -10,7 +10,6 @@ import db.pojo.ReminderDB;
 import db.pojo.ReminderSchedule;
 
 public class LoadReminder {
-
 	private Connection connection;
 
 	public LoadReminder() throws ClassNotFoundException, SQLException {
@@ -20,8 +19,10 @@ public class LoadReminder {
 	public static enum TypeOfQuery {
 		ALL_REMINDERS, REMINDER_FOR_TODAY
 	}
+
 	/**
 	 * <h3>
+	 * 
 	 * <pre>
 	 * Return a list of ReminderDB contain the reminders that the user have on db
 	 * </p
