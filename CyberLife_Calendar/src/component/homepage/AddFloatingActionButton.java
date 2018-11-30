@@ -1,4 +1,4 @@
-package component;
+package component.homepage;
 
 import display.Event;
 import display.Reminder;

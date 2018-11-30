@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 import javax.swing.text.html.HTMLDocument.HTMLReader.FormAction;
 
-import db.function.mysql.HandlerRegistration;
+import db.functions.HandlerRegistration;
 import db.functions.HandlerLogin;
 
 import javafx.geometry.Insets;

@@ -45,6 +45,10 @@ public class SESSION {
 			SESSION.user_reminders().add(r);
 		}
 	}
+	public static void update_reminders() throws ClassNotFoundException, SQLException {
+		list_user_reminders.clear();
+		load_reminders();
+	}
 	public static ArrayList<ReminderDB> user_reminders() { 
 		return SESSION.list_user_reminders == null ? new ArrayList<ReminderDB>() : list_user_reminders ;
 	}

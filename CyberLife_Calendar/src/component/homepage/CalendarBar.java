@@ -1,4 +1,4 @@
-package component;
+package component.homepage;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;

@@ -1,22 +1,13 @@
 package display;
 import java.io.FileNotFoundException;
 import java.util.Calendar;
-import java.util.Date;
 
-import component.CalendarBar;
-import component.CalendarComponent;
-import component.ListCalendar;
-import component.NavigationMenu;
-import component.ProfileComponent;
-import component.reminder.ListReminders;
-import javafx.event.EventHandler;
+import component.homepage.CalendarBar;
+import component.homepage.CalendarComponent;
+import component.homepage.ListCalendar;
+import component.homepage.NavigationMenu;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.Main;
 
@@ -24,7 +15,6 @@ public class HomePage extends Scene {
 
 	private NavigationMenu menu;
 	public static ListCalendar reminderList;
-	private ProfileComponent profileContent;
 	private AnchorPane layout;
 	
 	public HomePage() throws FileNotFoundException {
@@ -53,11 +43,6 @@ public class HomePage extends Scene {
 		
 		CalendarComponent calendar = new CalendarComponent();
 		
-//		TextField dia = new TextField();
-//		Button buttonDia = new Button("Enviar");
-//		
-//		calendar.getChildren().addAll(dia, buttonDia);
-		
 		AnchorPane.setLeftAnchor(calendar,menu.getPrefWidth() + reminderList.getPrefWidth() + 20);
 		AnchorPane.setRightAnchor(calendar, 0d);
 		AnchorPane.setTopAnchor(calendar, 100d);
@@ -66,16 +51,6 @@ public class HomePage extends Scene {
 		layout = new  AnchorPane();
 		layout.getChildren().addAll(menu, reminderList, calendarBar, calendar);
 
-//		buttonDia.setOnAction(e ->{
-//			
-//			reminderList = new ListCalendar(new Date(dia.getText()));
-//			AnchorPane.setLeftAnchor(reminderList, menu.getPrefWidth());
-//			AnchorPane.setTopAnchor(reminderList, 0d);
-//			AnchorPane.setBottomAnchor(reminderList, 0d);
-//			
-//			layout.getChildren().set(1, reminderList);
-//		});
-		
 		this.setRoot(layout);
 	}
 }

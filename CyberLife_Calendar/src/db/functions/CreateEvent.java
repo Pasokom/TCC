@@ -1,4 +1,4 @@
-package db.function.mysql;
+package db.functions;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

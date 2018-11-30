@@ -1,4 +1,4 @@
-package component;
+package component.homepage;
 
 import java.util.Calendar;
 
@@ -27,8 +27,7 @@ public class CalendarComponent extends GridPane {
 	
 	public void createCalendar(Calendar date) {
 		
-		Calendar init = Calendar.getInstance();
-		init.setTime(date.getTime());
+		Calendar today = Calendar.getInstance();
 		
 		date.add(Calendar.DATE, -date.get(Calendar.DATE) + 1);
 		int aux1 = date.get(Calendar.DAY_OF_WEEK);
@@ -40,7 +39,7 @@ public class CalendarComponent extends GridPane {
 			
 			Label lblDay = new Label(String.valueOf(i));
 			
-			if(lblDay.getText().equals(String.valueOf(init.get(Calendar.DATE)))) {
+			if(lblDay.getText().equals(String.valueOf(today.get(Calendar.DATE)))) {
 				lblDay.setId("today");
 			}
 			

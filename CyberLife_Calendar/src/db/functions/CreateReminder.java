@@ -10,6 +10,7 @@ import db.Database;
 import db.pojo.ReminderBanco;
 import db.pojo.ReminderDB;
 import statics.Enums;
+import statics.SESSION;
 
 public class CreateReminder {
 
@@ -169,11 +170,11 @@ public class CreateReminder {
 		CallableStatement stmt = Database.get_connection().prepareCall(sql);
 
 		stmt.setString(1, reminder.getReminder().getText());
-		stmt.setBoolean(2, reminder.isAll_day());
+		stmt.setBoolean(2, reminder.);
 		stmt.setString(3, reminder.getStatus());
 		stmt.setInt(4, reminder.getType_recurrence());
 		stmt.setString(5, "@returned_value");
-		stmt.setInt(6, 3);// (int) SESSION.get_user_cod());
+		stmt.setInt(6, (int)SESSION.get_user_cod());
 
 		stmt.registerOutParameter(5, Types.INTEGER);
 

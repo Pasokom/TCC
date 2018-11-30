@@ -1,11 +1,7 @@
-package component;
+package component.homepage;
 
-import java.lang.reflect.Constructor;
-import java.sql.Timestamp;
-import java.text.Format;
-import java.text.SimpleDateFormat;
+import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,15 +14,15 @@ import db.functions.RetrieveEvents;
 import db.functions.RetrieveReminders;
 import db.pojo.EventDB;
 import db.pojo.ReminderBanco;
+import db.pojo.ReminderDB;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
+import statics.SESSION;
 
 public class ListCalendar extends VBox{
 
@@ -107,16 +103,19 @@ public class ListCalendar extends VBox{
 	
 	private void addReminders() {
 		
-		reminders.update();
-		
-		for (ReminderBanco reminderBanco : RetrieveReminders.listReminders) {
-			
-			ReminderComponent rc = new ReminderComponent();
-			rc.lblReminderTitle.setText(reminderBanco.getTitulo());
-			rc.lblHour.setText("00:00");
-			
-			((VBox)((VBox)this.vContent.getChildren().get(1)).getChildren().get(1)).getChildren().add(rc);
+		try {
+			SESSION.update_reminders();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		for(ReminderDB reminder : SESSION.user_reminders()) {
+			
+			System.out.println("reminder loaded " + reminder.getReminder());
+			
+		}
+		
 	}
 	
 	private void addEvents(Calendar date) {
