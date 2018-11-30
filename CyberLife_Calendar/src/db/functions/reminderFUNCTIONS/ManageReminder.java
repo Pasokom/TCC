@@ -22,7 +22,6 @@ public class ManageReminder {
     public static enum changeThe {
         TITLE, TYPE_OF_RECURRENCE, TYPE_OF_REPETITION, STATE
     }
-
     public ManageReminder() {
     }
     /**

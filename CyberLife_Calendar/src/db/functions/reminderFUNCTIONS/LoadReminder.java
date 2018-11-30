@@ -3,7 +3,9 @@ package db.functions.reminderFUNCTIONS;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 
 import db.Database;
 import db.pojo.reminderPOJO.ReminderDB;
@@ -15,10 +17,10 @@ public class LoadReminder {
 	public LoadReminder() throws ClassNotFoundException, SQLException {
 		this.connection = Database.get_connection();
 	}
-
 	public static enum TypeOfQuery {
 		ALL_REMINDERS, REMINDER_FOR_TODAY
 	}
+
 	/**
 	 * <h3>
 	 * 
@@ -62,7 +64,7 @@ public class LoadReminder {
 	 *          whith all the reminders setted for today
 	 * @author jefter66
 	 */
-	public ArrayList<ReminderDB> getReminderForToday(int userID, TypeOfQuery type)
+	public ArrayList<ReminderDB> getReminders(int userID, TypeOfQuery type)
 			throws SQLException, ClassNotFoundException {
 
 		/* lista que vai ser retornada (se tiver registros no banco) */
@@ -70,39 +72,41 @@ public class LoadReminder {
 
 		// define a query no banco de dados
 		/** Usa a view VIEW_CARREGAR_LEMBRETES -- scripts/views.sql */
-		String sql = null;
+		String sql = new String();
 
 		if (type == TypeOfQuery.ALL_REMINDERS)
-			sql = "SELECT LCOD_LEMBRETE, GROUP_CONCAT(HL_CODIGO) CODIGOS FROM VIEW_LEMBRETES_DO_DIA WHERE UCODIGO = "
+			sql = "SELECT LCOD_LEMBRETE, GROUP_CONCAT(HL_CODIGO) CODIGOS FROM VIEW_CARREGAR_TODOS_LEMBRETES  WHERE UCODIGO = "
 					+ userID + " GROUP BY LCOD_LEMBRETE; ";
 		if (type == TypeOfQuery.REMINDER_FOR_TODAY)
-			sql = "SELECT LCOD_LEMBRETE, GROUP_CONCAT(HL_CODIGO) CODIGOS_HORARIOS FROM VIEW VIEW_CARREGAR_TODOS_LEMBRETES WHERE UCODIGO = "
+			sql = "SELECT LCOD_LEMBRETE, GROUP_CONCAT(HL_CODIGO) CODIGOS_HORARIOS FROM VIEW VIEW_LEMBRETES_DO_DIA  WHERE UCODIGO = "
 					+ userID + " GROUP BY LCOD_LEMBRETE; ";
 
+		System.out.println(sql);
 		ResultSet result = this.connection.createStatement().executeQuery(sql);
 
-		// System.out.println(!result.first() ? "[WARNING] : no data found" :
-		// "[CONFIRMATION] : work");
+		final String final_queryReminder = "SELECT * FROM LEMBRETE WHERE LCOD_LEMBRETE = ";
+		final String final_querySchedule = "SELECT  * FROM HORARIO_LEMBRETE WHERE HL_CODIGO = ";
+		String sqlReminder = new String();
+		String sqlSchedule = new String();
 
 		/* sai da função se o resultSet estiver vazio */
 		if (!result.first())
 			return null;
-		/* entra no loop para pegar os registros do banco */
+		/*
+		 * going to start this loop if the result set has more than one record if it
+		 * have more only one record will entry a conditional at the block above the
+		 * loop
+		 */
 		while (result.next()) {
 
 			// pega o ID do lembrete no loop atual
 			int l_reminderId = result.getInt(1);
 
-			// query para trazer TODAS as informações do lembrete
-			final String l_queryReminder = "SELECT * FROM LEMBRETE WHERE LCOD_LEMBRETE = " + l_reminderId + " ;";
-			ResultSet l_bringReminder = this.connection.createStatement().executeQuery(l_queryReminder);
+			sqlReminder = final_queryReminder + l_reminderId + ";";
+
+			ResultSet l_bringReminder = this.connection.createStatement().executeQuery(sqlReminder);
 
 			ReminderDB l_reminder = new ReminderDB();
-
-			/* se o resultSet que irá trazer 1 registro estiver vazio, sai da função */
-			if (!l_bringReminder.first())
-				return null;
-
 			/**
 			 * monta o POJO de lembrete
 			 */
@@ -111,7 +115,6 @@ public class LoadReminder {
 			l_reminder.setActive(l_bringReminder.getBoolean(3));
 			l_reminder.setRecurrenceType(l_bringReminder.getInt(4));
 			l_reminder.setRepetitionType(l_bringReminder.getInt(5));
-
 			/***
 			 * this is a int array with the ids of the shedules records going to be used for
 			 * bring this records from the database to the application
@@ -120,36 +123,21 @@ public class LoadReminder {
 			 * function used only in this class
 			 */
 			int[] l_scheduleIds = schedulesIDs(result.getString(2));
-
 			/*
 			 * this loop will happen according with the size of the array setted for the
 			 * schedules ids
 			 */
 			for (int i = 0; i < l_scheduleIds.length; i++) {
 
-				final String l_querySchedule = "SELECT  * FROM HORARIO_LEMBRETE WHERE HL_CODIGO =" + l_scheduleIds[i]
-						+ ";";
+				sqlSchedule = final_querySchedule + l_scheduleIds[i] + ";";
 
-				System.out.println(l_querySchedule);
+				ResultSet rs = this.connection.createStatement().executeQuery(sqlSchedule);
 
-				ResultSet l_bringSchedules = this.connection.createStatement().executeQuery(l_querySchedule);
+				if (rs.isBeforeFirst()) /* this is fucking important */
+					rs.next();
 
-				ReminderSchedule rs = new ReminderSchedule();
-
-				/**
-				 * build the POJO
-				 */
-				rs.setCod(l_bringSchedules.getInt(1));
-				rs.setDatetime_begin(l_bringSchedules.getDate(2));
-				rs.setDatetime_end(l_bringSchedules.getDate(3));
-				rs.setTimeBegin(l_bringSchedules.getTime(4));
-				rs.setTimeEnd(l_bringSchedules.getTime(5));
-				rs.setMinutesInterval(l_bringSchedules.getInt(6));
-				rs.setRecurrence(l_bringSchedules.getInt(7));
-				rs.setWeekDay(l_bringSchedules.getInt(8));
-				rs.setAmount_of_repetition(l_bringSchedules.getInt(9));
-				rs.setFk_reminder(l_bringSchedules.getInt(10));
-
+				ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getDate(2), rs.getDate(3), rs.getTime(4),
+						rs.getTime(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getInt(10));
 				/*
 				 * the reminder that are in the scope of the WHILE loop ( the loop that happen
 				 * on the first resultSet) are the current reminder of the list AND the record
@@ -157,21 +145,79 @@ public class LoadReminder {
 				 * current ReminderSchedule had to be ADDED on the list of remindersSchedules ON
 				 * the current ReminderDB of the WHILE loop
 				 */
-				l_reminder.getlReminderSchedule().add(rs);
+				l_reminder.getlReminderSchedule().add(rse);
 			}
-			/**
-			 * at the final of the loop interation i added the ReminderDB in the list that
-			 * are going to be returned by the function
+			l_listReminders.add(l_reminder);
+			return l_listReminders;
+		}
+		/*
+		 * when i check if the result set have more than one record the object point to
+		 * the next row, so, if there isnt more than one record have to make the result
+		 * set point to the previous row again
+		 */
+		if (result.previous() != result.isBeforeFirst()) {
+			/*
+			 * from here until the final is almost the same thing that the previous loop the
+			 * only change will be the amount of reminder
 			 */
+			int l_reminderID = result.getInt(1);
+			sqlReminder = final_queryReminder + l_reminderID + " ;";
+
+			ResultSet l_bringReminder = this.connection.createStatement().executeQuery(sqlReminder);
+
+			if (l_bringReminder.isBeforeFirst())
+				l_bringReminder.next();
+
+			ReminderDB l_reminder = getReminder(l_bringReminder.getInt(1), l_bringReminder.getString(2),
+					l_bringReminder.getBoolean(3), l_bringReminder.getInt(4), l_bringReminder.getInt(5));
+
+			int[] l_scheduleIds = schedulesIDs(result.getString(2));
+			for (int i = 0; i < l_scheduleIds.length; i++) {
+				sqlSchedule = final_querySchedule + l_scheduleIds[i] + ";";
+
+				ResultSet rs = this.connection.createStatement().executeQuery(sqlSchedule);
+
+				if (rs.isBeforeFirst()) /* this is fucking important */
+					rs.next();
+
+				ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getDate(2), rs.getDate(3), rs.getTime(4),
+						rs.getTime(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getInt(10));
+
+				l_reminder.getlReminderSchedule().add(rse);
+			}
 			l_listReminders.add(l_reminder);
 		}
 		return l_listReminders;
-		// TODO delete some day...
-		// ArrayList<ReminderSchedule> x =
-		// l_listReminders.get(0).getlReminderSchedule();
-		// for (int i = 0; i < x.size(); i++) {
-		// System.out.println(x.get(i).getCod());
-		// }
+	}
+
+	/**
+	 * i wrote those two because a wanna the code where i use them to be the most
+	 * cleaner as possible
+	 * 
+	 */
+	private ReminderSchedule getSchedule(int cod, Date dateBegin, Date dateEnd, Time timeBegin, Time timeEnd,
+			int minutesInterval, int recurrence, int weekDay, int amountRepetition, int fkReminder) {
+		ReminderSchedule rs = new ReminderSchedule();
+		rs.setDatetime_begin(dateBegin);
+		rs.setDatetime_end(dateEnd);
+		rs.setTimeBegin(timeBegin);
+		rs.setTimeEnd(timeEnd);
+		rs.setMinutesInterval(minutesInterval);
+		rs.setRecurrence(recurrence);
+		rs.setWeekDay(weekDay);
+		rs.setAmount_of_repetition(amountRepetition);
+		rs.setFk_reminder(fkReminder);
+		return rs;
+	}
+
+	private ReminderDB getReminder(int cod, String title, boolean active, int typeRecurrence, int typeRepetition) {
+		ReminderDB reminder = new ReminderDB();
+		reminder.setReminderId(cod);
+		reminder.setTitle(title);
+		reminder.setActive(active);
+		reminder.setRecurrenceType(typeRecurrence);
+		reminder.setRepetitionType(typeRepetition);
+		return reminder;
 	}
 
 	/**
