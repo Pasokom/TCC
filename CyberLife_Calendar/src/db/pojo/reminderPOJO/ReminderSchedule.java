@@ -15,7 +15,20 @@ public class ReminderSchedule {
 	private int recurrence;
 	private int minutesInterval;
 	private int amount_of_repetition;
+	private boolean isActive; 
 
+	/**
+	 * @param isActive the isActive to set
+	 */
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+	/**
+	 * @return the isActive
+	 */
+	public boolean isActive() {
+		return isActive;
+	}
 	/**
 	 * @param fk_reminder the fk_reminder to set
 	 */

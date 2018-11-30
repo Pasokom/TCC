@@ -2,14 +2,11 @@ package display;
 
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Optional;
 
 import db.functions.registrationAndLogin.HandlerLogin;
 import db.functions.registrationAndLogin.HandlerRegistration;
-import db.functions.reminderFUNCTIONS.LoadReminder;
-import db.pojo.reminderPOJO.ReminderDB;
-import db.pojo.reminderPOJO.ReminderSchedule;
+import db.functions.reminderFUNCTIONS.ManageReminder;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -170,33 +167,7 @@ public class Login extends Scene {
 
 		btnEntrar = new Button("Entrar");
 		this.btnEntrar.setOnAction(e -> {
-
-			try {
-
-				/** testing the load of remidners */
-				LoadReminder r = new LoadReminder();
-				ArrayList<ReminderDB> x = r.getReminders(1, LoadReminder.TypeOfQuery.ALL_REMINDERS);
-				for (int i = 0; i < x.size(); i++) {
-					ArrayList<ReminderSchedule> s = x.get(i).getlReminderSchedule();
-					for (int j = 0; j < s.size(); j++) {
-						System.out.println(s.get(j).getDatetime_begin().toString());
-					}
-				}
-				return;
-			} catch (ClassNotFoundException | SQLException e1) {
-				e1.printStackTrace();
-			}
-			// try {
-			// if(this.login.do_login(txtEmail.getText(), txtSenha.getText())) {
-			// try {
-			// Main.main_stage.setScene(new HomePage());
-			// } catch (FileNotFoundException e1) {
-			// e1.printStackTrace();
-			// }
-			// }
-			// } catch (SQLException | ClassNotFoundException e1) {
-			// e1.printStackTrace();
-			// }
+			
 		});
 		this.setOnMouseClicked(e -> {
 			this.lbl_error_message.setVisible(false);

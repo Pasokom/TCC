@@ -17,6 +17,7 @@ public class LoadReminder {
 	public LoadReminder() throws ClassNotFoundException, SQLException {
 		this.connection = Database.get_connection();
 	}
+
 	public static enum TypeOfQuery {
 		ALL_REMINDERS, REMINDER_FOR_TODAY
 	}
@@ -63,9 +64,10 @@ public class LoadReminder {
 	 *          LoadReminder.TypeOfQuery.REMINDERS_FOR_TODAY); Will return a list
 	 *          whith all the reminders setted for today
 	 * @author jefter66
+	 * @throws SQLException
 	 */
-	public ArrayList<ReminderDB> getReminders(int userID, TypeOfQuery type)
-			throws SQLException, ClassNotFoundException {
+	public ArrayList<ReminderDB> getReminders(int userID, TypeOfQuery type) throws SQLException
+	{
 
 		/* lista que vai ser retornada (se tiver registros no banco) */
 		ArrayList<ReminderDB> l_listReminders = new ArrayList<ReminderDB>();
@@ -82,6 +84,7 @@ public class LoadReminder {
 					+ userID + " GROUP BY LCOD_LEMBRETE; ";
 
 		System.out.println(sql);
+		
 		ResultSet result = this.connection.createStatement().executeQuery(sql);
 
 		final String final_queryReminder = "SELECT * FROM LEMBRETE WHERE LCOD_LEMBRETE = ";
@@ -137,7 +140,8 @@ public class LoadReminder {
 					rs.next();
 
 				ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getDate(2), rs.getDate(3), rs.getTime(4),
-						rs.getTime(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getInt(10));
+						rs.getTime(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10),
+						rs.getInt(11));
 				/*
 				 * the reminder that are in the scope of the WHILE loop ( the loop that happen
 				 * on the first resultSet) are the current reminder of the list AND the record
@@ -181,7 +185,8 @@ public class LoadReminder {
 					rs.next();
 
 				ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getDate(2), rs.getDate(3), rs.getTime(4),
-						rs.getTime(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getInt(10));
+						rs.getTime(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10),
+						rs.getInt(11));
 
 				l_reminder.getlReminderSchedule().add(rse);
 			}
@@ -196,7 +201,7 @@ public class LoadReminder {
 	 * 
 	 */
 	private ReminderSchedule getSchedule(int cod, Date dateBegin, Date dateEnd, Time timeBegin, Time timeEnd,
-			int minutesInterval, int recurrence, int weekDay, int amountRepetition, int fkReminder) {
+			int minutesInterval, int recurrence, int weekDay, int amountRepetition, boolean isActive, int fkReminder) {
 		ReminderSchedule rs = new ReminderSchedule();
 		rs.setDatetime_begin(dateBegin);
 		rs.setDatetime_end(dateEnd);
@@ -207,6 +212,7 @@ public class LoadReminder {
 		rs.setWeekDay(weekDay);
 		rs.setAmount_of_repetition(amountRepetition);
 		rs.setFk_reminder(fkReminder);
+		rs.setActive(isActive);
 		return rs;
 	}
 
