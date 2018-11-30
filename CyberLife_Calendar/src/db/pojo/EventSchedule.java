@@ -41,7 +41,7 @@ public class EventSchedule {
 		this.dias_semana = new boolean[7];
 		
 		for (int i = 0; i < this.dias_semana.length; i++) {
-			this.dias_semana[i] = Boolean.parseBoolean(dias_semana.split(",")[i]);
+			this.dias_semana[i] = dias_semana.split(",")[i].equals("1") ? true : false;
 		}
 	}
 	public int getFk_evento() {

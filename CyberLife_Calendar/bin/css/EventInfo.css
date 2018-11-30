@@ -3,3 +3,9 @@
 	-fx-border-color: royalBlue;
 	-fx-border-size: 4; 
 }
+
+#marcado{
+	-fx-background-color: rgba(0,0,255,0.5);
+	-fx-background-radius: 50%;
+	-fx-background-insets: 0 -4 0 -4;
+}

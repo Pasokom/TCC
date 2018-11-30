@@ -102,7 +102,7 @@ public class Login extends Scene {
 
 		lblSenha = new Label();
 		lblSenha.setId("lblPsw");
-
+		
 		txtSenha = new PasswordField();
 		txtSenha.setPromptText("Senha");
 
@@ -247,7 +247,10 @@ public class Login extends Scene {
 		AnchorPane.setRightAnchor(pnlLayout, 0d);
 
 		aPane.requestFocus();
-
+		
+		txtEmail.setText("a@gmail.com");
+		txtSenha.setText("12345678");
+		
 		this.setRoot(aPane);
 	}
 

@@ -22,18 +22,19 @@ public class CreateEvent {
 	
 	public int insert_event(EventDB event) throws ClassNotFoundException, SQLException {
 
-		String sql = "insert into EVENTO (TITULO, DATA_INICIO, DATA_FIM, LOCAL_EVENTO, DESCRICAO, TIPO_REPETICAO, TIPO_FIM_REPETICAO, FK_USUARIO) "
-				+ "values(?,?,?,?,?,?,?,?)";
+		String sql = "insert into EVENTO (TITULO, DATA_INICIO, DATA_FIM, DIA_TODO, LOCAL_EVENTO, DESCRICAO, TIPO_REPETICAO, TIPO_FIM_REPETICAO, FK_USUARIO) "
+				+ "values(?,?,?,?,?,?,?,?,?)";
 		
 		PreparedStatement statement = Database.get_connection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		statement.setString(1, event.getTitulo());
 		statement.setTimestamp(2, event.getData_inicio(), Calendar.getInstance());
 		statement.setTimestamp(3, event.getData_fim(), Calendar.getInstance());
-		statement.setString(4, event.getLocal_evento());
-		statement.setString(5, event.getDescricao());
-		statement.setInt(6, event.getTipo_repeticao());
-		statement.setInt(7, event.getTipo_fim_repeticao());
-		statement.setInt(8, (int)SESSION.get_user_cod());
+		statement.setBoolean(4, event.isDia_todo());
+		statement.setString(5, event.getLocal_evento());
+		statement.setString(6, event.getDescricao());
+		statement.setInt(7, event.getTipo_repeticao());
+		statement.setInt(8, event.getTipo_fim_repeticao());
+		statement.setInt(9, (int)SESSION.get_user_cod());
 		
 		statement.executeUpdate();
 		

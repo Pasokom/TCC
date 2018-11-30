@@ -11,7 +11,6 @@ import component.CustomScroll;
 import component.EventComponent;
 import db.functions.LoadReminder;
 import db.functions.RetrieveEvents;
-import db.functions.RetrieveReminders;
 import db.pojo.EventDB;
 import db.pojo.ReminderDB;
 import javafx.geometry.Insets;
@@ -27,12 +26,16 @@ public class ListCalendar extends VBox{
 
 	private Calendar date;
 	private Label lblSelectedDate, lblReminder;
-	private VBox vContent;
-	private CustomScroll listReminder;
+	private VBox vContent, vAllDay;
+	private CustomScroll listReminder, listAllDay;
 	private ArrayList<VBox> hours;
 	
 	RetrieveEvents retrieveEvents = new RetrieveEvents();
 	LoadReminder loadReminders;
+	
+	private enum Mode{
+		ADDING, UPDATING;
+	}
 	
 	public ListCalendar (Calendar date) { 
 		
@@ -43,6 +46,10 @@ public class ListCalendar extends VBox{
 	
 		this.getStylesheets().add(this.getClass().getResource("/css/list_calendar.css").toExternalForm());
 		
+		addComponents(Mode.ADDING, date);
+	}
+	
+	private void addComponents(Mode mode, Calendar date) {
 		/* Cabeçario da programação */
 		HBox hHeader = new HBox();
 		hHeader.setId("header");
@@ -58,6 +65,19 @@ public class ListCalendar extends VBox{
 		hHeader.getChildren().addAll(lblSelectedDate, lblReminder);
 		/* Fim do cabeçario da programação */
 		
+		/* Lista dia todo */
+		this.vAllDay = new VBox();
+		this.vAllDay.setId("content");
+		this.vAllDay.setPadding(new Insets(10,0,10,10));
+		this.vAllDay.setSpacing(10);
+		
+		this.listAllDay = new CustomScroll();
+		vAllDay.prefWidthProperty().bind(listAllDay.widthProperty());
+		listAllDay.setComponent(vAllDay);
+		listAllDay.setMinViewportHeight(100);
+		listAllDay.setId("list");
+		
+		/* Lista de horarios*/
 		hours = new ArrayList<>();
 		addHours();
 		
@@ -68,16 +88,25 @@ public class ListCalendar extends VBox{
 		vContent.getChildren().addAll(hours);
 		
 		this.listReminder =  new CustomScroll();
-		
 		vContent.prefWidthProperty().bind(listReminder.widthProperty());
-		
 		listReminder.setComponent(vContent);
 		listReminder.setId("list");
 		
-		this.getChildren().add(hHeader);
-		this.getChildren().add(listReminder);
+		if(mode == Mode.ADDING) {
 		
-		addEvents(this.date);
+			this.getChildren().add(hHeader);
+			this.getChildren().add(vAllDay);
+			this.getChildren().add(listReminder);
+		}
+		else {
+			
+			this.getChildren().set(0, hHeader);
+			this.getChildren().set(1, vAllDay);
+			this.getChildren().set(2, listReminder);
+		}
+		
+		
+		addEvents(date);
 		addReminders();
 	}
 	
@@ -119,11 +148,14 @@ public class ListCalendar extends VBox{
 			e.printStackTrace();
 		}
 		
-//		for(ReminderDB reminder : reminders) {
-//			
-//			System.out.println("reminder loaded " + reminder.getTitle());
-//			
-//		}
+		if(reminders == null)
+			return;
+		
+		for(ReminderDB reminder : reminders) {
+			
+			System.out.println("reminder loaded " + reminder.getTitle());
+			
+		}
 		
 	}
 	
@@ -149,34 +181,16 @@ public class ListCalendar extends VBox{
 				
 				calendar.setTime(event.getData_inicio());
 				
-				((VBox)((VBox)this.vContent.getChildren().get(calendar.get(Calendar.HOUR_OF_DAY))).getChildren().get(1)).getChildren().add(eC);
+				if (event.isDia_todo()) 
+					vAllDay.getChildren().add(eC);
+				else
+					((VBox)((VBox)this.vContent.getChildren().get(calendar.get(Calendar.HOUR_OF_DAY))).getChildren().get(1)).getChildren().add(eC);
 			}
 		}
 	}
 	
 	public void update(Calendar date) {
 		
-		lblSelectedDate.setText(date.get(Calendar.DAY_OF_MONTH)
-				+ "/" + (date.get(Calendar.MONTH) + 1));
-		
-		hours = new ArrayList<>();
-		addHours();
-		
-		this.vContent = new VBox();
-		this.vContent.setId("content");
-		vContent.setPadding(new Insets(10,0,10,10));
-		vContent.setSpacing(10);
-		vContent.getChildren().addAll(hours);
-		
-		this.listReminder =  new CustomScroll();
-		
-		vContent.prefWidthProperty().bind(listReminder.widthProperty());
-		
-		listReminder.setComponent(vContent);
-		listReminder.setId("list");
-		
-		this.getChildren().set(1, listReminder);
-		
-		addEvents(date);
+		addComponents(Mode.UPDATING, date);
 	}
 }

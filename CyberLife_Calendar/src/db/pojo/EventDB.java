@@ -8,6 +8,7 @@ public class EventDB {
 	private String titulo;
 	private Timestamp data_inicio;
 	private Timestamp data_fim;
+	private boolean dia_todo;
 	private String local_evento;
 	private String descricao;
 	private int tipo_repeticao;
@@ -39,6 +40,12 @@ public class EventDB {
 	}
 	public void setData_fim(Timestamp data_fim) {
 		this.data_fim = data_fim;
+	}
+	public boolean isDia_todo() {
+		return dia_todo;
+	}
+	public void setDia_todo(boolean dia_todo) {
+		this.dia_todo = dia_todo;
 	}
 	public String getLocal_evento() {
 		return local_evento;

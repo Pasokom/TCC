@@ -173,6 +173,7 @@ public class Event extends Scene {
 		event.setTitulo(txtTitle.getText());
 		event.setData_inicio(data_inicio);
 		event.setData_fim(data_fim);
+		event.setDia_todo(cbxAllDay.isSelected());
 		event.setLocal_evento(txtPlace.getText());
 		event.setDescricao(txtDetails.getText());
 		event.setTipo_repeticao(tipo_repeticao);

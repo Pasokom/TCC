@@ -31,7 +31,11 @@ public class EventComponent extends VBox {
 		lbl_titulo.setId("titulo");
 		
 		HBox card = new HBox();
-		card.getChildren().addAll(lbl_titulo, lbl_hora);
+		card.getChildren().add(lbl_titulo);
+	
+		if(!eventDB.isDia_todo())
+			card.getChildren().add(lbl_hora);
+			
 		card.setId("card");
 		
 		this.getChildren().add(card);
