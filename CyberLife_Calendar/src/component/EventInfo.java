@@ -4,8 +4,7 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import db.pojo.EventDB;
-import display.Event;
+import db.pojo.eventPOJO.EventDB;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;

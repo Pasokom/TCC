@@ -3,7 +3,7 @@ package statics;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import db.pojo.ReminderDB;
+import db.pojo.reminderPOJO.ReminderDB;
 
 public class SESSION {
 

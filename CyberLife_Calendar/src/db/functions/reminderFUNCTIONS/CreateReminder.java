@@ -1,14 +1,12 @@
-package db.functions;
+package db.functions.reminderFUNCTIONS;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 
 import db.Database;
-import db.pojo.ReminderBanco;
-import db.pojo.ReminderDB;
+import db.pojo.reminderPOJO.ReminderDB;
 
 public class CreateReminder {
 
@@ -18,6 +16,7 @@ public class CreateReminder {
 	public CreateReminder() throws ClassNotFoundException, SQLException {
 		this.connection = Database.get_connection();
 	}
+
 	/**
 	 * insere os horarios ( com time picker ou sem )
 	 * 
@@ -47,6 +46,7 @@ public class CreateReminder {
 	 * <H2>É importe que ao usar a função, de acordo com o tipo de horario passar os
 	 * parametros corretos</H2>
 	 * <p>
+	 * 
 	 * @example schedule_without_recurrence (date, new String(), false, 0); se o
 	 *          tipo de horario for lembrete com time picker, deve ser usado assim
 	 *          dessa forma dentro da função ele vai alterar os parametros que vão
@@ -83,6 +83,7 @@ public class CreateReminder {
 		stmt.setInt(5, this.get_reminder_cod());
 		stmt.execute();
 	}
+
 	/**
 	 * @param date_begin
 	 * @param date_end
@@ -180,21 +181,6 @@ public class CreateReminder {
 		System.out.println("[INFO] codigo do lembrete : " + get_reminder_cod());
 
 		return this.get_reminder_cod() == 0 ? false : true;
-	}
-
-	public void insert_into_lembrete(ReminderBanco reminder) throws ClassNotFoundException, SQLException {
-
-		/* insert sem procedures */
-		String sql = "insert into LEMBRETE(LEMBRETE, LDIA_TODO, L_STATUS, LRECORRENCIA_MINUTOS, LRECORRENCIA_TIPO) values (?,?,?,?,?)";
-
-		PreparedStatement stmt = Database.get_connection().prepareStatement(sql);
-		stmt.setString(1, reminder.getTitulo());
-		stmt.setBoolean(2, reminder.isDia_todo());
-		stmt.setString(3, reminder.getStatus());
-		stmt.setBoolean(4, reminder.isRecorrencia_minutos());
-		stmt.setString(5, reminder.getRecorrencia_tipo());
-
-		stmt.execute();
 	}
 
 	public int get_reminder_cod() {

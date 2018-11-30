@@ -1,4 +1,4 @@
-package db.pojo;
+package db.pojo.eventPOJO;
 
 import java.sql.Timestamp;
 

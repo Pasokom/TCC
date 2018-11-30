@@ -1,4 +1,4 @@
-package db.functions;
+package db.functions.registrationAndLogin;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
