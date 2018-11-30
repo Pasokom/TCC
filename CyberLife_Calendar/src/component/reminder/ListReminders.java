@@ -1,14 +1,8 @@
 package component.reminder;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-
 import component.CustomScroll;
 import component.ReminderComponent;
-import db.functions.RetrieveReminders;
-import db.pojo.ReminderBanco;
 import display.Event;
-import display.Reminder;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -28,7 +22,7 @@ public class ListReminders extends VBox{
 	public ListReminders () { 
 		
 		this.setStyle("-fx-background-color: #DEDEDE");
-		this.lblReminder = new Label("Programação");
+		this.lblReminder = new Label("Programaï¿½ï¿½o");
 		
 		this.vContent = new VBox();
 		this.listReminder =  new CustomScroll();

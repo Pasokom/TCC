@@ -4,7 +4,6 @@ import db.Database;
 import display.Login;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class Main extends Application {
 

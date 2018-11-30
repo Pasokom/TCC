@@ -6,10 +6,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import db.functions.RetrieveEvents;
-import db.functions.RetrieveReminders;
-import db.pojo.EventDB;
-import db.pojo.ReminderBanco;
+import db.functions.event.RetrieveEvents;
+import db.pojo.eventPOJO.EventDB;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -27,7 +25,7 @@ public class ListCalendar extends VBox{
 	private ArrayList<VBox> hours;
 	
 	RetrieveEvents retrieveEvents = new RetrieveEvents();
-	RetrieveReminders reminders = new RetrieveReminders();
+	// RetrieveReminders reminders = new RetrieveReminders();
 	
 	public ListCalendar (Calendar date) { 
 		
@@ -97,16 +95,16 @@ public class ListCalendar extends VBox{
 	
 	private void addReminders() {
 		
-		reminders.update();
+		// reminders.update();
 		
-		for (ReminderBanco reminderBanco : RetrieveReminders.listReminders) {
+		// for (ReminderBanco reminderBanco : RetrieveReminders.listReminders) {
 			
-			ReminderComponent rc = new ReminderComponent();
-			rc.lblReminderTitle.setText(reminderBanco.getTitulo());
-			rc.lblHour.setText("00:00");
+		// 	ReminderComponent rc = new ReminderComponent();
+		// 	rc.lblReminderTitle.setText(reminderBanco.getTitulo());
+		// 	rc.lblHour.setText("00:00");
 			
-			((VBox)((VBox)this.vContent.getChildren().get(1)).getChildren().get(1)).getChildren().add(rc);
-		}
+		// 	((VBox)((VBox)this.vContent.getChildren().get(1)).getChildren().get(1)).getChildren().add(rc);
+		// }
 	}
 	
 	private void addEvents(Calendar date) {

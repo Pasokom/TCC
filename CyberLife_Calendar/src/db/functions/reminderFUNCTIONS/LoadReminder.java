@@ -1,4 +1,4 @@
-package db.functions.reminder;
+package db.functions.reminderFUNCTIONS;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import db.Database;
-import db.pojo.ReminderDB;
-import db.pojo.ReminderSchedule;
+import db.pojo.reminderPOJO.ReminderDB;
+import db.pojo.reminderPOJO.ReminderSchedule;
 
 public class LoadReminder {
 	private Connection connection;
@@ -19,7 +19,6 @@ public class LoadReminder {
 	public static enum TypeOfQuery {
 		ALL_REMINDERS, REMINDER_FOR_TODAY
 	}
-
 	/**
 	 * <h3>
 	 * 

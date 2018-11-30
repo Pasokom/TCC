@@ -1,5 +1,5 @@
 package component;
-import db.pojo.EventDB;
+import db.pojo.eventPOJO.EventDB;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;

@@ -3,7 +3,7 @@ package component;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 
-import db.pojo.EventDB;
+import db.pojo.eventPOJO.EventDB;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;

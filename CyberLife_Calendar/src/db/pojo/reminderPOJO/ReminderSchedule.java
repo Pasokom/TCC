@@ -1,4 +1,4 @@
-package db.pojo;
+package db.pojo.reminderPOJO;
 
 import java.sql.Time;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package db.functions;
+package db.functions.event;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,9 +8,9 @@ import java.sql.Statement;
 import java.util.Calendar;
 
 import db.Database;
-import db.pojo.EventDB;
-import db.pojo.EventEndSchedule;
-import db.pojo.EventSchedule;
+import db.pojo.eventPOJO.EventDB;
+import db.pojo.eventPOJO.EventEndSchedule;
+import db.pojo.eventPOJO.EventSchedule;
 import statics.SESSION;
 
 public class CreateEvent {

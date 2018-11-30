@@ -1,6 +1,5 @@
-package db.pojo;
+package db.pojo.eventPOJO;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class EventDB {

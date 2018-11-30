@@ -1,4 +1,4 @@
-package db.functions;
+package db.functions.event;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import db.Database;
-import db.pojo.EventDB;
+import db.pojo.eventPOJO.EventDB;
 import statics.SESSION;
 
 public class RetrieveEvents {
