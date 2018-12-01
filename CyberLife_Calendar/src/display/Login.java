@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import db.functions.registrationAndLogin.HandlerLogin;
 import db.functions.registrationAndLogin.HandlerRegistration;
-import db.functions.reminderFUNCTIONS.ManageReminder;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -168,13 +167,8 @@ public class Login extends Scene {
 		btnEntrar = new Button("Entrar");
 		this.btnEntrar.setOnAction(e -> {
 			try {
-				if(login.do_login(txtEmail.getText(), txtSenha.getText()))
-					Main.main_stage.setScene(new HomePage());
+				login();
 			} catch (ClassNotFoundException | SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		});

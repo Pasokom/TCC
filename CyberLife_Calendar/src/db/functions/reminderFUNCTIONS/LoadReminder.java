@@ -43,7 +43,7 @@ public class LoadReminder {
 	 * If there are no reminders or no schedules for the reminders that was found 
 	 * the return of the function going to be NULL, so, treat this when use the function
 	 * </br>
-	 * Lembrar de tratar isso no lugar em que usar a funÃ§Ã£o</h3>
+	 * Lembrar de tratar isso no lugar em que usar a função</h3>
 	 * 
 	 * <p>
 	 * <h4><i> This function use the VIEW VIEW_LEMBRETES_DO_DIA stored on the DB You
@@ -66,8 +66,7 @@ public class LoadReminder {
 	 * @author jefter66
 	 * @throws SQLException
 	 */
-	public ArrayList<ReminderDB> getReminders(int userID, TypeOfQuery type) throws SQLException
-	{
+	public ArrayList<ReminderDB> getReminders(int userID, TypeOfQuery type) throws SQLException {
 
 		/* lista que vai ser retornada (se tiver registros no banco) */
 		ArrayList<ReminderDB> l_listReminders = new ArrayList<ReminderDB>();
@@ -80,11 +79,11 @@ public class LoadReminder {
 			sql = "SELECT LCOD_LEMBRETE, GROUP_CONCAT(HL_CODIGO) CODIGOS FROM VIEW_CARREGAR_TODOS_LEMBRETES  WHERE UCODIGO = "
 					+ userID + " GROUP BY LCOD_LEMBRETE; ";
 		if (type == TypeOfQuery.REMINDER_FOR_TODAY)
-			sql = "SELECT LCOD_LEMBRETE, GROUP_CONCAT(HL_CODIGO) CODIGOS_HORARIOS FROM VIEW VIEW_LEMBRETES_DO_DIA  WHERE UCODIGO = "
+			sql = "SELECT LCOD_LEMBRETE, GROUP_CONCAT(HL_CODIGO) CODIGOS_HORARIOS FROM VIEW_LEMBRETES_DO_DIA  WHERE UCODIGO = "
 					+ userID + " GROUP BY LCOD_LEMBRETE; ";
 
 		System.out.println(sql);
-		
+
 		ResultSet result = this.connection.createStatement().executeQuery(sql);
 
 		final String final_queryReminder = "SELECT * FROM LEMBRETE WHERE LCOD_LEMBRETE = ";
@@ -92,7 +91,7 @@ public class LoadReminder {
 		String sqlReminder = new String();
 		String sqlSchedule = new String();
 
-		/* sai da funÃ§Ã£o se o resultSet estiver vazio */
+		/* sai da função se o resultSet estiver vazio */
 		if (!result.first())
 			return null;
 		/*
@@ -100,24 +99,25 @@ public class LoadReminder {
 		 * have more only one record will entry a conditional at the block above the
 		 * loop
 		 */
+		if (result.first())
+			result.beforeFirst();
 		while (result.next()) {
 
 			// pega o ID do lembrete no loop atual
 			int l_reminderId = result.getInt(1);
 
+			System.out.println(result.getInt(1));
 			sqlReminder = final_queryReminder + l_reminderId + ";";
 
 			ResultSet l_bringReminder = this.connection.createStatement().executeQuery(sqlReminder);
 
-			ReminderDB l_reminder = new ReminderDB();
-			/**
-			 * monta o POJO de lembrete
-			 */
-			l_reminder.setReminderId(l_bringReminder.getInt(1));
-			l_reminder.setTitle(l_bringReminder.getString(2));
-			l_reminder.setActive(l_bringReminder.getBoolean(3));
-			l_reminder.setRecurrenceType(l_bringReminder.getInt(4));
-			l_reminder.setRepetitionType(l_bringReminder.getInt(5));
+			System.out.println(sqlReminder);
+
+			l_bringReminder.next();
+
+			ReminderDB l_reminder = getReminder(l_bringReminder.getInt(1), l_bringReminder.getString(2),
+					l_bringReminder.getBoolean(3), l_bringReminder.getInt(4), l_bringReminder.getInt(5));
+
 			/***
 			 * this is a int array with the ids of the shedules records going to be used for
 			 * bring this records from the database to the application
@@ -140,7 +140,8 @@ public class LoadReminder {
 					rs.next();
 
 				ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getDate(2), rs.getDate(3), rs.getTime(4),
-						rs.getTime(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getInt(11));
+						rs.getTime(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10),
+						rs.getInt(11));
 				/*
 				 * the reminder that are in the scope of the WHILE loop ( the loop that happen
 				 * on the first resultSet) are the current reminder of the list AND the record
@@ -151,46 +152,46 @@ public class LoadReminder {
 				l_reminder.getlReminderSchedule().add(rse);
 			}
 			l_listReminders.add(l_reminder);
-			return l_listReminders;
 		}
+		if(!result.next()) result.close();
 		/*
 		 * when i check if the result set have more than one record the object point to
 		 * the next row, so, if there isnt more than one record have to make the result
 		 * set point to the previous row again
 		 */
-		if (result.previous() != result.isBeforeFirst()) {
-			/*
-			 * from here until the final is almost the same thing that the previous loop the
-			 * only change will be the amount of reminder
-			 */
-			int l_reminderID = result.getInt(1);
-			sqlReminder = final_queryReminder + l_reminderID + " ;";
+		if (!result.isClosed())
+			if (result.previous() != result.isBeforeFirst()) {
+				/*
+				 * from here until the final is almost the same thing that the previous loop the
+				 * only change will be the amount of reminder
+				 */
+				int l_reminderID = result.getInt(1);
+				sqlReminder = final_queryReminder + l_reminderID + " ;";
 
-			ResultSet l_bringReminder = this.connection.createStatement().executeQuery(sqlReminder);
+				ResultSet l_bringReminder = this.connection.createStatement().executeQuery(sqlReminder);
 
-			if (l_bringReminder.isBeforeFirst())
-				l_bringReminder.next();
+				if (l_bringReminder.isBeforeFirst())
+					l_bringReminder.next();
 
-			ReminderDB l_reminder = getReminder(l_bringReminder.getInt(1), l_bringReminder.getString(2),
-					l_bringReminder.getBoolean(3), l_bringReminder.getInt(4), l_bringReminder.getInt(5));
+				ReminderDB l_reminder = getReminder(l_bringReminder.getInt(1), l_bringReminder.getString(2),
+						l_bringReminder.getBoolean(3), l_bringReminder.getInt(4), l_bringReminder.getInt(5));
 
-			int[] l_scheduleIds = schedulesIDs(result.getString(2));
-			for (int i = 0; i < l_scheduleIds.length; i++) {
-				sqlSchedule = final_querySchedule + l_scheduleIds[i] + ";";
+				int[] l_scheduleIds = schedulesIDs(result.getString(2));
+				for (int i = 0; i < l_scheduleIds.length; i++) {
+					sqlSchedule = final_querySchedule + l_scheduleIds[i] + ";";
 
-				ResultSet rs = this.connection.createStatement().executeQuery(sqlSchedule);
+					ResultSet rs = this.connection.createStatement().executeQuery(sqlSchedule);
 
-				if (rs.isBeforeFirst()) /* this is fucking important */
-					rs.next();
+					if (rs.isBeforeFirst()) /* this is fucking important */
+						rs.next();
+					ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getDate(2), rs.getDate(3), rs.getTime(4),
+							rs.getTime(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10),
+							rs.getInt(11));
 
-				ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getDate(2), rs.getDate(3), rs.getTime(4),
-						rs.getTime(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), 
-						rs.getInt(10));
-
-				l_reminder.getlReminderSchedule().add(rse);
+					l_reminder.getlReminderSchedule().add(rse);
+				}
+				l_listReminders.add(l_reminder);
 			}
-			l_listReminders.add(l_reminder);
-		}
 		return l_listReminders;
 	}
 
@@ -200,7 +201,7 @@ public class LoadReminder {
 	 * 
 	 */
 	private ReminderSchedule getSchedule(int cod, Date dateBegin, Date dateEnd, Time timeBegin, Time timeEnd,
-			int minutesInterval, int recurrence, int weekDay, int amountRepetition, int fkReminder) {
+			int minutesInterval, int recurrence, int weekDay, int amountRepetition, boolean isActive, int fkReminder) {
 		ReminderSchedule rs = new ReminderSchedule();
 		rs.setDatetime_begin(dateBegin);
 		rs.setDatetime_end(dateEnd);
@@ -211,7 +212,7 @@ public class LoadReminder {
 		rs.setWeekDay(weekDay);
 		rs.setAmount_of_repetition(amountRepetition);
 		rs.setFk_reminder(fkReminder);
-		//rs.setActive(isActive); // tirei pq estava dando erro pq o insert só retorna 10 valores e não 11
+		rs.setActive(isActive);
 		return rs;
 	}
 
@@ -226,7 +227,7 @@ public class LoadReminder {
 	}
 
 	/**
-	 * Formata os valores vindos da consulta (os ids dos lembretes) funÃ§Ã£o para
+	 * Formata os valores vindos da consulta (os ids dos lembretes) função para
 	 * recuperar cada um deles por vez do banco
 	 */
 	private int[] schedulesIDs(String reference) {

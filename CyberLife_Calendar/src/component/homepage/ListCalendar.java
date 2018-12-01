@@ -34,10 +34,6 @@ public class ListCalendar extends VBox{
 	RetrieveEvents retrieveEvents = new RetrieveEvents();
 	LoadReminder loadReminders;
 	
-	private enum Mode{
-		ADDING, UPDATING;
-	}
-	
 	public ListCalendar (Calendar date) { 
 		
 		this.date = date;
@@ -47,10 +43,10 @@ public class ListCalendar extends VBox{
 	
 		this.getStylesheets().add(this.getClass().getResource("/css/list_calendar.css").toExternalForm());
 		
-		addComponents(Mode.ADDING, date);
+		addComponents(date);
 	}
 	
-	private void addComponents(Mode mode, Calendar date) {
+	private void addComponents(Calendar date) {
 		/* Cabeçario da programação */
 		HBox hHeader = new HBox();
 		hHeader.setId("header");
@@ -93,19 +89,11 @@ public class ListCalendar extends VBox{
 		listReminder.setComponent(vContent);
 		listReminder.setId("list");
 		
-		if(mode == Mode.ADDING) {
+		this.getChildren().clear();
 		
-			this.getChildren().add(hHeader);
-			this.getChildren().add(vAllDay);
-			this.getChildren().add(listReminder);
-		}
-		else {
-			
-			this.getChildren().set(0, hHeader);
-			this.getChildren().set(1, vAllDay);
-			this.getChildren().set(2, listReminder);
-		}
-		
+		this.getChildren().add(hHeader);
+		this.getChildren().add(vAllDay);
+		this.getChildren().add(listReminder);
 		
 		addEvents(date);
 		addReminders();
@@ -133,43 +121,35 @@ public class ListCalendar extends VBox{
 	
 	private void addReminders() {
 		
-//		ArrayList<ReminderDB> reminders = new ArrayList<>();
-//		
-//		try {
-//			loadReminders = new LoadReminder();
-//		} catch (ClassNotFoundException | SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		try {
-//			reminders = loadReminders.getReminders((int)SESSION.get_user_cod(), LoadReminder.TypeOfQuery.ALL_REMINDERS);
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		if(reminders == null)
-//			return;
-//		
-//		for(ReminderDB reminder : reminders) {
-//			
-//			Date eventDate = new Date(reminder.getlReminderSchedule().get(0).getDatetime_begin().getTime());
-//			
-//			LocalDate myDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//			LocalDate myEventDate = eventDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//			
-//			if (myDate.compareTo(myEventDate) == 0) {
-//				
-//				ReminderComponent rC = new ReminderComponent(reminder);
-//				
-//				Calendar calendar = Calendar.getInstance();
-//				calendar.setTime(reminder.getlReminderSchedule().get(0).getDatetime_begin());
-//				
-//				((VBox)((VBox)this.vContent.getChildren().get(calendar.get(Calendar.HOUR_OF_DAY))).getChildren().get(1)).getChildren().add(rC);
-//			}
-//		}
+		ArrayList<ReminderDB> reminders = new ArrayList<>();
 		
+		try {
+			loadReminders = new LoadReminder();
+			reminders = loadReminders.getReminders((int)SESSION.get_user_cod(), LoadReminder.TypeOfQuery.ALL_REMINDERS);
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		if(reminders == null)
+			return;
+		
+		for(ReminderDB reminder : reminders) {
+			
+			Date eventDate = new Date(reminder.getlReminderSchedule().get(0).getDatetime_begin().getTime());
+			
+			LocalDate myDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			LocalDate myEventDate = eventDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			
+			if (myDate.compareTo(myEventDate) == 0) {
+				
+				ReminderComponent rC = new ReminderComponent(reminder);
+				
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(reminder.getlReminderSchedule().get(0).getDatetime_begin());
+				
+				((VBox)((VBox)this.vContent.getChildren().get(calendar.get(Calendar.HOUR_OF_DAY))).getChildren().get(1)).getChildren().add(rC);
+			}
+		}
 	}
 	
 	private void addEvents(Calendar date) {
@@ -199,6 +179,6 @@ public class ListCalendar extends VBox{
 	
 	public void update(Calendar date) {
 		
-		addComponents(Mode.UPDATING, date);
+		addComponents(date);
 	}
 }

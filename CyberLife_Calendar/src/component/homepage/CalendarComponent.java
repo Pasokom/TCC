@@ -11,17 +11,20 @@ import javafx.scene.layout.VBox;
 
 public class CalendarComponent extends GridPane {
 	
-	public CalendarComponent() {
+	Calendar current_date;
+	
+	public CalendarComponent(Calendar date) {
 	
 		this.getStylesheets().add(this.getClass().getResource("/css/calendar_component.css").toExternalForm());
 		
 		this.setPadding(new Insets(10));
 		
-		Calendar date = Calendar.getInstance();
 		createCalendar(date);
 	}
 	
 	public void createCalendar(Calendar date) {
+		
+		this.getChildren().clear();
 		
 		Calendar today = Calendar.getInstance();
 		
@@ -36,7 +39,10 @@ public class CalendarComponent extends GridPane {
 			
 			Label lblDay = new Label(String.valueOf(i));
 			
-			if(lblDay.getText().equals(String.valueOf(today.get(Calendar.DATE)))) {
+			if(lblDay.getText().equals(String.valueOf(today.get(Calendar.DATE))) && 
+					date.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
+					date.get(Calendar.YEAR) == today.get(Calendar.YEAR)) {
+				
 				lblDay.setId("today");
 			}
 			
@@ -48,9 +54,10 @@ public class CalendarComponent extends GridPane {
 			
 			box.setOnMouseClicked(e ->{
 				
-				Calendar dCalendar = Calendar.getInstance();
-				dCalendar.set(dCalendar.get(Calendar.YEAR), dCalendar.get(Calendar.MONTH), day);
-				HomePage.reminderList.update(dCalendar);
+				current_date = Calendar.getInstance();
+				current_date.setTime(date.getTime());
+				current_date.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), day);
+				HomePage.listCalendar.update(current_date);
 			});
 			
 			this.add(box, aux1 - 1, aux2);
@@ -62,6 +69,6 @@ public class CalendarComponent extends GridPane {
 				aux1 = 1;
 				aux2++;
 			}
-		}		
+		}
 	}
 }

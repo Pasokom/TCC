@@ -17,7 +17,8 @@ import statics.NotifyUser;
 public class HomePage extends Scene {
 
 	private NavigationMenu menu;
-	public static ListCalendar reminderList;
+	public static ListCalendar listCalendar;
+	public static CalendarComponent calendarComponent;
 	private AnchorPane layout;
 
 	public HomePage() throws FileNotFoundException {
@@ -35,26 +36,26 @@ public class HomePage extends Scene {
 		AnchorPane.setBottomAnchor(menu, 0d);
 
 		/* Configurando lista de itens do calendario */
-		reminderList = new ListCalendar(Calendar.getInstance());
-		AnchorPane.setLeftAnchor(reminderList, menu.getPrefWidth());
-		AnchorPane.setTopAnchor(reminderList, 0d);
-		AnchorPane.setBottomAnchor(reminderList, 0d);
+		listCalendar = new ListCalendar(Calendar.getInstance());
+		AnchorPane.setLeftAnchor(listCalendar, menu.getPrefWidth());
+		AnchorPane.setTopAnchor(listCalendar, 0d);
+		AnchorPane.setBottomAnchor(listCalendar, 0d);
 
 		/* Configurando barra de sele��o do calendario */
-		CalendarBar calendarBar = new CalendarBar();
-		AnchorPane.setLeftAnchor(calendarBar, menu.getPrefWidth() + reminderList.getPrefWidth());
+		CalendarBar calendarBar = new CalendarBar(Calendar.getInstance());
+		AnchorPane.setLeftAnchor(calendarBar, menu.getPrefWidth() + listCalendar.getPrefWidth());
 		AnchorPane.setRightAnchor(calendarBar, 0d);
 		AnchorPane.setTopAnchor(calendarBar, 0d);
 
-		CalendarComponent calendar = new CalendarComponent();
+		//calendarComponent = new CalendarComponent();
 		
-		AnchorPane.setLeftAnchor(calendar,menu.getPrefWidth() + reminderList.getPrefWidth() + 20);
-		AnchorPane.setRightAnchor(calendar, 0d);
-		AnchorPane.setTopAnchor(calendar, 100d);
-		AnchorPane.setBottomAnchor(calendar, 0d);
+		AnchorPane.setLeftAnchor(calendarComponent,menu.getPrefWidth() + listCalendar.getPrefWidth() + 20);
+		AnchorPane.setRightAnchor(calendarComponent, 0d);
+		AnchorPane.setTopAnchor(calendarComponent, 100d);
+		AnchorPane.setBottomAnchor(calendarComponent, 0d);
 
 		layout = new AnchorPane();
-		layout.getChildren().addAll(menu, reminderList, calendarBar, calendar);
+		layout.getChildren().addAll(menu, listCalendar, calendarBar, calendarComponent);
 
 
 		this.setRoot(layout);
