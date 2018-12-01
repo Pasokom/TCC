@@ -86,5 +86,18 @@ public class Enums {
 		}
 	}
 
-
+	public static enum Month{
+		
+		JANUARY("Janeiro"), FEBRUARY("Fevereiro"), MARCH("Março"), APRIL("Abril"), MAY("Maio"), JUNE("Junho"), 
+		JULY("Julho"), AUGUST("Agosto"), SEPTEMBER("Setembro"), OCTOBER("Outubro"), NOVEMBER("Novembro"), DECEMBER("Dezembro");
+		
+		String name;
+		Month(String name){
+			this.name = name;
+		}
+		
+		public String getValue() {
+			return this.name;
+		}
+	}
 }

@@ -9,6 +9,6 @@ VBox:hover{
 #today{
 	-fx-background-color: rgb(9, 84, 178);
 	-fx-background-radius: 50%;
-	-fx-background-insets: -6 -8 -6 -8;
+	-fx-background-insets: -6 -11 -6 -11;
 	-fx-text-fill: #ffffff;
 }

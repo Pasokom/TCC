@@ -23,7 +23,7 @@ public class CreateEvent {
 	
 	public int insert_event(EventDB event) throws ClassNotFoundException, SQLException {
 
-		String sql = "insert into EVENTO (TITULO, DATA_INICIO, DIA_TODO, DATA_FIM, LOCAL_EVENTO, DESCRICAO, TIPO_REPETICAO, TIPO_FIM_REPETICAO, FK_USUARIO) "
+		String sql = "insert into EVENTO (TITULO, DATA_INICIO, DATA_FIM, DIA_TODO, LOCAL_EVENTO, DESCRICAO, TIPO_REPETICAO, TIPO_FIM_REPETICAO, FK_USUARIO) "
 				+ "values(?,?,?,?,?,?,?,?,?)";
 		
 		PreparedStatement statement = this.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);

@@ -168,8 +168,8 @@ public class Login extends Scene {
 		btnEntrar = new Button("Entrar");
 		this.btnEntrar.setOnAction(e -> {
 			try {
-				login.do_login(txtEmail.getText(), txtSenha.getText());
-				Main.main_stage.setScene(new HomePage());
+				if(login.do_login(txtEmail.getText(), txtSenha.getText()))
+					Main.main_stage.setScene(new HomePage());
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

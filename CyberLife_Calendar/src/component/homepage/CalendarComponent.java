@@ -5,14 +5,11 @@ import java.util.Calendar;
 import display.HomePage;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class CalendarComponent extends GridPane {
-	
-	private ListCalendar listCalendar;
 	
 	public CalendarComponent() {
 	
@@ -52,7 +49,7 @@ public class CalendarComponent extends GridPane {
 			box.setOnMouseClicked(e ->{
 				
 				Calendar dCalendar = Calendar.getInstance();
-				dCalendar.set(2018, 10, day);
+				dCalendar.set(dCalendar.get(Calendar.YEAR), dCalendar.get(Calendar.MONTH), day);
 				HomePage.reminderList.update(dCalendar);
 			});
 			
@@ -66,9 +63,5 @@ public class CalendarComponent extends GridPane {
 				aux2++;
 			}
 		}		
-	}
-	
-	public void setListCalendar(ListCalendar listCalendar) {
-		this.listCalendar = listCalendar;
 	}
 }
