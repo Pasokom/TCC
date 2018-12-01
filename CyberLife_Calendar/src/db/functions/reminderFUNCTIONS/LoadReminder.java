@@ -79,7 +79,7 @@ public class LoadReminder {
 			sql = "SELECT LCOD_LEMBRETE, GROUP_CONCAT(HL_CODIGO) CODIGOS FROM VIEW_CARREGAR_TODOS_LEMBRETES  WHERE UCODIGO = "
 					+ userID + " GROUP BY LCOD_LEMBRETE; ";
 		if (type == TypeOfQuery.REMINDER_FOR_TODAY)
-			sql = "SELECT LCOD_LEMBRETE, GROUP_CONCAT(HL_CODIGO) CODIGOS_HORARIOS FROM VIEW VIEW_LEMBRETES_DO_DIA  WHERE UCODIGO = "
+			sql = "SELECT LCOD_LEMBRETE, GROUP_CONCAT(HL_CODIGO) CODIGOS_HORARIOS FROM  VIEW_LEMBRETES_DO_DIA  WHERE UCODIGO = "
 					+ userID + " GROUP BY LCOD_LEMBRETE; ";
 
 		System.out.println(sql);
@@ -113,6 +113,8 @@ public class LoadReminder {
 
 			System.out.println(sqlReminder);
 
+			if (l_bringReminder.first())
+				l_bringReminder.beforeFirst();
 			l_bringReminder.next();
 
 			ReminderDB l_reminder = getReminder(l_bringReminder.getInt(1), l_bringReminder.getString(2),
@@ -153,7 +155,8 @@ public class LoadReminder {
 			}
 			l_listReminders.add(l_reminder);
 		}
-		if(!result.next()) result.close();
+		if (!result.next())
+			result.close();
 		/*
 		 * when i check if the result set have more than one record the object point to
 		 * the next row, so, if there isnt more than one record have to make the result

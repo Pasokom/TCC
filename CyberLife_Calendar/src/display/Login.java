@@ -181,7 +181,7 @@ public class Login extends Scene {
 			try {
 				LoadReminder l = new LoadReminder();
 
-				ArrayList<ReminderDB> x = l.getReminders(1, LoadReminder.TypeOfQuery.ALL_REMINDERS);
+				ArrayList<ReminderDB> x = l.getReminders(1, LoadReminder.TypeOfQuery.REMINDER_FOR_TODAY);
 
 				for (int i = 0; i < x.size(); i++)
 					System.out.println(x.get(i).getTitle());
