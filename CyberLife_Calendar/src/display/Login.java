@@ -2,11 +2,13 @@ package display;
 
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import db.functions.registrationAndLogin.HandlerLogin;
 import db.functions.registrationAndLogin.HandlerRegistration;
-import db.functions.reminderFUNCTIONS.ManageReminder;
+import db.functions.reminderFUNCTIONS.LoadReminder;
+import db.pojo.reminderPOJO.ReminderDB;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -167,7 +169,18 @@ public class Login extends Scene {
 
 		btnEntrar = new Button("Entrar");
 		this.btnEntrar.setOnAction(e -> {
-			
+
+			try {
+				LoadReminder l = new LoadReminder();
+
+				ArrayList<ReminderDB> x = l.getReminders(1, LoadReminder.TypeOfQuery.ALL_REMINDERS);
+
+				for (int i = 0; i < x.size(); i++)
+					System.out.println(x.get(i).getTitle());
+
+			} catch (SQLException | ClassNotFoundException e1) {
+				e1.printStackTrace();
+			}
 		});
 		this.setOnMouseClicked(e -> {
 			this.lbl_error_message.setVisible(false);

@@ -19,8 +19,6 @@ public class Main extends Application {
 
 		main_stage = primaryStage;
 
-		// main_stage.initStyle(StageStyle.UNDECORATED);
-
 		main_stage.setScene(new Login());
 		main_stage.setWidth(800);
 		main_stage.setHeight(500);
