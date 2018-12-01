@@ -1,4 +1,6 @@
-package component;
+package component.event;
+
+import java.util.Calendar;
 
 import db.pojo.eventPOJO.EventDB;
 import javafx.geometry.Point2D;
@@ -19,22 +21,25 @@ public class EventComponent extends VBox {
 	private Label lbl_hora;
 	private EventInfo eventDetails;
 	
-	public EventComponent(EventDB eventDB) {
+	public EventComponent(EventDB event) {
 		
 		this.getStylesheets().add(this.getClass().getResource("/css/eventComponent.css").toExternalForm());
 		this.setId("this");
 		
 		/* instanciando componentes */
-		eventDetails = new EventInfo(eventDB);
+		eventDetails = new EventInfo(event);
 		
-		lbl_hora = new Label();
-		lbl_titulo = new Label();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(event.getData_inicio());
+		
+		lbl_hora = new Label(" - " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + String.format("%02d", calendar.get(Calendar.MINUTE)));
+		lbl_titulo = new Label(event.getTitulo());
 		lbl_titulo.setId("titulo");
 		
 		HBox card = new HBox();
 		card.getChildren().add(lbl_titulo);
 	
-		if(!eventDB.isDia_todo())
+		if(!event.isDia_todo())
 			card.getChildren().add(lbl_hora);
 			
 		card.setId("card");
@@ -53,21 +58,4 @@ public class EventComponent extends VBox {
 			eventDetails.show();
 		});
 	}
-	
-	public Label getLbl_titulo() {
-		return lbl_titulo;
-	}
-
-	public void setLbl_titulo(Label lbl_titulo) {
-		this.lbl_titulo = lbl_titulo;
-	}
-
-	public Label getLbl_hora() {
-		return lbl_hora;
-	}
-
-	public void setLbl_hora(Label lbl_hora) {
-		this.lbl_hora = lbl_hora;
-	}
-	
 }

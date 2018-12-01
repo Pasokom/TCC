@@ -8,8 +8,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import component.CustomScroll;
-import component.EventComponent;
-
+import component.event.EventComponent;
+import component.reminder.ReminderComponent;
 import db.functions.RetrieveEvents;
 import db.functions.reminderFUNCTIONS.LoadReminder;
 import db.pojo.eventPOJO.EventDB;
@@ -133,30 +133,42 @@ public class ListCalendar extends VBox{
 	
 	private void addReminders() {
 		
-		ArrayList<ReminderDB> reminders = new ArrayList<>();
-		
-		try {
-			loadReminders = new LoadReminder();
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		try {
-			reminders = loadReminders.getReminders((int)SESSION.get_user_cod(), LoadReminder.TypeOfQuery.ALL_REMINDERS);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		if(reminders == null)
-			return;
-		
-		for(ReminderDB reminder : reminders) {
-			
-			System.out.println("reminder loaded " + reminder.getTitle());
-			
-		}
+//		ArrayList<ReminderDB> reminders = new ArrayList<>();
+//		
+//		try {
+//			loadReminders = new LoadReminder();
+//		} catch (ClassNotFoundException | SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		try {
+//			reminders = loadReminders.getReminders((int)SESSION.get_user_cod(), LoadReminder.TypeOfQuery.ALL_REMINDERS);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		if(reminders == null)
+//			return;
+//		
+//		for(ReminderDB reminder : reminders) {
+//			
+//			Date eventDate = new Date(reminder.getlReminderSchedule().get(0).getDatetime_begin().getTime());
+//			
+//			LocalDate myDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//			LocalDate myEventDate = eventDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//			
+//			if (myDate.compareTo(myEventDate) == 0) {
+//				
+//				ReminderComponent rC = new ReminderComponent(reminder);
+//				
+//				Calendar calendar = Calendar.getInstance();
+//				calendar.setTime(reminder.getlReminderSchedule().get(0).getDatetime_begin());
+//				
+//				((VBox)((VBox)this.vContent.getChildren().get(calendar.get(Calendar.HOUR_OF_DAY))).getChildren().get(1)).getChildren().add(rC);
+//			}
+//		}
 		
 	}
 	
@@ -175,11 +187,6 @@ public class ListCalendar extends VBox{
 				EventComponent eC = new EventComponent(event);
 				
 				Calendar calendar = Calendar.getInstance();
-				calendar.setTime(event.getData_inicio());
-				
-				eC.getLbl_titulo().setText(event.getTitulo());
-				eC.getLbl_hora().setText(" - " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + String.format("%02d", calendar.get(Calendar.MINUTE)));
-				
 				calendar.setTime(event.getData_inicio());
 				
 				if (event.isDia_todo()) 

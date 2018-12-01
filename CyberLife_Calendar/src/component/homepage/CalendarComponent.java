@@ -21,7 +21,6 @@ public class CalendarComponent extends GridPane {
 		this.setPadding(new Insets(10));
 		
 		Calendar date = Calendar.getInstance();
-		date.set(2018, 10, 28);
 		createCalendar(date);
 	}
 	
@@ -32,8 +31,9 @@ public class CalendarComponent extends GridPane {
 		date.add(Calendar.DATE, -date.get(Calendar.DATE) + 1);
 		int aux1 = date.get(Calendar.DAY_OF_WEEK);
 		int aux2 = 0;
+		int aux3 = date.getActualMaximum(Calendar.DAY_OF_MONTH);
 		
-		for(int i = 1; i < 31; i++) {
+		for(int i = 1; i <= aux3; i++) {
 			
 			final int day = i;
 			

@@ -140,8 +140,7 @@ public class LoadReminder {
 					rs.next();
 
 				ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getDate(2), rs.getDate(3), rs.getTime(4),
-						rs.getTime(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10),
-						rs.getInt(11));
+						rs.getTime(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getInt(11));
 				/*
 				 * the reminder that are in the scope of the WHILE loop ( the loop that happen
 				 * on the first resultSet) are the current reminder of the list AND the record
@@ -185,8 +184,8 @@ public class LoadReminder {
 					rs.next();
 
 				ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getDate(2), rs.getDate(3), rs.getTime(4),
-						rs.getTime(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10),
-						rs.getInt(11));
+						rs.getTime(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), 
+						rs.getInt(10));
 
 				l_reminder.getlReminderSchedule().add(rse);
 			}
@@ -201,7 +200,7 @@ public class LoadReminder {
 	 * 
 	 */
 	private ReminderSchedule getSchedule(int cod, Date dateBegin, Date dateEnd, Time timeBegin, Time timeEnd,
-			int minutesInterval, int recurrence, int weekDay, int amountRepetition, boolean isActive, int fkReminder) {
+			int minutesInterval, int recurrence, int weekDay, int amountRepetition, int fkReminder) {
 		ReminderSchedule rs = new ReminderSchedule();
 		rs.setDatetime_begin(dateBegin);
 		rs.setDatetime_end(dateEnd);
@@ -212,7 +211,7 @@ public class LoadReminder {
 		rs.setWeekDay(weekDay);
 		rs.setAmount_of_repetition(amountRepetition);
 		rs.setFk_reminder(fkReminder);
-		rs.setActive(isActive);
+		//rs.setActive(isActive); // tirei pq estava dando erro pq o insert só retorna 10 valores e não 11
 		return rs;
 	}
 

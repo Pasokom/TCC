@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import main.Main;
+import statics.NotifyUser;
 
 public class HomePage extends Scene {
 
@@ -22,6 +23,8 @@ public class HomePage extends Scene {
 	public HomePage() throws FileNotFoundException {
 		super(new VBox());
 
+		NotifyUser.init();
+		
 		Main.main_stage.setWidth(800);
 		Main.main_stage.setHeight(500);
 

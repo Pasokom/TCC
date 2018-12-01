@@ -1,4 +1,4 @@
-package component;
+package component.event;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
