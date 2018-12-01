@@ -8,6 +8,7 @@ import java.util.Optional;
 import db.functions.registrationAndLogin.HandlerLogin;
 import db.functions.registrationAndLogin.HandlerRegistration;
 import db.functions.reminderFUNCTIONS.LoadReminder;
+import db.functions.user.PictureSettings;
 import db.pojo.reminderPOJO.ReminderDB;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -19,6 +20,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -169,6 +171,12 @@ public class Login extends Scene {
 
 		btnEntrar = new Button("Entrar");
 		this.btnEntrar.setOnAction(e -> {
+
+			// PictureSettings ps = new PictureSettings();
+
+			// ps.setImage(Main.main_stage, 1);
+
+			// Main.main_stage.setScene(cena(ps));
 
 			try {
 				LoadReminder l = new LoadReminder();
@@ -365,4 +373,18 @@ public class Login extends Scene {
 		lblLog.setText("email informado já foi cadastrado");
 		return;
 	}
+
+	private Scene cena(PictureSettings p) {
+		HBox hb = new HBox();
+
+		ImageView i = new ImageView();
+
+		i.setImage(p.getImage(1));
+
+		hb.getChildren().add(i);
+		Scene scene = new Scene(hb);
+
+		return scene;
+	}
+
 }
