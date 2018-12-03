@@ -73,7 +73,7 @@ public class PictureSettings {
 
             if (result.isBeforeFirst())
                 result.next();
-            if (result.getBlob(1) == null ) {
+            if (result.getBlob(1) == null) {
                 return null;
             }
             Blob blob = result.getBlob(1);

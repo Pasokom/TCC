@@ -32,8 +32,12 @@ public class SESSION {
 		return SESSION.list_user_reminders == null ? new ArrayList<ReminderDB>() : list_user_reminders;
 	}
 
-	public static  void setImage(Image image) {
+	public static void setImage(Image image) {
 		SESSION.user_photo = image;
+	}
+
+	public static Image get_user_image() {
+		return user_photo;
 	}
 
 	public static long get_user_cod() {
