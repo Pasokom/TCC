@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -141,8 +142,8 @@ public class LoadReminder {
 				if (rs.isBeforeFirst()) /* this is fucking important */
 					rs.next();
 
-				ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getDate(2), rs.getDate(3), rs.getTime(4),
-						rs.getTime(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10),
+				ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getTimestamp(2), rs.getTimestamp(3), rs.getString(4),
+						rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10),
 						rs.getInt(11));
 				/*
 				 * the reminder that are in the scope of the WHILE loop ( the loop that happen
@@ -187,9 +188,10 @@ public class LoadReminder {
 
 					if (rs.isBeforeFirst()) /* this is fucking important */
 						rs.next();
-					ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getDate(2), rs.getDate(3), rs.getTime(4),
-							rs.getTime(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10),
+					ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getTimestamp(2), rs.getTimestamp(3), rs.getString(4),
+							rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10),
 							rs.getInt(11));
+
 
 					l_reminder.getlReminderSchedule().add(rse);
 				}
@@ -203,7 +205,7 @@ public class LoadReminder {
 	 * cleaner as possible
 	 * 
 	 */
-	private ReminderSchedule getSchedule(int cod, Date dateBegin, Date dateEnd, Time timeBegin, Time timeEnd,
+	private ReminderSchedule getSchedule(int cod, Timestamp dateBegin,  Timestamp  dateEnd, String timeBegin, String timeEnd,
 			int minutesInterval, int recurrence, int weekDay, int amountRepetition, boolean isActive, int fkReminder) {
 		ReminderSchedule rs = new ReminderSchedule();
 		rs.setDatetime_begin(dateBegin);

@@ -21,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -179,16 +180,38 @@ public class Login extends Scene {
 			// Main.main_stage.setScene(cena(ps));
 
 			try {
+
 				LoadReminder l = new LoadReminder();
 
 				ArrayList<ReminderDB> x = l.getReminders(1, LoadReminder.TypeOfQuery.REMINDER_FOR_TODAY);
 
-				for (int i = 0; i < x.size(); i++)
-					System.out.println(x.get(i).getTitle());
+				// for (int i = 0; i < x.size(); i++) {
+				// System.out.println(x.get(i).getTitle());
+
+				// System.out.println(x.get(i).getlReminderSchedule().get(i).getDatetime_begin());
+
+				// }
 
 			} catch (SQLException | ClassNotFoundException e1) {
 				e1.printStackTrace();
 			}
+			// try {
+
+			// this.login.do_login(this.txtEmail.getText(), this.txtSenha.getText());
+			// Main.main_stage.setScene(new HomePage());
+			// } catch (SQLException | ClassNotFoundException | FileNotFoundException e1) {
+			// e1.printStackTrace();
+			// }
+		});
+		this.setOnKeyPressed(e -> {
+			if (e.getCode() == KeyCode.ENTER)
+				try {
+					this.login.do_login(this.txtEmail.getText(), this.txtSenha.getText());
+					Main.main_stage.setScene(new HomePage());
+					return;
+				} catch (SQLException | ClassNotFoundException | FileNotFoundException e1) {
+					e1.printStackTrace();
+				}
 		});
 		this.setOnMouseClicked(e -> {
 			this.lbl_error_message.setVisible(false);
