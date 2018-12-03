@@ -2,14 +2,11 @@ package db.pojo.reminderPOJO;
 
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ReminderSchedule {
-
-	private final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
 
 	private int cod;
 	private int fk_reminder;
@@ -29,21 +26,18 @@ public class ReminderSchedule {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-
 	/**
 	 * @return the isActive
 	 */
 	public boolean isActive() {
 		return isActive;
 	}
-
 	/**
 	 * @param fk_reminder the fk_reminder to set
 	 */
 	public void setFk_reminder(int fk_reminder) {
 		this.fk_reminder = fk_reminder;
 	}
-
 	/**
 	 * @return the fk_reminder
 	 */
