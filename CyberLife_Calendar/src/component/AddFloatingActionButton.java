@@ -1,7 +1,7 @@
 package component;
 
-import display.Event;
-import display.Reminder;
+import display.scenes.Event;
+import display.scenes.Reminder;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;

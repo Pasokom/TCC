@@ -1,4 +1,4 @@
-package display;
+package display.scenes;
 
 import java.awt.AWTException;
 import java.awt.Image;

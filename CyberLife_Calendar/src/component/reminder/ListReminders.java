@@ -2,7 +2,7 @@ package component.reminder;
 
 import component.CustomScroll;
 import component.ReminderComponent;
-import display.Event;
+import display.scenes.Event;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

@@ -2,8 +2,8 @@ package main;
 
 import db.Database;
 import db.functions.registrationAndLogin.HandlerLogin;
-import display.HomePage;
-import display.Login;
+import display.scenes.HomePage;
+import display.scenes.Login;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import listeners.Serial;

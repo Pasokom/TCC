@@ -2,9 +2,9 @@ package component;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import display.poupoup.ShowPicture;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import main.Main;
 import statics.SESSION;
 
 public class NavigationMenu extends AnchorPane {
@@ -20,7 +21,7 @@ public class NavigationMenu extends AnchorPane {
 	private Label lblNome, lblEmail;
 	private HBox hProfile;
 	private VBox vProfileNameEmail;
-	private ImageView userImage;
+	private ImageView view;
 
 	public NavigationMenu() {
 
@@ -32,11 +33,11 @@ public class NavigationMenu extends AnchorPane {
 		/* Conteudo do perfil */
 		hProfile = new HBox();
 
-		Circle profileImg = new Circle();
-		profileImg.setRadius(20);
-		profileImg.setFill(Color.rgb(0, 0, 0, 0.08));
-		profileImg.setCenterX(100);
-		profileImg.setCenterY(100);
+		Circle circle = new Circle();
+		circle.setRadius(20);
+		circle.setFill(Color.rgb(0, 0, 0, 0.08));
+		circle.setCenterX(100);
+		circle.setCenterY(100);
 
 		/* VBox do nome e email */
 		vProfileNameEmail = new VBox();
@@ -47,24 +48,31 @@ public class NavigationMenu extends AnchorPane {
 		vProfileNameEmail.getChildren().addAll(lblNome, lblEmail);
 		/* Fim VBox do nome e email */
 
-		Image profilePic = SESSION.get_user_image();
-		this.userImage = new ImageView();
-		this.userImage.setFitWidth(60);
-		this.userImage.setFitHeight(60);
-		if (profilePic != null) {
-			this.userImage.setImage(profilePic);
-			hProfile.getChildren().addAll(this.userImage, vProfileNameEmail);
+		Image profileImg = SESSION.get_user_image();
+		this.view = new ImageView();
+		/** size of image view  */
+		this.view.setFitWidth(60);
+		this.view.setFitHeight(60);
+
+		if (profileImg != null) {
+			this.view.setImage(profileImg);
+			hProfile.getChildren().addAll(this.view, vProfileNameEmail);
 		} else {
 			try {
 				// don't know why but this shit had to be made this way ( at least for know )
 				// TODO find a better way to put a image here
 				final String PATH = this.getClass().getResource("").getPath() + "../../resources/images/sasuke.png";
-				this.userImage.setImage(new Image(new FileInputStream(new File(PATH))));
-				hProfile.getChildren().addAll(this.userImage, vProfileNameEmail);
+				this.view.setImage(new Image(new FileInputStream(new File(PATH))));
+				hProfile.getChildren().addAll(this.view, vProfileNameEmail);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+
+		view.setOnMouseClicked(e->{
+			new ShowPicture(view.getImage(), Main.main_stage);
+		});
+
 		/* Fim do conteudo do perfil */
 		/* Botao adicionar */
 		AddFloatingActionButton circleButton = new AddFloatingActionButton();

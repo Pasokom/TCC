@@ -1,4 +1,4 @@
-package display;
+package display.scenes;
 
 import java.sql.Date;
 import java.sql.SQLException;

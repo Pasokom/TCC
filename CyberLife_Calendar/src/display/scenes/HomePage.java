@@ -1,4 +1,4 @@
-package display;
+package display.scenes;
 
 import java.io.FileNotFoundException;
 import java.util.Calendar;
