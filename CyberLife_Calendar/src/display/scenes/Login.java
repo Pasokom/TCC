@@ -177,7 +177,14 @@ public class Login extends Scene {
 
 		btnEntrar = new Button("Entrar");
 		this.btnEntrar.setOnAction(e -> {
-			login();
+			// login();
+
+			PictureSettings ps = new PictureSettings();
+
+
+			ps.setImage(Main.main_stage, 2);
+
+
 		});
 		this.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.ENTER)
