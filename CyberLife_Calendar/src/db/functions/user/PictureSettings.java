@@ -73,6 +73,9 @@ public class PictureSettings {
 
             if (result.isBeforeFirst())
                 result.next();
+            if (result.getBlob(1) == null ) {
+                return null;
+            }
             Blob blob = result.getBlob(1);
 
             byte[] bytes = blob.getBytes(1, (int) blob.length());

@@ -17,6 +17,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -68,6 +69,9 @@ public class Login extends Scene {
 	private HandlerLogin login;
 	private HBox h_wrong_login;
 	private Label lbl_error_message;
+
+	private HBox h_stayConnected;
+	private CheckBox cb_stayConnected;
 
 	private HandlerRegistration registration;
 
@@ -170,48 +174,17 @@ public class Login extends Scene {
 		h_wrong_login.getChildren().add(this.lbl_error_message);
 		h_wrong_login.setAlignment(Pos.CENTER);
 
+		this.h_stayConnected = new HBox();
+		this.cb_stayConnected = new CheckBox();
+		h_stayConnected.getChildren().addAll(cb_stayConnected, new Label("Mantenha-me conectado"));
+
 		btnEntrar = new Button("Entrar");
 		this.btnEntrar.setOnAction(e -> {
-
-			// PictureSettings ps = new PictureSettings();
-
-			// ps.setImage(Main.main_stage, 1);
-
-			// Main.main_stage.setScene(cena(ps));
-
-			try {
-
-				LoadReminder l = new LoadReminder();
-
-				ArrayList<ReminderDB> x = l.getReminders(1, LoadReminder.TypeOfQuery.REMINDER_FOR_TODAY);
-
-				// for (int i = 0; i < x.size(); i++) {
-				// System.out.println(x.get(i).getTitle());
-
-				// System.out.println(x.get(i).getlReminderSchedule().get(i).getDatetime_begin());
-
-				// }
-
-			} catch (SQLException | ClassNotFoundException e1) {
-				e1.printStackTrace();
-			}
-			// try {
-
-			// this.login.do_login(this.txtEmail.getText(), this.txtSenha.getText());
-			// Main.main_stage.setScene(new HomePage());
-			// } catch (SQLException | ClassNotFoundException | FileNotFoundException e1) {
-			// e1.printStackTrace();
-			// }
+			login();
 		});
 		this.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.ENTER)
-				try {
-					this.login.do_login(this.txtEmail.getText(), this.txtSenha.getText());
-					Main.main_stage.setScene(new HomePage());
-					return;
-				} catch (SQLException | ClassNotFoundException | FileNotFoundException e1) {
-					e1.printStackTrace();
-				}
+				login();
 		});
 		this.setOnMouseClicked(e -> {
 			this.lbl_error_message.setVisible(false);
@@ -232,7 +205,7 @@ public class Login extends Scene {
 			}
 		});
 
-		vbLogin.getChildren().addAll(lblTitle, hbEmail, hbPwd, h_wrong_login, hLogin);
+		vbLogin.getChildren().addAll(lblTitle, hbEmail, hbPwd, h_stayConnected, h_wrong_login, hLogin);
 		vbCadastro.getChildren().addAll(lblTitleCadast, hbNome, txtSobrenomeCadast, hbEmailCadast, hbPwdCadast,
 				hCadastro);
 
@@ -309,26 +282,23 @@ public class Login extends Scene {
 	 * for feito com sucesso ir�o iniciar as variaveis globais da classe
 	 * {@link statics.SESSION} e abrir a tela principal
 	 * 
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
 	 */
-	private void login() throws ClassNotFoundException, SQLException {
-		boolean is_email_empty = txtEmail.getText().trim().isEmpty();
-		boolean is_password_empy = txtSenha.getText().isEmpty();
+	private void login() {
+		try {
+			boolean is_email_empty = txtEmail.getText().trim().isEmpty();
+			boolean is_password_empy = txtSenha.getText().isEmpty();
 
-		if (!is_email_empty && !is_password_empy) {
-			try {
-				if (login.do_login(txtEmail.getText(), txtSenha.getText())) {
+			if (!is_email_empty && !is_password_empy) {
+
+				if (login.login(txtEmail.getText(), txtSenha.getText(), this.cb_stayConnected.selectedProperty().get())) {
 					Main.main_stage.setScene(new HomePage());
 					return;
 				}
-			} catch (ClassNotFoundException | SQLException e1) {
-				e1.printStackTrace();
-			} catch (FileNotFoundException e1) {
-				e1.printStackTrace();
+				this.lbl_error_message.setVisible(true);
 			}
+			this.lbl_error_message.setVisible(true);
+		} catch (FileNotFoundException | SQLException | ClassNotFoundException e) {
 		}
-		this.lbl_error_message.setVisible(true);
 	}
 
 	/**
@@ -345,7 +315,7 @@ public class Login extends Scene {
 			return;
 		}
 
-		if (txtSenhaCadast.getText().length() < 8) {
+		if (txtSenhaCadast.getText().length() < 1) { // 8) {
 			lblLog.setText("Senha deve conter no min�mo 8 caracteres!");
 			return;
 		}

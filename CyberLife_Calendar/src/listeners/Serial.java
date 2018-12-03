@@ -42,7 +42,7 @@ public class Serial {
         if (fileExists(fileName))
             return false;
         try {
-            FileOutputStream file = new FileOutputStream(PATH + fileName);
+            FileOutputStream file = new FileOutputStream(PATH + fileName + ".ser");
             ObjectOutputStream out = new ObjectOutputStream(file);
             out.writeObject(obj);
             out.close();
@@ -67,7 +67,7 @@ public class Serial {
      */
     public Object undoSerialization(String fileName) {
         try {
-            FileInputStream fis = new FileInputStream(PATH + fileName);
+            FileInputStream fis = new FileInputStream(PATH + fileName + ".ser");
             ObjectInputStream ois = new ObjectInputStream(fis);
             Object out = (Object) ois.readObject();
             ois.close();
@@ -82,8 +82,8 @@ public class Serial {
     /**
      * <h2>If the return are true, the file already exists</h2>
      */
-    private boolean fileExists(String fileName) {
-        return new File(PATH + fileName).exists();
+    public  boolean fileExists(String fileName) {
+        return new File(PATH + fileName + ".ser").exists();
     }
 
 }

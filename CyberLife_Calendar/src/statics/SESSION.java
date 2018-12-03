@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import db.pojo.reminderPOJO.ReminderDB;
+import javafx.scene.image.Image;
 
 public class SESSION {
 
@@ -11,6 +12,7 @@ public class SESSION {
 	private static String user_name;
 	private static String user_last_name;
 	private static String user_email;
+	private static Image user_photo;
 
 	private static ArrayList<ReminderDB> list_user_reminders;
 
@@ -28,6 +30,10 @@ public class SESSION {
 
 	public static ArrayList<ReminderDB> user_reminders() {
 		return SESSION.list_user_reminders == null ? new ArrayList<ReminderDB>() : list_user_reminders;
+	}
+
+	public static  void setImage(Image image) {
+		SESSION.user_photo = image;
 	}
 
 	public static long get_user_cod() {
