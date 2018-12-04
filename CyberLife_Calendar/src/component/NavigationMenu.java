@@ -4,16 +4,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import display.poupoup.ShowPicture;
+import component.profileImage.ImageContent;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import main.Main;
 import statics.SESSION;
 
 public class NavigationMenu extends AnchorPane {
@@ -21,7 +19,7 @@ public class NavigationMenu extends AnchorPane {
 	private Label lblNome, lblEmail;
 	private HBox hProfile;
 	private VBox vProfileNameEmail;
-	private ImageView view;
+	private ImageContent view;
 
 	public NavigationMenu() {
 
@@ -48,30 +46,9 @@ public class NavigationMenu extends AnchorPane {
 		vProfileNameEmail.getChildren().addAll(lblNome, lblEmail);
 		/* Fim VBox do nome e email */
 
-		Image profileImg = SESSION.get_user_image();
-		this.view = new ImageView();
-		/** size of image view  */
-		this.view.setFitWidth(60);
-		this.view.setFitHeight(60);
-
-		if (profileImg != null) {
-			this.view.setImage(profileImg);
-			hProfile.getChildren().addAll(this.view, vProfileNameEmail);
-		} else {
-			try {
-				// don't know why but this shit had to be made this way ( at least for know )
-				// TODO find a better way to put a image here
-				final String PATH = this.getClass().getResource("").getPath() + "../../resources/images/sasuke.png";
-				this.view.setImage(new Image(new FileInputStream(new File(PATH))));
-				hProfile.getChildren().addAll(this.view, vProfileNameEmail);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		view.setOnMouseClicked(e->{
-			new ShowPicture(view.getImage(), Main.main_stage);
-		});
+		/** size of image view */
+		this.view = new ImageContent(SESSION.get_user_image());
+		hProfile.getChildren().addAll(view, vProfileNameEmail);
 
 		/* Fim do conteudo do perfil */
 		/* Botao adicionar */

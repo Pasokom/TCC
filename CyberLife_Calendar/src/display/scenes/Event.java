@@ -31,6 +31,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import main.Main;
 
 public class Event extends Scene {
 
@@ -46,7 +47,7 @@ public class Event extends Scene {
 
 	public Event() {
 		super(new VBox());
-
+		Main.main_stage.setTitle("EVENTO");
 		/* scene */ this.getStylesheets().add(this.getClass().getResource("../css/event.css").toExternalForm());
 
 		VBox vb = new VBox();

@@ -3,8 +3,6 @@ package db.functions.reminderFUNCTIONS;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import com.mysql.cj.xdevapi.SqlDataResult;
-
 import db.Database;
 
 /**
@@ -44,8 +42,7 @@ public class ManageReminder {
         TITLE, TYPE_OF_RECURRENCE, TYPE_OF_REPETITION, STATE
     }
 
-    public ManageReminder() {
-    }
+    public ManageReminder() {}
 
     /**
      * @author jefter66

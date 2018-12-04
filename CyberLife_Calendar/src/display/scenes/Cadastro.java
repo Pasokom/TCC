@@ -39,6 +39,8 @@ public class Cadastro extends Scene {
 		 */
 		super(new HBox());
 
+		Main.main_stage.setTitle("CADASTRO");
+
 		lblNome = new Label("Nome: ");
 		lblSobrenome = new Label("Sobrenome: ");
 		lblEmail = new Label("E-mail: ");

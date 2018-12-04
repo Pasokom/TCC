@@ -14,8 +14,8 @@ public class ShowPicture extends Stage {
         VBox container = new VBox();
         ImageView view = new ImageView();
 
-        view.setFitWidth(image.getWidth());
-        view.setFitHeight(image.getHeight());
+        view.setFitWidth(500);
+        view.setFitHeight(500);
         view.setImage(image);
 
         container.getChildren().add(view);
@@ -32,5 +32,4 @@ public class ShowPicture extends Stage {
         this.setResizable(false);
         this.show();
     }
-
 }

@@ -1,5 +1,6 @@
 package statics;
 
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -13,6 +14,8 @@ public class SESSION {
 	private static String user_last_name;
 	private static String user_email;
 	private static Image user_photo;
+ 
+	private  static final String PATH = getClass().getResource("").getPath() + "../../resources/images/sasuke.png";
 
 	private static ArrayList<ReminderDB> list_user_reminders;
 
@@ -33,7 +36,18 @@ public class SESSION {
 	}
 
 	public static void setImage(Image image) {
-		SESSION.user_photo = image;
+		try {
+
+			if (image != null) {
+				SESSION.user_photo = image;
+				return;
+			}
+
+			String a = SESSION.PA;
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static Image get_user_image() {

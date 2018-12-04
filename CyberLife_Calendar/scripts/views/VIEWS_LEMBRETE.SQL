@@ -8,7 +8,8 @@ DROP VIEW IF EXISTS VIEW_LEMBRETES_DO_DIA;
    INNER JOIN HORARIO_LEMBRETE AS HL  ON LCOD_LEMBRETE = FK_LEMBRETE 
    WHERE DATE(DATA_LEMBRETE) = DATE(NOW()) 
    OR DATE(CALCULO_RECORRENCIA(DATA_LEMBRETE,L.TIPO_RECORRENCIA,HL_RECORRENCIA))  = DATE(NOW())
-   AND ATIVO  AND HL_ATIVO IN (TRUE);
+   AND ATIVO = TRUE AND HL_ATIVO = TRUE;
+
 
 /*this view are going to be used to store in memory all the 
 reminders that the user had ever made ( if we want to change this 
