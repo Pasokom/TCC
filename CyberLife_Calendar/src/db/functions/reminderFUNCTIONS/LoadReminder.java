@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -43,7 +44,7 @@ public class LoadReminder {
 	 * If there are no reminders or no schedules for the reminders that was found 
 	 * the return of the function going to be NULL, so, treat this when use the function
 	 * </br>
-	 * Lembrar de tratar isso no lugar em que usar a função</h3>
+	 * Lembrar de tratar isso no lugar em que usar a funï¿½ï¿½o</h3>
 	 * 
 	 * <p>
 	 * <h4><i> This function use the VIEW VIEW_LEMBRETES_DO_DIA stored on the DB You
@@ -91,7 +92,7 @@ public class LoadReminder {
 		String sqlReminder = new String();
 		String sqlSchedule = new String();
 
-		/* sai da função se o resultSet estiver vazio */
+		/* sai da funï¿½ï¿½o se o resultSet estiver vazio */
 		if (!result.first())
 			return null;
 		/*
@@ -113,6 +114,8 @@ public class LoadReminder {
 
 			System.out.println(sqlReminder);
 
+			if (l_bringReminder.first())
+				l_bringReminder.beforeFirst();
 			l_bringReminder.next();
 
 			ReminderDB l_reminder = getReminder(l_bringReminder.getInt(1), l_bringReminder.getString(2),
@@ -139,9 +142,9 @@ public class LoadReminder {
 				if (rs.isBeforeFirst()) /* this is fucking important */
 					rs.next();
 
-				ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getDate(2), rs.getDate(3), rs.getTime(4),
-						rs.getTime(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10),
-						rs.getInt(11));
+				ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getTimestamp(2), rs.getTimestamp(3),
+						rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9),
+						rs.getBoolean(10), rs.getInt(11));
 				/*
 				 * the reminder that are in the scope of the WHILE loop ( the loop that happen
 				 * on the first resultSet) are the current reminder of the list AND the record
@@ -153,7 +156,8 @@ public class LoadReminder {
 			}
 			l_listReminders.add(l_reminder);
 		}
-		if(!result.next()) result.close();
+		if (!result.next())
+			result.close();
 		/*
 		 * when i check if the result set have more than one record the object point to
 		 * the next row, so, if there isnt more than one record have to make the result
@@ -184,9 +188,9 @@ public class LoadReminder {
 
 					if (rs.isBeforeFirst()) /* this is fucking important */
 						rs.next();
-					ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getDate(2), rs.getDate(3), rs.getTime(4),
-							rs.getTime(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10),
-							rs.getInt(11));
+					ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getTimestamp(2), rs.getTimestamp(3),
+							rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9),
+							rs.getBoolean(10), rs.getInt(11));
 
 					l_reminder.getlReminderSchedule().add(rse);
 				}
@@ -200,8 +204,9 @@ public class LoadReminder {
 	 * cleaner as possible
 	 * 
 	 */
-	private ReminderSchedule getSchedule(int cod, Date dateBegin, Date dateEnd, Time timeBegin, Time timeEnd,
-			int minutesInterval, int recurrence, int weekDay, int amountRepetition, boolean isActive, int fkReminder) {
+	private ReminderSchedule getSchedule(int cod, Timestamp dateBegin, Timestamp dateEnd, String timeBegin,
+			String timeEnd, int minutesInterval, int recurrence, int weekDay, int amountRepetition, boolean isActive,
+			int fkReminder) {
 		ReminderSchedule rs = new ReminderSchedule();
 		rs.setDatetime_begin(dateBegin);
 		rs.setDatetime_end(dateEnd);
@@ -227,7 +232,7 @@ public class LoadReminder {
 	}
 
 	/**
-	 * Formata os valores vindos da consulta (os ids dos lembretes) função para
+	 * Formata os valores vindos da consulta (os ids dos lembretes) funï¿½ï¿½o para
 	 * recuperar cada um deles por vez do banco
 	 */
 	private int[] schedulesIDs(String reference) {

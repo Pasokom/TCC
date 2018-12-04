@@ -18,7 +18,7 @@ public class Enums {
 	 */
 	public static enum ReminderStatus {
 
-		ACTIVE(true), DISABLED(false);
+	ACTIVE(true), DISABLED(false);
 		private boolean value;
 
 		public boolean get_value() {
@@ -66,36 +66,43 @@ public class Enums {
 		}
 	}
 
-	/** 
-	 * <p><h2> Usado para definir o tipo de repetição do lembrete (repetição de horario) </h2></p>
-	 * @return 0 - repete o dia todo 
-	 * @return 1 - repetição por intervalo 
-	 * @return 2 - repetição pelo time picker 
+	/**
+	 * <p>
+	 * <h2>Usado para definir o tipo de repetição do lembrete (repetição de horario)
+	 * </h2>
+	 * </p>
+	 * 
+	 * @return 0 - repete o dia todo
+	 * @return 1 - repetição por intervalo
+	 * @return 2 - repetição pelo time picker
 	 */
-	public static enum RepetitionType {  
+	public static enum RepetitionType {
 
 		ALL_DAY(0), INTERVAL(1), TIME_PICKER(2);
 
-		private int value; 
+		private int value;
 
-		public int getValue() { 
+		public int getValue() {
 			return this.value;
 		}
-		private RepetitionType(int value) { 
+
+		private RepetitionType(int value) {
 			this.value = value;
 		}
 	}
 
-	public static enum Month{
-		
-		JANUARY("Janeiro"), FEBRUARY("Fevereiro"), MARCH("Mar�o"), APRIL("Abril"), MAY("Maio"), JUNE("Junho"), 
-		JULY("Julho"), AUGUST("Agosto"), SEPTEMBER("Setembro"), OCTOBER("Outubro"), NOVEMBER("Novembro"), DECEMBER("Dezembro");
-		
+	public static enum Month {
+
+		JANUARY("Janeiro"), FEBRUARY("Fevereiro"), MARCH("Mar�o"), APRIL("Abril"), MAY("Maio"), JUNE("Junho"),
+		JULY("Julho"), AUGUST("Agosto"), SEPTEMBER("Setembro"), OCTOBER("Outubro"), NOVEMBER("Novembro"),
+		DECEMBER("Dezembro");
+
 		String name;
-		Month(String name){
+
+		Month(String name) {
 			this.name = name;
 		}
-		
+
 		public String getValue() {
 			return this.name;
 		}

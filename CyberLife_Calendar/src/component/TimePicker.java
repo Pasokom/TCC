@@ -45,16 +45,16 @@ public class TimePicker extends HBox {
 
 	private Button btnCancelar;
 	private Button btnOK;
-	
+
 	private boolean isDeletable;
-	
+
 	/**
 	 * 
 	 * @param isDeletable timepicker pode ser excluido ou nao
 	 */
 	public TimePicker(boolean isDeletable) {
 		this.isDeletable = isDeletable;
-		
+
 		timeDisplay = new TextField();
 		timeDisplay.setPrefWidth(60);
 		timeDisplay.focusedProperty().addListener(new ChangeListener<Boolean>() {
@@ -64,7 +64,7 @@ public class TimePicker extends HBox {
 
 				if (!newValue) {
 
-					timeDisplay.getParent().requestFocus(); //se ganhar foco automaticamente perde o foco
+					timeDisplay.getParent().requestFocus(); // se ganhar foco automaticamente perde o foco
 				}
 			}
 
@@ -81,7 +81,7 @@ public class TimePicker extends HBox {
 		Label doisPonto = new Label(":");
 		min = new Label(String.format("%02d", calendar.get(Calendar.MINUTE)));
 
-		horario.getChildren().addAll(hour, doisPonto, min); //display de horas e minutos
+		horario.getChildren().addAll(hour, doisPonto, min); // display de horas e minutos
 
 		hour.setFont(new Font(40));
 		hour.setId("lblSeletor");
@@ -98,17 +98,18 @@ public class TimePicker extends HBox {
 
 		timeDisplay.setOnMouseClicked(e -> {
 
-			Point2D point2d = this.localToScreen(0d, 0d); //pega o local atual do componente em relacao a tela
+			Point2D point2d = this.localToScreen(0d, 0d); // pega o local atual do componente em relacao a tela
 
-			timeSelector.getChildren().set(1, horaPane()); //mostra o painel de selecao de hora
+			timeSelector.getChildren().set(1, horaPane()); // mostra o painel de selecao de hora
 
 			/* posiciona o seletor abaixo do componente */
 			timeSelectorStage.setX(point2d.getX());
 			timeSelectorStage.setY(timeDisplay.getHeight() + point2d.getY());
 
-			timeSelector.setOnKeyPressed(e1->{
-				if(e1.getCode() == KeyCode.ESCAPE) System.out.println("esc");
-				
+			timeSelector.setOnKeyPressed(e1 -> {
+				if (e1.getCode() == KeyCode.ESCAPE)
+					System.out.println("esc");
+
 				new CloseWindowEsc(timeSelectorStage).handle(e1);
 			});
 			timeSelectorStage.show();
@@ -141,7 +142,7 @@ public class TimePicker extends HBox {
 
 				if (!newValue) {
 
-					timeSelectorStage.close(); //caso seletor perca o foco, fechar seletor
+					timeSelectorStage.close(); // caso seletor perca o foco, fechar seletor
 				}
 			}
 
@@ -165,7 +166,7 @@ public class TimePicker extends HBox {
 
 		this.getChildren().add(timeDisplay);
 
-		if(isDeletable)
+		if (isDeletable)
 			this.getChildren().add(timeDeleter);
 
 		timeDeleter.setOnAction(event -> {
@@ -174,7 +175,7 @@ public class TimePicker extends HBox {
 		});
 	}
 
-	/* painel de selecao de horas*/
+	/* painel de selecao de horas */
 	private Pane horaPane() {
 
 		Pane clock = new Pane();
@@ -192,7 +193,10 @@ public class TimePicker extends HBox {
 
 		for (int i = 0; i < 24; i++) {
 
-			/* posiciona os 12 primeiro botoes mais perto do centro do relogio e os 12 ultimos mais afastado */
+			/*
+			 * posiciona os 12 primeiro botoes mais perto do centro do relogio e os 12
+			 * ultimos mais afastado
+			 */
 			int raio = i < 12 ? 50 : 75;
 
 			circulos[i] = new Pane();
@@ -312,30 +316,20 @@ public class TimePicker extends HBox {
 	public String get_value() {
 		return timeDisplay.getText();
 	}
-	
-	public void close_stage() { 
+
+	public void close_stage() {
 		timeSelectorStage.close();
 	}
-	
-	private void change_label() { 
+
+	private void change_label() {
 		timeDisplay.setText(hour.getText() + ":" + min.getText());
 	}
-	
+
 	public void set_event_ok(EventHandler<ActionEvent> e) {
 		this.btnOK.setOnAction(e);
 	}
-	
+
 	public boolean isDeletable() {
 		return isDeletable;
 	}
 }
-
-
-
-
-
-
-
-
-
-

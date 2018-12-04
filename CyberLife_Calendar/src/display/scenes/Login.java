@@ -1,4 +1,4 @@
-package display;
+package display.scenes;
 
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import db.functions.registrationAndLogin.HandlerLogin;
 import db.functions.registrationAndLogin.HandlerRegistration;
+import db.functions.user.PictureSettings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,9 +14,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -63,6 +67,9 @@ public class Login extends Scene {
 	private HBox h_wrong_login;
 	private Label lbl_error_message;
 
+	private HBox h_stayConnected;
+	private CheckBox cb_stayConnected;
+
 	private HandlerRegistration registration;
 
 	public Login() {
@@ -102,7 +109,7 @@ public class Login extends Scene {
 
 		lblSenha = new Label();
 		lblSenha.setId("lblPsw");
-		
+
 		txtSenha = new PasswordField();
 		txtSenha.setPromptText("Senha");
 
@@ -164,13 +171,20 @@ public class Login extends Scene {
 		h_wrong_login.getChildren().add(this.lbl_error_message);
 		h_wrong_login.setAlignment(Pos.CENTER);
 
+		this.h_stayConnected = new HBox();
+		this.cb_stayConnected = new CheckBox();
+		h_stayConnected.getChildren().addAll(cb_stayConnected, new Label("Mantenha-me conectado"));
+
 		btnEntrar = new Button("Entrar");
 		this.btnEntrar.setOnAction(e -> {
-			try {
+			PictureSettings ps = new PictureSettings();
+
+			ps.setImage(Main.main_stage, 2);
+
+		});
+		this.setOnKeyPressed(e -> {
+			if (e.getCode() == KeyCode.ENTER)
 				login();
-			} catch (ClassNotFoundException | SQLException e1) {
-				e1.printStackTrace();
-			}
 		});
 		this.setOnMouseClicked(e -> {
 			this.lbl_error_message.setVisible(false);
@@ -191,7 +205,7 @@ public class Login extends Scene {
 			}
 		});
 
-		vbLogin.getChildren().addAll(lblTitle, hbEmail, hbPwd, h_wrong_login, hLogin);
+		vbLogin.getChildren().addAll(lblTitle, hbEmail, hbPwd, h_stayConnected, h_wrong_login, hLogin);
 		vbCadastro.getChildren().addAll(lblTitleCadast, hbNome, txtSobrenomeCadast, hbEmailCadast, hbPwdCadast,
 				hCadastro);
 
@@ -238,10 +252,10 @@ public class Login extends Scene {
 		AnchorPane.setRightAnchor(pnlLayout, 0d);
 
 		aPane.requestFocus();
-		
+
 		txtEmail.setText("a@gmail.com");
 		txtSenha.setText("12345678");
-		
+
 		this.setRoot(aPane);
 	}
 
@@ -271,26 +285,24 @@ public class Login extends Scene {
 	 * for feito com sucesso ir�o iniciar as variaveis globais da classe
 	 * {@link statics.SESSION} e abrir a tela principal
 	 * 
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
 	 */
-	private void login() throws ClassNotFoundException, SQLException {
-		boolean is_email_empty = txtEmail.getText().trim().isEmpty();
-		boolean is_password_empy = txtSenha.getText().isEmpty();
+	private void login() {
+		try {
+			boolean is_email_empty = txtEmail.getText().trim().isEmpty();
+			boolean is_password_empy = txtSenha.getText().isEmpty();
 
-		if (!is_email_empty && !is_password_empy) {
-			try {
-				if (login.do_login(txtEmail.getText(), txtSenha.getText())) {
+			if (!is_email_empty && !is_password_empy) {
+
+				if (login.login(txtEmail.getText(), txtSenha.getText(),
+						this.cb_stayConnected.selectedProperty().get())) {
 					Main.main_stage.setScene(new HomePage());
 					return;
 				}
-			} catch (ClassNotFoundException | SQLException e1) {
-				e1.printStackTrace();
-			} catch (FileNotFoundException e1) {
-				e1.printStackTrace();
+				this.lbl_error_message.setVisible(true);
 			}
+			this.lbl_error_message.setVisible(true);
+		} catch (FileNotFoundException | SQLException | ClassNotFoundException e) {
 		}
-		this.lbl_error_message.setVisible(true);
 	}
 
 	/**
@@ -307,7 +319,7 @@ public class Login extends Scene {
 			return;
 		}
 
-		if (txtSenhaCadast.getText().length() < 8) {
+		if (txtSenhaCadast.getText().length() < 1) { // 8) {
 			lblLog.setText("Senha deve conter no min�mo 8 caracteres!");
 			return;
 		}
@@ -358,4 +370,18 @@ public class Login extends Scene {
 		lblLog.setText("email informado já foi cadastrado");
 		return;
 	}
+
+	private Scene cena(PictureSettings p) {
+		HBox hb = new HBox();
+
+		ImageView i = new ImageView();
+
+		i.setImage(p.getImage(1));
+
+		hb.getChildren().add(i);
+		Scene scene = new Scene(hb);
+
+		return scene;
+	}
+
 }

@@ -1,4 +1,4 @@
-package display;
+package display.scenes;
 
 import java.sql.SQLException;
 
@@ -38,6 +38,8 @@ public class Cadastro extends Scene {
 		 * necessariamente ser uma hbox, qualquer componente serve
 		 */
 		super(new HBox());
+
+		Main.main_stage.setTitle("CADASTRO");
 
 		lblNome = new Label("Nome: ");
 		lblSobrenome = new Label("Sobrenome: ");

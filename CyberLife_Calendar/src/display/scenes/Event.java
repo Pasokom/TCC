@@ -1,4 +1,4 @@
-package display;
+package display.scenes;
 
 import java.awt.AWTException;
 import java.awt.Image;
@@ -31,6 +31,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import main.Main;
 import statics.NotifyUser;
 
 public class Event extends Scene {
@@ -47,8 +48,8 @@ public class Event extends Scene {
 
 	public Event() {
 		super(new VBox());
-
-		/* scene */ this.getStylesheets().add(this.getClass().getResource("../css/event.css").toExternalForm());
+		Main.main_stage.setTitle("EVENTO");
+		// /* scene */ this.getStylesheets().add(this.getClass().getResource("../css/event.css").toExternalForm());
 
 		VBox vb = new VBox();
 
@@ -73,10 +74,10 @@ public class Event extends Scene {
 			try {
 				insert_event();
 				((Stage) this.getWindow()).close();
-				
-				String notificationMessage = "O evento \"" + txtTitle.getText() 
-					+ "\" foi cadastrado no dia " + dtStart.getValue().toString();
-				
+
+				String notificationMessage = "O evento \"" + txtTitle.getText() + "\" foi cadastrado no dia "
+						+ dtStart.getValue().toString();
+
 				NotifyUser.sendNotification("Evento", notificationMessage, MessageType.NONE);
 
 			} catch (ClassNotFoundException | SQLException e) {

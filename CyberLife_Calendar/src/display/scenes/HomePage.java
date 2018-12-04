@@ -1,4 +1,4 @@
-package display;
+package display.scenes;
 
 import java.io.FileNotFoundException;
 import java.util.Calendar;
@@ -7,7 +7,6 @@ import component.homepage.CalendarBar;
 import component.homepage.CalendarComponent;
 import component.homepage.ListCalendar;
 import component.homepage.NavigationMenu;
-
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -25,7 +24,7 @@ public class HomePage extends Scene {
 		super(new VBox());
 
 		NotifyUser.init();
-		
+
 		Main.main_stage.setWidth(800);
 		Main.main_stage.setHeight(500);
 
@@ -47,16 +46,15 @@ public class HomePage extends Scene {
 		AnchorPane.setRightAnchor(calendarBar, 0d);
 		AnchorPane.setTopAnchor(calendarBar, 0d);
 
-		//calendarComponent = new CalendarComponent();
-		
-		AnchorPane.setLeftAnchor(calendarComponent,menu.getPrefWidth() + listCalendar.getPrefWidth() + 20);
+		// calendarComponent = new CalendarComponent();
+
+		AnchorPane.setLeftAnchor(calendarComponent, menu.getPrefWidth() + listCalendar.getPrefWidth() + 20);
 		AnchorPane.setRightAnchor(calendarComponent, 0d);
 		AnchorPane.setTopAnchor(calendarComponent, 100d);
 		AnchorPane.setBottomAnchor(calendarComponent, 0d);
 
 		layout = new AnchorPane();
 		layout.getChildren().addAll(menu, listCalendar, calendarBar, calendarComponent);
-
 
 		this.setRoot(layout);
 	}

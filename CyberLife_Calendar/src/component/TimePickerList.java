@@ -38,7 +38,7 @@ public class TimePickerList extends HBox {
 				horas.getChildren().add(tp);
 			}
 		});
-		
+
 		this.setSpacing(10);
 		this.getChildren().addAll(lblTime, horas, btnAddTime);
 	}
@@ -46,6 +46,7 @@ public class TimePickerList extends HBox {
 	public ArrayList<String> get_selected_time() {
 		return list_values;
 	}
+
 	public void add_value(String value) {
 		this.list_values.add(value);
 	}

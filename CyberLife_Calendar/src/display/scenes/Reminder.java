@@ -1,4 +1,4 @@
-package display;
+package display.scenes;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -71,7 +71,7 @@ public class Reminder extends Scene {
 		vb.setPadding(new Insets(20, 35, 50, 35));
 		vb.getChildren().addAll(lembrete(recurrence), recurrence);
 
-		/* scene */ this.getStylesheets().add(this.getClass().getResource("../css/reminder.css").toExternalForm());
+		// /* scene */ this.getStylesheets().add(this.getClass().getResource("../css/reminder.css").toExternalForm());
 
 		this.setRoot(customScroll);
 
