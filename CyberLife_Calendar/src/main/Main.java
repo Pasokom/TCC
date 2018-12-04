@@ -28,7 +28,6 @@ public class Main extends Application {
 		 * 'stay connected' then will have no need to open the login scene the home page
 		 * scene will be open and the SESSION started
 		 */
-	/*
 		this.serial = new Serial();
 		if (serial.fileExists("stay_connected")) {
 			int userID = (int) serial.undoSerialization("stay_connected");
@@ -38,7 +37,6 @@ public class Main extends Application {
 			main_stage.show();
 			return;
 		}
-	*/
 		main_stage.setScene(new Login());
 		main_stage.show();
 	}
