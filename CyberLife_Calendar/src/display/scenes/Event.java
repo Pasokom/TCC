@@ -49,7 +49,7 @@ public class Event extends Scene {
 	public Event() {
 		super(new VBox());
 		Main.main_stage.setTitle("EVENTO");
-		/* scene */ this.getStylesheets().add(this.getClass().getResource("../css/event.css").toExternalForm());
+		// /* scene */ this.getStylesheets().add(this.getClass().getResource("../css/event.css").toExternalForm());
 
 		VBox vb = new VBox();
 

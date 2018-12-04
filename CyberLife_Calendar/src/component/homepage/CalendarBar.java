@@ -2,7 +2,7 @@ package component.homepage;
 
 import java.util.Calendar;
 
-import display.HomePage;
+import display.scenes.HomePage;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;

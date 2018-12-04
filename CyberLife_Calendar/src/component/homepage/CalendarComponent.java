@@ -2,7 +2,7 @@ package component.homepage;
 
 import java.util.Calendar;
 
-import display.HomePage;
+import display.scenes.HomePage;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
