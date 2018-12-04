@@ -34,302 +34,302 @@ import listeners.CloseWindowEsc;
  */
 public class TimePicker extends HBox {
 
-    private TextField timeDisplay;
-    private Button timeDeleter;
-    private Stage timeSelectorStage;
+	private TextField timeDisplay;
+	private Button timeDeleter;
+	private Stage timeSelectorStage;
 
-    private Label hour;
-    private Label min;
+	private Label hour;
+	private Label min;
 
-    final private VBox timeSelector = new VBox();
+	final private VBox timeSelector = new VBox();
 
-    private Button btnCancelar;
-    private Button btnOK;
+	private Button btnCancelar;
+	private Button btnOK;
 
-    private boolean isDeletable;
+	private boolean isDeletable;
 
-    /**
-     * 
-     * @param isDeletable timepicker pode ser excluido ou nao
-     */
-    public TimePicker(boolean isDeletable) {
-        this.isDeletable = isDeletable;
+	/**
+	 * 
+	 * @param isDeletable timepicker pode ser excluido ou nao
+	 */
+	public TimePicker(boolean isDeletable) {
+		this.isDeletable = isDeletable;
 
-        timeDisplay = new TextField();
-        timeDisplay.setPrefWidth(60);
-        timeDisplay.focusedProperty().addListener(new ChangeListener<Boolean>() {
+		timeDisplay = new TextField();
+		timeDisplay.setPrefWidth(60);
+		timeDisplay.focusedProperty().addListener(new ChangeListener<Boolean>() {
 
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 
-                if (!newValue) {
+				if (!newValue) {
 
-                    timeDisplay.getParent().requestFocus(); // se ganhar foco automaticamente perde o foco
-                }
-            }
+					timeDisplay.getParent().requestFocus(); // se ganhar foco automaticamente perde o foco
+				}
+			}
 
-        });
+		});
 
-        timeDeleter = new Button("-");
+		timeDeleter = new Button("-");
 
-        HBox horario = new HBox();
-        horario.setPadding(new Insets(10, 50, 10, 50));
+		HBox horario = new HBox();
+		horario.setPadding(new Insets(10, 50, 10, 50));
 
-        Calendar calendar = Calendar.getInstance();
+		Calendar calendar = Calendar.getInstance();
 
-        hour = new Label(String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY)));
-        Label doisPonto = new Label(":");
-        min = new Label(String.format("%02d", calendar.get(Calendar.MINUTE)));
+		hour = new Label(String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY)));
+		Label doisPonto = new Label(":");
+		min = new Label(String.format("%02d", calendar.get(Calendar.MINUTE)));
 
-        horario.getChildren().addAll(hour, doisPonto, min); // display de horas e minutos
+		horario.getChildren().addAll(hour, doisPonto, min); // display de horas e minutos
 
-        hour.setFont(new Font(40));
-        hour.setId("lblSeletor");
-        doisPonto.setFont(new Font(40));
-        min.setFont(new Font(40));
-        min.setId("lblSeletor");
+		hour.setFont(new Font(40));
+		hour.setId("lblSeletor");
+		doisPonto.setFont(new Font(40));
+		min.setFont(new Font(40));
+		min.setId("lblSeletor");
 
-        hour.setOnMouseClicked(e -> {
-            timeSelector.getChildren().set(1, horaPane());
-        });
-        min.setOnMouseClicked(e -> {
-            timeSelector.getChildren().set(1, minutoPane());
-        });
+		hour.setOnMouseClicked(e -> {
+			timeSelector.getChildren().set(1, horaPane());
+		});
+		min.setOnMouseClicked(e -> {
+			timeSelector.getChildren().set(1, minutoPane());
+		});
 
-        timeDisplay.setOnMouseClicked(e -> {
+		timeDisplay.setOnMouseClicked(e -> {
 
-            Point2D point2d = this.localToScreen(0d, 0d); // pega o local atual do componente em relacao a tela
+			Point2D point2d = this.localToScreen(0d, 0d); // pega o local atual do componente em relacao a tela
 
-            timeSelector.getChildren().set(1, horaPane()); // mostra o painel de selecao de hora
+			timeSelector.getChildren().set(1, horaPane()); // mostra o painel de selecao de hora
 
-            /* posiciona o seletor abaixo do componente */
-            timeSelectorStage.setX(point2d.getX());
-            timeSelectorStage.setY(timeDisplay.getHeight() + point2d.getY());
+			/* posiciona o seletor abaixo do componente */
+			timeSelectorStage.setX(point2d.getX());
+			timeSelectorStage.setY(timeDisplay.getHeight() + point2d.getY());
 
-            timeSelector.setOnKeyPressed(e1 -> {
-                if (e1.getCode() == KeyCode.ESCAPE)
-                    System.out.println("esc");
+			timeSelector.setOnKeyPressed(e1 -> {
+				if (e1.getCode() == KeyCode.ESCAPE)
+					System.out.println("esc");
 
-                new CloseWindowEsc(timeSelectorStage).handle(e1);
-            });
-            timeSelectorStage.show();
-        });
+				new CloseWindowEsc(timeSelectorStage).handle(e1);
+			});
+			timeSelectorStage.show();
+		});
 
-        HBox hbBotoes = new HBox(4);
-        hbBotoes.setId("hbBotoes");
-        hbBotoes.setAlignment(Pos.CENTER_RIGHT);
-        btnCancelar = new Button("Cancelar");
-        btnOK = new Button("OK");
-        btnOK.setId("btnOK");
-        btnOK.setOnAction(e -> {
-            change_label();
-            timeSelectorStage.close();
-        });
-        btnCancelar.setOnAction(e -> {
-            timeSelectorStage.close();
-        });
+		HBox hbBotoes = new HBox(4);
+		hbBotoes.setId("hbBotoes");
+		hbBotoes.setAlignment(Pos.CENTER_RIGHT);
+		btnCancelar = new Button("Cancelar");
+		btnOK = new Button("OK");
+		btnOK.setId("btnOK");
+		btnOK.setOnAction(e -> {
+			change_label();
+			timeSelectorStage.close();
+		});
+		btnCancelar.setOnAction(e -> {
+			timeSelectorStage.close();
+		});
 
-        hbBotoes.getChildren().addAll(btnCancelar, btnOK);
+		hbBotoes.getChildren().addAll(btnCancelar, btnOK);
 
-        timeSelector.getChildren().addAll(horario, horaPane(), hbBotoes);
+		timeSelector.getChildren().addAll(horario, horaPane(), hbBotoes);
 
-        timeSelectorStage = new Stage();
-        timeSelectorStage.initStyle(StageStyle.UNDECORATED);
-        timeSelectorStage.focusedProperty().addListener(new ChangeListener<Boolean>() {
+		timeSelectorStage = new Stage();
+		timeSelectorStage.initStyle(StageStyle.UNDECORATED);
+		timeSelectorStage.focusedProperty().addListener(new ChangeListener<Boolean>() {
 
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 
-                if (!newValue) {
+				if (!newValue) {
 
-                    timeSelectorStage.close(); // caso seletor perca o foco, fechar seletor
-                }
-            }
+					timeSelectorStage.close(); // caso seletor perca o foco, fechar seletor
+				}
+			}
 
-        });
+		});
 
-        VBox vBox = new VBox();
-        vBox.setPadding(new Insets(3));
-        vBox.setId("container");
-        DropShadow shadow = new DropShadow();
-        shadow.setWidth(10);
-        shadow.setHeight(10);
-        timeSelector.setEffect(shadow);
-        timeSelector.setId("timeSelector");
-        vBox.getChildren().add(timeSelector);
+		VBox vBox = new VBox();
+		vBox.setPadding(new Insets(3));
+		vBox.setId("container");
+		DropShadow shadow = new DropShadow();
+		shadow.setWidth(10);
+		shadow.setHeight(10);
+		timeSelector.setEffect(shadow);
+		timeSelector.setId("timeSelector");
+		vBox.getChildren().add(timeSelector);
 
-        Scene timeSelectorCena = new Scene(vBox);
+		Scene timeSelectorCena = new Scene(vBox);
 
-        timeSelectorCena.getStylesheets().add(this.getClass().getResource("/css/timepicker.css").toExternalForm());
+		timeSelectorCena.getStylesheets().add(this.getClass().getResource("/css/timepicker.css").toExternalForm());
 
-        timeSelectorStage.setScene(timeSelectorCena);
+		timeSelectorStage.setScene(timeSelectorCena);
 
-        this.getChildren().add(timeDisplay);
+		this.getChildren().add(timeDisplay);
 
-        if (isDeletable)
-            this.getChildren().add(timeDeleter);
+		if (isDeletable)
+			this.getChildren().add(timeDeleter);
 
-        timeDeleter.setOnAction(event -> {
-            /* remove o componente de uma lista */
-            ((HBox) this.getParent()).getChildren().remove(this.getParent().getChildrenUnmodifiable().indexOf(this));
-        });
-    }
+		timeDeleter.setOnAction(event -> {
+			/* remove o componente de uma lista */
+			((HBox) this.getParent()).getChildren().remove(this.getParent().getChildrenUnmodifiable().indexOf(this));
+		});
+	}
 
-    /* painel de selecao de horas */
-    private Pane horaPane() {
+	/* painel de selecao de horas */
+	private Pane horaPane() {
 
-        Pane clock = new Pane();
-        clock.setPrefSize(200, 200);
+		Pane clock = new Pane();
+		clock.setPrefSize(200, 200);
 
-        Circle circuloPai = new Circle();
-        circuloPai.setRadius(90);
-        circuloPai.setFill(Color.rgb(0, 0, 0, 0.08));
-        circuloPai.setCenterX(100);
-        circuloPai.setCenterY(100);
+		Circle circuloPai = new Circle();
+		circuloPai.setRadius(90);
+		circuloPai.setFill(Color.rgb(0, 0, 0, 0.08));
+		circuloPai.setCenterX(100);
+		circuloPai.setCenterY(100);
 
-        clock.getChildren().add(circuloPai);
+		clock.getChildren().add(circuloPai);
 
-        Pane[] circulos = new Pane[24];
+		Pane[] circulos = new Pane[24];
 
-        for (int i = 0; i < 24; i++) {
+		for (int i = 0; i < 24; i++) {
 
-            /*
-             * posiciona os 12 primeiro botoes mais perto do centro do relogio e os 12
-             * ultimos mais afastado
-             */
-            int raio = i < 12 ? 50 : 75;
+			/*
+			 * posiciona os 12 primeiro botoes mais perto do centro do relogio e os 12
+			 * ultimos mais afastado
+			 */
+			int raio = i < 12 ? 50 : 75;
 
-            circulos[i] = new Pane();
+			circulos[i] = new Pane();
 
-            Circle circulo = new Circle();
-            circulo.setRadius(10);
-            circulo.setFill(Color.rgb(0, 0, 0, 0));
+			Circle circulo = new Circle();
+			circulo.setRadius(10);
+			circulo.setFill(Color.rgb(0, 0, 0, 0));
 
-            int grau = (i + 1) * 30;
+			int grau = (i + 1) * 30;
 
-            double posX = Math.sin(Math.toRadians(grau)) * raio;
-            double posY = Math.cos(Math.toRadians(grau)) * raio;
+			double posX = Math.sin(Math.toRadians(grau)) * raio;
+			double posY = Math.cos(Math.toRadians(grau)) * raio;
 
-            circulo.setCenterX(5);
-            circulo.setCenterY(7);
+			circulo.setCenterX(5);
+			circulo.setCenterY(7);
 
-            Label hora = new Label(String.valueOf(i + 1 == 24 ? "00" : i + 1));
+			Label hora = new Label(String.valueOf(i + 1 == 24 ? "00" : i + 1));
 
-            circulos[i].setTranslateX(95 + posX);
-            circulos[i].setTranslateY(95 - posY);
+			circulos[i].setTranslateX(95 + posX);
+			circulos[i].setTranslateY(95 - posY);
 
-            circulos[i].getChildren().add(circulo);
-            circulos[i].getChildren().add(hora);
+			circulos[i].getChildren().add(circulo);
+			circulos[i].getChildren().add(hora);
 
-            circulos[i].setOnMouseEntered(e -> {
+			circulos[i].setOnMouseEntered(e -> {
 
-                ((Circle) circulos[grau / 30 - 1].getChildren().get(0)).setFill(Color.rgb(0, 0, 255, 0.3));
-            });
+				((Circle) circulos[grau / 30 - 1].getChildren().get(0)).setFill(Color.rgb(0, 0, 255, 0.3));
+			});
 
-            circulos[i].setOnMouseExited(e -> {
+			circulos[i].setOnMouseExited(e -> {
 
-                ((Circle) circulos[grau / 30 - 1].getChildren().get(0)).setFill(Color.rgb(0, 0, 0, 0));
-            });
+				((Circle) circulos[grau / 30 - 1].getChildren().get(0)).setFill(Color.rgb(0, 0, 0, 0));
+			});
 
-            circulos[i].setOnMouseClicked(e -> {
+			circulos[i].setOnMouseClicked(e -> {
 
-                this.hour.setText(String.format("%02d",
-                        Integer.parseInt(((Label) circulos[grau / 30 - 1].getChildren().get(1)).getText())));
-                timeSelector.getChildren().set(1, minutoPane());
+				this.hour.setText(String.format("%02d",
+						Integer.parseInt(((Label) circulos[grau / 30 - 1].getChildren().get(1)).getText())));
+				timeSelector.getChildren().set(1, minutoPane());
 
-            });
+			});
 
-            clock.getChildren().add(circulos[i]);
-        }
+			clock.getChildren().add(circulos[i]);
+		}
 
-        return clock;
-    }
+		return clock;
+	}
 
-    /* Painel de selecao de minutos */
-    private Pane minutoPane() {
+	/* Painel de selecao de minutos */
+	private Pane minutoPane() {
 
-        Pane clock = new Pane();
-        clock.setPrefSize(200, 200);
+		Pane clock = new Pane();
+		clock.setPrefSize(200, 200);
 
-        Circle circuloPai = new Circle();
-        circuloPai.setRadius(90);
-        circuloPai.setFill(Color.rgb(0, 0, 0, 0.08));
-        circuloPai.setCenterX(100);
-        circuloPai.setCenterY(100);
+		Circle circuloPai = new Circle();
+		circuloPai.setRadius(90);
+		circuloPai.setFill(Color.rgb(0, 0, 0, 0.08));
+		circuloPai.setCenterX(100);
+		circuloPai.setCenterY(100);
 
-        clock.getChildren().add(circuloPai);
+		clock.getChildren().add(circuloPai);
 
-        Pane[] circulos = new Pane[12];
+		Pane[] circulos = new Pane[12];
 
-        for (int i = 0; i < 12; i++) {
+		for (int i = 0; i < 12; i++) {
 
-            int raio = 75;
+			int raio = 75;
 
-            circulos[i] = new Pane();
+			circulos[i] = new Pane();
 
-            Circle circulo = new Circle();
-            circulo.setRadius(10);
-            circulo.setFill(Color.rgb(0, 0, 0, 0));
+			Circle circulo = new Circle();
+			circulo.setRadius(10);
+			circulo.setFill(Color.rgb(0, 0, 0, 0));
 
-            int grau = i * 30;
+			int grau = i * 30;
 
-            double posX = Math.sin(Math.toRadians(grau)) * raio;
-            double posY = Math.cos(Math.toRadians(grau)) * raio;
+			double posX = Math.sin(Math.toRadians(grau)) * raio;
+			double posY = Math.cos(Math.toRadians(grau)) * raio;
 
-            circulo.setCenterX(5);
-            circulo.setCenterY(7);
+			circulo.setCenterX(5);
+			circulo.setCenterY(7);
 
-            Label hora = new Label(String.format("%02d", i * 5));
+			Label hora = new Label(String.format("%02d", i * 5));
 
-            circulos[i].setTranslateX(95 + posX);
-            circulos[i].setTranslateY(95 - posY);
+			circulos[i].setTranslateX(95 + posX);
+			circulos[i].setTranslateY(95 - posY);
 
-            circulos[i].getChildren().add(circulo);
-            circulos[i].getChildren().add(hora);
+			circulos[i].getChildren().add(circulo);
+			circulos[i].getChildren().add(hora);
 
-            circulos[i].setOnMouseEntered(e -> {
+			circulos[i].setOnMouseEntered(e -> {
 
-                ((Circle) circulos[grau / 30].getChildren().get(0)).setFill(Color.rgb(0, 0, 255, 0.3));
-            });
+				((Circle) circulos[grau / 30].getChildren().get(0)).setFill(Color.rgb(0, 0, 255, 0.3));
+			});
 
-            circulos[i].setOnMouseExited(e -> {
+			circulos[i].setOnMouseExited(e -> {
 
-                ((Circle) circulos[grau / 30].getChildren().get(0)).setFill(Color.rgb(0, 0, 0, 0));
-            });
+				((Circle) circulos[grau / 30].getChildren().get(0)).setFill(Color.rgb(0, 0, 0, 0));
+			});
 
-            circulos[i].setOnMouseClicked(e -> {
+			circulos[i].setOnMouseClicked(e -> {
 
-                this.min.setText(String.format("%02d",
-                        Integer.parseInt(((Label) circulos[grau / 30].getChildren().get(1)).getText())));
-            });
+				this.min.setText(String.format("%02d",
+						Integer.parseInt(((Label) circulos[grau / 30].getChildren().get(1)).getText())));
+			});
 
-            clock.getChildren().add(circulos[i]);
-        }
+			clock.getChildren().add(circulos[i]);
+		}
 
-        return clock;
-    }
+		return clock;
+	}
 
-    /**
-     * 
-     * @return hora selecionada
-     */
-    public String get_value() {
-        return timeDisplay.getText();
-    }
+	/**
+	 * 
+	 * @return hora selecionada
+	 */
+	public String get_value() {
+		return timeDisplay.getText();
+	}
 
-    public void close_stage() {
-        timeSelectorStage.close();
-    }
+	public void close_stage() {
+		timeSelectorStage.close();
+	}
 
-    private void change_label() {
-        timeDisplay.setText(hour.getText() + ":" + min.getText());
-    }
+	private void change_label() {
+		timeDisplay.setText(hour.getText() + ":" + min.getText());
+	}
 
-    public void set_event_ok(EventHandler<ActionEvent> e) {
-        this.btnOK.setOnAction(e);
-    }
+	public void set_event_ok(EventHandler<ActionEvent> e) {
+		this.btnOK.setOnAction(e);
+	}
 
-    public boolean isDeletable() {
-        return isDeletable;
-    }
+	public boolean isDeletable() {
+		return isDeletable;
+	}
 }

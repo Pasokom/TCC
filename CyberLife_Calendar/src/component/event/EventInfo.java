@@ -62,11 +62,11 @@ public class EventInfo extends Stage {
 		String data = formatter.format(eventDB.getData_inicio());
 		String dataFim = formatter.format(eventDB.getData_fim());
 
-		lblTitulo = new Label("Tï¿½tulo: " + eventDB.getTitulo().toString());
+		lblTitulo = new Label("Título: " + eventDB.getTitulo().toString());
 		dtInicio = new Label("De: " + data);
-		dtFim = new Label(" atï¿½: " + dataFim);
+		dtFim = new Label(" até: " + dataFim);
 		lclEvent = new Label("Local: " + eventDB.getLocal_evento());
-		descricao = new Label("Descriï¿½ï¿½o: " + eventDB.getDescricao());
+		descricao = new Label("Descrição: " + eventDB.getDescricao());
 
 		HBox hBox = new HBox();
 

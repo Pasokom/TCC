@@ -18,7 +18,7 @@ public class Enums {
 	 */
 	public static enum ReminderStatus {
 
-		ACTIVE(true), DISABLED(false);
+	ACTIVE(true), DISABLED(false);
 		private boolean value;
 
 		public boolean get_value() {

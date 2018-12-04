@@ -32,6 +32,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import main.Main;
+import statics.NotifyUser;
 
 public class Event extends Scene {
 
@@ -74,18 +75,12 @@ public class Event extends Scene {
 				insert_event();
 				((Stage) this.getWindow()).close();
 
-				if (SystemTray.isSupported()) {
+				String notificationMessage = "O evento \"" + txtTitle.getText() + "\" foi cadastrado no dia "
+						+ dtStart.getValue().toString();
 
-					displayTray();
-				} else {
-					System.err.println("System tray not supported!");
-				}
+				NotifyUser.sendNotification("Evento", notificationMessage, MessageType.NONE);
 
 			} catch (ClassNotFoundException | SQLException e) {
-				e.printStackTrace();
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			} catch (AWTException e) {
 				e.printStackTrace();
 			}
 
@@ -174,6 +169,7 @@ public class Event extends Scene {
 		event.setTitulo(txtTitle.getText());
 		event.setData_inicio(data_inicio);
 		event.setData_fim(data_fim);
+		event.setDia_todo(cbxAllDay.isSelected());
 		event.setLocal_evento(txtPlace.getText());
 		event.setDescricao(txtDetails.getText());
 		event.setTipo_repeticao(tipo_repeticao);
@@ -213,8 +209,8 @@ public class Event extends Scene {
 		trayIcon.setToolTip("System tray icon demo");
 		tray.add(trayIcon);
 
-		trayIcon.displayMessage("Evento",
-				"O evento \"" + txtTitle.getText() + "\" foi cadastrado no dia " + dtStart.getValue().toString(),
-				MessageType.INFO);
+//		trayIcon.displayMessage("Evento",
+//				"O evento \"" + txtTitle.getText() + "\" foi cadastrado no dia " + dtStart.getValue().toString(),
+//				MessageType.INFO);
 	}
 }

@@ -19,13 +19,13 @@ HBox{
 }
 
 #lblEmail{
-	-fx-graphic: url("../../images/round_email_black_24dp.png");
+	-fx-graphic: url("../../resources/images/round_email_black_24dp.png");
 }
 
 #lblPsw{
-	-fx-graphic: url("../../images/round_vpn_key_black_24dp.png");
+	-fx-graphic: url("../../resources/images/round_vpn_key_black_24dp.png");
 }
 
 #lblNomeCadast{
-	-fx-graphic: url("../../images/round_person_black_24dp.png");
+	-fx-graphic: url("../../resources/images/round_person_black_24dp.png");
 }

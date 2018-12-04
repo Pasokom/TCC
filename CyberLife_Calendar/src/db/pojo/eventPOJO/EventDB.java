@@ -112,4 +112,5 @@ public class EventDB {
 	public void setHorario_fim_evento(EventEndSchedule horario_fim_evento) {
 		this.horario_fim_evento = horario_fim_evento;
 	}
+
 }

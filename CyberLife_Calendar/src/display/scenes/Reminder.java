@@ -29,6 +29,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import statics.Enums;
+import statics.SESSION;
 
 public class Reminder extends Scene {
 
@@ -206,7 +207,7 @@ public class Reminder extends Scene {
 		if (cbxAllDay.selectedProperty().get()) {
 			reminder.setRepetitionType(Enums.RepetitionType.ALL_DAY.getValue());
 			reminder.setActive(true);
-			reminder.setUserID(1); // (int) SESSION.get_user_cod());
+			reminder.setUserID((int) SESSION.get_user_cod());
 			try {
 				create_reminder.insert_reminder(reminder);
 				return;
@@ -217,7 +218,7 @@ public class Reminder extends Scene {
 		if (radInterval.selectedProperty().get()) {
 			reminder.setRepetitionType(Enums.RepetitionType.INTERVAL.getValue());
 			reminder.setActive(true);
-			reminder.setUserID(1); // (int) SESSION.get_user_cod());
+			reminder.setUserID((int) SESSION.get_user_cod());
 			try {
 				create_reminder.insert_reminder(reminder);
 				return;
@@ -228,7 +229,7 @@ public class Reminder extends Scene {
 		if (radTime.selectedProperty().get()) {
 			reminder.setRepetitionType(Enums.RepetitionType.TIME_PICKER.getValue());
 			reminder.setActive(true);
-			reminder.setUserID(1); // (int) SESSION.get_user_cod());
+			reminder.setUserID((int) SESSION.get_user_cod());
 			try {
 				create_reminder.insert_reminder(reminder);
 				return;

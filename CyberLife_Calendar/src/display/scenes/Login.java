@@ -177,13 +177,9 @@ public class Login extends Scene {
 
 		btnEntrar = new Button("Entrar");
 		this.btnEntrar.setOnAction(e -> {
-			// login();
-
 			PictureSettings ps = new PictureSettings();
 
-
 			ps.setImage(Main.main_stage, 2);
-
 
 		});
 		this.setOnKeyPressed(e -> {
@@ -257,6 +253,9 @@ public class Login extends Scene {
 
 		aPane.requestFocus();
 
+		txtEmail.setText("a@gmail.com");
+		txtSenha.setText("12345678");
+
 		this.setRoot(aPane);
 	}
 
@@ -294,7 +293,8 @@ public class Login extends Scene {
 
 			if (!is_email_empty && !is_password_empy) {
 
-				if (login.login(txtEmail.getText(), txtSenha.getText(), this.cb_stayConnected.selectedProperty().get())) {
+				if (login.login(txtEmail.getText(), txtSenha.getText(),
+						this.cb_stayConnected.selectedProperty().get())) {
 					Main.main_stage.setScene(new HomePage());
 					return;
 				}
