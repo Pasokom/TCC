@@ -53,16 +53,19 @@ public class Enums {
 	 */
 	public static enum TypeRecurrence {
 		// tem que achar uma maneira de tratar as datas corretas
-		DAYLY(1), WEEKLY(2), MONTHLY(3), YEARLY(4);
+		DAYLY(1), WEEKLY(7), MONTHLY(30), YEARLY(365);
 
 		private int value;
+
 		public int getValue() {
 			return this.value;
 		}
+
 		private TypeRecurrence(int value) {
 			this.value = value;
 		}
 	}
+
 	/**
 	 * <p>
 	 * <h2>Usado para definir o tipo de repetição do lembrete (repetição de horario)
@@ -88,4 +91,20 @@ public class Enums {
 		}
 	}
 
+	public static enum Month {
+
+		JANUARY("Janeiro"), FEBRUARY("Fevereiro"), MARCH("Mar�o"), APRIL("Abril"), MAY("Maio"), JUNE("Junho"),
+		JULY("Julho"), AUGUST("Agosto"), SEPTEMBER("Setembro"), OCTOBER("Outubro"), NOVEMBER("Novembro"),
+		DECEMBER("Dezembro");
+
+		String name;
+
+		Month(String name) {
+			this.name = name;
+		}
+
+		public String getValue() {
+			return this.name;
+		}
+	}
 }

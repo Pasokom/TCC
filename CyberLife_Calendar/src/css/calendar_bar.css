@@ -1,0 +1,26 @@
+#this{
+	-fx-background-color: #DEDEDE;
+}
+
+#header{
+	-fx-background-color: #009688;
+	-fx-padding: 20 20 20 10;
+}
+
+#header Label{
+	-fx-text-fill: white;
+}
+
+#control_left{
+	-fx-graphic: url("../../resources/images/round_keyboard_arrow_left_white_24dp.png");
+}
+
+#control_right{
+	-fx-graphic: url("../../resources/images/round_keyboard_arrow_right_white_24dp.png");
+}
+
+#control_right:hover, #control_left:hover{
+	-fx-background-color: rgba(0,0,0,0.1);
+	-fx-background-radius: 50%;
+	-fx-background-insets: 0 -10 0 -10;
+}

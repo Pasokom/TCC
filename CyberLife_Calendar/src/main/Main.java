@@ -45,7 +45,6 @@ public class Main extends Application {
 			return;
 		}
 
-
 		main_stage.setScene(new Login());
 		main_stage.show();
 	}

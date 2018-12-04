@@ -1,4 +1,4 @@
-package component;
+package component.homepage;
 
 import display.scenes.Event;
 import display.scenes.Reminder;
@@ -18,8 +18,7 @@ import javafx.stage.StageStyle;
 public class AddFloatingActionButton extends StackPane {
 
 	private Stage addSelectorStage;
-	
-	private Circle circulo;
+
 	private Label addImg;
 	
 	public AddFloatingActionButton() {

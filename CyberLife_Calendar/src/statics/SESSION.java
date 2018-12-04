@@ -15,7 +15,7 @@ public class SESSION {
 	private static String user_email;
 	private static Image user_photo;
  
-	private  static final String PATH = getClass().getResource("").getPath() + "../../resources/images/sasuke.png";
+	// private  static final String PATH = getClass().getResource("").getPath() + "../../resources/images/sasuke.png";
 
 	private static ArrayList<ReminderDB> list_user_reminders;
 
@@ -36,18 +36,18 @@ public class SESSION {
 	}
 
 	public static void setImage(Image image) {
-		try {
+		// try {
 
-			if (image != null) {
-				SESSION.user_photo = image;
-				return;
-			}
+		// 	if (image != null) {
+		// 		SESSION.user_photo = image;
+		// 		return;
+		// 	}
 
-			String a = SESSION.PA;
+		// 	String a = SESSION.PA;
 
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		// } catch (FileNotFoundException e) {
+		// 	e.printStackTrace();
+		// }
 	}
 
 	public static Image get_user_image() {
