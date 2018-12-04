@@ -20,7 +20,7 @@ public class NotifyUser {
 		tray = SystemTray.getSystemTray();
 		
 		/* Icone */
-		Image image = Toolkit.getDefaultToolkit().createImage(NotifyUser.class.getResource("/images/Logo.png"));
+		Image image = Toolkit.getDefaultToolkit().createImage(NotifyUser.class.getResource("").getPath() + "../../resources/images/Logo.png");
 		
 		/* Menu de opcoes */
 		PopupMenu popupMenu = new PopupMenu();
@@ -59,7 +59,6 @@ public class NotifyUser {
 					
 					if(minute != Calendar.getInstance().get(Calendar.MINUTE)) {
 						
-						sendNotification("Importante", "passou um minuto", MessageType.ERROR);
 						minute = Calendar.getInstance().get(Calendar.MINUTE);
 						try {
 							Thread.sleep(1000 * (60 - Calendar.getInstance().get(Calendar.SECOND)));

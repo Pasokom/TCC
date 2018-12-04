@@ -10,7 +10,7 @@ import java.util.Date;
 import component.CustomScroll;
 import component.event.EventComponent;
 import component.reminder.ReminderComponent;
-import db.functions.RetrieveEvents;
+import db.functions.event.RetrieveEvents;
 import db.functions.reminderFUNCTIONS.LoadReminder;
 import db.pojo.eventPOJO.EventDB;
 import db.pojo.reminderPOJO.ReminderDB;

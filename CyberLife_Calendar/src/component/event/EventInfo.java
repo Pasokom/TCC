@@ -28,7 +28,8 @@ public class EventInfo extends Stage {
 	private Label sexta;
 	private Label sabado;
 	private Label domingo;
-
+	private Label finalRepetição;
+	
 	public EventInfo(EventDB eventDB) {
 		
 		GridPane gp = new GridPane();
@@ -47,6 +48,8 @@ public class EventInfo extends Stage {
 		sabado = new Label("S");
 		domingo = new Label("D");
 		
+		finalRepetição = new Label();
+		
 		ArrayList<Label> lblDaysOfWeek = new ArrayList<>();
 		
 		lblDaysOfWeek.add(domingo);
@@ -58,9 +61,18 @@ public class EventInfo extends Stage {
 		lblDaysOfWeek.add(sabado);
 		
 		Format formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Format hour = new SimpleDateFormat("dd/MM/yyyy");
+		
+		String data = hour.format(eventDB.getData_inicio());
+		String dataFim = hour.format(eventDB.getData_fim());
 
-		String data = formatter.format(eventDB.getData_inicio());
-		String dataFim = formatter.format(eventDB.getData_fim());
+		data = formatter.format(eventDB.getData_inicio());
+		dataFim = formatter.format(eventDB.getData_fim());
+		
+		if(eventDB.isDia_todo()) {
+			data = hour.format(eventDB.getData_inicio());
+			dataFim = hour.format(eventDB.getData_fim());
+		}		
 
 		lblTitulo = new Label("Título: " + eventDB.getTitulo().toString());
 		dtInicio = new Label("De: " + data);
@@ -73,15 +85,82 @@ public class EventInfo extends Stage {
 		hBox.getChildren().addAll(domingo, segunda, terca, quarta, quinta, sexta, sabado);
 		hBox.setSpacing(15);
 		
-		if(eventDB.getTipo_repeticao() == 7) {
-		gp.add(hBox, 0, 5, 2, 1);
+		int hr_intervalo = eventDB.getHorario_evento().getIntervalo();
+		String tipoRepeticao = "A cada " + eventDB.getHorario_evento().getIntervalo();
+			
+		switch (eventDB.getTipo_repeticao()) {
+		
+		case 1:
+			if(hr_intervalo > 1)
+				tipoRepeticao += " dias";
+			else 
+				tipoRepeticao = "Todo dia";
+			break;
+		case 2:
+			if(hr_intervalo > 1)
+				tipoRepeticao += " semanas";
+			else 
+				tipoRepeticao = "Toda semana";
+			break;
+		case 3:
+			if(hr_intervalo > 1)
+				tipoRepeticao += " meses";
+			else 
+				tipoRepeticao = "Todo mês";
+			break;
+		case 4:
+			if(hr_intervalo > 1)
+				tipoRepeticao += " anos";
+			else 
+				tipoRepeticao = "Todo ano";
+			break;
+		default:
+			tipoRepeticao = "";
+			break;
 		}
+		
+		Label lblTipoRepeticao = new Label(tipoRepeticao);
+		
+		String fimRepeticao = "Termina: ";
+		
+		switch (eventDB.getTipo_fim_repeticao()) {
+		case 0:
+			fimRepeticao += "nunca";
+			break;
+		case 1:
+			fimRepeticao += formatter.format(eventDB.getHorario_fim_evento().getDia_fim());
+			break;
+		case 2:
+			fimRepeticao += "após " + eventDB.getHorario_fim_evento().getQtd_recorrencias() + " recorrências";
+			break;
+		default:
+			fimRepeticao += "nunca";
+			break;
+		}
+		
+		finalRepetição.setText(fimRepeticao);
+		
+		if(eventDB.getTipo_repeticao() != 0) {
+			gp.add(lblTipoRepeticao, 0, 5, 2, 1);
+		}
+		
+		if(eventDB.getTipo_repeticao() == 2) {
+			gp.add(hBox, 0, 6, 2, 1);
+		}
+		
+		if(!eventDB.getDescricao().isEmpty()) {
+			gp.add(descricao, 0, 4, 2, 1);
+		}
+		 
+		if(!eventDB.getLocal_evento().isEmpty()) {
+			gp.add(lclEvent, 0, 3, 2, 1);
+		}
+		
 		gp.add(lblTitulo, 0, 0, 2, 1);
 		gp.add(dtInicio, 0, 1);
 		gp.add(dtFim, 1, 1);
-		gp.add(lclEvent, 0, 3, 2, 1);
-		gp.add(descricao, 0, 4);
-
+		gp.add(finalRepetição, 0, 7, 2, 1);
+		
 		this.initStyle(StageStyle.UNDECORATED);
 
 		for(int i = 0; i < eventDB.getHorario_evento().getDias_semana().length; i++) {

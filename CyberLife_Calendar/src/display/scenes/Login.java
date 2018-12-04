@@ -180,7 +180,7 @@ public class Login extends Scene {
 			PictureSettings ps = new PictureSettings();
 
 			ps.setImage(Main.main_stage, 2);
-
+			login();
 		});
 		this.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.ENTER)
