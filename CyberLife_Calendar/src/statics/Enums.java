@@ -91,9 +91,24 @@ public class Enums {
 		}
 	}
 
+	public static enum DayOfWeek{
+		SUNDAY("Dom"), MONDAY("Seg"), TUESDAY("Ter"), WEDNESDAY("Qua"),
+			THURSDAY("Qui"), FRYDAY("Sex"), SATURDAY("Sab");
+
+		String name;
+
+		DayOfWeek(String name){
+			this.name = name;
+		}
+
+		public String getValue(){
+			return this.name;
+		}
+	}
+
 	public static enum Month {
 
-		JANUARY("Janeiro"), FEBRUARY("Fevereiro"), MARCH("Março"), APRIL("Abril"), MAY("Maio"), JUNE("Junho"),
+		JANUARY("Janeiro"), FEBRUARY("Fevereiro"), MARCH("MarÃ§o"), APRIL("Abril"), MAY("Maio"), JUNE("Junho"),
 		JULY("Julho"), AUGUST("Agosto"), SEPTEMBER("Setembro"), OCTOBER("Outubro"), NOVEMBER("Novembro"),
 		DECEMBER("Dezembro");
 
