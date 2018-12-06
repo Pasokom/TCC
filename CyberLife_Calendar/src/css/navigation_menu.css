@@ -14,3 +14,7 @@ Label{
 #logout{
 	-fx-image: url("../../resources/images/logout_white.png");
 }
+
+#logout:hover{
+	-fx-cursor: hand;
+}

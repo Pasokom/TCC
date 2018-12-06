@@ -17,6 +17,10 @@ Label{
 	-fx-font-weight: bold;
 }
 
-#edit{
+#edit {
 	-fx-image: url("../../resources/images/baseline_edit_white_24dp.png");
+}
+
+#edit:hover{
+	-fx-cursor: hand;
 }

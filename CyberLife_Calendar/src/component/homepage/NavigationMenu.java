@@ -1,5 +1,6 @@
 package component.homepage;
 import display.scenes.Event;
+import display.scenes.Login;
 import display.scenes.Reminder;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -14,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import main.Main;
 import statics.SESSION;
 
 public class NavigationMenu extends AnchorPane {
@@ -31,12 +33,29 @@ public class NavigationMenu extends AnchorPane {
 		
 		this.getStylesheets().add(this.getClass().getResource("/css/navigation_menu.css").toExternalForm());
 		this.setId("this");
+		
+		Stage stage = new Stage();
+		stage.initStyle(StageStyle.UNDECORATED);
 
+		stage.focusedProperty().addListener(new ChangeListener<Boolean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				
+				if (!newValue) {
+					
+					stage.close();
+				}
+			}
+			
+		});
+		
 		ivLogout = new ImageView();
 		ivLogout.setId("logout");
-		ivLogout.setFitWidth(17);
+		
+		ivLogout.setFitWidth(35);
 		ivLogout.setPreserveRatio(true);		
-
+		
 		/* Conteudo do perfil */
 		hProfile = new HBox();
 		
@@ -46,14 +65,15 @@ public class NavigationMenu extends AnchorPane {
 		profileImg.setCenterX(100);
 		profileImg.setCenterY(100);
 		
+
 		profileSelector = profileSelectorStageConstructor();
 		
-		profileImg.setOnMouseClicked(e -> {
+		ivLogout.setOnMouseClicked(e -> {
 			
-			Point2D point = profileImg.localToScreen(0d, 0d);
+			Point2D point = ivLogout.localToScreen(0d, 0d);
 			
-			profileSelector.setX(point.getX() + 85);
-			profileSelector.setY(point.getY() + 85 + profileImg.getRadius() * 2);
+			profileSelector.setX(point.getX() + 35);
+			profileSelector.setY(point.getY());
 			
 			profileSelector.show();
 		});
@@ -110,23 +130,21 @@ public class NavigationMenu extends AnchorPane {
 		
 		VBox vOptions = new VBox();
 		
-		Label lblPerfil = new Label("Perfil");
 		Label lblSair = new Label("Sair");
+		Label lblSairPro = new Label("Sair e fechar o programa");
 		lblSair.prefWidthProperty().bind(stage.widthProperty());
 		
+		lblSairPro.setOnMouseClicked(e ->{
+			System.exit(0);
+			/** falta colocar que se o usuário selecionar sair e fechar programa, parar de ler o 
+			 arquivo do "mantenha-me conectado" e iniciar na tela de login na próxima vez que abrir*/
+		});
+		
 		lblSair.setOnMouseClicked(e ->{
-			Stage st = new Stage();
-			st.setScene(new Reminder());
-			st.show();
+			Main.main_stage.setScene(new Login());
 		});
 		
-		lblPerfil.setOnMouseClicked(e ->{
-			Stage st = new Stage();
-			st.setScene(new Event());
-			st.show();
-		});
-		
-		vOptions.getChildren().addAll(lblPerfil, lblSair);
+		vOptions.getChildren().addAll(lblSair, lblSairPro);
 		
 		Scene scene = new Scene(vOptions);
 		stage.setScene(scene);

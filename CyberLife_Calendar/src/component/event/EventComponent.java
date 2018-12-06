@@ -3,11 +3,13 @@ package component.event;
 import java.util.Calendar;
 
 import db.pojo.eventPOJO.EventDB;
+import display.scenes.Event;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
  * 
@@ -29,11 +31,24 @@ public class EventComponent extends VBox {
 		this.setId("this");
 
 		lblEdit = new ImageView();
+
+		Stage st = new Stage();
+
+		lblEdit.setOnMouseClicked(e ->{
+			//Colocar a stage de alterar o evento
+			st.setScene(new Event());//exemplo
+			st.show();
+		});
+
 		lblEdit.setId("edit");
-		lblEdit.setFitWidth(17);
+		lblEdit.setFitWidth(20);
 		lblEdit.setPreserveRatio(true);		
+
 		/* instanciando componentes */
 		eventDetails = new EventInfo(event);
+
+		lblEdit.setVisible(false);
+		
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(event.getData_inicio());
@@ -52,15 +67,22 @@ public class EventComponent extends VBox {
 		if(!event.isDia_todo())
 			card.getChildren().add(lbl_hora);
 			
-			
 		card.setId("card");
+
+		card.setOnMouseEntered(e ->{
+			lblEdit.setVisible(true);
+		});
+
+		card.setOnMouseExited(e -> {
+			lblEdit.setVisible(false);
+		});
 
 		card.getChildren().add(lblEdit);
 
 		this.getChildren().add(card);
 		
 		/* configurando eventos */
-		this.setOnMouseClicked(e ->{
+		lbl_titulo.setOnMouseClicked(e ->{
 			
 			/* Pega a localizacao atual do componente em relacao a tela */
 			Point2D point2d = this.localToScreen(0d,0d);

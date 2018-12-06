@@ -36,7 +36,7 @@ public class Main extends Application {
 		 * scene will be open and the SESSION started
 		 */
 		this.serial = new Serial();
-		if (serial.fileExists("stay_connected")) {
+		if (!serial.fileExists("stay_connected")) {
 			int userID = (int) serial.undoSerialization("stay_connected");
 			HandlerLogin login = new HandlerLogin();
 			login.loginBySerialization(userID);
