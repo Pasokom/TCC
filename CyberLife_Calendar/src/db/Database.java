@@ -3,7 +3,6 @@ package db;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 /**
  * 
@@ -23,6 +22,7 @@ public class Database {
 	private final static String CONNECTION_STRING = "jdbc:mysql://" + SERVER + "/" + DB_NAME + "?user=" + USER
 			+ "&password=" + PASSWORD + "&useTimezone=true&serverTimezone=UTC";
 
+	//TODO A construct to the Database class
 	public Database() throws SQLException {
 //		try {
 //			/*
@@ -46,7 +46,7 @@ public class Database {
 	 * @throws ClassNotFoundException
 	 */
 	public static Connection get_connection() throws SQLException, ClassNotFoundException {
-		Class.forName("com.mysql.jdbc.Driver");
+		Class.forName("com.mysql.cj.jdbc.Driver");
 		
 		return DriverManager.getConnection(CONNECTION_STRING);
 	}
@@ -58,16 +58,4 @@ public class Database {
 	public static void close_connection(Connection con) throws SQLException {
 		con.close();
 	}
-
-	public void queryLembrete(String text, String string, LocalDate value, int repeat) {
-
-	}
-
-//	public void queryLembrete(String nome, String descricao, LocalDate data, int repetir) throws SQLException {
-//		Statement cmd = getConnection().createStatement();
-//
-//		/* insert */
-//		cmd.execute("insert into lembrete(LNOME, LDESCRICAO, LDATE_LEMBRETE, LQTD_REPETE, FK_USUARIO) " + "value ('"
-//				+ nome + "', '" + descricao + "', '" + data + "', " + repetir + "," + 1 + ");");
-//	}
 }

@@ -10,3 +10,7 @@ HBox{
 Label{
 	-fx-text-fill: white;
 }
+
+#logout{
+	-fx-image: url("../../resources/images/logout_white.png");
+}

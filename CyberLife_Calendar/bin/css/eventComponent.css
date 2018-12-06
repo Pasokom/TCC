@@ -1,17 +1,22 @@
 #this{
 	-fx-background-color: transparent;
-}
+} 
 
 Label{
 	-fx-text-fill: white;
+	-fx-font-size: 14;
 }
 
 #card{
-	-fx-background-color: #0336FF;
-	-fx-background-radius: 7 0 0 7;
-	-fx-padding: 5 50 5 10;
+	-fx-background-color: #660cdc;
+	-fx-background-radius: 3 0 0 3;
+	-fx-padding: 10;
 }
 
 #titulo{
 	-fx-font-weight: bold;
+}
+
+#edit{
+	-fx-image: url("../../resources/images/baseline_edit_white_24dp.png");
 }
