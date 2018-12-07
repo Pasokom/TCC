@@ -43,7 +43,7 @@ public class EventComponent extends VBox {
 		lblEdit.setId("edit");
 		lblEdit.setFitWidth(20);
 		lblEdit.setPreserveRatio(true);		
-
+		
 		/* instanciando componentes */
 		eventDetails = new EventInfo(event);
 

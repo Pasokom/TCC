@@ -13,8 +13,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import javax.naming.event.EventContext;
-
 import db.functions.event.RetrieveEvents;
 import db.pojo.eventPOJO.EventDB;
 
@@ -75,7 +73,7 @@ public class NotifyUser {
 						for (EventDB event : lista) {
 							String hora = formatter.format(event.getData_inicio());
 
-							sendNotification("Evento", event.getTitulo() + " " + hora, MessageType.NONE);
+							sendNotification("Evento", event.getTitulo() + " " + hora, MessageType.INFO);
 						}
 						
 						minute = Calendar.getInstance().get(Calendar.MINUTE);

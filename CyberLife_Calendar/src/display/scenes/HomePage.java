@@ -2,6 +2,8 @@ package display.scenes;
 
 import java.io.FileNotFoundException;
 import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import component.homepage.CalendarBar;
 import component.homepage.CalendarComponent;
@@ -34,19 +36,21 @@ public class HomePage extends Scene {
 		AnchorPane.setTopAnchor(menu, 0d);
 		AnchorPane.setBottomAnchor(menu, 0d);
 
+		Calendar date = Calendar.getInstance();
+
 		/* Configurando lista de itens do calendario */
-		listCalendar = new ListCalendar(Calendar.getInstance());
+		listCalendar = new ListCalendar(date);
 		AnchorPane.setLeftAnchor(listCalendar, menu.getPrefWidth());
 		AnchorPane.setTopAnchor(listCalendar, 0d);
 		AnchorPane.setBottomAnchor(listCalendar, 0d);
 
 		/* Configurando barra de sele��o do calendario */
-		CalendarBar calendarBar = new CalendarBar(Calendar.getInstance());
+		CalendarBar calendarBar = new CalendarBar(date);
 		AnchorPane.setLeftAnchor(calendarBar, menu.getPrefWidth() + listCalendar.getPrefWidth());
 		AnchorPane.setRightAnchor(calendarBar, 0d);
 		AnchorPane.setTopAnchor(calendarBar, 0d);
 
-		calendarComponent = new CalendarComponent(Calendar.getInstance());
+		calendarComponent = new CalendarComponent(date);
 
 		AnchorPane.setLeftAnchor(calendarComponent, menu.getPrefWidth() + listCalendar.getPrefWidth() + 20);
 		AnchorPane.setRightAnchor(calendarComponent, 0d);
