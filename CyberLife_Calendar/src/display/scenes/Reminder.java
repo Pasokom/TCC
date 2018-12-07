@@ -95,6 +95,7 @@ public class Reminder extends Scene {
 			try {
 				insert_reminder_and_schedule();
 				return;
+				
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}

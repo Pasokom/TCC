@@ -59,7 +59,7 @@ public class NotifyUser {
 					
 					if(minute != Calendar.getInstance().get(Calendar.MINUTE)) {
 						
-						sendNotification("teste", "oi", MessageType.NONE);
+						sendNotification("Teste", "oi", MessageType.NONE);
 
 						minute = Calendar.getInstance().get(Calendar.MINUTE);
 						try {

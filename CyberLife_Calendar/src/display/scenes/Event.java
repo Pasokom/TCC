@@ -12,9 +12,11 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Calendar;
 
 import component.CustomScroll;
 import component.Recurrence;
+import component.homepage.ListCalendar;
 import component.reminder.TimePicker;
 import db.functions.event.CreateEvent;
 import db.pojo.eventPOJO.EventDB;
@@ -81,6 +83,8 @@ public class Event extends Scene {
 						+ dtStart.getValue().toString();
 
 				NotifyUser.sendNotification("Evento", notificationMessage, MessageType.NONE);
+
+				HomePage.listCalendar.update(Calendar.getInstance());
 
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();

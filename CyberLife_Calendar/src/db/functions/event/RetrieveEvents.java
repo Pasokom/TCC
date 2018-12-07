@@ -7,7 +7,6 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import db.Database;
 import db.pojo.eventPOJO.EventDB;
 import db.pojo.eventPOJO.EventEndSchedule;
@@ -19,7 +18,7 @@ public class RetrieveEvents {
 	public static ArrayList<EventDB> listEvents = new ArrayList<>();
 	
 	public void updateList(Calendar date) {
-		
+
 		listEvents.clear();
 		
 		try {

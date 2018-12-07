@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 #date_item{	
 	-fx-padding: 5;
 }
 
 #date_item:hover{
+=======
+VBox{	
+	-fx-padding: 5;
+}
+
+VBox:hover{
+>>>>>>> f0be63760803a7c49820050a3fdbcf56fdce1ce4
 	-fx-background-color: rgba(0,0,0,0.2);
 }
 

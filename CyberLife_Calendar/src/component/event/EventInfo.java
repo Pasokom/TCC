@@ -28,7 +28,7 @@ public class EventInfo extends Stage {
 	private Label sexta;
 	private Label sabado;
 	private Label domingo;
-	private Label finalRepetição;
+	private Label finalRepeticao;
 	
 	public EventInfo(EventDB eventDB) {
 		
@@ -48,7 +48,7 @@ public class EventInfo extends Stage {
 		sabado = new Label("S");
 		domingo = new Label("D");
 		
-		finalRepetição = new Label();
+		finalRepeticao = new Label();
 		
 		ArrayList<Label> lblDaysOfWeek = new ArrayList<>();
 		
@@ -74,11 +74,11 @@ public class EventInfo extends Stage {
 			dataFim = hour.format(eventDB.getData_fim());
 		}		
 
-		lblTitulo = new Label("Título: " + eventDB.getTitulo().toString());
+		lblTitulo = new Label("Tï¿½tulo: " + eventDB.getTitulo().toString());
 		dtInicio = new Label("De: " + data);
-		dtFim = new Label(" até: " + dataFim);
+		dtFim = new Label(" atï¿½: " + dataFim);
 		lclEvent = new Label("Local: " + eventDB.getLocal_evento());
-		descricao = new Label("Descrição: " + eventDB.getDescricao());
+		descricao = new Label("Descriï¿½ï¿½o: " + eventDB.getDescricao());
 
 		HBox hBox = new HBox();
 
@@ -106,7 +106,7 @@ public class EventInfo extends Stage {
 			if(hr_intervalo > 1)
 				tipoRepeticao += " meses";
 			else 
-				tipoRepeticao = "Todo mês";
+				tipoRepeticao = "Todo mï¿½s";
 			break;
 		case 4:
 			if(hr_intervalo > 1)
@@ -131,14 +131,14 @@ public class EventInfo extends Stage {
 			fimRepeticao += formatter.format(eventDB.getHorario_fim_evento().getDia_fim());
 			break;
 		case 2:
-			fimRepeticao += "após " + eventDB.getHorario_fim_evento().getQtd_recorrencias() + " recorrências";
+			fimRepeticao += "apï¿½s " + eventDB.getHorario_fim_evento().getQtd_recorrencias() + " recorrï¿½ncias";
 			break;
 		default:
 			fimRepeticao += "nunca";
 			break;
 		}
 		
-		finalRepetição.setText(fimRepeticao);
+		finalRepeticao.setText(fimRepeticao);
 		
 		if(eventDB.getTipo_repeticao() != 0) {
 			gp.add(lblTipoRepeticao, 0, 5, 2, 1);
@@ -159,7 +159,7 @@ public class EventInfo extends Stage {
 		gp.add(lblTitulo, 0, 0, 2, 1);
 		gp.add(dtInicio, 0, 1);
 		gp.add(dtFim, 1, 1);
-		gp.add(finalRepetição, 0, 7, 2, 1);
+		gp.add(finalRepeticao, 0, 7, 2, 1);
 		
 		this.initStyle(StageStyle.UNDECORATED);
 
