@@ -8,7 +8,15 @@ import java.awt.SystemTray;
 import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.TrayIcon.MessageType;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+
+import javax.naming.event.EventContext;
+
+import db.functions.event.RetrieveEvents;
+import db.pojo.eventPOJO.EventDB;
 
 public class NotifyUser {
 
@@ -58,9 +66,18 @@ public class NotifyUser {
 				while(true) {
 					
 					if(minute != Calendar.getInstance().get(Calendar.MINUTE)) {
-						
-						sendNotification("Teste", "oi", MessageType.NONE);
 
+						RetrieveEvents retrieveEvents = new RetrieveEvents();
+						ArrayList<EventDB> lista = retrieveEvents.getNowEvents();
+
+						Format formatter = new SimpleDateFormat("HH:mm");
+						
+						for (EventDB event : lista) {
+							String hora = formatter.format(event.getData_inicio());
+
+							sendNotification("Evento", event.getTitulo() + " " + hora, MessageType.NONE);
+						}
+						
 						minute = Calendar.getInstance().get(Calendar.MINUTE);
 						try {
 							Thread.sleep(1000 * (60 - Calendar.getInstance().get(Calendar.SECOND)));

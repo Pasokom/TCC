@@ -26,6 +26,7 @@ Label{
 
 #edit {
 	-fx-image: url("../../resources/images/baseline_edit_white_24dp.png");
+	-fx-padding: 50;
 }
 
 #edit:hover{
