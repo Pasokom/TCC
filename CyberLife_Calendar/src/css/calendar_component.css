@@ -1,8 +1,8 @@
-VBox{	
+#date_item{	
 	-fx-padding: 5;
 }
 
-VBox:hover{
+#date_item:hover{
 	-fx-background-color: rgba(0,0,0,0.2);
 }
 

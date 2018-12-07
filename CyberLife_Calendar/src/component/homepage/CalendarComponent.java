@@ -1,7 +1,14 @@
 package component.homepage;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
+import component.event.EventComponentDemo;
+import db.functions.event.RetrieveEvents;
+import db.pojo.eventPOJO.EventDB;
 import display.scenes.HomePage;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -13,8 +20,11 @@ import statics.Enums;
 public class CalendarComponent extends GridPane {
 
 	Calendar current_date;
+	Calendar date;
+	RetrieveEvents retrieveEvents = new RetrieveEvents();
 
 	public CalendarComponent(Calendar date) {
+		this.date = date;
 
 		this.getStylesheets().add(this.getClass().getResource("/css/calendar_component.css").toExternalForm());
 		this.setPadding(new Insets(10));
@@ -23,8 +33,10 @@ public class CalendarComponent extends GridPane {
 	}
 
 	public void createCalendar(Calendar date) {
-
+		this.date = date;
 		this.getChildren().clear();
+
+		VBox[] demoList = getDemoList();
 
 		Calendar today = Calendar.getInstance();
 
@@ -76,6 +88,9 @@ public class CalendarComponent extends GridPane {
 
 			final int day = Integer.parseInt(lblDay.getText());
 
+			VBox dateItem = new VBox();
+			dateItem.setId("date_item");
+
 			VBox box = new VBox();
 			
 			if(i <= 7){
@@ -90,11 +105,16 @@ public class CalendarComponent extends GridPane {
 				box.getChildren().add(dayWeek);
 			}
 			box.getChildren().add(lblDay);
+			dateItem.getChildren().add(box);
 
-			GridPane.setHgrow(box, Priority.ALWAYS);
-			GridPane.setVgrow(box, Priority.ALWAYS);
+			GridPane.setHgrow(dateItem, Priority.ALWAYS);
+			GridPane.setVgrow(dateItem, Priority.ALWAYS);
 
-			box.setOnMouseClicked(e -> {
+			if(i > first_day_week && i - first_day_week + 1 < aux3)
+				if(demoList[day - 1] != null)
+					dateItem.getChildren().add(demoList[day - 1]);
+
+			dateItem.setOnMouseClicked(e -> {
 
 				current_date = Calendar.getInstance();
 				current_date.setTime(date.getTime());
@@ -102,7 +122,7 @@ public class CalendarComponent extends GridPane {
 				HomePage.listCalendar.update(current_date);
 			});
 
-			this.add(box, aux1, aux2);
+			this.add(dateItem, aux1, aux2);
 
 			aux1++;
 
@@ -112,5 +132,42 @@ public class CalendarComponent extends GridPane {
 				aux2++;
 			}
 		}
+	}
+
+	public Calendar getDate(){
+		return this.date;
+	}
+
+	private VBox[] getDemoList(){
+
+		VBox[] boxes = new VBox[31];
+
+		for (int i = 0; i < boxes.length; i++) {
+			boxes[i] = new VBox();
+			boxes[i].setSpacing(2);
+		}
+
+		retrieveEvents.updateList(this.date);
+
+		for(EventDB event : RetrieveEvents.listEvents) {
+		
+			if(event.getData_inicio() != null){
+				Date eventDate = new Date(event.getData_inicio().getTime());
+				Calendar eDate = Calendar.getInstance();
+				eDate.setTime(eventDate);
+
+				EventComponentDemo eDemo = new EventComponentDemo(event);
+
+				int month_date = this.date.get(Calendar.MONTH);
+
+				if(eDate.get(Calendar.MONTH) == month_date)
+				{
+					int eDay = eDate.get(Calendar.DATE);
+					boxes[eDay - 1].getChildren().add(eDemo);
+				}
+			}
+		}
+
+		return boxes;
 	}
 }

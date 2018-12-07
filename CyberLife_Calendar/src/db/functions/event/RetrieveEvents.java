@@ -3,10 +3,10 @@ package db.functions.event;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-
 
 import db.Database;
 import db.pojo.eventPOJO.EventDB;
@@ -18,21 +18,25 @@ public class RetrieveEvents {
 
 	public static ArrayList<EventDB> listEvents = new ArrayList<>();
 	
-	public void updateList() {
+	public void updateList(Calendar date) {
 		
 		listEvents.clear();
 		
 		try {
 			CallableStatement statement = Database.get_connection().prepareCall("call spRepete(?,?)");
-		
-//			 ResultSet r7 = statement.executeQuery("SELECT * FROM EVENTO " + 
-//			 		"    LEFT JOIN E_REPETIR ON EVENTO.COD_EVENTO = E_REPETIR.FK_EVENTO" + 
-//			 		"    LEFT JOIN E_FIM_REPETICAO ON EVENTO.COD_EVENTO = E_FIM_REPETICAO.FK_EVENTO WHERE FK_USUARIO = " + SESSION.get_user_cod());
-			
-//			final String sql = " SELECT * FROM EVENTO  LEFT JOIN E_REPETIR ON EVENTO.COD_EVENTO = E_REPETIR.FK_EVENTO  LEFT JOIN E_FIM_REPETICAO ON EVENTO.COD_EVENTO = E_FIM_REPETICAO.FK_EVENTO WHERE  FK_USUARIO = 1";
-//			ResultSet r7 = statement.executeQuery(sql);
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-			statement.setString(1, "2019-12-31");
+			Calendar limit;
+
+			if(date == null){
+				limit = Calendar.getInstance();
+				limit.add(Calendar.DATE, limit.getActualMaximum(Calendar.DATE) - limit.get(Calendar.DATE));
+			}
+			else
+				limit = date;
+				limit.add(Calendar.DATE, limit.getActualMaximum(Calendar.DATE) - limit.get(Calendar.DATE));
+
+			statement.setString(1, formatter.format(limit.getTime()));
 			statement.setInt(2, (int)SESSION.get_user_cod());
 			
 			ResultSet r7 = statement.executeQuery();
@@ -72,8 +76,20 @@ public class RetrieveEvents {
 			}
 			
 		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public ArrayList<EventDB> getNowEvents(){
+
+		ArrayList<EventDB> events = new ArrayList<>();
+
+		EventDB evento = new EventDB();
+		evento.setTitulo("teste");
+		evento.setData_inicio(new Timestamp(2018, 12, 6, 22, 40, 0, 0));
+
+		events.add(evento);
+
+		return events;
 	}
 }

@@ -59,6 +59,8 @@ public class NotifyUser {
 					
 					if(minute != Calendar.getInstance().get(Calendar.MINUTE)) {
 						
+						sendNotification("teste", "oi", MessageType.NONE);
+
 						minute = Calendar.getInstance().get(Calendar.MINUTE);
 						try {
 							Thread.sleep(1000 * (60 - Calendar.getInstance().get(Calendar.SECOND)));

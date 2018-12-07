@@ -67,7 +67,7 @@ public class Event extends Scene {
 		barraTitulo.setId("lBarraTitulo");
 
 		txtTitle = new TextField();
-		txtTitle.setPromptText("Título do evento");
+		txtTitle.setPromptText("TÃ­tulo do evento");
 		txtTitle.setId("lNome");
 		btnSave = new Button("Salvar");
 		btnSave.setId("btnEnviar");
@@ -100,7 +100,7 @@ public class Event extends Scene {
 		lblStartDate = new Label("De");
 		dtStart = new DatePicker(date);
 		timeStart = new TimePicker(false);
-		lblEndDate = new Label("até");
+		lblEndDate = new Label("atï¿½");
 		dtEnd = new DatePicker(date);
 		timeEnd = new TimePicker(false);
 

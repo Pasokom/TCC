@@ -13,6 +13,13 @@ Label{
 	-fx-padding: 10;
 }
 
+#demo_card{
+	-fx-background-color: #660cdc;
+	-fx-background-radius: 5 5 5 5;
+	-fx-font-size: 10;
+	-fx-padding: 0 2 0 2;
+}
+
 #titulo{
 	-fx-font-weight: bold;
 }
