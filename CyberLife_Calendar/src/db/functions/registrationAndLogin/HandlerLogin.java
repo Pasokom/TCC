@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import db.Database;
 import db.functions.user.PictureSettings;
 import javafx.scene.image.Image;
-import listeners.Serial;
+import listeners.IOFunctions;
 import statics.SESSION;
 
 public class HandlerLogin {
@@ -29,16 +29,14 @@ public class HandlerLogin {
 		if (!result.first())
 			return false;
 		if (serialize) {
-			Serial s = new Serial();
-			s.doSerialization(result.getInt(1), "stay_connected");
+			IOFunctions s = new IOFunctions();
+			s.serializationTempDir(result.getInt(1), "stay_connected");
 		}
 
 		SESSION.start_session(result.getInt(1), result.getString(2), result.getString(3), result.getString(4));
 
 		PictureSettings ps = new PictureSettings();
-		Image image = ps.getImage((int) SESSION.get_user_cod());
-		if (image != null)
-			SESSION.setImage(image);
+		SESSION.setImage(ps.getImageInFolder((int) SESSION.get_user_cod()));
 		return true;
 	}
 
@@ -53,9 +51,7 @@ public class HandlerLogin {
 
 			SESSION.start_session(result.getInt(1), result.getString(2), result.getString(3), result.getString(4));
 			PictureSettings ps = new PictureSettings();
-			Image image = ps.getImage((int) SESSION.get_user_cod());
-			if (image != null)
-				SESSION.setImage(image);
+			SESSION.setImage(ps.getImageInFolder((int) SESSION.get_user_cod()));
 			return true;
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();

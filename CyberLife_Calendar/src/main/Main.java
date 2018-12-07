@@ -10,12 +10,12 @@ import display.scenes.Login;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import listeners.Serial;
+import listeners.IOFunctions;
 
 public class Main extends Application {
 
 	public static Stage main_stage;
-	private Serial serial;
+	private IOFunctions serial;
 	private final String IMAGE_PATH = this.getClass().getResource("").getPath() + "../../resources/images/Logo.png";
 
 	public static void main(String[] args) {
@@ -35,15 +35,15 @@ public class Main extends Application {
 		 * 'stay connected' then will have no need to open the login scene the home page
 		 * scene will be open and the SESSION started
 		 */
-		this.serial = new Serial();
-		if (serial.fileExists("stay_connected")) {
-			int userID = (int) serial.undoSerialization("stay_connected");
-			HandlerLogin login = new HandlerLogin();
-			login.loginBySerialization(userID);
-			main_stage.setScene(new HomePage());
-			main_stage.show();
-			return;
-		}
+		// this.serial = new Serial();
+		// if (serial.fileExists("stay_connected")) {
+		// 	int userID = (int) serial.undoSerializationTempDir("stay_connected");
+		// 	HandlerLogin login = new HandlerLogin();
+		// 	login.loginBySerialization(userID);
+		// 	main_stage.setScene(new HomePage());
+		// 	main_stage.show();
+		// 	return;
+		// }
 		main_stage.setScene(new Login());
 		main_stage.show();
 	}

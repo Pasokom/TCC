@@ -608,3 +608,313 @@ SET character_set_client = @saved_cs_client;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2018-12-03 23:34:12
+-- MySQL dump 10.13  Distrib 5.7.24, for Linux (x86_64)
+--
+-- Host: localhost    Database: CYBER_LIFE
+-- ------------------------------------------------------
+-- Server version	5.7.24-0ubuntu0.18.04.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `EVENTO`
+--
+
+DROP TABLE IF EXISTS `EVENTO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `EVENTO` (
+  `COD_EVENTO` int(11) NOT NULL AUTO_INCREMENT,
+  `TITULO` varchar(100) NOT NULL,
+  `DATA_INICIO` datetime NOT NULL,
+  `DATA_FIM` datetime NOT NULL,
+  `DIA_TODO` bit(1) NOT NULL,
+  `LOCAL_EVENTO` varchar(150) DEFAULT NULL,
+  `DESCRICAO` varchar(255) DEFAULT NULL,
+  `TIPO_REPETICAO` int(11) DEFAULT NULL,
+  `TIPO_FIM_REPETICAO` int(11) DEFAULT NULL,
+  `FK_USUARIO` int(11) DEFAULT NULL,
+  PRIMARY KEY (`COD_EVENTO`),
+  KEY `FK_USUARIO` (`FK_USUARIO`),
+  CONSTRAINT `EVENTO_ibfk_1` FOREIGN KEY (`FK_USUARIO`) REFERENCES `USUARIO` (`UCODIGO`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `EVENTO`
+--
+
+LOCK TABLES `EVENTO` WRITE;
+/*!40000 ALTER TABLE `EVENTO` DISABLE KEYS */;
+/*!40000 ALTER TABLE `EVENTO` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `E_FIM_REPETICAO`
+--
+
+DROP TABLE IF EXISTS `E_FIM_REPETICAO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `E_FIM_REPETICAO` (
+  `COD_FIM_REPETICAO` int(11) NOT NULL AUTO_INCREMENT,
+  `DIA_FIM` datetime DEFAULT NULL,
+  `QTD_RECORRENCIAS` int(11) DEFAULT NULL,
+  `FK_EVENTO` int(11) DEFAULT NULL,
+  PRIMARY KEY (`COD_FIM_REPETICAO`),
+  UNIQUE KEY `UNIQUE_EVENTO` (`FK_EVENTO`),
+  CONSTRAINT `E_FIM_REPETICAO_ibfk_1` FOREIGN KEY (`FK_EVENTO`) REFERENCES `EVENTO` (`COD_EVENTO`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `E_FIM_REPETICAO`
+--
+
+LOCK TABLES `E_FIM_REPETICAO` WRITE;
+/*!40000 ALTER TABLE `E_FIM_REPETICAO` DISABLE KEYS */;
+INSERT INTO `E_FIM_REPETICAO` VALUES (1,'2000-01-01 00:00:00',0,1);
+/*!40000 ALTER TABLE `E_FIM_REPETICAO` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `E_REPETIR`
+--
+
+DROP TABLE IF EXISTS `E_REPETIR`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `E_REPETIR` (
+  `COD_REPETICAO` int(11) NOT NULL AUTO_INCREMENT,
+  `INTERVALO` int(11) NOT NULL,
+  `DIAS_SEMANA` varchar(15) DEFAULT NULL,
+  `FK_EVENTO` int(11) DEFAULT NULL,
+  PRIMARY KEY (`COD_REPETICAO`),
+  UNIQUE KEY `UNIQUE_EVENTO` (`FK_EVENTO`),
+  CONSTRAINT `E_REPETIR_ibfk_1` FOREIGN KEY (`FK_EVENTO`) REFERENCES `EVENTO` (`COD_EVENTO`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `E_REPETIR`
+--
+
+LOCK TABLES `E_REPETIR` WRITE;
+/*!40000 ALTER TABLE `E_REPETIR` DISABLE KEYS */;
+INSERT INTO `E_REPETIR` VALUES (1,1,'0,0,0,0,0,0,0',1);
+/*!40000 ALTER TABLE `E_REPETIR` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `HORARIO_LEMBRETE`
+--
+
+DROP TABLE IF EXISTS `HORARIO_LEMBRETE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `HORARIO_LEMBRETE` (
+  `HL_CODIGO` int(11) NOT NULL AUTO_INCREMENT,
+  `DATA_LEMBRETE` datetime DEFAULT NULL,
+  `DATA_FINAL_LEMBRETE` datetime DEFAULT NULL,
+  `HORARIO_INICIO` time DEFAULT NULL,
+  `HORARIO_FIM` time DEFAULT NULL,
+  `HL_INTERVALO_MINUTOS` int(11) DEFAULT NULL,
+  `HL_RECORRENCIA` int(11) DEFAULT NULL,
+  `HL_SEMANA_DIA` int(11) DEFAULT NULL,
+  `HL_QTD_REPETE` int(11) DEFAULT NULL,
+  `HL_ATIVO` bit(1) DEFAULT NULL,
+  `FK_LEMBRETE` int(11) DEFAULT NULL,
+  PRIMARY KEY (`HL_CODIGO`),
+  KEY `FK_CODIGO_LEMBRETE` (`FK_LEMBRETE`),
+  CONSTRAINT `FK_CODIGO_LEMBRETE` FOREIGN KEY (`FK_LEMBRETE`) REFERENCES `LEMBRETE` (`LCOD_LEMBRETE`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `HORARIO_LEMBRETE`
+--
+
+LOCK TABLES `HORARIO_LEMBRETE` WRITE;
+/*!40000 ALTER TABLE `HORARIO_LEMBRETE` DISABLE KEYS */;
+INSERT INTO `HORARIO_LEMBRETE` VALUES (1,'2018-12-04 00:01:18',NULL,'00:01:18','00:01:18',NULL,NULL,NULL,NULL,NULL,1);
+/*!40000 ALTER TABLE `HORARIO_LEMBRETE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `LEMBRETE`
+--
+
+DROP TABLE IF EXISTS `LEMBRETE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `LEMBRETE` (
+  `LCOD_LEMBRETE` int(11) NOT NULL AUTO_INCREMENT,
+  `TITULO` varchar(255) DEFAULT NULL,
+  `ATIVO` bit(1) DEFAULT NULL,
+  `TIPO_RECORRENCIA` int(11) DEFAULT NULL,
+  `TIPO_REPETICAO` int(11) DEFAULT NULL,
+  `FK_USUARIO` int(11) DEFAULT NULL,
+  PRIMARY KEY (`LCOD_LEMBRETE`),
+  KEY `FK_USUARIO` (`FK_USUARIO`),
+  CONSTRAINT `FK_USUARIO` FOREIGN KEY (`FK_USUARIO`) REFERENCES `USUARIO` (`UCODIGO`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `LEMBRETE`
+--
+
+LOCK TABLES `LEMBRETE` WRITE;
+/*!40000 ALTER TABLE `LEMBRETE` DISABLE KEYS */;
+INSERT INTO `LEMBRETE` VALUES (1,'sfklaflj',NULL,NULL,NULL,1);
+/*!40000 ALTER TABLE `LEMBRETE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `USUARIO`
+--
+
+DROP TABLE IF EXISTS `USUARIO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `USUARIO` (
+  `UCODIGO` int(11) NOT NULL AUTO_INCREMENT,
+  `UEMAIL` varchar(255) NOT NULL,
+  `UNOME` varchar(255) DEFAULT NULL,
+  `USOBRENOME` varchar(255) DEFAULT NULL,
+  `USENHA` varchar(255) DEFAULT NULL,
+  `UFOTO` longblob,
+  `UATIVO` bit(1) DEFAULT NULL,
+  PRIMARY KEY (`UCODIGO`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `USUARIO`
+--
+
+LOCK TABLES `USUARIO` WRITE;
+/*!40000 ALTER TABLE `USUARIO` DISABLE KEYS */;
+INSERT INTO `USUARIO` VALUES (1,'KSSKSKKS','KSK',NULL,NULL,NULL,NULL),(2,'JEFTER','JEFTER',NULL,'1',NULL,NULL);
+/*!40000 ALTER TABLE `USUARIO` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Temporary table structure for view `VIEW_CARREGAR_TODOS_LEMBRETES`
+--
+
+DROP TABLE IF EXISTS `VIEW_CARREGAR_TODOS_LEMBRETES`;
+/*!50001 DROP VIEW IF EXISTS `VIEW_CARREGAR_TODOS_LEMBRETES`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `VIEW_CARREGAR_TODOS_LEMBRETES` AS SELECT 
+ 1 AS `UCODIGO`,
+ 1 AS `LCOD_LEMBRETE`,
+ 1 AS `HL_CODIGO`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary table structure for view `VIEW_INICIA_SESSAO`
+--
+
+DROP TABLE IF EXISTS `VIEW_INICIA_SESSAO`;
+/*!50001 DROP VIEW IF EXISTS `VIEW_INICIA_SESSAO`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `VIEW_INICIA_SESSAO` AS SELECT 
+ 1 AS `UCODIGO`,
+ 1 AS `UNOME`,
+ 1 AS `USOBRENOME`,
+ 1 AS `UEMAIL`,
+ 1 AS `USENHA`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary table structure for view `VIEW_LEMBRETES_DO_DIA`
+--
+
+DROP TABLE IF EXISTS `VIEW_LEMBRETES_DO_DIA`;
+/*!50001 DROP VIEW IF EXISTS `VIEW_LEMBRETES_DO_DIA`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `VIEW_LEMBRETES_DO_DIA` AS SELECT 
+ 1 AS `UCODIGO`,
+ 1 AS `LCOD_LEMBRETE`,
+ 1 AS `TIPO_RECORRENCIA`,
+ 1 AS `HL_CODIGO`,
+ 1 AS `HL_RECORRENCIA`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Final view structure for view `VIEW_CARREGAR_TODOS_LEMBRETES`
+--
+
+/*!50001 DROP VIEW IF EXISTS `VIEW_CARREGAR_TODOS_LEMBRETES`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `VIEW_CARREGAR_TODOS_LEMBRETES` AS select `USUARIO`.`UCODIGO` AS `UCODIGO`,`LEMBRETE`.`LCOD_LEMBRETE` AS `LCOD_LEMBRETE`,`HORARIO_LEMBRETE`.`HL_CODIGO` AS `HL_CODIGO` from ((`LEMBRETE` join `USUARIO` on((`LEMBRETE`.`FK_USUARIO` = `USUARIO`.`UCODIGO`))) join `HORARIO_LEMBRETE` on((`LEMBRETE`.`LCOD_LEMBRETE` = `HORARIO_LEMBRETE`.`FK_LEMBRETE`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `VIEW_INICIA_SESSAO`
+--
+
+/*!50001 DROP VIEW IF EXISTS `VIEW_INICIA_SESSAO`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `VIEW_INICIA_SESSAO` AS select `USUARIO`.`UCODIGO` AS `UCODIGO`,`USUARIO`.`UNOME` AS `UNOME`,`USUARIO`.`USOBRENOME` AS `USOBRENOME`,`USUARIO`.`UEMAIL` AS `UEMAIL`,`USUARIO`.`USENHA` AS `USENHA` from `USUARIO` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `VIEW_LEMBRETES_DO_DIA`
+--
+
+/*!50001 DROP VIEW IF EXISTS `VIEW_LEMBRETES_DO_DIA`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `VIEW_LEMBRETES_DO_DIA` AS select `USUARIO`.`UCODIGO` AS `UCODIGO`,`L`.`LCOD_LEMBRETE` AS `LCOD_LEMBRETE`,`L`.`TIPO_RECORRENCIA` AS `TIPO_RECORRENCIA`,`HL`.`HL_CODIGO` AS `HL_CODIGO`,`HL`.`HL_RECORRENCIA` AS `HL_RECORRENCIA` from ((`LEMBRETE` `L` join `USUARIO` on((`L`.`FK_USUARIO` = `USUARIO`.`UCODIGO`))) join `HORARIO_LEMBRETE` `HL` on((`L`.`LCOD_LEMBRETE` = `HL`.`FK_LEMBRETE`))) where ((cast(`HL`.`DATA_LEMBRETE` as date) = cast(now() as date)) or ((cast(`CALCULO_RECORRENCIA`(`HL`.`DATA_LEMBRETE`,`L`.`TIPO_RECORRENCIA`,`HL`.`HL_RECORRENCIA`) as date) = cast(now() as date)) and `L`.`ATIVO` and (`HL`.`HL_ATIVO` = TRUE))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2018-12-04 14:41:55

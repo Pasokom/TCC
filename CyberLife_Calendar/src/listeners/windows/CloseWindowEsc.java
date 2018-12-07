@@ -1,4 +1,4 @@
-package listeners;
+package listeners.windows;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;

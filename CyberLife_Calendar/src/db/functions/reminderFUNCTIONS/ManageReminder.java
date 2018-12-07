@@ -43,7 +43,6 @@ public class ManageReminder {
     }
 
     public ManageReminder() {}
-
     /**
      * @author jefter66
      * 
@@ -162,8 +161,6 @@ public class ManageReminder {
         if (whatsChange == changeTheSchedule.ACTIVE) {
             sql = sql + this.active + (boolean) newValue + queryEnd;
         }
-
-        System.out.println(sql);
         // I prefer to let the try/catch ugly thing here that in the windows code
         // make him more cleaner
         try {

@@ -49,7 +49,7 @@ public class Event extends Scene {
 	public Event() {
 		super(new VBox());
 		Main.main_stage.setTitle("EVENTO");
-		// /* scene */ this.getStylesheets().add(this.getClass().getResource("../css/event.css").toExternalForm());
+		/* scene */ this.getStylesheets().add("css/event.css");
 
 		VBox vb = new VBox();
 
@@ -209,8 +209,9 @@ public class Event extends Scene {
 		trayIcon.setToolTip("System tray icon demo");
 		tray.add(trayIcon);
 
-//		trayIcon.displayMessage("Evento",
-//				"O evento \"" + txtTitle.getText() + "\" foi cadastrado no dia " + dtStart.getValue().toString(),
-//				MessageType.INFO);
+		// trayIcon.displayMessage("Evento",
+		// "O evento \"" + txtTitle.getText() + "\" foi cadastrado no dia " +
+		// dtStart.getValue().toString(),
+		// MessageType.INFO);
 	}
 }

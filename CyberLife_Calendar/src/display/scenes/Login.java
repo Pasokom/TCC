@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import db.functions.registrationAndLogin.HandlerLogin;
 import db.functions.registrationAndLogin.HandlerRegistration;
+import db.functions.user.AccountSettings;
 import db.functions.user.PictureSettings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -177,9 +178,9 @@ public class Login extends Scene {
 
 		btnEntrar = new Button("Entrar");
 		this.btnEntrar.setOnAction(e -> {
-			PictureSettings ps = new PictureSettings();
-
-			ps.setImage(Main.main_stage, 2);
+			// login();
+			AccountSettings s = new AccountSettings(1);
+			s.changeImage();
 
 		});
 		this.setOnKeyPressed(e -> {
@@ -375,8 +376,6 @@ public class Login extends Scene {
 		HBox hb = new HBox();
 
 		ImageView i = new ImageView();
-
-		i.setImage(p.getImage(1));
 
 		hb.getChildren().add(i);
 		Scene scene = new Scene(hb);
