@@ -53,7 +53,7 @@ public class Enums {
 	 */
 	public static enum TypeRecurrence {
 		// tem que achar uma maneira de tratar as datas corretas
-		DAYLY(1), WEEKLY(7), MONTHLY(30), YEARLY(365);
+		DAYLY(1), WEEKLY(2), MONTHLY(3), YEARLY(4);
 
 		private int value;
 
@@ -91,9 +91,24 @@ public class Enums {
 		}
 	}
 
+	public static enum DayOfWeek{
+		SUNDAY("Dom"), MONDAY("Seg"), TUESDAY("Ter"), WEDNESDAY("Qua"),
+			THURSDAY("Qui"), FRYDAY("Sex"), SATURDAY("Sab");
+
+		String name;
+
+		DayOfWeek(String name){
+			this.name = name;
+		}
+
+		public String getValue(){
+			return this.name;
+		}
+	}
+
 	public static enum Month {
 
-		JANUARY("Janeiro"), FEBRUARY("Fevereiro"), MARCH("Mar�o"), APRIL("Abril"), MAY("Maio"), JUNE("Junho"),
+		JANUARY("Janeiro"), FEBRUARY("Fevereiro"), MARCH("Março"), APRIL("Abril"), MAY("Maio"), JUNE("Junho"),
 		JULY("Julho"), AUGUST("Agosto"), SEPTEMBER("Setembro"), OCTOBER("Outubro"), NOVEMBER("Novembro"),
 		DECEMBER("Dezembro");
 

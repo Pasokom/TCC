@@ -45,7 +45,7 @@ public class HomePage extends Scene {
 		AnchorPane.setRightAnchor(calendarBar, 0d);
 		AnchorPane.setTopAnchor(calendarBar, 0d);
 
-		// calendarComponent = new CalendarComponent();
+		calendarComponent = new CalendarComponent(Calendar.getInstance());
 
 		AnchorPane.setLeftAnchor(calendarComponent, menu.getPrefWidth() + listCalendar.getPrefWidth() + 20);
 		AnchorPane.setRightAnchor(calendarComponent, 0d);

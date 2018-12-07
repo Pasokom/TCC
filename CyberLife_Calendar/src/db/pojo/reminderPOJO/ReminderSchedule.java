@@ -70,23 +70,29 @@ public class ReminderSchedule {
 	 */
 	public void setTimeBegin(String timeBegin) {
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
-			Date date = sdf.parse(timeBegin);
-			this.timeBegin = new Time(date.getTime());
-			System.out.println(timeBegin);
+			if (timeBegin != null) {
+				SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+				Date date = sdf.parse(timeBegin);
+				this.timeBegin = new Time(date.getTime());
+			}
+			System.out.println(this.timeBegin);
 		} catch (ParseException e) {
 			// e.printStackTrace();
 			System.out.println("Erro");
 		}
 	}
+
 	/**
 	 * @param timeEnd the timeEnd to set
 	 */
 	public void setTimeEnd(String timeEnd) {
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
-			Date date = sdf.parse(timeEnd);
-			this.timeEnd = new Time(date.getTime());
+			if (timeEnd != null) {
+				SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+				Date date = sdf.parse(timeEnd);
+				this.timeBegin = new Time(date.getTime());
+			}
+			System.out.println(this.timeBegin);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

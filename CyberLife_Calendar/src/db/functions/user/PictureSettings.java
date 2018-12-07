@@ -40,9 +40,10 @@ public class PictureSettings {
         try {
             final String path = io.getImagesFolder();
             final String fileName = String.valueOf(userID);
-            final BufferedImage buffer = ImageIO.read(io.getFile(path, fileName));
-            final Image image = SwingFXUtils.toFXImage(buffer, null);
-            return image;
+            final File image = io.getFile(path, fileName);
+            if (image == null)
+                return null;
+            return SwingFXUtils.toFXImage(ImageIO.read(image), null);
         } catch (IOException e) {
             e.printStackTrace();
         }

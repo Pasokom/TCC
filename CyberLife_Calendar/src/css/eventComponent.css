@@ -1,6 +1,6 @@
 #this{
 	-fx-background-color: transparent;
-}
+} 
 
 Label{
 	-fx-text-fill: white;
@@ -11,8 +11,26 @@ Label{
 	-fx-background-color: #660cdc;
 	-fx-background-radius: 3 0 0 3;
 	-fx-padding: 10;
+<<<<<<< HEAD
+}
+
+#demo_card{
+	-fx-background-color: #660cdc;
+	-fx-background-radius: 5 5 5 5;
+	-fx-font-size: 10;
+	-fx-padding: 0 2 0 2;
+=======
+>>>>>>> f0be63760803a7c49820050a3fdbcf56fdce1ce4
 }
 
 #titulo{
 	-fx-font-weight: bold;
+}
+
+#edit {
+	-fx-image: url("../../resources/images/baseline_edit_white_24dp.png");
+}
+
+#edit:hover{
+	-fx-cursor: hand;
 }

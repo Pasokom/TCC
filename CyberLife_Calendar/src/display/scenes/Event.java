@@ -10,9 +10,13 @@ import java.net.MalformedURLException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
 
 import component.CustomScroll;
 import component.Recurrence;
+import component.homepage.ListCalendar;
 import component.reminder.TimePicker;
 import db.functions.event.CreateEvent;
 import db.pojo.eventPOJO.EventDB;
@@ -65,7 +69,7 @@ public class Event extends Scene {
 		barraTitulo.setId("lBarraTitulo");
 
 		txtTitle = new TextField();
-		txtTitle.setPromptText("T�tulo do evento");
+		txtTitle.setPromptText("Título do evento");
 		txtTitle.setId("lNome");
 		btnSave = new Button("Salvar");
 		btnSave.setId("btnEnviar");
@@ -80,6 +84,8 @@ public class Event extends Scene {
 
 				NotifyUser.sendNotification("Evento", notificationMessage, MessageType.NONE);
 
+				HomePage.listCalendar.update(Calendar.getInstance());
+
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
@@ -92,11 +98,14 @@ public class Event extends Scene {
 		/* barra de data e hora */
 		HBox dateTimeBar = new HBox();
 
+		java.util.Date data = new java.util.Date();
+		LocalDate date = data.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		
 		lblStartDate = new Label("De");
-		dtStart = new DatePicker();
+		dtStart = new DatePicker(date);
 		timeStart = new TimePicker(false);
 		lblEndDate = new Label("at�");
-		dtEnd = new DatePicker();
+		dtEnd = new DatePicker(date);
 		timeEnd = new TimePicker(false);
 
 		dateTimeBar.getChildren().addAll(lblStartDate, dtStart, timeStart, lblEndDate, dtEnd, timeEnd);

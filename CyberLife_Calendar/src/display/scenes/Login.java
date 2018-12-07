@@ -1,6 +1,5 @@
 package display.scenes;
 
-import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -178,10 +177,10 @@ public class Login extends Scene {
 		btnEntrar = new Button("Entrar");
 		this.btnEntrar.setOnAction(e -> {
 
-			// login();
+			login();
 
-			PictureSettings ps = new PictureSettings();
-			Main.main_stage.setScene(cena(ps));
+			// PictureSettings ps = new PictureSettings();
+			// Main.main_stage.setScene(cena(ps));
 
 		});
 		this.setOnKeyPressed(e -> {

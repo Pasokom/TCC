@@ -1,8 +1,16 @@
+<<<<<<< HEAD
+#date_item{	
+	-fx-padding: 5;
+}
+
+#date_item:hover{
+=======
 VBox{	
 	-fx-padding: 5;
 }
 
 VBox:hover{
+>>>>>>> f0be63760803a7c49820050a3fdbcf56fdce1ce4
 	-fx-background-color: rgba(0,0,0,0.2);
 }
 
@@ -11,4 +19,18 @@ VBox:hover{
 	-fx-background-radius: 50%;
 	-fx-background-insets: -6 -11 -6 -11;
 	-fx-text-fill: #ffffff;
+}
+
+#other_month{
+	-fx-text-fill: rgba(0,0,0,0.3);
+}
+
+#day_week{
+	-fx-text-fill: rgba(0,0,0,0.5);
+	-fx-font-size: 15pt;
+}
+
+#today_week{
+	-fx-text-fill: rgba(9, 84, 178, 0.8);
+	-fx-font-size: 15pt;
 }

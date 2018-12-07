@@ -71,7 +71,7 @@ public class Reminder extends Scene {
 		vb.setPadding(new Insets(20, 35, 50, 35));
 		vb.getChildren().addAll(lembrete(recurrence), recurrence);
 
-		// /* scene */ this.getStylesheets().add(this.getClass().getResource("../css/reminder.css").toExternalForm());
+		/* scene */ this.getStylesheets().add("css/reminder.css");
 
 		this.setRoot(customScroll);
 
@@ -95,6 +95,7 @@ public class Reminder extends Scene {
 			try {
 				insert_reminder_and_schedule();
 				return;
+				
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}

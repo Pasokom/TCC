@@ -10,10 +10,11 @@ import java.util.Date;
 import component.CustomScroll;
 import component.event.EventComponent;
 import component.reminder.ReminderComponent;
-import db.functions.RetrieveEvents;
+import db.functions.event.RetrieveEvents;
 import db.functions.reminderFUNCTIONS.LoadReminder;
 import db.pojo.eventPOJO.EventDB;
 import db.pojo.reminderPOJO.ReminderDB;
+import display.scenes.HomePage;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -47,7 +48,7 @@ public class ListCalendar extends VBox{
 	}
 	
 	private void addComponents(Calendar date) {
-		/* Cabeçario da programação */
+		/* Cabeï¿½ario da programaï¿½ï¿½o */
 		HBox hHeader = new HBox();
 		hHeader.setId("header");
 		
@@ -55,12 +56,12 @@ public class ListCalendar extends VBox{
 				+ "/" + (date.get(Calendar.MONTH) + 1));
 		lblSelectedDate.setFont(new Font(30));
 		
-		this.lblReminder = new Label(" - Programação");
+		this.lblReminder = new Label(" - Programaï¿½ï¿½o");
 
 		hHeader.setAlignment(Pos.CENTER_LEFT);
 		
 		hHeader.getChildren().addAll(lblSelectedDate, lblReminder);
-		/* Fim do cabeçario da programação */
+		/* Fim do cabeï¿½ario da programaï¿½ï¿½o */
 		
 		/* Lista dia todo */
 		this.vAllDay = new VBox();
@@ -153,8 +154,12 @@ public class ListCalendar extends VBox{
 	}
 	
 	private void addEvents(Calendar date) {
-		retrieveEvents.updateList();
-		
+
+		if(HomePage.calendarComponent != null)
+			retrieveEvents.updateList(HomePage.calendarComponent.getDate());
+		else
+			retrieveEvents.updateList(date);
+
 		for(EventDB event : RetrieveEvents.listEvents) {
 			
 			Date eventDate = new Date(event.getData_inicio().getTime());
