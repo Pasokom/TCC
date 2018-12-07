@@ -22,7 +22,9 @@ import javax.imageio.ImageIO;
  * 
  */
 public class IOFunctions {
-    private final String TEMP = System.getProperty("java.io.tmpdir") + "";
+    /**
+     * pasta de configuração do software TODO deixar mais facil de manipular
+     */
     private final String CONFIG_FOLDER = "CyberLifeConfig";
     /** pode adicionar mais ai */
     private final String[] extensions = new String[] { "png", "jpg", "gif" };
@@ -44,18 +46,19 @@ public class IOFunctions {
      *         already exists in the folder or if some exception happens
      *         </p>
      */
-    public boolean serializationTempDir(Object obj, String fileName) {
+    public boolean doSerialization(Object obj, String fileName) {
         if (fileExists(fileName))
             return false;
         try {
-            FileOutputStream file = new FileOutputStream(TEMP + fileName + ".ser");
+            FileOutputStream file = new FileOutputStream(CONFIG_FOLDER + fileName + ".ser");
             ObjectOutputStream out = new ObjectOutputStream(file);
             out.writeObject(obj);
             out.close();
             file.close();
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            System.out.println("[ERROR] function: serialization() - Classe IOFunctions()");
             return false;
         }
     }
@@ -67,21 +70,22 @@ public class IOFunctions {
      * @param String fileName
      * @return
      *         <p>
-     *         If the return ara null, there was no object finded in the file,
+     *         If the return are null, there was no object finded in the file,
      *         otherwise, the return will be a object, do the convertion for the
      *         object that you have stored in the file
      *         </p>
      */
-    public Object undoSerializationTempDir(String fileName) {
+    public Object undoSerialization(String fileName) {
         try {
-            FileInputStream fis = new FileInputStream(TEMP + fileName + ".ser");
+            FileInputStream fis = new FileInputStream(getConfigFolder() + fileName + ".ser");
             ObjectInputStream ois = new ObjectInputStream(fis);
             Object out = (Object) ois.readObject();
             ois.close();
             fis.close();
             return out;
         } catch (ClassNotFoundException | IOException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            System.out.println("[ERROR] função : undoSerialization() - classe IOFunctions ");
         }
         return null;
     }
@@ -90,14 +94,14 @@ public class IOFunctions {
      * <h2>If the return are true, the file already exists</h2>
      */
     public boolean fileExists(String fileName) {
-        return new File(TEMP + fileName + ".ser").exists();
+        return new File(getSerializationFolder() + fileName + ".ser").exists();
     }
 
     /**
      * <h2>arquivos serializados na pasta temporaria</h2>
      */
-    public void deleteFile(String filename) {
-        new File(TEMP + filename + ".ser").delete();
+    public void deleteSerialization(String filename) {
+        new File(getSerializationFolder() + filename + ".ser").delete();
     }
 
     /**
@@ -109,10 +113,6 @@ public class IOFunctions {
         return new File(path + fileName).exists();
     }
 
-    public void deleteFie(String fileName, String path) {
-        new File(path + fileName).delete();
-    }
-
     /**
      * Passar o nome do arquivo por parametro Retorna a extensão do arquivo
      */
@@ -121,15 +121,18 @@ public class IOFunctions {
         return fileName.substring(index + 1);
     }
 
+    /**
+     * Cria um diretorio no caminho passado
+     */
     public boolean mkDir(String path, String dirName) {
-        return new File(path).mkdir();
+        return new File(path + "/" + dirName).mkdir();
     }
 
     /**
      * Define uma image para o usuario na pasta images
      */
     public void updateImage(String fileName, BufferedImage buffer) {
-        final String folder = getConfigFolder() + "images";
+        String folder = getImagesFolder();
         File f = new File(folder);
         if (!f.exists())
             f.mkdir();
@@ -144,8 +147,20 @@ public class IOFunctions {
         }
     }
 
-    public void deleteFileIfExists(File file) {
+    public File getFile(String path, String fileName) {
+        for (int i = 0; i < extensions.length; i++) {
+            String strFile = path + fileName + '.' + extensions[i];
+            File f = new File(strFile);
+            if (f.exists())
+                return f;
+        }
+        return null;
+    }
 
+    /*
+     * Vai no diretorio do arquivo e apaga, caso exista
+     */
+    public void deleteFileIfExists(File file) {
         if (file.exists()) {
             file.delete();
             return;
@@ -153,32 +168,34 @@ public class IOFunctions {
         final String filePath = file.getPath();
         final String fileName = file.getName();
         for (int i = 0; i < extensions.length; i++) {
-
             String newFile = filePath + "/" + fileName + extensions[i];
-
             File f = new File(newFile);
-
             if (f.exists()) {
                 f.delete();
                 return;
             }
-
         }
-
     }
 
+    /**
+     * Retorna a pasta de configuração do programa (até agora só ta sendo o usada
+     * para funções de salvar imagem e serialização)
+     */
     public String getConfigFolder() {
-
         final String path = FileSystems.getDefault().getPath(System.getProperty("user.home")).toString();
-
         String folder = path + "/" + this.CONFIG_FOLDER;
-
         File f = new File(folder);
-
         if (!f.exists())
             f.mkdir();
-
         return f.getPath() + "/";
+    }
+
+    public String getImagesFolder() {
+        return getConfigFolder() + "images/";
+    }
+
+    public String getSerializationFolder() {
+        return getConfigFolder() + "serialization/";
     }
 
 }

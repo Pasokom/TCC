@@ -17,7 +17,7 @@ public class SESSION {
 	private static String user_email;
 	private static Image user_photo;
 
-	private static final String PATH = SESSION.class.getResource("").getPath() + "../../resources/images/sasuke.png";;
+	private static final String PATH = SESSION.class.getResource("").getPath() + "../../resources/images/person.png";
 
 	private static ArrayList<ReminderDB> list_user_reminders;
 

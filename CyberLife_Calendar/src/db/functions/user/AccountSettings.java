@@ -64,7 +64,7 @@ public class AccountSettings {
          */
         PictureSettings ps = new PictureSettings();
         ps.chooseImage(Main.main_stage, 1); // (int) SESSION.get_user_cod());
-        SESSION.setImage(ps.getImageInFolder((int) SESSION.get_user_cod()));
+        // SESSION.setImage(ps.getImageInFolder((int) SESSION.get_user_cod()));
     }
     public void removeImage() {
 

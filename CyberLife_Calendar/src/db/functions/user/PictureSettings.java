@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -34,11 +35,17 @@ public class PictureSettings {
         System.out.println("not a image choosed");
     }
 
-    public Image getImageInFolder(int userID) {
-        IOFunctions serial = new IOFunctions();
-        // Image img = (Image)
-        // serial.undoSerializationByChoosedDir(String.valueOf(userID), PATH);
-        // return img != null ? img : null;
+    public Image getUserImage(int userID) {
+        IOFunctions io = new IOFunctions();
+        try {
+            final String path = io.getImagesFolder();
+            final String fileName = String.valueOf(userID);
+            final BufferedImage buffer = ImageIO.read(io.getFile(path, fileName));
+            final Image image = SwingFXUtils.toFXImage(buffer, null);
+            return image;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }

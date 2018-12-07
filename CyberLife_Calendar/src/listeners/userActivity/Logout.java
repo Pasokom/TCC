@@ -15,8 +15,7 @@ public class Logout {
 
         IOFunctions serial = new IOFunctions();
         if (serial.fileExists("stay_connected"))
-            serial.deleteFile("stay_connected");
-
+            serial.deleteSerialization("stay_connected");
         Main.main_stage.setScene(new Login());
     }
 

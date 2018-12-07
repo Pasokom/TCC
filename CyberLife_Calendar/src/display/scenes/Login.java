@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import db.functions.registrationAndLogin.HandlerLogin;
 import db.functions.registrationAndLogin.HandlerRegistration;
-import db.functions.user.AccountSettings;
 import db.functions.user.PictureSettings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -178,9 +177,11 @@ public class Login extends Scene {
 
 		btnEntrar = new Button("Entrar");
 		this.btnEntrar.setOnAction(e -> {
+
 			// login();
-			AccountSettings s = new AccountSettings(1);
-			s.changeImage();
+
+			PictureSettings ps = new PictureSettings();
+			Main.main_stage.setScene(cena(ps));
 
 		});
 		this.setOnKeyPressed(e -> {
@@ -288,22 +289,18 @@ public class Login extends Scene {
 	 * 
 	 */
 	private void login() {
-		try {
-			boolean is_email_empty = txtEmail.getText().trim().isEmpty();
-			boolean is_password_empy = txtSenha.getText().isEmpty();
+		boolean is_email_empty = txtEmail.getText().trim().isEmpty();
+		boolean is_password_empy = txtSenha.getText().isEmpty();
 
-			if (!is_email_empty && !is_password_empy) {
+		if (!is_email_empty && !is_password_empy) {
 
-				if (login.login(txtEmail.getText(), txtSenha.getText(),
-						this.cb_stayConnected.selectedProperty().get())) {
-					Main.main_stage.setScene(new HomePage());
-					return;
-				}
-				this.lbl_error_message.setVisible(true);
+			if (login.login(txtEmail.getText(), txtSenha.getText(), this.cb_stayConnected.selectedProperty().get())) {
+				Main.main_stage.setScene(new HomePage());
+				return;
 			}
 			this.lbl_error_message.setVisible(true);
-		} catch (FileNotFoundException | SQLException | ClassNotFoundException e) {
 		}
+		this.lbl_error_message.setVisible(true);
 	}
 
 	/**
@@ -376,6 +373,8 @@ public class Login extends Scene {
 		HBox hb = new HBox();
 
 		ImageView i = new ImageView();
+
+		i.setImage(p.getUserImage(1));
 
 		hb.getChildren().add(i);
 		Scene scene = new Scene(hb);
