@@ -26,18 +26,21 @@ public class ReminderSchedule {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
+
 	/**
 	 * @return the isActive
 	 */
 	public boolean isActive() {
 		return isActive;
 	}
+
 	/**
 	 * @param fk_reminder the fk_reminder to set
 	 */
 	public void setFk_reminder(int fk_reminder) {
 		this.fk_reminder = fk_reminder;
 	}
+
 	/**
 	 * @return the fk_reminder
 	 */
@@ -63,32 +66,31 @@ public class ReminderSchedule {
 	 * @param timeBegin the timeBegin to set
 	 */
 	public void setTimeBegin(String timeBegin) {
-		try {
-			if(timeBegin != null) {
+		if (timeBegin != null)
+			try {
+				System.out.println(timeEnd);
 				SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
 				Date date = sdf.parse(timeBegin);
 				this.timeBegin = new Time(date.getTime());
+				System.out.println(timeBegin);
+			} catch (ParseException e) {
+				// e.printStackTrace();
+				System.out.println("Erro");
 			}
-			System.out.println(this.timeBegin);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**
 	 * @param timeEnd the timeEnd to set
 	 */
 	public void setTimeEnd(String timeEnd) {
-		try {
-			if(timeEnd != null) {
+		if (timeEnd != null)
+			try {
 				SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
 				Date date = sdf.parse(timeEnd);
-				this.timeBegin = new Time(date.getTime());
+				this.timeEnd = new Time(date.getTime());
+			} catch (ParseException e) {
+				e.printStackTrace();
 			}
-			System.out.println(this.timeBegin);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**
@@ -144,11 +146,13 @@ public class ReminderSchedule {
 	}
 
 	public void setDatetime_begin(Timestamp datetime_begin) {
+		System.out.println(datetime_begin);
 		this.datetime_begin = datetime_begin;
 	}
 
 	public void setDatetime_end(Timestamp datetime_end) {
-		this.datetime_end = datetime_end;
+		if (datetime_end != null)
+			this.datetime_end = datetime_end;
 	}
 
 	public Timestamp getDatetime_end() {

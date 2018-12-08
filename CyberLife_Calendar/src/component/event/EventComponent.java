@@ -43,17 +43,16 @@ public class EventComponent extends VBox {
 		lblEdit.setId("edit");
 		lblEdit.setFitWidth(20);
 		lblEdit.setPreserveRatio(true);		
-
+		
 		/* instanciando componentes */
 		eventDetails = new EventInfo(event);
 
 		lblEdit.setVisible(false);
-		
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(event.getData_inicio());
 		
-		lbl_hora = new Label(" - " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + String.format("%02d", calendar.get(Calendar.MINUTE)));
+		lbl_hora = new Label(calendar.get(Calendar.HOUR_OF_DAY) + ":" + String.format("%02d", calendar.get(Calendar.MINUTE)));
 		lbl_titulo = new Label(event.getTitulo());
 		lbl_titulo.setId("titulo");
 		
@@ -62,7 +61,8 @@ public class EventComponent extends VBox {
 
 		lbl_titulo.prefWidthProperty().bind(card.widthProperty());
 
-		lbl_hora.setPrefWidth(190);
+		lbl_hora.setMaxWidth(200);
+		lbl_hora.setPrefWidth(140);
 
 		if(!event.isDia_todo())
 			card.getChildren().add(lbl_hora);

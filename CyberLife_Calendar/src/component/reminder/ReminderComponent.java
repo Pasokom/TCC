@@ -3,6 +3,7 @@ package component.reminder;
 import java.util.Calendar;
 
 import db.pojo.reminderPOJO.ReminderDB;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
@@ -18,6 +19,7 @@ public class ReminderComponent extends HBox {
 
 	private Label lbl_titulo;
 	private Label lbl_hora;
+	private ReminderInfo reminderDetails;
 
 	public ReminderComponent(ReminderDB reminder) {
 
@@ -40,16 +42,18 @@ public class ReminderComponent extends HBox {
 
 		this.setId("card");
 
+		reminderDetails = new ReminderInfo(reminder);
+
 		/* configurando eventos */
 		this.setOnMouseClicked(e -> {
 
-//			/* Pega a localizacao atual do componente em relacao a tela */
-//			Point2D point2d = this.localToScreen(0d,0d);
-//			
-//			eventDetails.setX(point2d.getX() + this.widthProperty().doubleValue() + 10); //posiciona ao lado do componente
-//			eventDetails.setY(point2d.getY()); //posiciona na mesma altura
-//			
-//			eventDetails.show();
+			/* Pega a localizacao atual do componente em relacao a tela */
+			Point2D point2d = this.localToScreen(0d,0d);
+			
+			reminderDetails.setX(point2d.getX() + this.widthProperty().doubleValue() + 10); //posiciona ao lado do componente
+			reminderDetails.setY(point2d.getY()); //posiciona na mesma altura
+			
+			reminderDetails.show();
 		});
 	}
 }

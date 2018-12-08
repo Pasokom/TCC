@@ -110,7 +110,7 @@ public class CalendarComponent extends GridPane {
 			GridPane.setHgrow(dateItem, Priority.ALWAYS);
 			GridPane.setVgrow(dateItem, Priority.ALWAYS);
 
-			if(i > first_day_week && i - first_day_week + 1 < aux3)
+			if(i >= first_day_week && i - first_day_week + 1 < aux3)
 				if(demoList[day - 1] != null)
 					dateItem.getChildren().add(demoList[day - 1]);
 

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import db.Database;
@@ -92,7 +93,7 @@ public class LoadReminder {
 		String sqlReminder = new String();
 		String sqlSchedule = new String();
 
-		/* sai da fun��o se o resultSet estiver vazio */
+		/* sai da função se o resultSet estiver vazio */
 		if (!result.first())
 			return null;
 		/*
@@ -107,12 +108,9 @@ public class LoadReminder {
 			// pega o ID do lembrete no loop atual
 			int l_reminderId = result.getInt(1);
 
-			System.out.println(result.getInt(1));
 			sqlReminder = final_queryReminder + l_reminderId + ";";
 
 			ResultSet l_bringReminder = this.connection.createStatement().executeQuery(sqlReminder);
-
-			System.out.println(sqlReminder);
 
 			if (l_bringReminder.first())
 				l_bringReminder.beforeFirst();
@@ -121,7 +119,7 @@ public class LoadReminder {
 			ReminderDB l_reminder = getReminder(l_bringReminder.getInt(1), l_bringReminder.getString(2),
 					l_bringReminder.getBoolean(3), l_bringReminder.getInt(4), l_bringReminder.getInt(5));
 
-			/***
+			/*
 			 * this is a int array with the ids of the shedules records going to be used for
 			 * bring this records from the database to the application
 			 * 
@@ -133,6 +131,9 @@ public class LoadReminder {
 			 * this loop will happen according with the size of the array setted for the
 			 * schedules ids
 			 */
+
+			Calendar calendar = Calendar.getInstance();
+
 			for (int i = 0; i < l_scheduleIds.length; i++) {
 
 				sqlSchedule = final_querySchedule + l_scheduleIds[i] + ";";
@@ -142,9 +143,10 @@ public class LoadReminder {
 				if (rs.isBeforeFirst()) /* this is fucking important */
 					rs.next();
 
-				ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getTimestamp(2), rs.getTimestamp(3),
+				ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getTimestamp(2, calendar), rs.getTimestamp(3, calendar),
 						rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9),
 						rs.getBoolean(10), rs.getInt(11));
+
 				/*
 				 * the reminder that are in the scope of the WHILE loop ( the loop that happen
 				 * on the first resultSet) are the current reminder of the list AND the record
@@ -156,46 +158,6 @@ public class LoadReminder {
 			}
 			l_listReminders.add(l_reminder);
 		}
-		if (!result.next())
-			result.close();
-		/*
-		 * when i check if the result set have more than one record the object point to
-		 * the next row, so, if there isnt more than one record have to make the result
-		 * set point to the previous row again
-		 */
-		if (!result.isClosed())
-			if (result.previous() != result.isBeforeFirst()) {
-				/*
-				 * from here until the final is almost the same thing that the previous loop the
-				 * only change will be the amount of reminder
-				 */
-				int l_reminderID = result.getInt(1);
-				sqlReminder = final_queryReminder + l_reminderID + " ;";
-
-				ResultSet l_bringReminder = this.connection.createStatement().executeQuery(sqlReminder);
-
-				if (l_bringReminder.isBeforeFirst())
-					l_bringReminder.next();
-
-				ReminderDB l_reminder = getReminder(l_bringReminder.getInt(1), l_bringReminder.getString(2),
-						l_bringReminder.getBoolean(3), l_bringReminder.getInt(4), l_bringReminder.getInt(5));
-
-				int[] l_scheduleIds = schedulesIDs(result.getString(2));
-				for (int i = 0; i < l_scheduleIds.length; i++) {
-					sqlSchedule = final_querySchedule + l_scheduleIds[i] + ";";
-
-					ResultSet rs = this.connection.createStatement().executeQuery(sqlSchedule);
-
-					if (rs.isBeforeFirst()) /* this is fucking important */
-						rs.next();
-					ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getTimestamp(2), rs.getTimestamp(3),
-							rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9),
-							rs.getBoolean(10), rs.getInt(11));
-
-					l_reminder.getlReminderSchedule().add(rse);
-				}
-				l_listReminders.add(l_reminder);
-			}
 		return l_listReminders;
 	}
 

@@ -19,6 +19,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -26,7 +27,6 @@ import statics.SESSION;
 
 public class ListCalendar extends VBox{
 
-	private Calendar date;
 	private Label lblSelectedDate, lblReminder;
 	private VBox vContent, vAllDay;
 	private CustomScroll listReminder, listAllDay;
@@ -36,8 +36,6 @@ public class ListCalendar extends VBox{
 	LoadReminder loadReminders;
 	
 	public ListCalendar (Calendar date) { 
-		
-		this.date = date;
 		
 		this.prefWidthProperty().set(250);
 		this.setId("this");
@@ -56,7 +54,7 @@ public class ListCalendar extends VBox{
 				+ "/" + (date.get(Calendar.MONTH) + 1));
 		lblSelectedDate.setFont(new Font(30));
 		
-		this.lblReminder = new Label(" - Programa��o");
+		this.lblReminder = new Label(" - Programação");
 
 		hHeader.setAlignment(Pos.CENTER_LEFT);
 		
@@ -97,7 +95,7 @@ public class ListCalendar extends VBox{
 		this.getChildren().add(listReminder);
 		
 		addEvents(date);
-		addReminders();
+		addReminders(date);
 	}
 	
 	private void addHours() {
@@ -120,7 +118,7 @@ public class ListCalendar extends VBox{
 		}
 	}
 	
-	private void addReminders() {
+	private void addReminders(Calendar date) {
 		
 		ArrayList<ReminderDB> reminders = new ArrayList<>();
 		
@@ -137,7 +135,7 @@ public class ListCalendar extends VBox{
 		for(ReminderDB reminder : reminders) {
 			
 			Date eventDate = new Date(reminder.getlReminderSchedule().get(0).getDatetime_begin().getTime());
-			
+
 			LocalDate myDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			LocalDate myEventDate = eventDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			
@@ -159,12 +157,12 @@ public class ListCalendar extends VBox{
 			retrieveEvents.updateList(HomePage.calendarComponent.getDate());
 		else
 			retrieveEvents.updateList(date);
-
+			
 		for(EventDB event : RetrieveEvents.listEvents) {
 			
 			Date eventDate = new Date(event.getData_inicio().getTime());
 			
-			LocalDate myDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			LocalDate myDate = date.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			LocalDate myEventDate = eventDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			
 			if(myDate.compareTo(myEventDate) == 0) {
