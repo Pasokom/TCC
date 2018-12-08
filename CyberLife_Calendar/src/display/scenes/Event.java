@@ -19,6 +19,7 @@ import component.Recurrence;
 import component.reminder.TimePicker;
 import db.functions.event.CreateEvent;
 import db.functions.event.ManageEvents;
+import db.functions.event.ManageEvents.changeTheEvent;
 import db.pojo.eventPOJO.EventDB;
 import db.pojo.eventPOJO.EventEndSchedule;
 import db.pojo.eventPOJO.EventSchedule;
@@ -115,9 +116,40 @@ public class Event extends Scene {
 
 		this.btnSave.setOnAction(e -> {
 
-			
+			if (!compare(event.getTitulo(), this.txtTitle, 0))
+				me.changeEvent(this.txtTitle, event.getCod_evento(), ManageEvents.changeTheEvent.TITLE);
+
+			if (!compare(event.getDescricao(), this.txtDetails, 0))
+				me.changeEvent(this.txtDetails, event.getCod_evento(), ManageEvents.changeTheEvent.DESCRIPTION);
+
+			// TODO fix this
+			if (!compare(event.getData_inicio(), dtStart.getValue().toString(), 0)) {
+
+				me.changeEvent(this.dtStart.getValue().toString(), event.getCod_evento(),
+						ManageEvents.changeTheEvent.DATE_BEGIN);
+			 }
+
+			if (!compare(event.getData_fim(), dtEnd.getValue().toString(), 0)) { 
+				me.changeEvent(this.dtEnd.getValue().toString(), event.getCod_evento(),
+						ManageEvents.changeTheEvent.DATE_END);
+
+			}
+
+			// if (!compare(event.get))
+
+
+
 		});
 
+	}
+
+	public boolean compare(Object oldValue, Object newValue, int type_object) {
+		if (type_object == 0)
+			return String.valueOf(oldValue).equals(String.valueOf(newValue));
+		if (type_object == 1)
+			return (int) oldValue == (int) newValue;
+
+		return false;
 	}
 
 	private void setWeekDays(boolean[] days) {
