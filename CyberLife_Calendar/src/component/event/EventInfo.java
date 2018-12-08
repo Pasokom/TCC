@@ -37,7 +37,7 @@ public class EventInfo extends Stage {
 		Scene scene = new Scene(gp);
 		this.setScene(scene);
 
-		scene.getStylesheets().add(this.getClass().getResource("/css/eventInfo.css").toExternalForm());
+		scene.getStylesheets().add(this.getClass().getResource("/css/EventInfo.css").toExternalForm());
 		gp.setId("this");
 
 		segunda = new Label("S");

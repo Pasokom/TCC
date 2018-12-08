@@ -68,14 +68,12 @@ public class ReminderSchedule {
 	public void setTimeBegin(String timeBegin) {
 		if (timeBegin != null)
 			try {
-				System.out.println(timeEnd);
 				SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
 				Date date = sdf.parse(timeBegin);
 				this.timeBegin = new Time(date.getTime());
 				System.out.println(timeBegin);
 			} catch (ParseException e) {
-				// e.printStackTrace();
-				System.out.println("Erro");
+				System.out.println("Error - função setTimeBegin - POJO ReminderSchedule");
 			}
 	}
 
@@ -146,7 +144,6 @@ public class ReminderSchedule {
 	}
 
 	public void setDatetime_begin(Timestamp datetime_begin) {
-		System.out.println(datetime_begin);
 		this.datetime_begin = datetime_begin;
 	}
 

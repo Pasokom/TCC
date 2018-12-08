@@ -2,6 +2,7 @@ package main;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.TimeZone;
 
 import db.Database;
 import db.functions.registrationAndLogin.HandlerLogin;
@@ -30,6 +31,7 @@ public class Main extends Application {
 		main_stage.setHeight(500);
 		main_stage.getIcons().add(new Image(new FileInputStream(new File(IMAGE_PATH))));
 
+		TimeZone.getDefault();
 		/**
 		 * if the execution gets here, it means that the user has set the program to
 		 * 'stay connected' then will have no need to open the login scene the home page

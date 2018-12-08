@@ -83,8 +83,6 @@ public class LoadReminder {
 			sql = "SELECT LCOD_LEMBRETE, GROUP_CONCAT(HL_CODIGO) CODIGOS_HORARIOS FROM VIEW_LEMBRETES_DO_DIA  WHERE UCODIGO = "
 					+ userID + " GROUP BY LCOD_LEMBRETE; ";
 
-		System.out.println(sql);
-
 		ResultSet result = this.connection.createStatement().executeQuery(sql);
 
 		final String final_queryReminder = "SELECT * FROM LEMBRETE WHERE LCOD_LEMBRETE = ";
@@ -138,7 +136,6 @@ public class LoadReminder {
 
 				if (rs.isBeforeFirst()) /* this is fucking important */
 					rs.next();
-				System.out.println(rs.getString(2) + "\n" + rs.getTimestamp(2));
 				ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getTimestamp(2), rs.getTimestamp(3),
 						rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9),
 						rs.getBoolean(10), rs.getInt(11));

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import component.reminder.DayOfWeekSelector;
 import component.reminder.EndRecurrenceComponent;
 import component.reminder.FrequencyComponent;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
@@ -50,6 +51,29 @@ public class Recurrence extends VBox {
 
 	public int get_recurrence_value() {
 		return frequency.get_choosed_value();
+	}
+
+	public void setDay(int day) {
+		this.dayOfWeekSelector.setSelect(day);
+	}
+
+	public void setTypeFrequency(int index) {
+		this.frequency.setSelected(index);
+	}
+
+	public void setChoosedValue(int value) {
+		this.frequency.set_choosed_value(value);
+	}
+
+	public void setSelectionEnd(int index) {
+		this.endRecurrence.setSelected(index);
+	}
+
+	public void setSpinnerValue(int value) {
+		this.endRecurrence.setSpinnerValue(value);
+	}	
+	public void setDatePickerValue (DatePicker dt){ 
+		this.endRecurrence.setDatePickerValue(dt);
 	}
 
 	/**
