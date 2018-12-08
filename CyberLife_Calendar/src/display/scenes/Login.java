@@ -189,7 +189,6 @@ public class Login extends Scene {
 			}
 			// PictureSettings ps = new PictureSettings();
 			// Main.main_stage.setScene(cena(ps));
-
 		});
 		this.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.ENTER)

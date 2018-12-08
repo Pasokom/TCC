@@ -138,7 +138,7 @@ public class LoadReminder {
 
 				if (rs.isBeforeFirst()) /* this is fucking important */
 					rs.next();
-
+				System.out.println(rs.getString(2) + "\n" + rs.getTimestamp(2));
 				ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getTimestamp(2), rs.getTimestamp(3),
 						rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9),
 						rs.getBoolean(10), rs.getInt(11));
