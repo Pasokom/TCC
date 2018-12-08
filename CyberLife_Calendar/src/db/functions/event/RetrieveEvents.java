@@ -38,7 +38,7 @@ public class RetrieveEvents {
 			statement.setString(1, formatter.format(limit.getTime()));
 			statement.setInt(2, (int)SESSION.get_user_cod());
 			
-			ResultSet r7 = statement.executeQuery();
+			ResultSet r7 =  statement.executeQuery();
 			
 			Calendar calendar = Calendar.getInstance();
 			

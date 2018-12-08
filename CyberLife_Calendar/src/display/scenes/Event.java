@@ -16,7 +16,6 @@ import java.util.Calendar;
 
 import component.CustomScroll;
 import component.Recurrence;
-import component.homepage.ListCalendar;
 import component.reminder.TimePicker;
 import db.functions.event.CreateEvent;
 import db.pojo.eventPOJO.EventDB;
@@ -100,7 +99,7 @@ public class Event extends Scene {
 
 		java.util.Date data = new java.util.Date();
 		LocalDate date = data.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		
+
 		lblStartDate = new Label("De");
 		dtStart = new DatePicker(date);
 		timeStart = new TimePicker(false);

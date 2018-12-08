@@ -1,11 +1,14 @@
 package display.scenes;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import db.functions.registrationAndLogin.HandlerLogin;
 import db.functions.registrationAndLogin.HandlerRegistration;
+import db.functions.reminderFUNCTIONS.LoadReminder;
 import db.functions.user.PictureSettings;
+import db.pojo.reminderPOJO.ReminderDB;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -176,9 +179,14 @@ public class Login extends Scene {
 
 		btnEntrar = new Button("Entrar");
 		this.btnEntrar.setOnAction(e -> {
-
-			login();
-
+			// login();
+			try {
+				LoadReminder x = new LoadReminder();
+				ArrayList<ReminderDB> y = x.getReminders(3, LoadReminder.TypeOfQuery.ALL_REMINDERS);
+				System.out.println(y.get(0));
+			} catch (SQLException | ClassNotFoundException e1) {
+				e1.printStackTrace();
+			}
 			// PictureSettings ps = new PictureSettings();
 			// Main.main_stage.setScene(cena(ps));
 

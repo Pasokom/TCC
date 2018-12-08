@@ -2,14 +2,11 @@ package db.pojo.reminderPOJO;
 
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ReminderSchedule {
-
-	private final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
 
 	private int cod;
 	private int fk_reminder;
@@ -69,33 +66,31 @@ public class ReminderSchedule {
 	 * @param timeBegin the timeBegin to set
 	 */
 	public void setTimeBegin(String timeBegin) {
-		try {
-			if (timeBegin != null) {
+		if (timeBegin != null)
+			try {
+				System.out.println(timeEnd);
 				SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
 				Date date = sdf.parse(timeBegin);
 				this.timeBegin = new Time(date.getTime());
+				System.out.println(timeBegin);
+			} catch (ParseException e) {
+				// e.printStackTrace();
+				System.out.println("Erro");
 			}
-			System.out.println(this.timeBegin);
-		} catch (ParseException e) {
-			// e.printStackTrace();
-			System.out.println("Erro");
-		}
 	}
 
 	/**
 	 * @param timeEnd the timeEnd to set
 	 */
 	public void setTimeEnd(String timeEnd) {
-		try {
-			if (timeEnd != null) {
+		if (timeEnd != null)
+			try {
 				SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
 				Date date = sdf.parse(timeEnd);
-				this.timeBegin = new Time(date.getTime());
+				this.timeEnd = new Time(date.getTime());
+			} catch (ParseException e) {
+				e.printStackTrace();
 			}
-			System.out.println(this.timeBegin);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**
@@ -151,11 +146,13 @@ public class ReminderSchedule {
 	}
 
 	public void setDatetime_begin(Timestamp datetime_begin) {
+		System.out.println(datetime_begin);
 		this.datetime_begin = datetime_begin;
 	}
 
 	public void setDatetime_end(Timestamp datetime_end) {
-		this.datetime_end = datetime_end;
+		if (datetime_end != null)
+			this.datetime_end = datetime_end;
 	}
 
 	public Timestamp getDatetime_end() {

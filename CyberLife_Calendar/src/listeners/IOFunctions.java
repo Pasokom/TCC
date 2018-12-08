@@ -193,9 +193,7 @@ public class IOFunctions {
     public String getImagesFolder() {
         return getConfigFolder() + "images/";
     }
-
     public String getSerializationFolder() {
         return getConfigFolder() + "serialization/";
     }
-
 }
