@@ -1,4 +1,4 @@
-package listeners;
+package listeners.windows;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;

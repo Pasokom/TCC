@@ -18,7 +18,7 @@ public class Enums {
 	 */
 	public static enum ReminderStatus {
 
-	ACTIVE(true), DISABLED(false);
+		ACTIVE(true), DISABLED(false);
 		private boolean value;
 
 		public boolean get_value() {
@@ -91,17 +91,16 @@ public class Enums {
 		}
 	}
 
-	public static enum DayOfWeek{
-		SUNDAY("Dom"), MONDAY("Seg"), TUESDAY("Ter"), WEDNESDAY("Qua"),
-			THURSDAY("Qui"), FRYDAY("Sex"), SATURDAY("Sab");
+	public static enum DayOfWeek {
+		SUNDAY("Dom"), MONDAY("Seg"), TUESDAY("Ter"), WEDNESDAY("Qua"), THURSDAY("Qui"), FRYDAY("Sex"), SATURDAY("Sab");
 
 		String name;
 
-		DayOfWeek(String name){
+		DayOfWeek(String name) {
 			this.name = name;
 		}
 
-		public String getValue(){
+		public String getValue() {
 			return this.name;
 		}
 	}

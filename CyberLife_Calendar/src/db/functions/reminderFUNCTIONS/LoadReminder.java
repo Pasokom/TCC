@@ -3,11 +3,9 @@ package db.functions.reminderFUNCTIONS;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import db.Database;
 import db.pojo.reminderPOJO.ReminderDB;
@@ -71,6 +69,7 @@ public class LoadReminder {
 	public ArrayList<ReminderDB> getReminders(int userID, TypeOfQuery type) throws SQLException {
 
 		/* lista que vai ser retornada (se tiver registros no banco) */
+
 		ArrayList<ReminderDB> l_listReminders = new ArrayList<ReminderDB>();
 
 		// define a query no banco de dados
@@ -85,7 +84,6 @@ public class LoadReminder {
 					+ userID + " GROUP BY LCOD_LEMBRETE; ";
 
 		System.out.println(sql);
-
 		ResultSet result = this.connection.createStatement().executeQuery(sql);
 
 		final String final_queryReminder = "SELECT * FROM LEMBRETE WHERE LCOD_LEMBRETE = ";
@@ -109,7 +107,9 @@ public class LoadReminder {
 			int l_reminderId = result.getInt(1);
 
 			sqlReminder = final_queryReminder + l_reminderId + ";";
-
+		
+			System.out.println(sqlReminder);
+		
 			ResultSet l_bringReminder = this.connection.createStatement().executeQuery(sqlReminder);
 
 			if (l_bringReminder.first())
@@ -138,6 +138,7 @@ public class LoadReminder {
 
 				sqlSchedule = final_querySchedule + l_scheduleIds[i] + ";";
 
+				System.out.println(sqlSchedule);
 				ResultSet rs = this.connection.createStatement().executeQuery(sqlSchedule);
 
 				if (rs.isBeforeFirst()) /* this is fucking important */

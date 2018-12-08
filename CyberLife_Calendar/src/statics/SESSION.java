@@ -1,5 +1,7 @@
 package statics;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,8 +16,8 @@ public class SESSION {
 	private static String user_last_name;
 	private static String user_email;
 	private static Image user_photo;
- 
-	// private  static final String PATH = getClass().getResource("").getPath() + "../../resources/images/sasuke.png";
+
+	private static final String PATH = SESSION.class.getResource("").getPath() + "../../resources/images/person.png";
 
 	private static ArrayList<ReminderDB> list_user_reminders;
 
@@ -36,18 +38,15 @@ public class SESSION {
 	}
 
 	public static void setImage(Image image) {
-		// try {
-
-		// 	if (image != null) {
-		// 		SESSION.user_photo = image;
-		// 		return;
-		// 	}
-
-		// 	String a = SESSION.PA;
-
-		// } catch (FileNotFoundException e) {
-		// 	e.printStackTrace();
-		// }
+		if (image == null) {
+			SESSION.user_photo = image;
+			return;
+		}
+		try {
+			SESSION.user_photo = new Image(new FileInputStream(new File(PATH)));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static Image get_user_image() {
@@ -69,4 +68,15 @@ public class SESSION {
 	public static String get_user_email() {
 		return user_email;
 	}
+
+	public static void END_SESSION() {
+		SESSION.list_user_reminders = null;
+		SESSION.user_cod = 0;
+		SESSION.user_email = null;
+		SESSION.user_name = null;
+		SESSION.user_last_name = null;
+		SESSION.user_photo = null;
+
+	}
+
 }
