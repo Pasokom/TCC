@@ -1,9 +1,6 @@
 package display.scenes;
 
-import java.io.FileNotFoundException;
 import java.util.Calendar;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import component.homepage.CalendarBar;
 import component.homepage.CalendarComponent;
@@ -22,7 +19,7 @@ public class HomePage extends Scene {
 	public static CalendarComponent calendarComponent;
 	private AnchorPane layout;
 
-	public HomePage() throws FileNotFoundException {
+	public HomePage() {
 		super(new VBox());
 
 		NotifyUser.init();

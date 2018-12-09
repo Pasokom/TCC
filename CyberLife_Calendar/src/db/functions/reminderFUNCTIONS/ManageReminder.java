@@ -42,7 +42,13 @@ public class ManageReminder {
         TITLE, TYPE_OF_RECURRENCE, TYPE_OF_REPETITION, STATE
     }
 
-    public ManageReminder() {}
+    public ManageReminder() {
+        try {
+            this.connection = Database.get_connection();
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println("[ERROR] - Construtor- Classe ManageReminder");
+        }
+    }
 
     /**
      * @author jefter66
@@ -72,16 +78,12 @@ public class ManageReminder {
 
         // one of these variables going to have a TRUE values
         // and it's her that will be used to build the query
-        boolean l_changeState = whatChange == changeTheReminder.STATE;
-        boolean l_changeTitle = whatChange == changeTheReminder.TITLE;
-        boolean l_changeTypeOfRecurrence = whatChange == changeTheReminder.TYPE_OF_RECURRENCE;
-        boolean l_changeTypeOfRepetition = whatChange == changeTheReminder.TYPE_OF_REPETITION;
 
         String l_sql = "UPDATE LEMBRETE SET ";
         /**
          * the end of the query are the same in all cases, soo, this make my life easer
          */
-        final String query_end = " WHERE LCOD_LEMBRETE = " + reminderID + ";";
+        final String query_end = " WHERE LCOD_LEMBRETE = " + reminderID;// + ";";
         /*
          * all of these conditionals do the same verification, and change the query
          * string according to what boolean variable are true soo, if for example, the
@@ -91,40 +93,26 @@ public class ManageReminder {
          * passed in this parameter have to be right) and putting this value in the
          * field that are going to be updated
          */
-        if (l_changeState) {
+        if (whatChange == changeTheReminder.STATE) {
             l_sql = l_sql + this.activeColumn + (boolean) newValue + query_end;
         }
-        if (l_changeTitle) {
+        if (whatChange == changeTheReminder.TITLE) {
             l_sql = l_sql + this.titleColumn + (String) newValue.toString() + "'" + query_end;
         }
-        if (l_changeTypeOfRecurrence) {
+        if (whatChange == changeTheReminder.TYPE_OF_RECURRENCE) {
             l_sql = l_sql + this.typeRecurrenceColumn + (int) newValue + query_end;
         }
-        if (l_changeTypeOfRepetition) {
+        if (whatChange == changeTheReminder.TYPE_OF_REPETITION) {
             l_sql = l_sql + this.typeRepetitionColumn + (int) newValue + query_end;
         }
         try {
-            /**
-             * here just use the connection that this class have because the connection is
-             * used only in the functions of this class and think that are not that
-             * important have a instance of this running always in the class, soo, when i
-             * need to use this connection, i check first if is NULL, if it is, i
-             * instantiate (btw, always will be NULL, then, always instantiate),
-             * instantiate, use, then destroy
-             */
-            this.connection = this.connection == null ? Database.get_connection() : this.connection;
             this.connection.createStatement().execute(l_sql);
-        } catch (ClassNotFoundException | SQLException e) {
-        } finally {
-            try {
-                /* closing the connection and setting the object back to NULL */
-                this.connection.close();
-                this.connection = null;
-            } catch (SQLException e1) {
-
-            }
+            this.connection.close();
+        } catch (SQLException e) {
+            System.out.println("[ERROR] - Função changeRemidner  - SQLException");
         }
     }
+
     /**
      * The usage of this function is very similar to the changeRemidner function I
      * don't want to expend time re-writing commets soo if you wanna use this, got
@@ -162,8 +150,6 @@ public class ManageReminder {
         if (whatsChange == changeTheSchedule.ACTIVE) {
             sql = sql + this.active + (boolean) newValue + queryEnd;
         }
-
-        System.out.println(sql);
         // I prefer to let the try/catch ugly thing here that in the windows code
         // make him more cleaner
         try {

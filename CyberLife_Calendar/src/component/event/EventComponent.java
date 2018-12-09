@@ -1,7 +1,5 @@
 package component.event;
 
-import java.awt.RenderingHints.Key;
-import java.awt.event.KeyAdapter;
 import java.util.Calendar;
 
 import javafx.beans.value.ChangeListener;
@@ -15,8 +13,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCharacterCombination;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -50,8 +46,8 @@ public class EventComponent extends VBox {
 
 		lblEdit.setId("edit");
 		lblEdit.setFitWidth(20);
-		lblEdit.setPreserveRatio(true);		
-		
+		lblEdit.setPreserveRatio(true);
+
 		/* instanciando componentes */
 		eventDetails = new EventInfo(event);
 
@@ -71,11 +67,12 @@ public class EventComponent extends VBox {
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(event.getData_inicio());
-		
-		lbl_hora = new Label(" - " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + String.format("%02d", calendar.get(Calendar.MINUTE)));
+
+		lbl_hora = new Label(" - " + calendar.get(Calendar.HOUR_OF_DAY) + ":"
+				+ String.format("%02d", calendar.get(Calendar.MINUTE)));
 		lbl_titulo = new Label(event.getTitulo());
 		lbl_titulo.setId("titulo");
-		
+
 		HBox card = new HBox();
 		card.getChildren().add(lbl_titulo);
 
@@ -83,12 +80,12 @@ public class EventComponent extends VBox {
 
 		lbl_hora.setPrefWidth(190);
 
-		if(!event.isDia_todo())
+		if (!event.isDia_todo())
 			card.getChildren().add(lbl_hora);
-			
+
 		card.setId("card");
 
-		card.setOnMouseEntered(e ->{
+		card.setOnMouseEntered(e -> {
 			lblEdit.setVisible(true);
 		});
 
@@ -99,16 +96,17 @@ public class EventComponent extends VBox {
 		card.getChildren().add(lblEdit);
 
 		this.getChildren().add(card);
-		
+
 		/* configurando eventos */
-		lbl_titulo.setOnMouseClicked(e ->{
-			
+		lbl_titulo.setOnMouseClicked(e -> {
+
 			/* Pega a localizacao atual do componente em relacao a tela */
-			Point2D point2d = this.localToScreen(0d,0d);
-			
-			eventDetails.setX(point2d.getX() + this.widthProperty().doubleValue() + 10); //posiciona ao lado do componente
-			eventDetails.setY(point2d.getY()); //posiciona na mesma altura
-			
+			Point2D point2d = this.localToScreen(0d, 0d);
+
+			eventDetails.setX(point2d.getX() + this.widthProperty().doubleValue() + 10); // posiciona ao lado do
+																							// componente
+			eventDetails.setY(point2d.getY()); // posiciona na mesma altura
+
 			eventDetails.show();
 		});
 	}

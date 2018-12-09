@@ -22,36 +22,39 @@ public class Database {
 	private final static String CONNECTION_STRING = "jdbc:mysql://" + SERVER + "/" + DB_NAME + "?user=" + USER
 			+ "&password=" + PASSWORD + "&useTimezone=true&serverTimezone=UTC";
 
-	//TODO A construct to the Database class
+	// TODO A construct to the Database class
 	public Database() throws SQLException {
-//		try {
-//			/*
-//			 * procura a biblioteca do drive do mysql no projeto
-//			 */
-//			Class.forName("com.mysql.jdbc.Driver");
-//		} catch (ClassNotFoundException e) {
-//			e.printStackTrace();
-//		}
-//		try {
-//			 connection = DriverManager.getConnection(CONNECTION_STRING);
-//		} catch (Exception e) {
-//			System.out.println(e.getStackTrace());
-//		}
+		// try {
+		// /*
+		// * procura a biblioteca do drive do mysql no projeto
+		// */
+		// Class.forName("com.mysql.jdbc.Driver");
+		// } catch (ClassNotFoundException e) {
+		// e.printStackTrace();
+		// }
+		// try {
+		// connection = DriverManager.getConnection(CONNECTION_STRING);
+		// } catch (Exception e) {
+		// System.out.println(e.getStackTrace());
+		// }
 	}
-	
-	/** 
+
+	/**
 	 * Retorna um objeto de conexão com banco de dados
+	 * 
 	 * @return
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
 	public static Connection get_connection() throws SQLException, ClassNotFoundException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		
+
 		return DriverManager.getConnection(CONNECTION_STRING);
 	}
+
 	/**
 	 * Conexão passada por parametro é fechada
+	 * 
 	 * @param Connection con
 	 * @throws SQLException
 	 */
