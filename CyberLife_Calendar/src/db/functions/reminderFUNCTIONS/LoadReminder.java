@@ -155,15 +155,15 @@ public class LoadReminder {
 				 */
 				l_reminder.getlReminderSchedule().add(rse);
 			}
-			System.out.println("Interador (LOOP PRINCIPAL) : " + j++);
-			System.out.println("Tamanho da lista (LISTA DE REMINDERDB ): " + l_listReminders.size());
+			// System.out.println("Interador (LOOP PRINCIPAL) : " + j++);
+			// System.out.println("Tamanho da lista (LISTA DE REMINDERDB ): " + l_listReminders.size());
 
-			System.out.println(
-					"Lista de horarios do lembrete (LISTA DE REMINDERSCHEDULE) : " + l_reminder.getReminderId());
-			for (int k = 0; k < l_reminder.getlReminderSchedule().size(); k++) {
-				System.out.println(
-						"Interador lista de horarios do lembrete : " + l_reminder.getReminderId() + "\n LOOP :  " + k);
-			}
+			// System.out.println(
+			// 		"Lista de horarios do lembrete (LISTA DE REMINDERSCHEDULE) : " + l_reminder.getReminderId());
+			// for (int k = 0; k < l_reminder.getlReminderSchedule().size(); k++) {
+			// 	System.out.println(
+			// 			"Interador lista de horarios do lembrete : " + l_reminder.getReminderId() + "\n LOOP :  " + k);
+			// }
 			l_listReminders.add(l_reminder);
 		}
 		return l_listReminders;

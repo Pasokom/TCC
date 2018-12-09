@@ -120,8 +120,7 @@ public class ListCalendar extends VBox {
 
 		try {
 			loadReminders = new LoadReminder();
-			reminders = loadReminders.getReminders((int) SESSION.get_user_cod(),
-					LoadReminder.TypeOfQuery.ALL_REMINDERS);
+			reminders = loadReminders.getReminders((int) SESSION.get_user_cod(),	LoadReminder.TypeOfQuery.ALL_REMINDERS);
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}

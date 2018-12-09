@@ -39,16 +39,6 @@ public class Enums {
 	 * para os tipos de recorrencia </br>
 	 * <p>
 	 * </h2>
-	 * 
-	 * <p>
-	 * DAYLY - Retorna 1
-	 * <p>
-	 * WEEKLY - Retorna 7
-	 * <p>
-	 * MONTHLY - Retorna 30
-	 * <p>
-	 * YEARLY - Retorna 365
-	 * 
 	 * @example int month = TypeRecurrence.MONTHLY.getValue();
 	 */
 	public static enum TypeRecurrence {
