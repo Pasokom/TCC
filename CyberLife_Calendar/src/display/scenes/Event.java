@@ -19,7 +19,6 @@ import component.Recurrence;
 import component.reminder.TimePicker;
 import db.functions.event.CreateEvent;
 import db.functions.event.ManageEvents;
-import db.functions.event.ManageEvents.changeTheEvent;
 import db.pojo.eventPOJO.EventDB;
 import db.pojo.eventPOJO.EventEndSchedule;
 import db.pojo.eventPOJO.EventSchedule;

@@ -1,14 +1,16 @@
 package component.homepage;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import component.event.EventComponentDemo;
+import component.reminder.ReminderComponentDemo;
 import db.functions.event.RetrieveEvents;
+import db.functions.reminderFUNCTIONS.LoadReminder;
 import db.pojo.eventPOJO.EventDB;
+import db.pojo.reminderPOJO.ReminderDB;
 import display.scenes.HomePage;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -16,6 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import statics.Enums;
+import statics.SESSION;
 
 public class CalendarComponent extends GridPane {
 
@@ -149,6 +152,7 @@ public class CalendarComponent extends GridPane {
 
 		retrieveEvents.updateList(this.date);
 
+
 		for(EventDB event : RetrieveEvents.listEvents) {
 		
 			if(event.getData_inicio() != null){
@@ -166,6 +170,34 @@ public class CalendarComponent extends GridPane {
 					boxes[eDay - 1].getChildren().add(eDemo);
 				}
 			}
+		}
+
+		ArrayList<ReminderDB> reminders = new ArrayList<>();
+
+		try {
+			LoadReminder loadReminders = new LoadReminder();
+			reminders = loadReminders.getReminders((int) SESSION.get_user_cod(),
+					LoadReminder.TypeOfQuery.ALL_REMINDERS);
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		for (ReminderDB reminder : reminders) {
+			
+			Date eventDate = new Date(reminder.getlReminderSchedule().get(0).getDatetime_begin().getTime());
+			Calendar eDate = Calendar.getInstance();
+			eDate.setTime(eventDate);
+
+			ReminderComponentDemo rDemo = new ReminderComponentDemo(reminder);
+
+			int month_date = this.date.get(Calendar.MONTH);
+
+			if(eDate.get(Calendar.MONTH) == month_date)
+			{
+				int eDay = eDate.get(Calendar.DATE);
+				boxes[eDay - 1].getChildren().add(rDemo);
+			}
+			
 		}
 
 		return boxes;

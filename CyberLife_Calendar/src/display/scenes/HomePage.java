@@ -1,9 +1,6 @@
 package display.scenes;
 
 import java.util.Calendar;
-import java.util.Locale;
-import java.util.TimeZone;
-
 import component.homepage.CalendarBar;
 import component.homepage.CalendarComponent;
 import component.homepage.ListCalendar;

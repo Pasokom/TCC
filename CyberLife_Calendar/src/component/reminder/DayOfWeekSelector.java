@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.HBox;
-import statics.Enums;
 
 public class DayOfWeekSelector extends HBox {
 
