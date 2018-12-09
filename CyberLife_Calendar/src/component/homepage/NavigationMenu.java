@@ -26,8 +26,9 @@ public class NavigationMenu extends AnchorPane {
 	private Stage profileSelector;
 
 	private ImageView ivLogout;
-	
+
 	public NavigationMenu() {
+
 		
 		this.setPrefWidth(250);
 		
