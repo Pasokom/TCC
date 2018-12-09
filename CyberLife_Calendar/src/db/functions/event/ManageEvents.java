@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import db.Database;
-import db.functions.event.ManageEvents.changeTheEvent;
-import db.functions.reminderFUNCTIONS.ManageReminder.changeTheSchedule;
 
 public class ManageEvents {
     /**
@@ -18,7 +16,7 @@ public class ManageEvents {
     private final String DESCRICAO = "DESCRICAO ='";
     private final String TIPO_REPETICAO = "TIPO_REPETICAO =";
     private final String TIPO_FIM_REPETICAO = "TIPO_FIM_REPETICAO = ";
-
+    private final String DIA_TODO = "DIA_TODO = ";
     /**
      * tabela E_FIM_REPETICAO
      */
@@ -42,7 +40,7 @@ public class ManageEvents {
     }
 
     public static enum changeTheEvent {
-        TITLE, DATE_BEGIN, DATE_END, EVENT_LOCATION, DESCRIPTION, TYPE_OF_REPETITION, TYPE_OF_REPETITION_END
+        TITLE, DATE_BEGIN, DATE_END, EVENT_LOCATION, DESCRIPTION, TYPE_OF_REPETITION, TYPE_OF_REPETITION_END, ALL_DAY
     }
 
     public static enum changeTheRepetition {
@@ -51,7 +49,7 @@ public class ManageEvents {
 
     public void changeEvent(Object newValue, int eventID, changeTheEvent column) {
         String sql = "UPDATE EVENTO SET ";
-        String sql_end = "WHERE COD_EVENTO=" + eventID + "";
+        String sql_end = " WHERE COD_EVENTO= " + eventID + "";
 
         if (column == changeTheEvent.TITLE)
             sql = sql + this.TITULO + (String) newValue + "'" + sql_end;
@@ -63,12 +61,14 @@ public class ManageEvents {
             sql = sql + this.LOCAL_EVENTO + (String) newValue + "'" + sql_end;
         if (column == changeTheEvent.DESCRIPTION)
             sql = sql + this.DESCRICAO + (String) newValue + "'" + sql_end;
-        if (column == changeTheEvent.EVENT_LOCATION)
-            sql = sql + this.LOCAL_EVENTO + (String) newValue + sql_end;
+
         if (column == changeTheEvent.TYPE_OF_REPETITION)
-            sql = sql + this.TIPO_REPETICAO + (String) newValue + sql_end;
+            sql = sql + this.TIPO_REPETICAO + (int) newValue + sql_end;
         if (column == changeTheEvent.TYPE_OF_REPETITION_END)
-            sql = sql + this.TIPO_FIM_REPETICAO + (String) newValue + sql_end;
+            sql = sql + this.TIPO_FIM_REPETICAO + (int) newValue + sql_end;
+        if (column == changeTheEvent.ALL_DAY)
+            sql = sql + this.DIA_TODO + (boolean) newValue + sql_end;
+        System.out.println(sql);
         execute(sql);
     }
 
@@ -101,10 +101,13 @@ public class ManageEvents {
 
     private void execute(String sql) {
         try {
+            if (this.connection.isClosed())
+                this.connection = Database.get_connection();
             this.connection.createStatement().execute(sql);
             this.connection.close();
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             System.out.println("[ERROR] - Função changeRemidner  - SQLException");
+            e.printStackTrace();
         }
     }
 }

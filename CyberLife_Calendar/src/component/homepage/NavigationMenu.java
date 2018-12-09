@@ -1,8 +1,6 @@
 package component.homepage;
 
-import display.scenes.Event;
 import display.scenes.Login;
-import display.scenes.Reminder;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;

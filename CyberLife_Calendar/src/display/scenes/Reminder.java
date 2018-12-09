@@ -28,6 +28,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import statics.Enums;
 import statics.SESSION;
 
@@ -47,9 +48,16 @@ public class Reminder extends Scene {
 
 	// private VBox vb_recurrence;
 	private CreateReminder create_reminder;
+	private Stage owner;
 
-	public Reminder() {
+	public Reminder(Stage owner) {
 		super(new HBox());
+		init();
+		this.owner = owner;
+
+	}
+
+	public void init() {
 
 		CustomScroll customScroll = new CustomScroll();
 
@@ -94,8 +102,8 @@ public class Reminder extends Scene {
 		btnEnviar.setOnAction(evento -> {
 			try {
 				insert_reminder_and_schedule();
+				this.owner.close();
 				return;
-
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
@@ -185,17 +193,17 @@ public class Reminder extends Scene {
 			never_end_schedule();
 			return;
 		}
-		if (time_picker_list.get_selected_time().isEmpty()) {
-			System.out.println("[INFO] time picker vazio, saindo da fun��o");
-			if (is_by_choosed_date) {
-				schedule_amount_or_date(false);
-				return;
-			}
-			if (is_by_amount) {
-				schedule_amount_or_date(true);
-				return;
-			}
+		// if (time_picker_list.get_selected_time().isEmpty()) {
+		// System.out.println("[INFO] time picker vazio, saindo da fun��o");
+		if (is_by_choosed_date) {
+			schedule_amount_or_date(false);
+			return;
 		}
+		if (is_by_amount) {
+			schedule_amount_or_date(true);
+			return;
+		}
+		// }
 	}
 
 	private void insert_reminder() {
@@ -422,7 +430,7 @@ public class Reminder extends Scene {
 							else
 								this.create_reminder.schedule_by_amount(date_begin, new String(), new String(), false,
 										0, recurrence, week_day, amount);
-							j = 0;
+							// j = 0;
 						}
 					}
 					return;
