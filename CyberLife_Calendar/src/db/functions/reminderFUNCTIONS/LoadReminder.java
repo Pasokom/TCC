@@ -3,10 +3,9 @@ package db.functions.reminderFUNCTIONS;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 
 import db.Database;
 import db.pojo.reminderPOJO.ReminderDB;
@@ -118,7 +117,7 @@ public class LoadReminder {
 			ReminderDB l_reminder = getReminder(l_bringReminder.getInt(1), l_bringReminder.getString(2),
 					l_bringReminder.getBoolean(3), l_bringReminder.getInt(4), l_bringReminder.getInt(5));
 
-			/***
+			/*
 			 * this is a int array with the ids of the shedules records going to be used for
 			 * bring this records from the database to the application
 			 * 
@@ -130,6 +129,9 @@ public class LoadReminder {
 			 * this loop will happen according with the size of the array setted for the
 			 * schedules ids
 			 */
+
+			Calendar calendar = Calendar.getInstance();
+
 			for (int i = 0; i < l_scheduleIds.length; i++) {
 
 				sqlSchedule = final_querySchedule + l_scheduleIds[i] + ";";
@@ -138,10 +140,11 @@ public class LoadReminder {
 
 				if (rs.isBeforeFirst()) /* this is fucking important */
 					rs.next();
-				System.out.println(rs.getString(2) + "\n" + rs.getTimestamp(2));
-				ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getTimestamp(2), rs.getTimestamp(3),
+
+				ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getTimestamp(2, calendar), rs.getTimestamp(3, calendar),
 						rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9),
 						rs.getBoolean(10), rs.getInt(11));
+
 				/*
 				 * the reminder that are in the scope of the WHILE loop ( the loop that happen
 				 * on the first resultSet) are the current reminder of the list AND the record

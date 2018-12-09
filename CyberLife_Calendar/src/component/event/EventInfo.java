@@ -4,6 +4,8 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import component.Info.RecurrenceInfo;
+import component.Info.RecurrenceWeek;
 import db.pojo.eventPOJO.EventDB;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -21,13 +23,6 @@ public class EventInfo extends Stage {
 	private Label dtFim;
 	private Label lclEvent;
 	private Label descricao;
-	private Label segunda;
-	private Label terca;
-	private Label quarta;
-	private Label quinta;
-	private Label sexta;
-	private Label sabado;
-	private Label domingo;
 	private Label finalRepeticao;
 
 	public EventInfo(EventDB eventDB) {
@@ -39,6 +34,7 @@ public class EventInfo extends Stage {
 
 		scene.getStylesheets().add(this.getClass().getResource("/css/eventInfo.css").toExternalForm());
 		gp.setId("this");
+<<<<<<< HEAD
 
 		segunda = new Label("S");
 		terca = new Label("T");
@@ -60,6 +56,11 @@ public class EventInfo extends Stage {
 		lblDaysOfWeek.add(sexta);
 		lblDaysOfWeek.add(sabado);
 
+=======
+		
+		finalRepeticao = new Label();
+		
+>>>>>>> 06af7368050ffb63c0a9d104a039d175de8b2ff5
 		Format formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		Format hour = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -74,10 +75,11 @@ public class EventInfo extends Stage {
 			dataFim = hour.format(eventDB.getData_fim());
 		}
 
-		lblTitulo = new Label("T�tulo: " + eventDB.getTitulo().toString());
+		lblTitulo = new Label("Título: " + eventDB.getTitulo().toString());
 		dtInicio = new Label("De: " + data);
-		dtFim = new Label(" at�: " + dataFim);
+		dtFim = new Label(" até: " + dataFim);
 		lclEvent = new Label("Local: " + eventDB.getLocal_evento());
+<<<<<<< HEAD
 		descricao = new Label("Descri��o: " + eventDB.getDescricao());
 
 		HBox hBox = new HBox();
@@ -121,6 +123,13 @@ public class EventInfo extends Stage {
 
 		Label lblTipoRepeticao = new Label(tipoRepeticao);
 
+=======
+		descricao = new Label("Descrição: " + eventDB.getDescricao());
+		
+		RecurrenceInfo rInfo = new RecurrenceInfo(eventDB);
+		RecurrenceWeek rWeek = new RecurrenceWeek(eventDB);
+		
+>>>>>>> 06af7368050ffb63c0a9d104a039d175de8b2ff5
 		String fimRepeticao = "Termina: ";
 
 		switch (eventDB.getTipo_fim_repeticao()) {
@@ -131,7 +140,7 @@ public class EventInfo extends Stage {
 			fimRepeticao += formatter.format(eventDB.getHorario_fim_evento().getDia_fim());
 			break;
 		case 2:
-			fimRepeticao += "ap�s " + eventDB.getHorario_fim_evento().getQtd_recorrencias() + " recorr�ncias";
+			fimRepeticao += "após " + eventDB.getHorario_fim_evento().getQtd_recorrencias() + " recorrências";
 			break;
 		default:
 			fimRepeticao += "nunca";
@@ -139,6 +148,7 @@ public class EventInfo extends Stage {
 		}
 
 		finalRepeticao.setText(fimRepeticao);
+<<<<<<< HEAD
 
 		if (eventDB.getTipo_repeticao() != 0) {
 			gp.add(lblTipoRepeticao, 0, 5, 2, 1);
@@ -146,6 +156,15 @@ public class EventInfo extends Stage {
 
 		if (eventDB.getTipo_repeticao() == 2) {
 			gp.add(hBox, 0, 6, 2, 1);
+=======
+		
+		if(eventDB.getTipo_repeticao() != 0) {
+			gp.add(rInfo, 0, 5, 2, 1);
+		}
+		
+		if(eventDB.getTipo_repeticao() == 2) {
+			gp.add(rWeek, 0, 6, 2, 1);
+>>>>>>> 06af7368050ffb63c0a9d104a039d175de8b2ff5
 		}
 
 		if (!eventDB.getDescricao().isEmpty()) {
@@ -162,6 +181,7 @@ public class EventInfo extends Stage {
 		gp.add(finalRepeticao, 0, 7, 2, 1);
 
 		this.initStyle(StageStyle.UNDECORATED);
+<<<<<<< HEAD
 
 		for (int i = 0; i < eventDB.getHorario_evento().getDias_semana().length; i++) {
 			if (eventDB.getHorario_evento().getDias_semana()[i]) {
@@ -169,6 +189,9 @@ public class EventInfo extends Stage {
 			}
 		}
 
+=======
+		
+>>>>>>> 06af7368050ffb63c0a9d104a039d175de8b2ff5
 		this.focusedProperty().addListener(new ChangeListener<Boolean>() {
 
 			@Override

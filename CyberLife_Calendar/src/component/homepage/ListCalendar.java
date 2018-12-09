@@ -26,7 +26,6 @@ import statics.SESSION;
 
 public class ListCalendar extends VBox {
 
-	private Calendar date;
 	private Label lblSelectedDate, lblReminder;
 	private VBox vContent, vAllDay;
 	private CustomScroll listReminder, listAllDay;
@@ -34,11 +33,9 @@ public class ListCalendar extends VBox {
 
 	RetrieveEvents retrieveEvents = new RetrieveEvents();
 	LoadReminder loadReminders;
-
-	public ListCalendar(Calendar date) {
-
-		this.date = date;
-
+	
+	public ListCalendar (Calendar date) { 
+		
 		this.prefWidthProperty().set(250);
 		this.setId("this");
 
@@ -54,8 +51,8 @@ public class ListCalendar extends VBox {
 
 		this.lblSelectedDate = new Label(date.get(Calendar.DAY_OF_MONTH) + "/" + (date.get(Calendar.MONTH) + 1));
 		lblSelectedDate.setFont(new Font(30));
-
-		this.lblReminder = new Label(" - Programa��o");
+		
+		this.lblReminder = new Label(" - Programação");
 
 		hHeader.setAlignment(Pos.CENTER_LEFT);
 
@@ -96,7 +93,7 @@ public class ListCalendar extends VBox {
 		this.getChildren().add(listReminder);
 
 		addEvents(date);
-		addReminders();
+		addReminders(date);
 	}
 
 	private void addHours() {
@@ -118,9 +115,9 @@ public class ListCalendar extends VBox {
 			this.hours.add(hour);
 		}
 	}
-
-	private void addReminders() {
-
+	
+	private void addReminders(Calendar date) {
+		
 		ArrayList<ReminderDB> reminders = new ArrayList<>();
 
 		try {
@@ -160,12 +157,12 @@ public class ListCalendar extends VBox {
 			retrieveEvents.updateList(HomePage.calendarComponent.getDate());
 		else
 			retrieveEvents.updateList(date);
-
-		for (EventDB event : RetrieveEvents.listEvents) {
-
+			
+		for(EventDB event : RetrieveEvents.listEvents) {
+			
 			Date eventDate = new Date(event.getData_inicio().getTime());
-
-			LocalDate myDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			
+			LocalDate myDate = date.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			LocalDate myEventDate = eventDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
 			if (myDate.compareTo(myEventDate) == 0) {
