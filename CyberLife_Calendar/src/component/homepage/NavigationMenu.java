@@ -1,8 +1,6 @@
 package component.homepage;
 
-import display.scenes.Event;
 import display.scenes.Login;
-import display.scenes.Reminder;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
@@ -125,8 +123,6 @@ public class NavigationMenu extends AnchorPane {
 		});
 
 		VBox vOptions = new VBox();
-
-		Label lblPerfil = new Label("Perfil");
 
 		Label lblSair = new Label("Sair");
 		Label lblSairPro = new Label("Sair e fechar o programa");

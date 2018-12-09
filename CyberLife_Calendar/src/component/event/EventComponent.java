@@ -15,7 +15,8 @@ import javafx.stage.Stage;
  * 
  * @author manoel
  *
- * Componente responsavel por mostrar os eventos na lista de compromissos do dia.
+ *         Componente responsavel por mostrar os eventos na lista de
+ *         compromissos do dia.
  *
  */
 public class EventComponent extends VBox {
@@ -24,9 +25,9 @@ public class EventComponent extends VBox {
 	private Label lbl_hora;
 	private ImageView lblEdit;
 	private EventInfo eventDetails;
-	
+
 	public EventComponent(EventDB event) {
-		
+
 		this.getStylesheets().add(this.getClass().getResource("/css/eventComponent.css").toExternalForm());
 		this.setId("this");
 
@@ -34,9 +35,9 @@ public class EventComponent extends VBox {
 
 		Stage st = new Stage();
 
-		lblEdit.setOnMouseClicked(e ->{
-			//Colocar a stage de alterar o evento
-			st.setScene(new Event());//exemplo
+		lblEdit.setOnMouseClicked(e -> {
+			// Colocar a stage de alterar o evento
+			st.setScene(new Event(event));// exemplo
 			st.show();
 		});
 
@@ -51,11 +52,13 @@ public class EventComponent extends VBox {
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(event.getData_inicio());
-		
-		lbl_hora = new Label(calendar.get(Calendar.HOUR_OF_DAY) + ":" + String.format("%02d", calendar.get(Calendar.MINUTE)));
+
+		lbl_hora = new Label(" - " + calendar.get(Calendar.HOUR_OF_DAY) + ":"
+				+ String.format("%02d", calendar.get(Calendar.MINUTE)));
+				
 		lbl_titulo = new Label(event.getTitulo());
 		lbl_titulo.setId("titulo");
-		
+
 		HBox card = new HBox();
 		card.getChildren().add(lbl_titulo);
 
@@ -64,12 +67,12 @@ public class EventComponent extends VBox {
 		lbl_hora.setMaxWidth(200);
 		lbl_hora.setPrefWidth(140);
 
-		if(!event.isDia_todo())
+		if (!event.isDia_todo())
 			card.getChildren().add(lbl_hora);
-			
+
 		card.setId("card");
 
-		card.setOnMouseEntered(e ->{
+		card.setOnMouseEntered(e -> {
 			lblEdit.setVisible(true);
 		});
 
@@ -80,16 +83,17 @@ public class EventComponent extends VBox {
 		card.getChildren().add(lblEdit);
 
 		this.getChildren().add(card);
-		
+
 		/* configurando eventos */
-		lbl_titulo.setOnMouseClicked(e ->{
-			
+		lbl_titulo.setOnMouseClicked(e -> {
+
 			/* Pega a localizacao atual do componente em relacao a tela */
-			Point2D point2d = this.localToScreen(0d,0d);
-			
-			eventDetails.setX(point2d.getX() + this.widthProperty().doubleValue() + 10); //posiciona ao lado do componente
-			eventDetails.setY(point2d.getY()); //posiciona na mesma altura
-			
+			Point2D point2d = this.localToScreen(0d, 0d);
+
+			eventDetails.setX(point2d.getX() + this.widthProperty().doubleValue() + 10); // posiciona ao lado do
+																							// componente
+			eventDetails.setY(point2d.getY()); // posiciona na mesma altura
+
 			eventDetails.show();
 		});
 	}

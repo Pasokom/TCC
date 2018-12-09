@@ -1,9 +1,6 @@
 package component.reminder;
 
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
 import component.Info.RecurrenceInfo;
 import component.Info.ReminderTimetable;
 import db.pojo.reminderPOJO.ReminderDB;
@@ -21,9 +18,6 @@ public class ReminderInfo extends Stage {
 	private Label lblTitulo;
 	private ReminderTimetable rTimetable;
 	private RecurrenceInfo rInfo;
-	private Label lblTime;
-	private Label lclEvent;
-	private Label descricao;
 	private Label segunda;
 	private Label terca;
 	private Label quarta;
@@ -31,7 +25,6 @@ public class ReminderInfo extends Stage {
 	private Label sexta;
 	private Label sabado;
 	private Label domingo;
-	private Label finalRepeticao;
 	
 	public ReminderInfo(ReminderDB reminder) {
 		
@@ -42,7 +35,7 @@ public class ReminderInfo extends Stage {
 		Scene scene = new Scene(gp);
 		this.setScene(scene);
 		
-		scene.getStylesheets().add(this.getClass().getResource("/css/eventInfo.css").toExternalForm());
+		scene.getStylesheets().add(this.getClass().getResource("/css/EventInfo.css").toExternalForm());
 		gp.setId("this");
 		
 		segunda = new Label("S");
@@ -53,8 +46,6 @@ public class ReminderInfo extends Stage {
 		sabado = new Label("S");
 		domingo = new Label("D");
 		
-		finalRepeticao = new Label();
-		
 		ArrayList<Label> lblDaysOfWeek = new ArrayList<>();
 		
 		lblDaysOfWeek.add(domingo);
@@ -64,16 +55,16 @@ public class ReminderInfo extends Stage {
 		lblDaysOfWeek.add(quinta);
 		lblDaysOfWeek.add(sexta);
 		lblDaysOfWeek.add(sabado);
-		
-		Format formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		Format hour = new SimpleDateFormat("dd/MM/yyyy");
 
 		lblTitulo = new Label("Título: " + reminder.getTitle().toString());
 		rTimetable = new ReminderTimetable(reminder.getlReminderSchedule(), RepetitionType.values()[reminder.getRepetitionType()]);
 		rInfo = new RecurrenceInfo(reminder);
 
 		gp.add(lblTitulo, 0, 0);
-		gp.add(rInfo, 0, 1);
+
+		if(!rInfo.getText().equals(""))
+			gp.add(rInfo, 0, 1);
+	
 		gp.add(rTimetable, 0, 2);
 		
 		this.focusedProperty().addListener(new ChangeListener<Boolean>() {

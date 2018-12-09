@@ -113,4 +113,16 @@ public class EventDB {
 		this.horario_fim_evento = horario_fim_evento;
 	}
 
+	public String getEventTime(String inValue) {
+		int index = inValue.lastIndexOf(" ");
+		String value = inValue.substring(index + 1);
+		String real_time = "";
+		int i = 0;
+		while (i < value.length() && value.charAt(i) != '.') {
+			real_time += value.charAt(i);
+			i++;
+		}
+		return real_time;
+	}
+
 }

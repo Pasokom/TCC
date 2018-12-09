@@ -33,9 +33,9 @@ public class ListCalendar extends VBox {
 
 	RetrieveEvents retrieveEvents = new RetrieveEvents();
 	LoadReminder loadReminders;
-	
-	public ListCalendar (Calendar date) { 
-		
+
+	public ListCalendar(Calendar date) {
+
 		this.prefWidthProperty().set(250);
 		this.setId("this");
 
@@ -51,7 +51,6 @@ public class ListCalendar extends VBox {
 
 		this.lblSelectedDate = new Label(date.get(Calendar.DAY_OF_MONTH) + "/" + (date.get(Calendar.MONTH) + 1));
 		lblSelectedDate.setFont(new Font(30));
-		
 		this.lblReminder = new Label(" - Programação");
 
 		hHeader.setAlignment(Pos.CENTER_LEFT);
@@ -115,9 +114,8 @@ public class ListCalendar extends VBox {
 			this.hours.add(hour);
 		}
 	}
-	
+
 	private void addReminders(Calendar date) {
-		
 		ArrayList<ReminderDB> reminders = new ArrayList<>();
 
 		try {

@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import db.Database;
+import db.functions.event.ManageEvents.changeTheEvent;
+import db.functions.reminderFUNCTIONS.ManageReminder.changeTheSchedule;
 
 public class ManageEvents {
     /**

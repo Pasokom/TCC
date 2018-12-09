@@ -18,6 +18,7 @@ import component.CustomScroll;
 import component.Recurrence;
 import component.reminder.TimePicker;
 import db.functions.event.CreateEvent;
+import db.functions.event.ManageEvents;
 import db.pojo.eventPOJO.EventDB;
 import db.pojo.eventPOJO.EventEndSchedule;
 import db.pojo.eventPOJO.EventSchedule;
@@ -35,6 +36,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import main.Main;
+import statics.Enums;
 import statics.NotifyUser;
 
 public class Event extends Scene {
@@ -51,6 +53,114 @@ public class Event extends Scene {
 
 	public Event() {
 		super(new VBox());
+		init();
+	}
+
+	public Event(EventDB event) {
+		super(new VBox());
+		init();
+
+		EventSchedule es = event.getHorario_evento();
+		EventEndSchedule ens = event.getHorario_fim_evento();
+
+		this.txtPlace.setText(event.getLocal_evento());
+		this.txtDetails.setText(event.getDescricao());
+		this.txtTitle.setText(event.getTitulo());
+
+		this.dtStart = new DatePicker(event.getData_inicio().toLocalDateTime().toLocalDate());
+		this.dtEnd = new DatePicker(event.getData_fim().toLocalDateTime().toLocalDate());
+
+		/* para horarios definidos para o projeto */
+		String time_begin = event.getEventTime(String.valueOf(event.getData_inicio()));
+		String time_end = event.getEventTime(String.valueOf(event.getData_fim()));
+
+		/**
+		 * dia todo e repeticao
+		 */
+		this.cbxAllDay.setSelected(event.isDia_todo());
+		if (!event.isDia_todo()) { // se a opção 'dia todo ' estiver selecionada, os horarios não vão ficar
+									// visiveis
+			this.timeEnd.setText(time_end);
+			this.timeStart.setText(time_begin);
+		}
+		if (event.getTipo_repeticao() == Enums.TypeRecurrence.WEEKLY.getValue()) {
+			setWeekDays(es.getDias_semana());
+		}
+
+		/**
+		 * frequency component
+		 */
+		this.recurrence.setTypeFrequency(event.getTipo_repeticao());
+		this.recurrence.setChoosedValue(es.getIntervalo());
+
+		/** end recurrence */
+
+		boolean is_not_never_end = ens.getQtd_recorrencias() != 0 || ens.getDia_fim() != null;
+
+		if (!is_not_never_end) {
+			this.recurrence.setSelectionEnd(0);
+		}
+
+		boolean by_date = ens.getQtd_recorrencias() == 0 && ens.getDia_fim() != null;
+
+		if (by_date) {
+			this.recurrence.setSelectionEnd(1);
+			this.recurrence.setDatePickerValue(new DatePicker(ens.getDia_fim().toLocalDate()));
+		} else {
+			this.recurrence.setSelectionEnd(2);
+			this.recurrence.setSpinnerValue(ens.getQtd_recorrencias());
+		}
+
+		ManageEvents me = new ManageEvents();
+
+		this.btnSave.setOnAction(e -> {
+
+			if (!compare(event.getTitulo(), this.txtTitle, 0))
+				me.changeEvent(this.txtTitle, event.getCod_evento(), ManageEvents.changeTheEvent.TITLE);
+
+			if (!compare(event.getDescricao(), this.txtDetails, 0))
+				me.changeEvent(this.txtDetails, event.getCod_evento(), ManageEvents.changeTheEvent.DESCRIPTION);
+
+			// TODO fix this
+			if (!compare(event.getData_inicio(), dtStart.getValue().toString(), 0)) {
+
+				me.changeEvent(this.dtStart.getValue().toString(), event.getCod_evento(),
+						ManageEvents.changeTheEvent.DATE_BEGIN);
+			 }
+
+			if (!compare(event.getData_fim(), dtEnd.getValue().toString(), 0)) { 
+				me.changeEvent(this.dtEnd.getValue().toString(), event.getCod_evento(),
+						ManageEvents.changeTheEvent.DATE_END);
+
+			}
+
+			// if (!compare(event.get))
+
+
+
+		});
+
+	}
+
+	public boolean compare(Object oldValue, Object newValue, int type_object) {
+		if (type_object == 0)
+			return String.valueOf(oldValue).equals(String.valueOf(newValue));
+		if (type_object == 1)
+			return (int) oldValue == (int) newValue;
+
+		return false;
+	}
+
+	private void setWeekDays(boolean[] days) {
+		int i = 0;
+		while (days.length < i) {
+			if (days[i] == true)
+				this.recurrence.setDay(i);
+			i++;
+		}
+	}
+
+	private void init() {
 		Main.main_stage.setTitle("EVENTO");
 		/* scene */ this.getStylesheets().add("css/event.css");
 

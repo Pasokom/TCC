@@ -6,7 +6,7 @@
         {
             "label": "verify",
             "type": "shell",
-            "command": "mvn -B verify",
+            "command": "mvn -B verify -X",
             "group": "build"
         },
         {

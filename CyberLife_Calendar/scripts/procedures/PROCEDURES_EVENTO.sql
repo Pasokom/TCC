@@ -52,6 +52,7 @@ DELIMITER ;
 
 
 DELIMITER //
+DROP PROCEDURE IF EXISTS spNowEvents;
 CREATE PROCEDURE `spNowEvents`(IN uCodigo INT)
 BEGIN
        DECLARE dtIni DATETIME;
@@ -89,10 +90,10 @@ BEGIN
     
         select COD_EVENTO, TITULO, RPTDATA_INICIO, RPTDATA_FIM, DIA_TODO, LOCAL_EVENTO, DESCRICAO,
           TIPO_REPETICAO, TIPO_FIM_REPETICAO, FK_USUARIO, COD_REPETICAO, INTERVALO, DIAS_SEMANA,
-          COD_FIM_REPETICAO, DIA_FIM, QTD_RECORRENCIAS from evento 
-	        left join e_repetir on evento.cod_evento = e_repetir.fk_evento
-	        left join e_fim_repeticao on evento.cod_evento = e_fim_repeticao.fk_evento
-          left join REPETICAO on evento.cod_evento = REPETICAO.RPTEVENTO
+          COD_FIM_REPETICAO, DIA_FIM, QTD_RECORRENCIAS from EVENTO 
+	        left join E_REPETIR on EVENTO.COD_EVENTO = E_REPETIR.FK_EVENTO
+	        left join E_FIM_REPETICAO on EVENTO.COD_EVENTO = E_FIM_REPETICAO.FK_EVENTO
+          left join REPETICAO on EVENTO.COD_EVENTO = REPETICAO.RPTEVENTO
           WHERE FK_USUARIO = uCodigo and RPTDATA_INICIO = now();
 
        SELECT * FROM REPETICAO;

@@ -3,7 +3,7 @@ package db.pojo.eventPOJO;
 import java.sql.Date;
 
 public class EventEndSchedule {
-
+	
 	private int cod_fim_repeticao;
 	private Date dia_fim;
 	private int qtd_recorrencias;

@@ -305,6 +305,10 @@ public class TimePicker extends HBox {
 		return clock;
 	}
 
+	public void setText (String text) { 
+		this.timeDisplay.setText(text);
+	}
+
 	public String get_value() {
 		return timeDisplay.getText();
 	}

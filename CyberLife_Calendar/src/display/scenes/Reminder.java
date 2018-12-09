@@ -95,7 +95,7 @@ public class Reminder extends Scene {
 			try {
 				insert_reminder_and_schedule();
 				return;
-				
+
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
@@ -159,10 +159,10 @@ public class Reminder extends Scene {
 
 		vb.getChildren().addAll(barraTitulo, hbData, hbRepetir, hTime, hInterval);
 		return vb;
-	}	
+	}
 
 	/**
-	 * FUNÇÕES PARA INSERIR LEMBRETE E HORARIOS DE LEMBRETE NO BANCO  
+	 * FUNÇÕES PARA INSERIR LEMBRETE E HORARIOS DE LEMBRETE NO BANCO
 	 * 
 	 */
 
@@ -316,6 +316,7 @@ public class Reminder extends Scene {
 	 * horario do lembrete Condicionais para checar qual o tipo de horario o usuario
 	 * escolheu, se é com o time picker ou por intervalo de horas.
 	 * </p>
+	 * 
 	 * @author jefter66
 	 * @param date
 	 * @param all_day

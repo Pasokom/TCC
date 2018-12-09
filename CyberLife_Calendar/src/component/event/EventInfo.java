@@ -2,7 +2,6 @@ package component.event;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 
 import component.Info.RecurrenceInfo;
 import component.Info.RecurrenceWeek;
@@ -12,7 +11,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -32,35 +30,11 @@ public class EventInfo extends Stage {
 		Scene scene = new Scene(gp);
 		this.setScene(scene);
 
-		scene.getStylesheets().add(this.getClass().getResource("/css/eventInfo.css").toExternalForm());
+		scene.getStylesheets().add(this.getClass().getResource("/css/EventInfo.css").toExternalForm());
 		gp.setId("this");
-<<<<<<< HEAD
-
-		segunda = new Label("S");
-		terca = new Label("T");
-		quarta = new Label("Q");
-		quinta = new Label("Q");
-		sexta = new Label("S");
-		sabado = new Label("S");
-		domingo = new Label("D");
 
 		finalRepeticao = new Label();
 
-		ArrayList<Label> lblDaysOfWeek = new ArrayList<>();
-
-		lblDaysOfWeek.add(domingo);
-		lblDaysOfWeek.add(segunda);
-		lblDaysOfWeek.add(terca);
-		lblDaysOfWeek.add(quarta);
-		lblDaysOfWeek.add(quinta);
-		lblDaysOfWeek.add(sexta);
-		lblDaysOfWeek.add(sabado);
-
-=======
-		
-		finalRepeticao = new Label();
-		
->>>>>>> 06af7368050ffb63c0a9d104a039d175de8b2ff5
 		Format formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		Format hour = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -79,57 +53,11 @@ public class EventInfo extends Stage {
 		dtInicio = new Label("De: " + data);
 		dtFim = new Label(" até: " + dataFim);
 		lclEvent = new Label("Local: " + eventDB.getLocal_evento());
-<<<<<<< HEAD
-		descricao = new Label("Descri��o: " + eventDB.getDescricao());
-
-		HBox hBox = new HBox();
-
-		hBox.getChildren().addAll(domingo, segunda, terca, quarta, quinta, sexta, sabado);
-		hBox.setSpacing(15);
-
-		int hr_intervalo = eventDB.getHorario_evento().getIntervalo();
-		String tipoRepeticao = "A cada " + eventDB.getHorario_evento().getIntervalo();
-
-		switch (eventDB.getTipo_repeticao()) {
-
-		case 1:
-			if (hr_intervalo > 1)
-				tipoRepeticao += " dias";
-			else
-				tipoRepeticao = "Todo dia";
-			break;
-		case 2:
-			if (hr_intervalo > 1)
-				tipoRepeticao += " semanas";
-			else
-				tipoRepeticao = "Toda semana";
-			break;
-		case 3:
-			if (hr_intervalo > 1)
-				tipoRepeticao += " meses";
-			else
-				tipoRepeticao = "Todo m�s";
-			break;
-		case 4:
-			if (hr_intervalo > 1)
-				tipoRepeticao += " anos";
-			else
-				tipoRepeticao = "Todo ano";
-			break;
-		default:
-			tipoRepeticao = "";
-			break;
-		}
-
-		Label lblTipoRepeticao = new Label(tipoRepeticao);
-
-=======
 		descricao = new Label("Descrição: " + eventDB.getDescricao());
-		
+
 		RecurrenceInfo rInfo = new RecurrenceInfo(eventDB);
 		RecurrenceWeek rWeek = new RecurrenceWeek(eventDB);
-		
->>>>>>> 06af7368050ffb63c0a9d104a039d175de8b2ff5
+
 		String fimRepeticao = "Termina: ";
 
 		switch (eventDB.getTipo_fim_repeticao()) {
@@ -148,23 +76,13 @@ public class EventInfo extends Stage {
 		}
 
 		finalRepeticao.setText(fimRepeticao);
-<<<<<<< HEAD
 
 		if (eventDB.getTipo_repeticao() != 0) {
-			gp.add(lblTipoRepeticao, 0, 5, 2, 1);
+			gp.add(rInfo, 0, 5, 2, 1);
 		}
 
 		if (eventDB.getTipo_repeticao() == 2) {
-			gp.add(hBox, 0, 6, 2, 1);
-=======
-		
-		if(eventDB.getTipo_repeticao() != 0) {
-			gp.add(rInfo, 0, 5, 2, 1);
-		}
-		
-		if(eventDB.getTipo_repeticao() == 2) {
 			gp.add(rWeek, 0, 6, 2, 1);
->>>>>>> 06af7368050ffb63c0a9d104a039d175de8b2ff5
 		}
 
 		if (!eventDB.getDescricao().isEmpty()) {
@@ -181,17 +99,7 @@ public class EventInfo extends Stage {
 		gp.add(finalRepeticao, 0, 7, 2, 1);
 
 		this.initStyle(StageStyle.UNDECORATED);
-<<<<<<< HEAD
 
-		for (int i = 0; i < eventDB.getHorario_evento().getDias_semana().length; i++) {
-			if (eventDB.getHorario_evento().getDias_semana()[i]) {
-				lblDaysOfWeek.get(i).setId("marcado");
-			}
-		}
-
-=======
-		
->>>>>>> 06af7368050ffb63c0a9d104a039d175de8b2ff5
 		this.focusedProperty().addListener(new ChangeListener<Boolean>() {
 
 			@Override

@@ -3,12 +3,9 @@ package db.functions.event;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import com.mysql.cj.xdevapi.Statement;
 
 import db.Database;
 import db.pojo.eventPOJO.EventDB;

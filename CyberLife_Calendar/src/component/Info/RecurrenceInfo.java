@@ -51,7 +51,7 @@ public class RecurrenceInfo extends Label {
 
     public RecurrenceInfo(ReminderDB reminder) {
         
-        String tipoRepeticao = "A cada " + reminder.getlReminderSchedule().get(0).getAmount_of_repetition();
+        String tipoRepeticao = "A cada " + reminder.getlReminderSchedule().get(0).getRecurrence();
         int hr_intervalo = reminder.getRecurrenceType();
 			
 		switch (reminder.getRecurrenceType()) {
