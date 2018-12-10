@@ -27,7 +27,7 @@ public class ManageEvents {
      * tabela E_REPETIR
      */
     private final String INTERVALO = "INTERVALO = ";
-    private final String DIAS_SEMANA = "DIAS_SEMANA = ";
+    private final String DIAS_SEMANA = "DIAS_SEMANA = '";
 
     private Connection connection;
 
@@ -61,7 +61,6 @@ public class ManageEvents {
             sql = sql + this.LOCAL_EVENTO + (String) newValue + "'" + sql_end;
         if (column == changeTheEvent.DESCRIPTION)
             sql = sql + this.DESCRICAO + (String) newValue + "'" + sql_end;
-
         if (column == changeTheEvent.TYPE_OF_REPETITION)
             sql = sql + this.TIPO_REPETICAO + (int) newValue + sql_end;
         if (column == changeTheEvent.TYPE_OF_REPETITION_END)
@@ -88,6 +87,7 @@ public class ManageEvents {
                 sql = sql + this.DIA_FIM + (String) newValue + "'" + sql_end;
             if (column == changeTheRepetition.AMOUNT_OF_RECURRENCES)
                 sql = sql + this.QTD_RECORRENCIAS + (int) newValue + sql_end;
+            System.out.println(sql);
             execute(sql);
             return;
         }
@@ -95,7 +95,8 @@ public class ManageEvents {
         if (column == changeTheRepetition.INTERVAL)
             sql = sql + this.INTERVALO + (int) newValue + sql_end;
         if (column == changeTheRepetition.WEEK_DAYS)
-            sql = sql + this.DIAS_SEMANA + (int) newValue + sql_end;
+            sql = sql + this.DIAS_SEMANA + (String) newValue + "'" + sql_end;
+        System.out.println(sql);
         execute(sql);
     }
 

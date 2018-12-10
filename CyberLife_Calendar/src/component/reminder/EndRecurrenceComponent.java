@@ -102,7 +102,7 @@ public class EndRecurrenceComponent extends VBox {
 		this.date_picker = dt;
 	}
 
-	public void setSelected(int radio) {
+	public void setSelectedToggle(int radio) {
 		if (radio == 0)
 			this.radNever.setSelected(true);
 		if (radio == 1)
@@ -122,4 +122,5 @@ public class EndRecurrenceComponent extends VBox {
 	public int getSelectedEnd() {
 		return togEndRepeat.getToggles().indexOf(togEndRepeat.getSelectedToggle());
 	}
+
 }

@@ -94,9 +94,7 @@ public class Event extends Scene {
 				for (int i = 0; i < es.getDias_semana().length; i++) {
 					System.out.println(es.getDias_semana()[i] == true ? " truzao " : " falseta");
 				}
-
 			}
-
 		}
 		/**
 		 * frequency component
@@ -124,17 +122,41 @@ public class Event extends Scene {
 
 		this.btnSave.setOnAction(e -> {
 			changeEvent(event);
+			changeSchedules(es, ens);
 		});
 
 	}
 
 	private void changeSchedules(EventSchedule es, EventEndSchedule ens) {
-		ManageEvents me = new ManageEvents();
-		if (!compare(ens.getDia_fim().toString(), this.recurrence.get_end_date(), 0)) {
+		ManageEvents changes = new ManageEvents();
+
+		if (!compare(es.getDias_semanaToString(), buildWeekDays(), 0))
+			changes.changeRepetition(buildWeekDays(), es.getCod_repeticao(), ManageEvents.changeTheRepetition.WEEK_DAYS,
+					"E_REPETIR");
+		if (!compare(es.getIntervalo(), this.recurrence.get_recurrence_value(), 1))
+			changes.changeRepetition(this.recurrence.get_recurrence_value(), es.getCod_repeticao(),
+					ManageEvents.changeTheRepetition.INTERVAL, "E_REPETIR");
+
+		if (this.recurrence.is_never_selected()) {
+			changes.changeRepetition(" ", ens.getCod_fim_repeticao(), ManageEvents.changeTheRepetition.END_DAY,
+					"E_FIM_REPETICAO");
+			changes.changeRepetition(0, ens.getCod_fim_repeticao(),
+					ManageEvents.changeTheRepetition.AMOUNT_OF_RECURRENCES, "E_FIM_REPETICAO");
+		}
+		if (this.recurrence.is_by_amount()) {
+			changes.changeRepetition(this.recurrence.get_amount_choosed(), ens.getCod_fim_repeticao(),
+					ManageEvents.changeTheRepetition.AMOUNT_OF_RECURRENCES, "E_FIM_REPETICAO");
+			changes.changeRepetition(" ", ens.getCod_fim_repeticao(), ManageEvents.changeTheRepetition.END_DAY,
+					"E_FIM_REPETICAO");
+		}
+		if (this.recurrence.on_date()) {
+			changes.changeRepetition(this.recurrence.get_end_date(), ens.getCod_fim_repeticao(),
+					ManageEvents.changeTheRepetition.END_DAY, "E_FIM_REPETICAO");
+			changes.changeRepetition(0, ens.getCod_fim_repeticao(),
+					ManageEvents.changeTheRepetition.AMOUNT_OF_RECURRENCES, "E_FIM_REPETICAO");
 		}
 	}
 
-	// TODO atualizar o pojo global do evento
 	private void changeEvent(EventDB event) {
 		ManageEvents applyChanges = new ManageEvents();
 
@@ -152,6 +174,7 @@ public class Event extends Scene {
 		String date_begin = retrieveInRightFormat(this.dtStart.getValue().toString(),
 				this.timeStart.get_value().toString());
 		String old_date_begin = event.getData_inicio().toString();
+		System.out.println(date_begin + "\n" + old_date_begin);
 		if (!compare(old_date_begin, date_begin, 0)) {
 			if (!cbxAllDay.selectedProperty().get()) {
 				applyChanges.changeEvent(date_begin, event.getCod_evento(), ManageEvents.changeTheEvent.DATE_BEGIN);
@@ -182,14 +205,39 @@ public class Event extends Scene {
 			if (!compare(event.getTipo_fim_repeticao(), recurrence.getSelectedEnd(), 1))
 				applyChanges.changeEvent(this.recurrence.getSelectedEnd(), event.getCod_evento(),
 						ManageEvents.changeTheEvent.TYPE_OF_REPETITION_END);
+		} 
+		 // TODO consertar algum bug  que ta rolando que faz entrar automaticamente na conção de alterar o dia de inicio ( timestamp bug)
+	}
+
+	private String retrieveInRightFormat(String date_value, String time_value) {
+
+		System.out.println(date_value + " " + (time_value.isEmpty() ? " 00:00:00.0" : time_value + ":00"));
+		return date_value + " " + (time_value.isEmpty() ? " 00:00:00.0" : time_value + ":00");
+	}
+
+	/**
+	 * Lindo pra porra rsrs
+	 */
+	private String buildWeekDays() {
+		StringBuilder stb = new StringBuilder();
+		int i = 0;
+		boolean[] vector = recurrence.get_selected_days();
+		System.out.println(vector.length + " tamanho vetor");
+		while (i < vector.length) {
+			if (i != 0)
+				stb.append(',');
+			if (!vector[i]) {
+				stb.append('0');
+				i++;
+				continue;
+			}
+			stb.append("1");
+			i++;
 		}
+		return stb.toString();
 	}
 
-	public String retrieveInRightFormat(String date_value, String time_value) {
-		return date_value + (time_value.isEmpty() ? " 00:00:00.0" : time_value + ":00");
-	}
-
-	public boolean compare(Object oldValue, Object newValue, int type_object) {
+	private boolean compare(Object oldValue, Object newValue, int type_object) {
 		if (type_object == 0)
 			return String.valueOf(oldValue).equals(String.valueOf(newValue));
 		if (type_object == 1)
