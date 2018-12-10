@@ -56,7 +56,7 @@ public class Event extends Scene {
 		init();
 	}
 
-	public Event(EventDB event) {
+	public Event(EventDB event, Stage owner) {
 		super(new VBox());
 		init();
 
@@ -116,6 +116,7 @@ public class Event extends Scene {
 		this.btnSave.setOnAction(e -> {
 			changeEvent(event);
 			changeSchedules(es, ens);
+			owner.close();
 		});
 	}
 	private void init() {

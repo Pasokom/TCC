@@ -71,8 +71,8 @@ public class EventComponent extends VBox {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(event.getData_inicio());
 
-		lbl_hora = new Label(" - " + calendar.get(Calendar.HOUR_OF_DAY) + ":"
-				+ String.format("%02d", calendar.get(Calendar.MINUTE)));
+		lbl_hora = new Label(
+				calendar.get(Calendar.HOUR_OF_DAY) + ":" + String.format("%02d", calendar.get(Calendar.MINUTE)));
 
 		lbl_titulo = new Label(event.getTitulo());
 		lbl_titulo.setId("titulo");
@@ -149,7 +149,7 @@ public class EventComponent extends VBox {
 
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Excluir!");
-			alert.setHeaderText("Seu evento será excluido e não poderá mais ser recuperado!");
+			alert.setHeaderText("Seu evento ser� excluido e n�o poder� mais ser recuperado!");
 			alert.setContentText("Deseja realmente excluir seu evento?");
 
 			Optional<ButtonType> result = alert.showAndWait();
@@ -160,7 +160,7 @@ public class EventComponent extends VBox {
 
 		lblEditar.setOnMouseClicked(e -> {
 			Stage st = new Stage();
-			st.setScene(new Event(this.event));
+			st.setScene(new Event(this.event, st));
 			st.show();
 		});
 
@@ -168,7 +168,6 @@ public class EventComponent extends VBox {
 
 		Scene scene = new Scene(vOptions);
 		stage.setScene(scene);
-		
 
 		scene.getStylesheets().add(this.getClass().getResource("/css/add_fab_selector.css").toExternalForm());
 

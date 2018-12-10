@@ -49,11 +49,11 @@ public class EventInfo extends Stage {
 			dataFim = hour.format(eventDB.getData_fim());
 		}
 
-		lblTitulo = new Label("Título: " + eventDB.getTitulo().toString());
+		lblTitulo = new Label("T�tulo: " + eventDB.getTitulo().toString());
 		dtInicio = new Label("De: " + data);
-		dtFim = new Label(" até: " + dataFim);
+		dtFim = new Label(" at�: " + dataFim);
 		lclEvent = new Label("Local: " + eventDB.getLocal_evento());
-		descricao = new Label("Descrição: " + eventDB.getDescricao());
+		descricao = new Label("Descri��o: " + eventDB.getDescricao());
 
 		RecurrenceInfo rInfo = new RecurrenceInfo(eventDB);
 		RecurrenceWeek rWeek = new RecurrenceWeek(eventDB);
@@ -68,7 +68,7 @@ public class EventInfo extends Stage {
 			fimRepeticao += formatter.format(eventDB.getHorario_fim_evento().getDia_fim());
 			break;
 		case 2:
-			fimRepeticao += "após " + eventDB.getHorario_fim_evento().getQtd_recorrencias() + " recorrências";
+			fimRepeticao += "ap�s " + eventDB.getHorario_fim_evento().getQtd_recorrencias() + " recorr�ncias";
 			break;
 		default:
 			fimRepeticao += "nunca";

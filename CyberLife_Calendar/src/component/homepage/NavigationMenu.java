@@ -1,5 +1,6 @@
 package component.homepage;
 
+import display.poupoup.EditProfile;
 import display.scenes.Login;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -29,12 +30,16 @@ public class NavigationMenu extends AnchorPane {
 
 	private IOFunctions ioFunctions;
 
+	private EditProfile editProfile;
+
 	public NavigationMenu() {
 
 		ioFunctions = new IOFunctions();
 
 		ioFunctions.getConfigFolder();
 		
+		editProfile = new EditProfile();
+
 		this.setPrefWidth(250);
 
 		this.getStylesheets().add(this.getClass().getResource("/css/navigation_menu.css").toExternalForm());
@@ -56,52 +61,59 @@ public class NavigationMenu extends AnchorPane {
 
 		});
 
+		
 		ivLogout = new ImageView();
 		ivLogout.setId("logout");
-
+		
 		ivLogout.setFitWidth(35);
 		ivLogout.setPreserveRatio(true);
 		/* Conteudo do perfil */
 		hProfile = new HBox();
-
+		
 		Circle profileImg = new Circle();
 		profileImg.setRadius(20);
 		profileImg.setFill(Color.rgb(0, 0, 0, 0.08));
 		profileImg.setCenterX(100);
 		profileImg.setCenterY(100);
-
+		
 		profileSelector = profileSelectorStageConstructor();
-
+		
 		ivLogout.setOnMouseClicked(e -> {
-
+			
 			Point2D point = ivLogout.localToScreen(0d, 0d);
-
+			
 			profileSelector.setX(point.getX() + 35);
 			profileSelector.setY(point.getY());
-
+			
 			profileSelector.show();
 		});
-
+		
 		/* VBox do nome e email */
 		vProfileNameEmail = new VBox();
-
+		
 		lblNome = new Label(SESSION.get_user_name() + " " + SESSION.get_user_last_name());
 		lblEmail = new Label(SESSION.get_user_email());
-
+		lblEmail.setId("email");
+		
+		lblEmail.setOnMouseClicked(e ->{
+			editProfile.showAndWait();
+		});
+		
 		vProfileNameEmail.getChildren().addAll(lblNome, lblEmail);
 		/* Fim VBox do nome e email */
-
+		
 		hProfile.getChildren().addAll(profileImg, vProfileNameEmail);
 		hProfile.getChildren().add(ivLogout);
 		/* Fim do conteudo do perfil */
-
+		
 		/* Botao adicionar */
 		AddFloatingActionButton circleButton = new AddFloatingActionButton();
-
+		
 		/* Fim botao adicionar */
-
+		
 		AnchorPane.setTopAnchor(ivLogout, 0d);
-
+		AnchorPane.setLeftAnchor(ivLogout, 5d);
+		
 		AnchorPane.setTopAnchor(hProfile, 0d);
 		AnchorPane.setLeftAnchor(hProfile, 0d);
 
@@ -136,7 +148,7 @@ public class NavigationMenu extends AnchorPane {
 		lblSair.prefWidthProperty().bind(stage.widthProperty());
 
 		lblSairPro.setOnMouseClicked(e -> {
-			System.exit(0);
+			Main.main_stage.close();
 			/**
 			 * falta colocar que se o usuário selecionar sair e fechar programa, parar de
 			 * ler o arquivo do "mantenha-me conectado" e iniciar na tela de login na

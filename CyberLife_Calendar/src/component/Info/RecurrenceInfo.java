@@ -33,7 +33,7 @@ public class RecurrenceInfo extends Label {
 			if(hr_intervalo > 1)
 				tipoRepeticao += " meses";
 			else 
-				tipoRepeticao = "Todo mÃªs";
+				tipoRepeticao = "Todo mês";
 			break;
 		case 4:
 			if(hr_intervalo > 1)
@@ -72,7 +72,7 @@ public class RecurrenceInfo extends Label {
 			if(hr_intervalo > 1)
 				tipoRepeticao += " meses";
 			else 
-				tipoRepeticao = "Todo mÃªs";
+				tipoRepeticao = "Todo mês";
 			break;
 		case 4:
 			if(hr_intervalo > 1)

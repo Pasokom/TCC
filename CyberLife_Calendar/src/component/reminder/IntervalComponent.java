@@ -17,7 +17,7 @@ public class IntervalComponent extends HBox {
 
 		lblFrom = new Label("De");
 		timeStart = new TimePicker(false);
-		lblUntil = new Label("atÃ©");
+		lblUntil = new Label("até");
 		timeEnd = new TimePicker(false);
 		lblEach = new Label("a cada");
 		txtTime = new TextField();

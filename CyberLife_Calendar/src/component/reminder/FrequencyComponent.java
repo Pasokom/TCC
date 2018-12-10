@@ -18,7 +18,6 @@ public class FrequencyComponent extends HBox {
 		repeatOptions.setItems(FXCollections.observableArrayList("dia", "semana", "mês", "ano"));
 		// repeatOptions.getSelectionModel().select(1); // definindo o segundo item da
 		// lista como o padrao
-
 		// criando spinner de 1 a 100 de 1 em 1'
 		SpinnerValueFactory<Integer> repeatValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1);
 
@@ -50,7 +49,7 @@ public class FrequencyComponent extends HBox {
 	 */
 	public int get_selected_option() {
 		switch (repeatOptions.getSelectionModel().getSelectedItem()) {
-		case "mês":
+		case "m�s":
 			return Enums.TypeRecurrence.MONTHLY.getValue();
 		case "dia":
 			return Enums.TypeRecurrence.DAYLY.getValue();

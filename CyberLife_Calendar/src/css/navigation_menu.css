@@ -18,3 +18,7 @@ Label{
 #logout:hover{
 	-fx-cursor: hand;
 }
+
+#email{
+	-fx-cursor: hand;
+}
