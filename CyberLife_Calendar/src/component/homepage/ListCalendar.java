@@ -22,6 +22,7 @@ import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import statics.Enums;
 import statics.SESSION;
 
 public class ListCalendar extends VBox {
@@ -30,11 +31,13 @@ public class ListCalendar extends VBox {
 	private VBox vContent, vAllDay;
 	private CustomScroll listReminder, listAllDay;
 	private ArrayList<VBox> hours;
+	private Calendar currentDate;
 
 	RetrieveEvents retrieveEvents = new RetrieveEvents();
 	LoadReminder loadReminders;
 
 	public ListCalendar(Calendar date) {
+		this.currentDate = date;
 
 		this.prefWidthProperty().set(250);
 		this.setId("this");
@@ -120,8 +123,7 @@ public class ListCalendar extends VBox {
 
 		try {
 			loadReminders = new LoadReminder();
-			reminders = loadReminders.getReminders((int) SESSION.get_user_cod(),
-					LoadReminder.TypeOfQuery.ALL_REMINDERS);
+			reminders = loadReminders.getReminders((int) SESSION.get_user_cod(),	LoadReminder.TypeOfQuery.ALL_REMINDERS);
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -143,8 +145,14 @@ public class ListCalendar extends VBox {
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(reminder.getlReminderSchedule().get(0).getDatetime_begin());
 
-				((VBox) ((VBox) this.vContent.getChildren().get(calendar.get(Calendar.HOUR_OF_DAY))).getChildren()
+				if(reminder.getRepetitionType() == Enums.RepetitionType.ALL_DAY.getValue()){
+					vAllDay.getChildren().add(rC);
+				}
+				else{
+					rC.setPadding(new Insets(0, 10, 0, 0));
+					((VBox) ((VBox) this.vContent.getChildren().get(calendar.get(Calendar.HOUR_OF_DAY))).getChildren()
 						.get(1)).getChildren().add(rC);
+				}
 			}
 		}
 	}
@@ -172,14 +180,21 @@ public class ListCalendar extends VBox {
 
 				if (event.isDia_todo())
 					vAllDay.getChildren().add(eC);
-				else
+				else{
+					eC.setPadding(new Insets(0,10,0,0));
 					((VBox) ((VBox) this.vContent.getChildren().get(calendar.get(Calendar.HOUR_OF_DAY))).getChildren()
 							.get(1)).getChildren().add(eC);
+				}
 			}
 		}
 	}
 
 	public void update(Calendar date) {
+		this.currentDate = date;
 		addComponents(date);
+	}
+
+	public Calendar getCurrentDate(){
+		return this.currentDate;
 	}
 }

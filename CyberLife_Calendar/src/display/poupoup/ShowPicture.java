@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import listeners.windows.CloseWindowEsc;;
+import listeners.windows.CloseWindowEsc;
 
 public class ShowPicture extends Stage {
 

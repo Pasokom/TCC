@@ -54,10 +54,10 @@ public class EventInfo extends Stage {
 		dtFim = new Label(" até: " + dataFim);
 		lclEvent = new Label("Local: " + eventDB.getLocal_evento());
 		descricao = new Label("Descrição: " + eventDB.getDescricao());
-		
+
 		RecurrenceInfo rInfo = new RecurrenceInfo(eventDB);
 		RecurrenceWeek rWeek = new RecurrenceWeek(eventDB);
-		
+
 		String fimRepeticao = "Termina: ";
 
 		switch (eventDB.getTipo_fim_repeticao()) {
@@ -76,12 +76,12 @@ public class EventInfo extends Stage {
 		}
 
 		finalRepeticao.setText(fimRepeticao);
-		
-		if(eventDB.getTipo_repeticao() != 0) {
+
+		if (eventDB.getTipo_repeticao() != 0) {
 			gp.add(rInfo, 0, 5, 2, 1);
 		}
-		
-		if(eventDB.getTipo_repeticao() == 2) {
+
+		if (eventDB.getTipo_repeticao() == 2) {
 			gp.add(rWeek, 0, 6, 2, 1);
 		}
 
@@ -99,7 +99,6 @@ public class EventInfo extends Stage {
 		gp.add(finalRepeticao, 0, 7, 2, 1);
 
 		this.initStyle(StageStyle.UNDECORATED);
-		
 		this.focusedProperty().addListener(new ChangeListener<Boolean>() {
 
 			@Override

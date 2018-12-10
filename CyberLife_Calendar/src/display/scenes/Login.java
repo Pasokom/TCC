@@ -1,14 +1,11 @@
 package display.scenes;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Optional;
 
 import db.functions.registrationAndLogin.HandlerLogin;
 import db.functions.registrationAndLogin.HandlerRegistration;
-import db.functions.reminderFUNCTIONS.LoadReminder;
 import db.functions.user.PictureSettings;
-import db.pojo.reminderPOJO.ReminderDB;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -179,14 +176,6 @@ public class Login extends Scene {
 
 		btnEntrar = new Button("Entrar");
 		this.btnEntrar.setOnAction(e -> {
-			/* // login();
-			try {
-				LoadReminder x = new LoadReminder();
-				ArrayList<ReminderDB> y = x.getReminders(3, LoadReminder.TypeOfQuery.ALL_REMINDERS);
-				System.out.println(y.get(0));
-			} catch (SQLException | ClassNotFoundException e1) {
-				e1.printStackTrace();
-			} */
 			// PictureSettings ps = new PictureSettings();
 			// Main.main_stage.setScene(cena(ps));
 			login();
@@ -262,9 +251,6 @@ public class Login extends Scene {
 
 		aPane.requestFocus();
 
-		txtEmail.setText("a@gmail.com");
-		txtSenha.setText("12345678");
-
 		this.setRoot(aPane);
 	}
 
@@ -320,18 +306,18 @@ public class Login extends Scene {
 	private void registration() throws ClassNotFoundException, SQLException {
 
 		if (txtSenhaCadast.getText().isEmpty() || txtSenhaConfirmCadast.getText().isEmpty()) {
-			lblLog.setText("Podem haver campos nï¿½o preenchidos!");
+			lblLog.setText("Podem haver campos não preenchidos!");
 			return;
 		}
 
 		if (txtSenhaCadast.getText().length() < 1) { // 8) {
-			lblLog.setText("Senha deve conter no minï¿½mo 8 caracteres!");
+			lblLog.setText("Senha deve conter no minímo 8 caracteres!");
 			return;
 		}
 		boolean password_are_diferent = txtSenhaCadast.getText().equals(txtSenhaConfirmCadast.getText());
 
 		if (!password_are_diferent) {
-			lblLog.setText("senhas informadas nï¿½o correspondem!");
+			lblLog.setText("senhas informadas não correspondem!");
 			return;
 		}
 
@@ -339,13 +325,13 @@ public class Login extends Scene {
 		boolean is_name_field_empty = txtNomeCadast.getText().isEmpty();
 
 		if (is_email_field_empty || is_name_field_empty) {
-			lblLog.setText("pode haver campos nï¿½o preenchidos!");
+			lblLog.setText("pode haver campos não preenchidos!");
 			return;
 		}
 
 		if (!txtEmailCadast.getText().contains("@")
 				&& (!txtEmailCadast.getText().contains(".com") || !txtEmailCadast.getText().contains(".br"))) {
-			lblLog.setText("Formato de e-mail nï¿½o reconhecido!");
+			lblLog.setText("Formato de e-mail não reconhecido!");
 			return;
 		}
 
@@ -363,16 +349,16 @@ public class Login extends Scene {
 			 * false heuehueh
 			 */
 			if (this.registration.insert_user(name, last_name, email, password)) {
-				Optional<ButtonType> vOptional = new Alert(AlertType.CONFIRMATION, "Vocï¿½ foi cadastrado coom sucesso! "
+				Optional<ButtonType> vOptional = new Alert(AlertType.CONFIRMATION, "Você foi cadastrado coom sucesso! "
 						+ txtNomeCadast.getText() + " " + txtSobrenomeCadast.getText()).showAndWait();
 				if (vOptional.get() == ButtonType.OK) {
 					componenteLogin();
 				}
 			}
-			lblLog.setText("UsuÃ¡rio cadastrado com sucesso");
+			lblLog.setText("Usuário cadastrado com sucesso");
 			return;
 		}
-		lblLog.setText("email informado jÃ¡ foi cadastrado");
+		lblLog.setText("email informado já foi cadastrado");
 		return;
 	}
 

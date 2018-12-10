@@ -17,7 +17,8 @@
             "stopOnEntry": false,
             "mainClass": "main.Main",
             "args": "",
-            "projectName": "CyberLife_Calendar"
+            "projectName": "CyberLife_Calendar",
+            "encoding": "UTF-8"
         }
     ]
 

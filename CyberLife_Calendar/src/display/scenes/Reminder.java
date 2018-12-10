@@ -11,6 +11,7 @@ import java.util.Calendar;
 import component.CustomScroll;
 import component.Recurrence;
 import component.TimePickerList;
+import component.homepage.CalendarComponent;
 import component.reminder.IntervalComponent;
 import db.functions.reminderFUNCTIONS.CreateReminder;
 import db.pojo.reminderPOJO.ReminderDB;
@@ -28,6 +29,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import statics.Enums;
 import statics.SESSION;
 
@@ -47,9 +49,16 @@ public class Reminder extends Scene {
 
 	// private VBox vb_recurrence;
 	private CreateReminder create_reminder;
+	private Stage owner;
 
-	public Reminder() {
+	public Reminder(Stage owner) {
 		super(new HBox());
+		init();
+		this.owner = owner;
+
+	}
+
+	public void init() {
 
 		CustomScroll customScroll = new CustomScroll();
 
@@ -94,8 +103,10 @@ public class Reminder extends Scene {
 		btnEnviar.setOnAction(evento -> {
 			try {
 				insert_reminder_and_schedule();
+				this.owner.close();
+				HomePage.listCalendar.update(HomePage.listCalendar.getCurrentDate());
+				HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
 				return;
-
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
@@ -185,17 +196,17 @@ public class Reminder extends Scene {
 			never_end_schedule();
 			return;
 		}
-		if (time_picker_list.get_selected_time().isEmpty()) {
-			System.out.println("[INFO] time picker vazio, saindo da fun��o");
-			if (is_by_choosed_date) {
-				schedule_amount_or_date(false);
-				return;
-			}
-			if (is_by_amount) {
-				schedule_amount_or_date(true);
-				return;
-			}
+		// if (time_picker_list.get_selected_time().isEmpty()) {
+		// System.out.println("[INFO] time picker vazio, saindo da fun��o");
+		if (is_by_choosed_date) {
+			schedule_amount_or_date(false);
+			return;
 		}
+		if (is_by_amount) {
+			schedule_amount_or_date(true);
+			return;
+		}
+		// }
 	}
 
 	private void insert_reminder() {
@@ -267,7 +278,7 @@ public class Reminder extends Scene {
 		}
 		if (is_time_picker) { /* se entrou aqui, então o time picker foi selecionado */
 			if (time_picker_list.get_selected_time().isEmpty()) { /* se o time picker estiver vazio ele sai da função */
-				System.out.println("[INFO] time picker vazio, saindo da fun��o");
+				System.out.println("[INFO] time picker vazio, saindo da fun��o");
 				return;
 			}
 			/*
@@ -296,7 +307,7 @@ public class Reminder extends Scene {
 		create_reminder.schedule_without_recurrence(date_time, time_begin, time_end, false, interval);
 
 		System.out.println("[INFO] horario de lembrete com intervalo");
-		System.out.println("[CONFIRMATION] repetirá entre " + time_begin + " e " + time_end + " \n à cada " + interval
+		System.out.println("[CONFIRMATION] repetir entre " + time_begin + " e " + time_end + " \n à cada " + interval
 				+ " minutos.");
 		return;
 	}
@@ -422,7 +433,7 @@ public class Reminder extends Scene {
 							else
 								this.create_reminder.schedule_by_amount(date_begin, new String(), new String(), false,
 										0, recurrence, week_day, amount);
-							j = 0;
+							// j = 0;
 						}
 					}
 					return;

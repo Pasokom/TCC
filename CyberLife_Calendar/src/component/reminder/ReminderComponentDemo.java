@@ -14,6 +14,7 @@ public class ReminderComponentDemo extends HBox {
     public ReminderComponentDemo(ReminderDB reminder) {
     
         this.getStylesheets().add(this.getClass().getResource("/css/reminder_component.css").toExternalForm());
+		this.setId("this");
 
         lblTitulo = new Label(reminder.getTitle());
         lblTitulo.prefWidthProperty().bind(this.widthProperty());

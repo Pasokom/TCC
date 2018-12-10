@@ -83,10 +83,14 @@ public class Event extends Scene {
 			this.timeEnd.setText(time_end);
 			this.timeStart.setText(time_begin);
 		}
-		if (event.getTipo_repeticao() == Enums.TypeRecurrence.WEEKLY.getValue()) {
-			setWeekDays(es.getDias_semana());
-		}
 
+		if (event.getTipo_repeticao() > 0) {
+			this.cbxRepeat.setSelected(true);
+			if (event.getTipo_repeticao() == Enums.TypeRecurrence.WEEKLY.getValue()) {
+				// System.out.println(es.getDias_semana().length + " dias");
+				setWeekDays(es.getDias_semana());
+			}
+		}
 		/**
 		 * frequency component
 		 */
@@ -94,72 +98,26 @@ public class Event extends Scene {
 		this.recurrence.setChoosedValue(es.getIntervalo());
 
 		/** end recurrence */
-
-		boolean is_not_never_end = ens.getQtd_recorrencias() != 0 || ens.getDia_fim() != null;
-
-		if (!is_not_never_end) {
+		boolean never_end = ens.getQtd_recorrencias() != 0 || ens.getDia_fim() == null;
+		boolean by_date = ens.getQtd_recorrencias() == 0 && ens.getDia_fim() != null;
+		boolean by_amount = ens.getQtd_recorrencias() > 0;
+		
+		if (never_end) {
 			this.recurrence.setSelectionEnd(0);
 		}
-
-		boolean by_date = ens.getQtd_recorrencias() == 0 && ens.getDia_fim() != null;
-
 		if (by_date) {
 			this.recurrence.setSelectionEnd(1);
 			this.recurrence.setDatePickerValue(new DatePicker(ens.getDia_fim().toLocalDate()));
-		} else {
+		} 
+		if(by_amount){
 			this.recurrence.setSelectionEnd(2);
 			this.recurrence.setSpinnerValue(ens.getQtd_recorrencias());
 		}
-
-		ManageEvents me = new ManageEvents();
-
 		this.btnSave.setOnAction(e -> {
-
-			if (!compare(event.getTitulo(), this.txtTitle, 0))
-				me.changeEvent(this.txtTitle, event.getCod_evento(), ManageEvents.changeTheEvent.TITLE);
-
-			if (!compare(event.getDescricao(), this.txtDetails, 0))
-				me.changeEvent(this.txtDetails, event.getCod_evento(), ManageEvents.changeTheEvent.DESCRIPTION);
-
-			// TODO fix this
-			if (!compare(event.getData_inicio(), dtStart.getValue().toString(), 0)) {
-
-				me.changeEvent(this.dtStart.getValue().toString(), event.getCod_evento(),
-						ManageEvents.changeTheEvent.DATE_BEGIN);
-			 }
-
-			if (!compare(event.getData_fim(), dtEnd.getValue().toString(), 0)) { 
-				me.changeEvent(this.dtEnd.getValue().toString(), event.getCod_evento(),
-						ManageEvents.changeTheEvent.DATE_END);
-
-			}
-
-			// if (!compare(event.get))
-
-
-
+			changeEvent(event);
+			changeSchedules(es, ens);
 		});
-
 	}
-
-	public boolean compare(Object oldValue, Object newValue, int type_object) {
-		if (type_object == 0)
-			return String.valueOf(oldValue).equals(String.valueOf(newValue));
-		if (type_object == 1)
-			return (int) oldValue == (int) newValue;
-
-		return false;
-	}
-
-	private void setWeekDays(boolean[] days) {
-		int i = 0;
-		while (days.length < i) {
-			if (days[i] == true)
-				this.recurrence.setDay(i);
-			i++;
-		}
-	}
-
 	private void init() {
 		Main.main_stage.setTitle("EVENTO");
 		/* scene */ this.getStylesheets().add("css/event.css");
@@ -178,7 +136,7 @@ public class Event extends Scene {
 		barraTitulo.setId("lBarraTitulo");
 
 		txtTitle = new TextField();
-		txtTitle.setPromptText("TÃ­tulo do evento");
+		txtTitle.setPromptText("Título do evento");
 		txtTitle.setId("lNome");
 		btnSave = new Button("Salvar");
 		btnSave.setId("btnEnviar");
@@ -187,13 +145,15 @@ public class Event extends Scene {
 			try {
 				insert_event();
 				((Stage) this.getWindow()).close();
+				
+				HomePage.listCalendar.update(Calendar.getInstance());
+				HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
 
 				String notificationMessage = "O evento \"" + txtTitle.getText() + "\" foi cadastrado no dia "
 						+ dtStart.getValue().toString();
 
 				NotifyUser.sendNotification("Evento", notificationMessage, MessageType.NONE);
 
-				HomePage.listCalendar.update(Calendar.getInstance());
 
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
@@ -213,7 +173,7 @@ public class Event extends Scene {
 		lblStartDate = new Label("De");
 		dtStart = new DatePicker(date);
 		timeStart = new TimePicker(false);
-		lblEndDate = new Label("atï¿½");
+		lblEndDate = new Label("até");
 		dtEnd = new DatePicker(date);
 		timeEnd = new TimePicker(false);
 
@@ -309,7 +269,137 @@ public class Event extends Scene {
 
 		createEvent.insert_event_end_schedule(endSchedule);
 	}
+	
+	private void changeSchedules(EventSchedule es, EventEndSchedule ens) {
+		ManageEvents changes = new ManageEvents();
 
+		if (cbxRepeat.selectedProperty().get()) {
+
+			if (!compare(es.getDias_semanaToString(), buildWeekDays(), 0))
+				changes.changeRepetition(buildWeekDays(), es.getCod_repeticao(),
+						ManageEvents.changeTheRepetition.WEEK_DAYS, "E_REPETIR");
+			if (!compare(es.getIntervalo(), this.recurrence.get_recurrence_value(), 1))
+				changes.changeRepetition(this.recurrence.get_recurrence_value(), es.getCod_repeticao(),
+						ManageEvents.changeTheRepetition.INTERVAL, "E_REPETIR");
+
+			if (this.recurrence.is_never_selected()) {
+				changes.changeRepetition(" NULL ", ens.getCod_fim_repeticao(), ManageEvents.changeTheRepetition.END_DAY,
+						"E_FIM_REPETICAO");
+				changes.changeRepetition(0, ens.getCod_fim_repeticao(),
+						ManageEvents.changeTheRepetition.AMOUNT_OF_RECURRENCES, "E_FIM_REPETICAO");
+			}
+			if (this.recurrence.is_by_amount()) {
+				changes.changeRepetition(this.recurrence.get_amount_choosed(), ens.getCod_fim_repeticao(),
+						ManageEvents.changeTheRepetition.AMOUNT_OF_RECURRENCES, "E_FIM_REPETICAO");
+				changes.changeRepetition(" ", ens.getCod_fim_repeticao(), ManageEvents.changeTheRepetition.END_DAY,
+						"E_FIM_REPETICAO");
+			}
+			if (this.recurrence.on_date()) {
+				changes.changeRepetition(this.recurrence.get_end_date(), ens.getCod_fim_repeticao(),
+						ManageEvents.changeTheRepetition.END_DAY, "E_FIM_REPETICAO");
+				changes.changeRepetition(0, ens.getCod_fim_repeticao(),
+						ManageEvents.changeTheRepetition.AMOUNT_OF_RECURRENCES, "E_FIM_REPETICAO");
+			}
+		}
+	}
+	private void changeEvent(EventDB event) {
+		ManageEvents applyChanges = new ManageEvents();
+
+		if (!compare(event.getTitulo(), this.txtTitle.getText(), 0))
+			applyChanges.changeEvent(this.txtTitle.getText(), event.getCod_evento(), ManageEvents.changeTheEvent.TITLE);
+
+		if (!compare(event.getDescricao(), this.txtDetails.getText(), 0)) {
+			applyChanges.changeEvent(this.txtDetails.getText(), event.getCod_evento(),ManageEvents.changeTheEvent.DESCRIPTION);
+		}
+		if (!compare(event.getLocal_evento(), this.txtPlace.getText(), 0)) {
+			applyChanges.changeEvent(this.txtPlace.getText(), event.getCod_evento(),ManageEvents.changeTheEvent.EVENT_LOCATION);
+		}
+		String date_begin = retrieveInRightFormat(this.dtStart.getValue().toString(),this.timeStart.get_value().toString());
+		String old_date_begin = retrieveInRightFormat(event.getData_inicio().toString().substring(0, 10),event.getData_inicio().toString().substring(11, 16));
+		
+		System.out.println( "1 : " + date_begin +  " \n 2 : " + old_date_begin);
+		if (!compare(old_date_begin, date_begin, 0)) {
+			if (!cbxAllDay.selectedProperty().get()) {
+				applyChanges.changeEvent(date_begin, event.getCod_evento(), ManageEvents.changeTheEvent.DATE_BEGIN);
+			} else {
+				date_begin = retrieveInRightFormat(this.dtStart.getValue().toString(), new String());
+				applyChanges.changeEvent(date_begin, event.getCod_evento(), ManageEvents.changeTheEvent.DATE_BEGIN);
+			}
+		}
+		String date_end = retrieveInRightFormat(this.dtEnd.getValue().toString(), this.timeEnd.get_value().toString());
+		String old_date_end = old_date_begin = retrieveInRightFormat(event.getData_fim().toString().substring(0, 10),event.getData_fim().toString().substring(11, 16));
+		if (!compare(old_date_end, date_end, 0)) {
+			if (!cbxAllDay.selectedProperty().get()) {
+				applyChanges.changeEvent(date_end, event.getCod_evento(), ManageEvents.changeTheEvent.DATE_END);
+			} else {
+				date_end = retrieveInRightFormat(this.dtEnd.getValue().toString(), new String());
+				applyChanges.changeEvent(date_end, event.getCod_evento(), ManageEvents.changeTheEvent.DATE_END);
+			}
+		}
+		if (!compare(event.isDia_todo(), this.cbxAllDay.selectedProperty().get(), 2)) {
+			applyChanges.changeEvent(this.cbxAllDay.selectedProperty().get(), event.getCod_evento(),ManageEvents.changeTheEvent.ALL_DAY);
+		}
+		if (this.cbxRepeat.selectedProperty().get()) {
+			if (!compare(event.getTipo_repeticao(), recurrence.get_recurrence_type(), 1))
+				applyChanges.changeEvent(this.recurrence.get_recurrence_type(), event.getCod_evento(),ManageEvents.changeTheEvent.TYPE_OF_REPETITION);
+			if (!compare(event.getTipo_fim_repeticao(), recurrence.getSelectedEnd(), 1))
+				applyChanges.changeEvent(this.recurrence.getSelectedEnd(), event.getCod_evento(),ManageEvents.changeTheEvent.TYPE_OF_REPETITION_END);
+		}
+	}
+	private String retrieveInRightFormat(String date_value, String time_value) {
+		
+		String complete_value = date_value + " " + time_value;
+		
+		if (complete_value.length() == 19)
+			return complete_value;
+		
+		complete_value += ":00";
+		if(complete_value.length() == 19) 
+			return complete_value;
+		
+		if(time_value.isEmpty()) 
+			return date_value + "00:00:00";
+		return  "00:00";
+	}
+	private String buildWeekDays() {
+		StringBuilder stb = new StringBuilder();
+		int i = 0;
+		boolean[] vector = recurrence.get_selected_days();
+		System.out.println(vector.length + " tamanho vetor");
+		while (i < vector.length) {
+			if (i != 0)
+				stb.append(',');
+			if (!vector[i]) {
+				stb.append('0');
+				i++;
+				continue;
+			}
+			stb.append("1");
+			i++;
+		}
+		return stb.toString();
+	}
+
+	private boolean compare(Object oldValue, Object newValue, int type_object) {
+		if (type_object == 0)
+			return String.valueOf(oldValue).equals(String.valueOf(newValue));
+		if (type_object == 1)
+			return (int) oldValue == (int) newValue;
+		if (type_object == 2)
+			return (boolean) oldValue == (boolean) newValue;
+		return false;
+	}
+
+	private void setWeekDays(boolean[] days) {
+		int i = 0;
+		while (i < days.length) {
+			if (days[i] == true)
+				this.recurrence.setDay(i);
+			i++;
+		}
+	}
+
+	
 	public void displayTray() throws AWTException, MalformedURLException {
 		// Obtain only one instance of the SystemTray object
 		SystemTray tray = SystemTray.getSystemTray();

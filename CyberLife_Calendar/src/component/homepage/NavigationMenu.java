@@ -1,5 +1,7 @@
 package component.homepage;
 
+import java.io.File;
+
 import display.poupoup.EditProfile;
 import display.scenes.Login;
 import javafx.beans.value.ChangeListener;
@@ -10,9 +12,11 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import listeners.IOFunctions;
@@ -75,6 +79,11 @@ public class NavigationMenu extends AnchorPane {
 		profileImg.setFill(Color.rgb(0, 0, 0, 0.08));
 		profileImg.setCenterX(100);
 		profileImg.setCenterY(100);
+
+		StackPane userImg = new StackPane();
+		Label userInitial = new Label(SESSION.get_user_name().substring(0,1).toUpperCase());
+		userInitial.setFont(new Font(20));
+		userImg.getChildren().addAll(profileImg, userInitial);
 		
 		profileSelector = profileSelectorStageConstructor();
 		
@@ -102,7 +111,7 @@ public class NavigationMenu extends AnchorPane {
 		vProfileNameEmail.getChildren().addAll(lblNome, lblEmail);
 		/* Fim VBox do nome e email */
 		
-		hProfile.getChildren().addAll(profileImg, vProfileNameEmail);
+		hProfile.getChildren().addAll(userImg, vProfileNameEmail);
 		hProfile.getChildren().add(ivLogout);
 		/* Fim do conteudo do perfil */
 		
@@ -148,6 +157,10 @@ public class NavigationMenu extends AnchorPane {
 		lblSair.prefWidthProperty().bind(stage.widthProperty());
 
 		lblSairPro.setOnMouseClicked(e -> {
+
+			IOFunctions io = new IOFunctions();
+			io.deleteFileIfExists(new File(io.getSerializationFolder() + "/stay_connected.ser"));
+			SESSION.END_SESSION();
 			Main.main_stage.close();
 			/**
 			 * falta colocar que se o usuário selecionar sair e fechar programa, parar de
@@ -157,6 +170,9 @@ public class NavigationMenu extends AnchorPane {
 		});
 
 		lblSair.setOnMouseClicked(e -> {
+			IOFunctions io = new IOFunctions();
+			io.deleteFileIfExists(new File(io.getSerializationFolder() + "/stay_connected.ser"));
+			SESSION.END_SESSION();
 			Main.main_stage.setScene(new Login());
 		});
 

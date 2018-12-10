@@ -8,6 +8,7 @@ import component.homepage.NavigationMenu;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import main.Main;
 import statics.NotifyUser;
 

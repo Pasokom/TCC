@@ -83,7 +83,7 @@ public class LoadReminder {
 			sql = "SELECT LCOD_LEMBRETE, GROUP_CONCAT(HL_CODIGO) CODIGOS_HORARIOS FROM VIEW_LEMBRETES_DO_DIA  WHERE UCODIGO = "
 					+ userID + " GROUP BY LCOD_LEMBRETE; ";
 
-		System.out.println(sql);
+		// System.out.println(sql);
 		ResultSet result = this.connection.createStatement().executeQuery(sql);
 
 		final String final_queryReminder = "SELECT * FROM LEMBRETE WHERE LCOD_LEMBRETE = ";
@@ -101,7 +101,7 @@ public class LoadReminder {
 		 */
 		if (result.first())
 			result.beforeFirst();
-		int j = 0;
+		// int j = 0;
 		while (result.next()) {
 
 			// pega o ID do lembrete no loop atual
@@ -109,7 +109,7 @@ public class LoadReminder {
 
 			sqlReminder = final_queryReminder + l_reminderId + ";";
 
-			System.out.println(sqlReminder);
+			// System.out.println(sqlReminder);
 
 			ResultSet l_bringReminder = this.connection.createStatement().executeQuery(sqlReminder);
 
@@ -155,15 +155,15 @@ public class LoadReminder {
 				 */
 				l_reminder.getlReminderSchedule().add(rse);
 			}
-			System.out.println("Interador (LOOP PRINCIPAL) : " + j++);
-			System.out.println("Tamanho da lista (LISTA DE REMINDERDB ): " + l_listReminders.size());
+			// System.out.println("Interador (LOOP PRINCIPAL) : " + j++);
+			// System.out.println("Tamanho da lista (LISTA DE REMINDERDB ): " + l_listReminders.size());
 
-			System.out.println(
-					"Lista de horarios do lembrete (LISTA DE REMINDERSCHEDULE) : " + l_reminder.getReminderId());
-			for (int k = 0; k < l_reminder.getlReminderSchedule().size(); k++) {
-				System.out.println(
-						"Interador lista de horarios do lembrete : " + l_reminder.getReminderId() + "\n LOOP :  " + k);
-			}
+			// System.out.println(
+			// 		"Lista de horarios do lembrete (LISTA DE REMINDERSCHEDULE) : " + l_reminder.getReminderId());
+			// for (int k = 0; k < l_reminder.getlReminderSchedule().size(); k++) {
+			// 	System.out.println(
+			// 			"Interador lista de horarios do lembrete : " + l_reminder.getReminderId() + "\n LOOP :  " + k);
+			// }
 			l_listReminders.add(l_reminder);
 		}
 		return l_listReminders;

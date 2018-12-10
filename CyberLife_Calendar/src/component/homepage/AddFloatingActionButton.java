@@ -87,7 +87,7 @@ public class AddFloatingActionButton extends StackPane {
 
 		lblLembrete.setOnMouseClicked(e -> {
 			Stage st = new Stage();
-			st.setScene(new Reminder());
+			st.setScene(new Reminder(st));
 			st.show();
 		});
 

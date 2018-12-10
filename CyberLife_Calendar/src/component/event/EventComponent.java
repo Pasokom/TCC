@@ -1,24 +1,27 @@
 package component.event;
 
+import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.Optional;
 
+import db.functions.event.DeleteEvent;
+import db.pojo.eventPOJO.EventDB;
+import display.scenes.Event;
+import display.scenes.HomePage;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import db.pojo.eventPOJO.EventDB;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import java.util.Optional;
-
 
 /**
  * 
@@ -36,13 +39,16 @@ public class EventComponent extends VBox {
 	private ImageView lblEdit;
 	private EventInfo eventDetails;
 	private Stage profileSelector;
-	
+	private EventDB event;
+
 	public EventComponent(EventDB event) {
 
 		this.getStylesheets().add(this.getClass().getResource("/css/eventComponent.css").toExternalForm());
 		this.setId("this");
 
 		lblEdit = new ImageView();
+
+		this.event = event;
 
 		lblEdit.setId("edit");
 		lblEdit.setFitWidth(20);
@@ -56,12 +62,12 @@ public class EventComponent extends VBox {
 		profileSelector = profileSelectorStageConstructor();
 
 		lblEdit.setOnMouseClicked(e -> {
-			
+
 			Point2D point = lblEdit.localToScreen(0d, 0d);
-			
+
 			profileSelector.setX(point.getX() + 35);
 			profileSelector.setY(point.getY());
-			
+
 			profileSelector.show();
 		});
 
@@ -70,7 +76,6 @@ public class EventComponent extends VBox {
 
 		lbl_hora = new Label(calendar.get(Calendar.HOUR_OF_DAY) + ":"
 				+ String.format("%02d", calendar.get(Calendar.MINUTE)));
-				
 		lbl_titulo = new Label(event.getTitulo());
 		lbl_titulo.setId("titulo");
 
@@ -114,10 +119,10 @@ public class EventComponent extends VBox {
 	}
 
 	private Stage profileSelectorStageConstructor() {
-		
+
 		Stage stage = new Stage();
 		stage.initStyle(StageStyle.UNDECORATED);
-		
+
 		stage.focusedProperty().addListener(new ChangeListener<Boolean>() {
 
 			@Override
@@ -130,41 +135,56 @@ public class EventComponent extends VBox {
 			}
 
 		});
-		
+
 		VBox vOptions = new VBox();
-		
+
 		Label lblEditar = new Label("Editar");
 		Label lblExcluir = new Label("Excluir");
 		lblEditar.prefWidthProperty().bind(stage.widthProperty());
-		
-		lblExcluir.setOnMouseClicked(e->{
-			
+
+		// TODO CHANGE THE RECORD TO INACTIVE
+		lblExcluir.setOnMouseClicked(e -> {
+
 			VBox root = new VBox();
 			root.setPadding(new Insets(10));
 			root.setSpacing(10);
 
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Excluir!");
-			alert.setHeaderText("Seu evento serï¿½ excluido e nï¿½o poderï¿½ mais ser recuperado!");
+			alert.setHeaderText("Seu evento será excluido e não poderá mais ser recuperado!");
 			alert.setContentText("Deseja realmente excluir seu evento?");
 
 			Optional<ButtonType> result = alert.showAndWait();
-			if(result.get() == ButtonType.OK){
+			if (result.get() == ButtonType.OK) {
+
+				DeleteEvent deleter = new DeleteEvent(event);
+
+				try {
+					deleter.delete();
+					HomePage.listCalendar.update(Calendar.getInstance());
+					HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
+				} catch (ClassNotFoundException | SQLException e1) {
+					e1.printStackTrace();
+				}
+
 				System.out.println("Excluido");
 			}
 		});
 
-		lblEditar.setOnMouseClicked(e ->{
-			System.out.println("editar ");
+		lblEditar.setOnMouseClicked(e -> {
+			Stage st = new Stage();
+			st.setScene(new Event(this.event));
+			st.show();
 		});
-		
+
 		vOptions.getChildren().addAll(lblEditar, lblExcluir);
-		
+
 		Scene scene = new Scene(vOptions);
 		stage.setScene(scene);
 		
+
 		scene.getStylesheets().add(this.getClass().getResource("/css/add_fab_selector.css").toExternalForm());
-		
+
 		return stage;
 	}
 }

@@ -3,7 +3,10 @@ package component.reminder;
 import java.util.Calendar;
 import java.util.Optional;
 
+import db.functions.event.ManageEvents;
+import db.functions.reminderFUNCTIONS.ManageReminder;
 import db.pojo.reminderPOJO.ReminderDB;
+import display.scenes.HomePage;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -34,8 +37,10 @@ public class ReminderComponent extends HBox {
 	private Label lbl_hora;
 	private ReminderInfo reminderDetails;
 	private Stage profileSelector;
+	private ReminderDB reminder;
 
 	public ReminderComponent(ReminderDB reminder) {
+		this.reminder = reminder;
 
 		this.getStylesheets().add(this.getClass().getResource("/css/reminder_component.css").toExternalForm());
 		this.setId("card");
@@ -80,7 +85,10 @@ public class ReminderComponent extends HBox {
 		lbl_titulo.prefWidthProperty().bind(this.widthProperty());
 
 		this.getChildren().add(lbl_titulo);
-		this.getChildren().add(lbl_hora);
+
+		if(reminder.getRepetitionType() != 0)
+			this.getChildren().add(lbl_hora);
+
 		this.getChildren().add(lblEdit);
 
 		this.setId("card");
@@ -92,6 +100,8 @@ public class ReminderComponent extends HBox {
 		this.setOnMouseExited(e -> {
 			lblEdit.setVisible(false);
 		});
+
+		reminderDetails = new ReminderInfo(reminder);
 
 		reminderDetails = new ReminderInfo(reminder);
 
@@ -145,7 +155,11 @@ public class ReminderComponent extends HBox {
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if(result.get() == ButtonType.OK){
-				System.out.println("Excluido");
+
+				ManageReminder mr = new ManageReminder();
+				mr.changeReminder(false, reminder.getReminderId(), ManageReminder.changeTheReminder.STATE);
+				HomePage.listCalendar.update(Calendar.getInstance());
+				HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
 			}
 		});
 

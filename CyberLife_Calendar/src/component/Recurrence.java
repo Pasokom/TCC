@@ -66,13 +66,14 @@ public class Recurrence extends VBox {
 	}
 
 	public void setSelectionEnd(int index) {
-		this.endRecurrence.setSelected(index);
+		this.endRecurrence.setSelectedToggle(index);
 	}
 
 	public void setSpinnerValue(int value) {
 		this.endRecurrence.setSpinnerValue(value);
-	}	
-	public void setDatePickerValue (DatePicker dt){ 
+	}
+
+	public void setDatePickerValue(DatePicker dt) {
 		this.endRecurrence.setDatePickerValue(dt);
 	}
 
