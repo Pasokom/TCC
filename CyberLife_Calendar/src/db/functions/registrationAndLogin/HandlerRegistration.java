@@ -19,20 +19,21 @@ public class HandlerRegistration {
 	 *                                true
 	 * @throws ClassNotFoundException
 	 */
-	public boolean email_exists(String email) throws SQLException, ClassNotFoundException {
-
+	public boolean email_exists(String email) {
+		try { 
 		String query = "{CALL EMAIL_EXISTE(?, ?)}";
 
 		CallableStatement stmt = Database.get_connection().prepareCall(query);
 		
 		stmt.setString(1, email);
 		stmt.setString(2, "@result");
-
 		stmt.registerOutParameter(2, Types.BIT);
-
 		stmt.executeUpdate();
-
 		return stmt.getBoolean(2);
+		} catch (SQLException | ClassNotFoundException e) { 
+			System.out.println("Exception  -- função  email_exists  - classe HandlerRegistration");
+		}
+		return true;
 	}
 
 	/**

@@ -117,6 +117,7 @@ public class Event extends Scene {
 			changeEvent(event);
 			changeSchedules(es, ens);
 			owner.close();
+			// TODO atualizar a lista
 		});
 	}
 	private void init() {
