@@ -369,7 +369,7 @@ public class Login extends Scene {
 					componenteLogin();
 				}
 			}
-			lblLog.setText("Usu�rio cadastrado com sucesso");
+			lblLog.setText("Usuário cadastrado com sucesso");
 			return;
 		}
 		lblLog.setText("email informado já foi cadastrado");
