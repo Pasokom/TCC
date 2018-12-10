@@ -88,7 +88,7 @@ public class Event extends Scene {
 			this.cbxRepeat.setSelected(true);
 			if (event.getTipo_repeticao() == Enums.TypeRecurrence.WEEKLY.getValue()) {
 
-				System.out.println(es.getDias_semana().length + " dias");
+				// System.out.println(es.getDias_semana().length + " dias");
 				setWeekDays(es.getDias_semana());
 
 				for (int i = 0; i < es.getDias_semana().length; i++) {

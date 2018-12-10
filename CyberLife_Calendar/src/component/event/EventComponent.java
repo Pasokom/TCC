@@ -1,15 +1,24 @@
 package component.event;
 
 import java.util.Calendar;
+import java.util.Optional;
 
 import db.pojo.eventPOJO.EventDB;
 import display.scenes.Event;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * 
@@ -17,6 +26,7 @@ import javafx.stage.Stage;
  *
  *         Componente responsavel por mostrar os eventos na lista de
  *         compromissos do dia.
+ * @param <ButtonType>
  *
  */
 public class EventComponent extends VBox {
@@ -25,6 +35,8 @@ public class EventComponent extends VBox {
 	private Label lbl_hora;
 	private ImageView lblEdit;
 	private EventInfo eventDetails;
+	private Stage profileSelector;
+	private EventDB event;
 
 	public EventComponent(EventDB event) {
 
@@ -33,29 +45,35 @@ public class EventComponent extends VBox {
 
 		lblEdit = new ImageView();
 
-		Stage st = new Stage();
-
-		lblEdit.setOnMouseClicked(e -> {
-			// Colocar a stage de alterar o evento
-			st.setScene(new Event(event));// exemplo
-			st.show();
-		});
+		this.event = event;
 
 		lblEdit.setId("edit");
 		lblEdit.setFitWidth(20);
-		lblEdit.setPreserveRatio(true);		
-		
+		lblEdit.setPreserveRatio(true);
+
 		/* instanciando componentes */
 		eventDetails = new EventInfo(event);
 
 		lblEdit.setVisible(false);
+
+		profileSelector = profileSelectorStageConstructor();
+
+		lblEdit.setOnMouseClicked(e -> {
+
+			Point2D point = lblEdit.localToScreen(0d, 0d);
+
+			profileSelector.setX(point.getX() + 35);
+			profileSelector.setY(point.getY());
+
+			profileSelector.show();
+		});
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(event.getData_inicio());
 
 		lbl_hora = new Label(" - " + calendar.get(Calendar.HOUR_OF_DAY) + ":"
 				+ String.format("%02d", calendar.get(Calendar.MINUTE)));
-				
+
 		lbl_titulo = new Label(event.getTitulo());
 		lbl_titulo.setId("titulo");
 
@@ -96,5 +114,64 @@ public class EventComponent extends VBox {
 
 			eventDetails.show();
 		});
+	}
+
+	private Stage profileSelectorStageConstructor() {
+
+		Stage stage = new Stage();
+		stage.initStyle(StageStyle.UNDECORATED);
+
+		stage.focusedProperty().addListener(new ChangeListener<Boolean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+
+				if (!newValue) {
+
+					stage.close();
+				}
+			}
+
+		});
+
+		VBox vOptions = new VBox();
+
+		Label lblEditar = new Label("Editar");
+		Label lblExcluir = new Label("Excluir");
+		lblEditar.prefWidthProperty().bind(stage.widthProperty());
+
+		// TODO CHANGE THE RECORD TO INACTIVE
+		lblExcluir.setOnMouseClicked(e -> {
+
+			VBox root = new VBox();
+			root.setPadding(new Insets(10));
+			root.setSpacing(10);
+
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Excluir!");
+			alert.setHeaderText("Seu evento será excluido e não poderá mais ser recuperado!");
+			alert.setContentText("Deseja realmente excluir seu evento?");
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK) {
+				System.out.println("Excluido");
+			}
+		});
+
+		lblEditar.setOnMouseClicked(e -> {
+			Stage st = new Stage();
+			st.setScene(new Event(this.event));
+			st.show();
+		});
+
+		vOptions.getChildren().addAll(lblEditar, lblExcluir);
+
+		Scene scene = new Scene(vOptions);
+		stage.setScene(scene);
+		
+
+		scene.getStylesheets().add(this.getClass().getResource("/css/add_fab_selector.css").toExternalForm());
+
+		return stage;
 	}
 }

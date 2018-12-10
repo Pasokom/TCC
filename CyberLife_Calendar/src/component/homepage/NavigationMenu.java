@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import listeners.IOFunctions;
 import main.Main;
 import statics.SESSION;
 
@@ -26,8 +27,14 @@ public class NavigationMenu extends AnchorPane {
 
 	private ImageView ivLogout;
 
+	private IOFunctions ioFunctions;
+
 	public NavigationMenu() {
 
+		ioFunctions = new IOFunctions();
+
+		ioFunctions.getConfigFolder();
+		
 		this.setPrefWidth(250);
 
 		this.getStylesheets().add(this.getClass().getResource("/css/navigation_menu.css").toExternalForm());
