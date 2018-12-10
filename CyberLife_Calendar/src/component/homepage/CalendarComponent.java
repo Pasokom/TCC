@@ -148,6 +148,7 @@ public class CalendarComponent extends GridPane {
 		for (int i = 0; i < boxes.length; i++) {
 			boxes[i] = new VBox();
 			boxes[i].setSpacing(2);
+			boxes[i].setMaxHeight(100);
 		}
 
 		retrieveEvents.updateList(this.date);
@@ -167,7 +168,11 @@ public class CalendarComponent extends GridPane {
 				if(eDate.get(Calendar.MONTH) == month_date)
 				{
 					int eDay = eDate.get(Calendar.DATE);
-					boxes[eDay - 1].getChildren().add(eDemo);
+
+					if(boxes[eDay - 1].getChildren().size() < 4){
+
+						boxes[eDay - 1].getChildren().add(eDemo);
+					}
 				}
 			}
 		}
@@ -195,7 +200,10 @@ public class CalendarComponent extends GridPane {
 			if(eDate.get(Calendar.MONTH) == month_date)
 			{
 				int eDay = eDate.get(Calendar.DATE);
-				boxes[eDay - 1].getChildren().add(rDemo);
+				if(boxes[eDay - 1].getChildren().size() < 4){
+
+					boxes[eDay - 1].getChildren().add(rDemo);
+				}
 			}
 			
 		}

@@ -32,10 +32,16 @@ public class ReminderComponent extends HBox {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(reminder.getlReminderSchedule().get(0).getDatetime_begin());
 
-		lbl_hora = new Label(" - " + calendar.get(Calendar.HOUR_OF_DAY) + ":"
+		lbl_hora = new Label(calendar.get(Calendar.HOUR_OF_DAY) + ":"
 				+ String.format("%02d", calendar.get(Calendar.MINUTE)));
+
+		lbl_hora.setMaxWidth(200);
+		lbl_hora.setPrefWidth(140);
+
 		lbl_titulo = new Label(reminder.getTitle());
 		lbl_titulo.setId("titulo");
+
+		lbl_titulo.prefWidthProperty().bind(this.widthProperty());
 
 		this.getChildren().add(lbl_titulo);
 		this.getChildren().add(lbl_hora);

@@ -53,7 +53,7 @@ public class EventComponent extends VBox {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(event.getData_inicio());
 
-		lbl_hora = new Label(" - " + calendar.get(Calendar.HOUR_OF_DAY) + ":"
+		lbl_hora = new Label(calendar.get(Calendar.HOUR_OF_DAY) + ":"
 				+ String.format("%02d", calendar.get(Calendar.MINUTE)));
 				
 		lbl_titulo = new Label(event.getTitulo());
