@@ -145,7 +145,7 @@ public class EventComponent extends VBox {
 
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Excluir!");
-			alert.setHeaderText("Seu evento será excluido e não poderá mais ser recuperado!");
+			alert.setHeaderText("Seu evento serï¿½ excluido e nï¿½o poderï¿½ mais ser recuperado!");
 			alert.setContentText("Deseja realmente excluir seu evento?");
 
 			Optional<ButtonType> result = alert.showAndWait();
