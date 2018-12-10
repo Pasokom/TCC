@@ -144,6 +144,7 @@ public class ReminderSchedule {
 	}
 
 	public void setDatetime_begin(Timestamp datetime_begin) {
+		System.out.println(datetime_begin);
 		this.datetime_begin = datetime_begin;
 	}
 

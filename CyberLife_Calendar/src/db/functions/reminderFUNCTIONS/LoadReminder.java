@@ -3,10 +3,9 @@ package db.functions.reminderFUNCTIONS;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 
 import db.Database;
 import db.pojo.reminderPOJO.ReminderDB;
@@ -102,15 +101,16 @@ public class LoadReminder {
 		 */
 		if (result.first())
 			result.beforeFirst();
+		int j = 0;
 		while (result.next()) {
 
 			// pega o ID do lembrete no loop atual
 			int l_reminderId = result.getInt(1);
 
 			sqlReminder = final_queryReminder + l_reminderId + ";";
-		
+
 			System.out.println(sqlReminder);
-		
+
 			ResultSet l_bringReminder = this.connection.createStatement().executeQuery(sqlReminder);
 
 			if (l_bringReminder.first())
@@ -120,7 +120,7 @@ public class LoadReminder {
 			ReminderDB l_reminder = getReminder(l_bringReminder.getInt(1), l_bringReminder.getString(2),
 					l_bringReminder.getBoolean(3), l_bringReminder.getInt(4), l_bringReminder.getInt(5));
 
-			/***
+			/*
 			 * this is a int array with the ids of the shedules records going to be used for
 			 * bring this records from the database to the application
 			 * 
@@ -136,12 +136,14 @@ public class LoadReminder {
 
 				sqlSchedule = final_querySchedule + l_scheduleIds[i] + ";";
 
-				System.out.println(sqlSchedule);
+				// System.out.println(sqlSchedule);
 				ResultSet rs = this.connection.createStatement().executeQuery(sqlSchedule);
+
+				Calendar calendar = Calendar.getInstance();
 
 				if (rs.isBeforeFirst()) /* this is fucking important */
 					rs.next();
-				ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getTimestamp(2), rs.getTimestamp(3),
+				ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getTimestamp(2, calendar), rs.getTimestamp(3, calendar),
 						rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9),
 						rs.getBoolean(10), rs.getInt(11));
 				/*
@@ -152,6 +154,15 @@ public class LoadReminder {
 				 * the current ReminderDB of the WHILE loop
 				 */
 				l_reminder.getlReminderSchedule().add(rse);
+			}
+			System.out.println("Interador (LOOP PRINCIPAL) : " + j++);
+			System.out.println("Tamanho da lista (LISTA DE REMINDERDB ): " + l_listReminders.size());
+
+			System.out.println(
+					"Lista de horarios do lembrete (LISTA DE REMINDERSCHEDULE) : " + l_reminder.getReminderId());
+			for (int k = 0; k < l_reminder.getlReminderSchedule().size(); k++) {
+				System.out.println(
+						"Interador lista de horarios do lembrete : " + l_reminder.getReminderId() + "\n LOOP :  " + k);
 			}
 			l_listReminders.add(l_reminder);
 		}

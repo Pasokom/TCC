@@ -1,14 +1,16 @@
 package component.homepage;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import component.event.EventComponentDemo;
+import component.reminder.ReminderComponentDemo;
 import db.functions.event.RetrieveEvents;
+import db.functions.reminderFUNCTIONS.LoadReminder;
 import db.pojo.eventPOJO.EventDB;
+import db.pojo.reminderPOJO.ReminderDB;
 import display.scenes.HomePage;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -16,6 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import statics.Enums;
+import statics.SESSION;
 
 public class CalendarComponent extends GridPane {
 
@@ -86,6 +89,8 @@ public class CalendarComponent extends GridPane {
 				}
 			}
 
+			lblDay.setPrefSize(15, 15);
+
 			final int day = Integer.parseInt(lblDay.getText());
 
 			VBox dateItem = new VBox();
@@ -110,7 +115,7 @@ public class CalendarComponent extends GridPane {
 			GridPane.setHgrow(dateItem, Priority.ALWAYS);
 			GridPane.setVgrow(dateItem, Priority.ALWAYS);
 
-			if(i > first_day_week && i - first_day_week + 1 < aux3)
+			if(i >= first_day_week && i - first_day_week + 1 < aux3)
 				if(demoList[day - 1] != null)
 					dateItem.getChildren().add(demoList[day - 1]);
 
@@ -145,9 +150,11 @@ public class CalendarComponent extends GridPane {
 		for (int i = 0; i < boxes.length; i++) {
 			boxes[i] = new VBox();
 			boxes[i].setSpacing(2);
+			boxes[i].setMaxHeight(100);
 		}
 
 		retrieveEvents.updateList(this.date);
+
 
 		for(EventDB event : RetrieveEvents.listEvents) {
 		
@@ -163,9 +170,44 @@ public class CalendarComponent extends GridPane {
 				if(eDate.get(Calendar.MONTH) == month_date)
 				{
 					int eDay = eDate.get(Calendar.DATE);
-					boxes[eDay - 1].getChildren().add(eDemo);
+
+					if(boxes[eDay - 1].getChildren().size() < 4){
+
+						boxes[eDay - 1].getChildren().add(eDemo);
+					}
 				}
 			}
+		}
+
+		ArrayList<ReminderDB> reminders = new ArrayList<>();
+
+		try {
+			LoadReminder loadReminders = new LoadReminder();
+			reminders = loadReminders.getReminders((int) SESSION.get_user_cod(),
+					LoadReminder.TypeOfQuery.ALL_REMINDERS);
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		for (ReminderDB reminder : reminders) {
+			
+			Date eventDate = new Date(reminder.getlReminderSchedule().get(0).getDatetime_begin().getTime());
+			Calendar eDate = Calendar.getInstance();
+			eDate.setTime(eventDate);
+
+			ReminderComponentDemo rDemo = new ReminderComponentDemo(reminder);
+
+			int month_date = this.date.get(Calendar.MONTH);
+
+			if(eDate.get(Calendar.MONTH) == month_date)
+			{
+				int eDay = eDate.get(Calendar.DATE);
+				if(boxes[eDay - 1].getChildren().size() < 4){
+
+					boxes[eDay - 1].getChildren().add(rDemo);
+				}
+			}
+			
 		}
 
 		return boxes;

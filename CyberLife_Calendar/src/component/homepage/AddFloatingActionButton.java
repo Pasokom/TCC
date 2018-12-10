@@ -26,8 +26,8 @@ public class AddFloatingActionButton extends StackPane {
 		this.getStylesheets().add(this.getClass().getResource("/css/add_fab.css").toExternalForm());
 
 		Circle circulo = new Circle();
-		circulo.setRadius(30);
-		circulo.setFill(Color.rgb(242, 255, 25));
+		circulo.setRadius(25);
+		circulo.setFill(Color.rgb(255, 211, 46));
 		circulo.setCenterX(68);
 		circulo.setCenterY(50);
 

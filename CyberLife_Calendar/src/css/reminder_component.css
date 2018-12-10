@@ -8,11 +8,27 @@
 	-fx-background-radius: 3;
 }
 
-#card .label{
+#demo_card{
+	-fx-background-color: #021aee;
+	-fx-background-radius: 5 5 5 5;
+	-fx-font-size: 10;
+	-fx-padding: 0 2 0 2;
+}
+
+Label{
 	-fx-text-fill: white;
 	-fx-font-size: 14;
 }
 
 #titulo{
 	-fx-font-weight: bold;
+}
+
+#edit {
+	-fx-image: url("../../resources/images/more2.png");
+	-fx-padding: 50;
+}
+
+#edit:hover{
+	-fx-cursor: hand;
 }

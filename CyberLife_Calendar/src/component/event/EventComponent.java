@@ -46,8 +46,8 @@ public class EventComponent extends VBox {
 
 		lblEdit.setId("edit");
 		lblEdit.setFitWidth(20);
-		lblEdit.setPreserveRatio(true);
-
+		lblEdit.setPreserveRatio(true);		
+		
 		/* instanciando componentes */
 		eventDetails = new EventInfo(event);
 
@@ -68,8 +68,9 @@ public class EventComponent extends VBox {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(event.getData_inicio());
 
-		lbl_hora = new Label(" - " + calendar.get(Calendar.HOUR_OF_DAY) + ":"
+		lbl_hora = new Label(calendar.get(Calendar.HOUR_OF_DAY) + ":"
 				+ String.format("%02d", calendar.get(Calendar.MINUTE)));
+				
 		lbl_titulo = new Label(event.getTitulo());
 		lbl_titulo.setId("titulo");
 
@@ -78,7 +79,8 @@ public class EventComponent extends VBox {
 
 		lbl_titulo.prefWidthProperty().bind(card.widthProperty());
 
-		lbl_hora.setPrefWidth(190);
+		lbl_hora.setMaxWidth(200);
+		lbl_hora.setPrefWidth(140);
 
 		if (!event.isDia_todo())
 			card.getChildren().add(lbl_hora);
@@ -143,7 +145,7 @@ public class EventComponent extends VBox {
 
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Excluir!");
-			alert.setHeaderText("Seu evento ser√° excluido e n√£o poder√° mais ser recuperado!");
+			alert.setHeaderText("Seu evento ser· excluido e n„o poder· mais ser recuperado!");
 			alert.setContentText("Deseja realmente excluir seu evento?");
 
 			Optional<ButtonType> result = alert.showAndWait();

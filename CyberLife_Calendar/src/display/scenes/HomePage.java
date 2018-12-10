@@ -1,7 +1,6 @@
 package display.scenes;
 
 import java.util.Calendar;
-
 import component.homepage.CalendarBar;
 import component.homepage.CalendarComponent;
 import component.homepage.ListCalendar;

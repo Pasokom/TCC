@@ -51,8 +51,7 @@ public class ListCalendar extends VBox {
 
 		this.lblSelectedDate = new Label(date.get(Calendar.DAY_OF_MONTH) + "/" + (date.get(Calendar.MONTH) + 1));
 		lblSelectedDate.setFont(new Font(30));
-
-		this.lblReminder = new Label(" - ProgramaÃ§Ã£o");
+		this.lblReminder = new Label(" - Programação");
 
 		hHeader.setAlignment(Pos.CENTER_LEFT);
 
@@ -156,11 +155,11 @@ public class ListCalendar extends VBox {
 			retrieveEvents.updateList(HomePage.calendarComponent.getDate());
 		else
 			retrieveEvents.updateList(date);
-
-		for (EventDB event : RetrieveEvents.listEvents) {
-
+			
+		for(EventDB event : RetrieveEvents.listEvents) {
+			
 			Date eventDate = new Date(event.getData_inicio().getTime());
-
+			
 			LocalDate myDate = date.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			LocalDate myEventDate = eventDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 

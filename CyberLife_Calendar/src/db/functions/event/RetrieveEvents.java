@@ -25,14 +25,13 @@ public class RetrieveEvents {
 			CallableStatement statement = Database.get_connection().prepareCall("call spRepete(?,?)");
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-			Calendar limit;
+			Calendar limit = Calendar.getInstance();
 
 			if(date == null){
-				limit = Calendar.getInstance();
 				limit.add(Calendar.DATE, limit.getActualMaximum(Calendar.DATE) - limit.get(Calendar.DATE));
 			}
 			else
-				limit = date;
+				limit.setTime(date.getTime());;
 				limit.add(Calendar.DATE, limit.getActualMaximum(Calendar.DATE) - limit.get(Calendar.DATE));
 
 			statement.setString(1, formatter.format(limit.getTime()));

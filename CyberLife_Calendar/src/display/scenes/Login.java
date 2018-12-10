@@ -179,16 +179,17 @@ public class Login extends Scene {
 
 		btnEntrar = new Button("Entrar");
 		this.btnEntrar.setOnAction(e -> {
-			// login();
+			/* // login();
 			try {
 				LoadReminder x = new LoadReminder();
 				ArrayList<ReminderDB> y = x.getReminders(3, LoadReminder.TypeOfQuery.ALL_REMINDERS);
 				System.out.println(y.get(0));
 			} catch (SQLException | ClassNotFoundException e1) {
 				e1.printStackTrace();
-			}
+			} */
 			// PictureSettings ps = new PictureSettings();
 			// Main.main_stage.setScene(cena(ps));
+			login();
 		});
 		this.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.ENTER)

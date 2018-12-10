@@ -9,7 +9,7 @@
 #today{
 	-fx-background-color: rgb(9, 84, 178);
 	-fx-background-radius: 50%;
-	-fx-background-insets: -6 -11 -6 -11;
+	-fx-background-insets: -6 -7 -6 -7;
 	-fx-text-fill: #ffffff;
 }
 
