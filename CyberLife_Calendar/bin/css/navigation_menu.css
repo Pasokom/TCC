@@ -12,9 +12,13 @@ Label{
 }
 
 #logout{
-	-fx-image: url("../../resources/images/logout_white.png");
+	-fx-image: url("../../resources/images/logout.png");
 }
 
 #logout:hover{
+	-fx-cursor: hand;
+}
+
+#email{
 	-fx-cursor: hand;
 }

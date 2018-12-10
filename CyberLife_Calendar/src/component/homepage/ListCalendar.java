@@ -51,7 +51,7 @@ public class ListCalendar extends VBox {
 
 		this.lblSelectedDate = new Label(date.get(Calendar.DAY_OF_MONTH) + "/" + (date.get(Calendar.MONTH) + 1));
 		lblSelectedDate.setFont(new Font(30));
-		this.lblReminder = new Label(" - ProgramaÃ§Ã£o");
+		this.lblReminder = new Label(" - Programação");
 
 		hHeader.setAlignment(Pos.CENTER_LEFT);
 

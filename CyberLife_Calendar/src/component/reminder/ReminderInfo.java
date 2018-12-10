@@ -56,7 +56,7 @@ public class ReminderInfo extends Stage {
 		lblDaysOfWeek.add(sexta);
 		lblDaysOfWeek.add(sabado);
 
-		lblTitulo = new Label("TÃ­tulo: " + reminder.getTitle().toString());
+		lblTitulo = new Label("Título: " + reminder.getTitle().toString());
 		rTimetable = new ReminderTimetable(reminder.getlReminderSchedule(), RepetitionType.values()[reminder.getRepetitionType()]);
 		rInfo = new RecurrenceInfo(reminder);
 

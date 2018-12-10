@@ -89,6 +89,8 @@ public class CalendarComponent extends GridPane {
 				}
 			}
 
+			lblDay.setPrefSize(15, 15);
+
 			final int day = Integer.parseInt(lblDay.getText());
 
 			VBox dateItem = new VBox();

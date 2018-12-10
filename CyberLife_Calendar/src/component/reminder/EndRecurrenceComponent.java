@@ -55,10 +55,10 @@ public class EndRecurrenceComponent extends VBox {
 
 		hbOn.getChildren().addAll(radOn, date_picker);
 
-		radAfter = new RadioButton("Apï¿½s");
+		radAfter = new RadioButton("Após");
 		radAfter.setToggleGroup(togEndRepeat);
 
-		lblOccurrence = new Label("ocorrï¿½ncia(s)");
+		lblOccurrence = new Label("ocorrência(s)");
 
 		// criando dois spinners de 1 a 100 de 1 em 1
 		SpinnerValueFactory<Integer> qtdRepeatValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100,

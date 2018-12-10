@@ -25,7 +25,7 @@ Label{
 }
 
 #edit {
-	-fx-image: url("../../resources/images/baseline_edit_white_24dp.png");
+	-fx-image: url("../../resources/images/more.png");
 	-fx-padding: 50;
 }
 

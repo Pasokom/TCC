@@ -23,3 +23,12 @@ Label{
 #titulo{
 	-fx-font-weight: bold;
 }
+
+#edit {
+	-fx-image: url("../../resources/images/more2.png");
+	-fx-padding: 50;
+}
+
+#edit:hover{
+	-fx-cursor: hand;
+}
