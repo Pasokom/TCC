@@ -58,7 +58,6 @@ public class Recurrence extends VBox {
 	}
 
 	public void setTypeFrequency(int index) {
-		System.out.println(index);
 		this.frequency.setSelected(index);
 	}
 

@@ -41,7 +41,10 @@ public class FrequencyComponent extends HBox {
 	public void setSelected(int index) {
 		repeatOptions.getSelectionModel()
 				.select((index == 1 ? "dia" : (index == 2 ? "semana" : (index == 3 ? "mes" : "ano"))));
+		if (index == 0)
+			repeatOptions.getSelectionModel().select("dia");
 	}
+
 	/*
 	 * retorna o tipo de recorrencia selecionado
 	 */

@@ -84,7 +84,7 @@ public class ManageEvents {
         if (tableName.toUpperCase().equals("E_FIM_REPETICAO")) {
             sql_end = " WHERE COD_FIM_REPETICAO = " + recordID;
             if (column == changeTheRepetition.END_DAY)
-                sql = sql + this.DIA_FIM + (String) newValue + "'" + sql_end;
+                sql = sql + this.DIA_FIM + (String) newValue + "" + sql_end;
             if (column == changeTheRepetition.AMOUNT_OF_RECURRENCES)
                 sql = sql + this.QTD_RECORRENCIAS + (int) newValue + sql_end;
             System.out.println(sql);
