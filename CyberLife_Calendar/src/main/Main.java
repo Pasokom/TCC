@@ -6,6 +6,7 @@ import java.util.TimeZone;
 
 import db.Database;
 import db.functions.registrationAndLogin.HandlerLogin;
+import display.poupoup.EditProfile;
 import display.scenes.HomePage;
 import display.scenes.Login;
 import javafx.application.Application;
@@ -37,7 +38,7 @@ public class Main extends Application {
 		 * 'stay connected' then will have no need to open the login scene the home page
 		 * scene will be open and the SESSION started
 		 */
-		this.io = new IOFunctions();
+	 	this.io = new IOFunctions();
 		if (io.fileExists("stay_connected")) {
 			int userID = (int) io.undoSerialization("stay_connected");
 			HandlerLogin login = new HandlerLogin();
@@ -45,8 +46,11 @@ public class Main extends Application {
 			main_stage.setScene(new HomePage());
 			main_stage.show();
 			return;
-		}
+		} 
 		main_stage.setScene(new Login());
-		main_stage.show();
+		main_stage.show(); 
+
+	/* 	EditProfile editProfile = new EditProfile();
+		editProfile.show(); */
 	}
 }
