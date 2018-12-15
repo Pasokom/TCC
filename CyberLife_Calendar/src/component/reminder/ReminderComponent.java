@@ -152,7 +152,7 @@ public class ReminderComponent extends HBox {
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
 				
-				System.out.println("Excluido");
+
 			}
 		});
 

@@ -71,7 +71,7 @@ public class ManageEvents {
 			sql = sql + this.DIA_TODO + (boolean) newValue + sql_end;
 		if (column == changeTheEvent.ACTIVE)
 			sql = sql + this.ATIVO + (boolean) newValue + sql_end;
-		System.out.println(sql);
+//		System.out.println(sql);
 		execute(sql);
 	}
 

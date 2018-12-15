@@ -251,8 +251,8 @@ public class Login extends Scene {
 
 		aPane.requestFocus();
 
-		txtEmail.setText("j");
-		txtSenha.setText("1");
+//		txtEmail.setText("j");
+//		txtSenha.setText("1");
 
 		this.setRoot(aPane);
 	}

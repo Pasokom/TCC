@@ -40,7 +40,6 @@ public class HandlerLogin {
 			System.out.println("[ERROR] função login() - classe HandlerLogin");
 		}
 		return false;
-
 	}
 
 	public boolean loginBySerialization(int userID) {

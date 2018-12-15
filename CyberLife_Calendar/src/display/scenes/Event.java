@@ -317,7 +317,7 @@ public class Event extends Scene {
 		String date_begin = retrieveInRightFormat(this.dtStart.getValue().toString(),this.timeStart.get_value().toString());
 		String old_date_begin = retrieveInRightFormat(event.getData_inicio().toString().substring(0, 10),event.getData_inicio().toString().substring(11, 16));
 		
-		System.out.println( "1 : " + date_begin +  " \n 2 : " + old_date_begin);
+//		System.out.println( "1 : " + date_begin +  " \n 2 : " + old_date_begin);
 		if (!compare(old_date_begin, date_begin, 0)) {
 			if (!cbxAllDay.selectedProperty().get()) {
 				applyChanges.changeEvent(date_begin, event.getCod_evento(), ManageEvents.changeTheEvent.DATE_BEGIN);

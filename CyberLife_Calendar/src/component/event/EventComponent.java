@@ -141,7 +141,6 @@ public class EventComponent extends VBox {
 		Label lblExcluir = new Label("Excluir");
 		lblEditar.prefWidthProperty().bind(stage.widthProperty());
 
-		// TODO CHANGE THE RECORD TO INACTIVE
 		lblExcluir.setOnMouseClicked(e -> {
 
 			VBox root = new VBox();
