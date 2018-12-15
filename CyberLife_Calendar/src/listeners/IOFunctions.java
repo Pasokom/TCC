@@ -116,7 +116,7 @@ public class IOFunctions {
 	 * temporarios</h2>
 	 */
 	public boolean fileExists(String fileName, String path) {
-		System.out.println(path + fileName);
+//		System.out.println(path + fileName);
 		return new File(path + fileName).exists();
 	}
 
@@ -169,7 +169,7 @@ public class IOFunctions {
 	 */
 	public void deleteFileIfExists(File file) {
 		if (file.exists()) {
-			System.out.println(file.getPath());
+//			System.out.println(file.getPath());
 			file.delete();
 			return;
 		}
@@ -194,7 +194,7 @@ public class IOFunctions {
 		final String path = FileSystems.getDefault().getPath(System.getProperty("user.home")).toString();
 		String folder = path + "/" + this.CONFIG_FOLDER;
 		File f = new File(folder);
-		System.out.println(f.getPath().toString());
+//		System.out.println(f.getPath().toString());
 		if (!f.exists()) 
 			f.mkdir();
 		return f.getPath() + "/";

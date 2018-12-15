@@ -121,7 +121,7 @@ public class Event extends Scene {
 			changeEvent(event);
 			changeSchedules(es, ens);
 			owner.close();
-			// TODO atualizar a lista
+			// TODO atualizar no calendario e na lista
 		});
 	}
 
@@ -366,15 +366,17 @@ public class Event extends Scene {
 
 		String complete_value = date_value + " " + time_value;
 
+		if (time_value.isEmpty())
+			return date_value + " 00:00:00";
+
 		if (complete_value.length() == 19)
 			return complete_value;
 
 		complete_value += ":00";
+
 		if (complete_value.length() == 19)
 			return complete_value;
 
-		if (time_value.isEmpty())
-			return date_value + "00:00:00";
 		return "00:00";
 	}
 
