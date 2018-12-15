@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import listeners.windows.CloseWindowEsc;
 
 public class AddFloatingActionButton extends StackPane {
 
@@ -49,7 +50,7 @@ public class AddFloatingActionButton extends StackPane {
 
 			addSelectorStage.show();
 		});
-
+		
 		this.setOnMouseEntered(e -> {
 			circulo.setFill(Color.rgb(232, 213, 11));
 		});
@@ -78,7 +79,7 @@ public class AddFloatingActionButton extends StackPane {
 			}
 
 		});
-
+			
 		VBox vOptions = new VBox();
 
 		Label lblLembrete = new Label("Lembrete");
@@ -88,15 +89,17 @@ public class AddFloatingActionButton extends StackPane {
 		lblLembrete.setOnMouseClicked(e -> {
 			Stage st = new Stage();
 			st.setScene(new Reminder(st));
+			new CloseWindowEsc(st);
 			st.show();
 		});
 
 		lblEvento.setOnMouseClicked(e -> {
 			Stage st = new Stage();
-			st.setScene(new Event());
+			st.setScene(new Event(st));
 			st.show();
 		});
-
+		
+		
 		vOptions.getChildren().addAll(lblEvento, lblLembrete);
 
 		Scene scene = new Scene(vOptions);

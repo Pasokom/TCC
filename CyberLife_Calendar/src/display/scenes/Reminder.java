@@ -30,6 +30,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import listeners.windows.CloseWindowEsc;
 import statics.Enums;
 import statics.SESSION;
 
@@ -53,23 +54,19 @@ public class Reminder extends Scene {
 
 	public Reminder(Stage owner) {
 		super(new HBox());
-		init();
 		this.owner = owner;
-
-	}
-	public Reminder(ReminderDB reminder, Stage owner) { 
-		super(new HBox());
 		init();
-		
-		
-		
-		
-		
-		
 	}
-		
-	public void init() {
 
+	public Reminder(ReminderDB reminder, Stage owner) {
+		super(new HBox());
+		this.owner = owner;
+		init();
+
+	}
+
+	public void init() {
+		this.setOnKeyPressed(new CloseWindowEsc(owner));
 		CustomScroll customScroll = new CustomScroll();
 
 		VBox vb = new VBox();
@@ -288,7 +285,7 @@ public class Reminder extends Scene {
 		}
 		if (is_time_picker) { /* se entrou aqui, entÃ£o o time picker foi selecionado */
 			if (time_picker_list.get_selected_time().isEmpty()) { /* se o time picker estiver vazio ele sai da funÃ§Ã£o */
-				System.out.println("[INFO] time picker vazio, saindo da função");
+				System.out.println("[INFO] time picker vazio, saindo da funï¿½ï¿½o");
 				return;
 			}
 			/*

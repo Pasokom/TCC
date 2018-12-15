@@ -35,6 +35,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import listeners.windows.CloseWindowEsc;
 import main.Main;
 import statics.Enums;
 import statics.NotifyUser;
@@ -50,14 +51,17 @@ public class Event extends Scene {
 	private CheckBox cbxAllDay, cbxRepeat;
 	private Recurrence recurrence;
 	private CreateEvent createEvent;
+	private Stage owner;
 
-	public Event() {
+	public Event(Stage owner) {
 		super(new VBox());
+		this.owner = owner;
 		init();
 	}
 
 	public Event(EventDB event, Stage owner) {
 		super(new VBox());
+		this.owner = owner;
 		init();
 
 		EventSchedule es = event.getHorario_evento();
@@ -67,8 +71,8 @@ public class Event extends Scene {
 		this.txtDetails.setText(event.getDescricao());
 		this.txtTitle.setText(event.getTitulo());
 
-		this.dtStart = new DatePicker(event.getData_inicio().toLocalDateTime().toLocalDate());
-		this.dtEnd = new DatePicker(event.getData_fim().toLocalDateTime().toLocalDate());
+		this.dtStart.setValue(event.getData_inicio().toLocalDateTime().toLocalDate());
+		this.dtEnd.setValue(event.getData_fim().toLocalDateTime().toLocalDate());
 
 		/* para horarios definidos para o projeto */
 		String time_begin = event.getEventTime(String.valueOf(event.getData_inicio()));
@@ -101,15 +105,15 @@ public class Event extends Scene {
 		boolean never_end = ens.getQtd_recorrencias() != 0 || ens.getDia_fim() == null;
 		boolean by_date = ens.getQtd_recorrencias() == 0 && ens.getDia_fim() != null;
 		boolean by_amount = ens.getQtd_recorrencias() > 0;
-		
+
 		if (never_end) {
 			this.recurrence.setSelectionEnd(0);
 		}
 		if (by_date) {
 			this.recurrence.setSelectionEnd(1);
 			this.recurrence.setDatePickerValue(new DatePicker(ens.getDia_fim().toLocalDate()));
-		} 
-		if(by_amount){
+		}
+		if (by_amount) {
 			this.recurrence.setSelectionEnd(2);
 			this.recurrence.setSpinnerValue(ens.getQtd_recorrencias());
 		}
@@ -120,10 +124,11 @@ public class Event extends Scene {
 			// TODO atualizar a lista
 		});
 	}
+
 	private void init() {
 		Main.main_stage.setTitle("EVENTO");
 		/* scene */ this.getStylesheets().add("css/event.css");
-
+		this.setOnKeyPressed(new CloseWindowEsc(owner));
 		VBox vb = new VBox();
 
 		CustomScroll customScroll = new CustomScroll();
@@ -138,7 +143,7 @@ public class Event extends Scene {
 		barraTitulo.setId("lBarraTitulo");
 
 		txtTitle = new TextField();
-		txtTitle.setPromptText("Título do evento");
+		txtTitle.setPromptText("Tï¿½tulo do evento");
 		txtTitle.setId("lNome");
 		btnSave = new Button("Salvar");
 		btnSave.setId("btnEnviar");
@@ -147,7 +152,7 @@ public class Event extends Scene {
 			try {
 				insert_event();
 				((Stage) this.getWindow()).close();
-				
+
 				HomePage.listCalendar.update(Calendar.getInstance());
 				HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
 
@@ -155,7 +160,6 @@ public class Event extends Scene {
 						+ dtStart.getValue().toString();
 
 				NotifyUser.sendNotification("Evento", notificationMessage, MessageType.NONE);
-
 
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
@@ -175,7 +179,7 @@ public class Event extends Scene {
 		lblStartDate = new Label("De");
 		dtStart = new DatePicker(date);
 		timeStart = new TimePicker(false);
-		lblEndDate = new Label("até");
+		lblEndDate = new Label("atï¿½");
 		dtEnd = new DatePicker(date);
 		timeEnd = new TimePicker(false);
 
@@ -271,7 +275,7 @@ public class Event extends Scene {
 
 		createEvent.insert_event_end_schedule(endSchedule);
 	}
-	
+
 	private void changeSchedules(EventSchedule es, EventEndSchedule ens) {
 		ManageEvents changes = new ManageEvents();
 
@@ -304,6 +308,7 @@ public class Event extends Scene {
 			}
 		}
 	}
+
 	private void changeEvent(EventDB event) {
 		ManageEvents applyChanges = new ManageEvents();
 
@@ -311,14 +316,18 @@ public class Event extends Scene {
 			applyChanges.changeEvent(this.txtTitle.getText(), event.getCod_evento(), ManageEvents.changeTheEvent.TITLE);
 
 		if (!compare(event.getDescricao(), this.txtDetails.getText(), 0)) {
-			applyChanges.changeEvent(this.txtDetails.getText(), event.getCod_evento(),ManageEvents.changeTheEvent.DESCRIPTION);
+			applyChanges.changeEvent(this.txtDetails.getText(), event.getCod_evento(),
+					ManageEvents.changeTheEvent.DESCRIPTION);
 		}
 		if (!compare(event.getLocal_evento(), this.txtPlace.getText(), 0)) {
-			applyChanges.changeEvent(this.txtPlace.getText(), event.getCod_evento(),ManageEvents.changeTheEvent.EVENT_LOCATION);
+			applyChanges.changeEvent(this.txtPlace.getText(), event.getCod_evento(),
+					ManageEvents.changeTheEvent.EVENT_LOCATION);
 		}
-		String date_begin = retrieveInRightFormat(this.dtStart.getValue().toString(),this.timeStart.get_value().toString());
-		String old_date_begin = retrieveInRightFormat(event.getData_inicio().toString().substring(0, 10),event.getData_inicio().toString().substring(11, 16));
-		
+		String date_begin = retrieveInRightFormat(this.dtStart.getValue().toString(),
+				this.timeStart.get_value().toString());
+		String old_date_begin = retrieveInRightFormat(event.getData_inicio().toString().substring(0, 10),
+				event.getData_inicio().toString().substring(11, 16));
+
 //		System.out.println( "1 : " + date_begin +  " \n 2 : " + old_date_begin);
 		if (!compare(old_date_begin, date_begin, 0)) {
 			if (!cbxAllDay.selectedProperty().get()) {
@@ -329,7 +338,8 @@ public class Event extends Scene {
 			}
 		}
 		String date_end = retrieveInRightFormat(this.dtEnd.getValue().toString(), this.timeEnd.get_value().toString());
-		String old_date_end = old_date_begin = retrieveInRightFormat(event.getData_fim().toString().substring(0, 10),event.getData_fim().toString().substring(11, 16));
+		String old_date_end = old_date_begin = retrieveInRightFormat(event.getData_fim().toString().substring(0, 10),
+				event.getData_fim().toString().substring(11, 16));
 		if (!compare(old_date_end, date_end, 0)) {
 			if (!cbxAllDay.selectedProperty().get()) {
 				applyChanges.changeEvent(date_end, event.getCod_evento(), ManageEvents.changeTheEvent.DATE_END);
@@ -339,30 +349,35 @@ public class Event extends Scene {
 			}
 		}
 		if (!compare(event.isDia_todo(), this.cbxAllDay.selectedProperty().get(), 2)) {
-			applyChanges.changeEvent(this.cbxAllDay.selectedProperty().get(), event.getCod_evento(),ManageEvents.changeTheEvent.ALL_DAY);
+			applyChanges.changeEvent(this.cbxAllDay.selectedProperty().get(), event.getCod_evento(),
+					ManageEvents.changeTheEvent.ALL_DAY);
 		}
 		if (this.cbxRepeat.selectedProperty().get()) {
 			if (!compare(event.getTipo_repeticao(), recurrence.get_recurrence_type(), 1))
-				applyChanges.changeEvent(this.recurrence.get_recurrence_type(), event.getCod_evento(),ManageEvents.changeTheEvent.TYPE_OF_REPETITION);
+				applyChanges.changeEvent(this.recurrence.get_recurrence_type(), event.getCod_evento(),
+						ManageEvents.changeTheEvent.TYPE_OF_REPETITION);
 			if (!compare(event.getTipo_fim_repeticao(), recurrence.getSelectedEnd(), 1))
-				applyChanges.changeEvent(this.recurrence.getSelectedEnd(), event.getCod_evento(),ManageEvents.changeTheEvent.TYPE_OF_REPETITION_END);
+				applyChanges.changeEvent(this.recurrence.getSelectedEnd(), event.getCod_evento(),
+						ManageEvents.changeTheEvent.TYPE_OF_REPETITION_END);
 		}
 	}
+
 	private String retrieveInRightFormat(String date_value, String time_value) {
-		
+
 		String complete_value = date_value + " " + time_value;
-		
+
 		if (complete_value.length() == 19)
 			return complete_value;
-		
+
 		complete_value += ":00";
-		if(complete_value.length() == 19) 
+		if (complete_value.length() == 19)
 			return complete_value;
-		
-		if(time_value.isEmpty()) 
+
+		if (time_value.isEmpty())
 			return date_value + "00:00:00";
-		return  "00:00";
+		return "00:00";
 	}
+
 	private String buildWeekDays() {
 		StringBuilder stb = new StringBuilder();
 		int i = 0;
@@ -401,7 +416,6 @@ public class Event extends Scene {
 		}
 	}
 
-	
 	public void displayTray() throws AWTException, MalformedURLException {
 		// Obtain only one instance of the SystemTray object
 		SystemTray tray = SystemTray.getSystemTray();

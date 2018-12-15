@@ -29,7 +29,9 @@ public class NavigationMenu extends AnchorPane {
 	private HBox hProfile;
 	private VBox vProfileNameEmail;
 	private Stage profileSelector;
-	private ImageView ivLogout, ivConfig;
+
+	private ImageView ivLogout;
+
 	private EditProfile editProfile;
 
 	public NavigationMenu() {
@@ -64,7 +66,7 @@ public class NavigationMenu extends AnchorPane {
 		ivLogout.setPreserveRatio(true);
 		/* Conteudo do perfil */
 		hProfile = new HBox();
-		
+
 		Circle profileImg = new Circle();
 		profileImg.setRadius(20);
 		profileImg.setFill(Color.rgb(0, 0, 0, 0.08));
@@ -72,10 +74,10 @@ public class NavigationMenu extends AnchorPane {
 		profileImg.setCenterY(100);
 
 		StackPane userImg = new StackPane();
-		Label userInitial = new Label(SESSION.get_user_name().substring(0,1).toUpperCase());
+		Label userInitial = new Label(SESSION.get_user_name().substring(0, 1).toUpperCase());
 		userInitial.setFont(new Font(20));
 		userImg.getChildren().addAll(profileImg, userInitial);
-		
+
 		profileSelector = profileSelectorStageConstructor();
 
 		ivLogout.setOnMouseClicked(e -> {
@@ -88,15 +90,6 @@ public class NavigationMenu extends AnchorPane {
 			profileSelector.show();
 		});
 
-		ivConfig = new ImageView();
-		ivConfig.setId("config");
-		ivConfig.setFitWidth(35);
-		ivConfig.setPreserveRatio(true);
-
-		ivConfig.setOnMouseClicked(e -> {
-			new EditProfile().show();
-		});
-
 		/* VBox do nome e email */
 		vProfileNameEmail = new VBox();
 
@@ -107,19 +100,20 @@ public class NavigationMenu extends AnchorPane {
 		lblEmail.setOnMouseClicked(e -> {
 			editProfile.showAndWait();
 		});
+		lblNome.setOnMouseClicked(e -> {
+			editProfile.showAndWait();
+		});
+
+		this.setOnMouseClicked(e -> {
+			if (this.editProfile.isShowing())
+				this.editProfile.close();
+		});
 
 		vProfileNameEmail.getChildren().addAll(lblNome, lblEmail);
 		/* Fim VBox do nome e email */
 
-		ImageView image = new ImageView();
-		image.setFitWidth(60);
-		image.setImage(SESSION.get_user_image());
-		hProfile.getChildren().addAll(image, vProfileNameEmail);
-//		hProfile.getChildren().addAll(profileImg, vProfileNameEmail);
-		hProfile.getChildren().addAll(ivConfig, ivLogout);
-		
-//		hProfile.getChildren().addAll(userImg, vProfileNameEmail);
-//		hProfile.getChildren().add(ivLogout);
+		hProfile.getChildren().addAll(userImg, vProfileNameEmail);
+		hProfile.getChildren().add(ivLogout);
 		/* Fim do conteudo do perfil */
 
 		/* Botao adicionar */
@@ -157,15 +151,22 @@ public class NavigationMenu extends AnchorPane {
 
 		});
 
-		VBox vOptions = new VBox();
-
-		// TODO sair do programa
 		Label lblSair = new Label("Sair");
 		Label lblSairPro = new Label("Sair e fechar o programa");
+
+		VBox vOptions = new VBox();
+		vOptions.getChildren().addAll(lblSair, lblSairPro);
+
+		Scene scene = new Scene(vOptions);
+		stage.setScene(scene);
+
+		scene.getStylesheets().add(this.getClass().getResource("/css/add_fab_selector.css").toExternalForm());
+
 		lblSair.prefWidthProperty().bind(stage.widthProperty());
 
 		lblSairPro.setOnMouseClicked(e -> {
 
+			stage.close();
 			IOFunctions io = new IOFunctions();
 			io.deleteFileIfExists(new File(io.getSerializationFolder() + "/stay_connected.ser"));
 			SESSION.END_SESSION();
@@ -183,13 +184,6 @@ public class NavigationMenu extends AnchorPane {
 			SESSION.END_SESSION();
 			Main.main_stage.setScene(new Login());
 		});
-
-		vOptions.getChildren().addAll(lblSair, lblSairPro);
-
-		Scene scene = new Scene(vOptions);
-		stage.setScene(scene);
-
-		scene.getStylesheets().add(this.getClass().getResource("/css/add_fab_selector.css").toExternalForm());
 
 		return stage;
 	}
