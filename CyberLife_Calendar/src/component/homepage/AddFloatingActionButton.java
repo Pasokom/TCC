@@ -57,6 +57,8 @@ public class AddFloatingActionButton extends StackPane {
 		this.setOnMouseExited(e -> {
 			circulo.setFill(Color.rgb(242, 255, 25));
 		});
+
+		circulo.setId("circulo");
 	}
 
 	private Stage addSelectorStageConstructor() {

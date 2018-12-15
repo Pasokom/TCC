@@ -143,9 +143,9 @@ public class LoadReminder {
 
 				if (rs.isBeforeFirst()) /* this is fucking important */
 					rs.next();
-				ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getTimestamp(2, calendar), rs.getTimestamp(3, calendar),
-						rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9),
-						rs.getBoolean(10), rs.getInt(11));
+				ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getTimestamp(2, calendar),
+						rs.getTimestamp(3, calendar), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7),
+						rs.getInt(8), rs.getInt(9), rs.getBoolean(10), rs.getInt(11));
 				/*
 				 * the reminder that are in the scope of the WHILE loop ( the loop that happen
 				 * on the first resultSet) are the current reminder of the list AND the record
@@ -156,13 +156,16 @@ public class LoadReminder {
 				l_reminder.getlReminderSchedule().add(rse);
 			}
 			// System.out.println("Interador (LOOP PRINCIPAL) : " + j++);
-			// System.out.println("Tamanho da lista (LISTA DE REMINDERDB ): " + l_listReminders.size());
+			// System.out.println("Tamanho da lista (LISTA DE REMINDERDB ): " +
+			// l_listReminders.size());
 
 			// System.out.println(
-			// 		"Lista de horarios do lembrete (LISTA DE REMINDERSCHEDULE) : " + l_reminder.getReminderId());
+			// "Lista de horarios do lembrete (LISTA DE REMINDERSCHEDULE) : " +
+			// l_reminder.getReminderId());
 			// for (int k = 0; k < l_reminder.getlReminderSchedule().size(); k++) {
-			// 	System.out.println(
-			// 			"Interador lista de horarios do lembrete : " + l_reminder.getReminderId() + "\n LOOP :  " + k);
+			// System.out.println(
+			// "Interador lista de horarios do lembrete : " + l_reminder.getReminderId() +
+			// "\n LOOP : " + k);
 			// }
 			l_listReminders.add(l_reminder);
 		}

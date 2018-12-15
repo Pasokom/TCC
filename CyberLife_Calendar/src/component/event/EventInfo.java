@@ -76,15 +76,9 @@ public class EventInfo extends Stage {
 		}
 
 		finalRepeticao.setText(fimRepeticao);
-
 		if (eventDB.getTipo_repeticao() != 0) {
 			gp.add(rInfo, 0, 5, 2, 1);
 		}
-
-		if (eventDB.getTipo_repeticao() == 2) {
-			gp.add(rWeek, 0, 6, 2, 1);
-		}
-
 		if (!eventDB.getDescricao().isEmpty()) {
 			gp.add(descricao, 0, 4, 2, 1);
 		}
@@ -99,7 +93,6 @@ public class EventInfo extends Stage {
 		gp.add(finalRepeticao, 0, 7, 2, 1);
 
 		this.initStyle(StageStyle.UNDECORATED);
-
 		this.focusedProperty().addListener(new ChangeListener<Boolean>() {
 
 			@Override

@@ -177,8 +177,6 @@ public class Login extends Scene {
 		btnEntrar = new Button("Entrar");
 		this.btnEntrar.setOnAction(e -> {
 			login();
-			// PictureSettings ps = new PictureSettings();
-			// Main.main_stage.setScene(cena(ps));
 		});
 		this.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.ENTER)
@@ -358,7 +356,7 @@ public class Login extends Scene {
 					componenteLogin();
 				}
 			}
-			lblLog.setText("Usu�rio cadastrado com sucesso");
+			lblLog.setText("Usuário cadastrado com sucesso");
 			return;
 		}
 		lblLog.setText("email informado já foi cadastrado");
