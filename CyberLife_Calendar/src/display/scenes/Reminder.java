@@ -11,10 +11,10 @@ import java.util.Calendar;
 import component.CustomScroll;
 import component.Recurrence;
 import component.TimePickerList;
-import component.homepage.CalendarComponent;
 import component.reminder.IntervalComponent;
 import db.functions.reminderFUNCTIONS.CreateReminder;
 import db.pojo.reminderPOJO.ReminderDB;
+import db.pojo.reminderPOJO.ReminderSchedule;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -52,16 +52,59 @@ public class Reminder extends Scene {
 	private CreateReminder create_reminder;
 	private Stage owner;
 
+	/**
+	 * Used to show a screen for creation of a new reminder
+	 * 
+	 * @param owner
+	 */
 	public Reminder(Stage owner) {
 		super(new HBox());
 		this.owner = owner;
 		init();
 	}
 
+	/**
+	 * Used to load the screen with informations about a reminder that already
+	 * exists and will be changed
+	 * 
+	 * @param reminder
+	 * @param owner
+	 */
 	public Reminder(ReminderDB reminder, Stage owner) {
 		super(new HBox());
 		this.owner = owner;
 		init();
+
+		if (reminder.getRecurrenceType() != 0)
+			this.cbxRepeat.setSelected(true);
+
+
+		this.recurrence.setTypeFrequency(reminder.getRecurrenceType());
+	
+		if (reminder.getRecurrenceType() == 2) 
+			setWeekDays(reminder);
+		
+		
+		
+	}
+	
+	/** 
+	 * 	
+	 * Set the checkboxes of the week days according with the days of the schedule of these reminder
+	 * @param ReminderDB
+	 */
+	public void setWeekDays(ReminderDB r) {
+		int[] days = new int[7];
+
+		ArrayList<ReminderSchedule> rs = r.getlReminderSchedule();
+		int i = 0;
+		while (i < rs.size()) {
+			days[i] = rs.get(i).getWeekDay();
+			i++;
+		}
+		i = 0;
+		for (; i < days.length; i++)
+			this.recurrence.setDay(days[i]);
 
 	}
 
