@@ -56,7 +56,17 @@ public class Reminder extends Scene {
 		this.owner = owner;
 
 	}
-
+	public Reminder(ReminderDB reminder, Stage owner) { 
+		super(new HBox());
+		init();
+		
+		
+		
+		
+		
+		
+	}
+		
 	public void init() {
 
 		CustomScroll customScroll = new CustomScroll();

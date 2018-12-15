@@ -3,6 +3,7 @@ package component.event;
 import java.util.Calendar;
 import java.util.Optional;
 
+import db.functions.event.ManageEvents;
 import db.pojo.eventPOJO.EventDB;
 import display.scenes.Event;
 import javafx.beans.value.ChangeListener;
@@ -140,7 +141,6 @@ public class EventComponent extends VBox {
 		Label lblExcluir = new Label("Excluir");
 		lblEditar.prefWidthProperty().bind(stage.widthProperty());
 
-		// TODO CHANGE THE RECORD TO INACTIVE
 		lblExcluir.setOnMouseClicked(e -> {
 
 			VBox root = new VBox();
@@ -154,13 +154,15 @@ public class EventComponent extends VBox {
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
-				System.out.println("Excluido");
+				ManageEvents me =new ManageEvents ();
+				me.changeEvent(false, event.getCod_evento(), ManageEvents.changeTheEvent.ACTIVE);
+					
+				// TODO atualizar a tela quando finalizar isso / chamar a query que carrega tudo 
 			}
 		});
-
 		lblEditar.setOnMouseClicked(e -> {
 			Stage st = new Stage();
-			st.setScene(new Event(this.event, st));
+			st.setScene(new Event(this.event, st)); // TODO atualizar a tela 
 			st.show();
 		});
 

@@ -61,11 +61,7 @@ public class Cadastro extends Scene {
 
 			HandlerRegistration hr = new HandlerRegistration();
 
-			try {
-				hr.email_exists(txtEmail.getText());
-			} catch (SQLException | ClassNotFoundException e) {
-				e.printStackTrace();
-			}
+			hr.email_exists(txtEmail.getText());
 
 		});
 

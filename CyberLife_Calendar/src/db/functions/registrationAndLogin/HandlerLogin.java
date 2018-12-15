@@ -25,7 +25,7 @@ public class HandlerLogin {
 		try {
 			ResultSet result = Database.get_connection().createStatement().executeQuery(sql);
 
-			System.out.println(!result.first() ? "[WARNING] : no data found" : "[CONFIRMATION] : work");
+//			System.out.println(!result.first() ? "[WARNING] : no data found" : "[CONFIRMATION] : work");
 			if (!result.first())
 				return false;
 			if (serialize) {
@@ -40,7 +40,6 @@ public class HandlerLogin {
 			System.out.println("[ERROR] função login() - classe HandlerLogin");
 		}
 		return false;
-
 	}
 
 	public boolean loginBySerialization(int userID) {
