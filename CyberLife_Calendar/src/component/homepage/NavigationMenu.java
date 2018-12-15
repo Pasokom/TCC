@@ -12,7 +12,11 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import listeners.IOFunctions;
@@ -60,13 +64,18 @@ public class NavigationMenu extends AnchorPane {
 		ivLogout.setPreserveRatio(true);
 		/* Conteudo do perfil */
 		hProfile = new HBox();
+		
+		Circle profileImg = new Circle();
+		profileImg.setRadius(20);
+		profileImg.setFill(Color.rgb(0, 0, 0, 0.08));
+		profileImg.setCenterX(100);
+		profileImg.setCenterY(100);
 
-//		Circle profileImg = new Circle();
-//		profileImg.setRadius(20);
-//		profileImg.setFill(Color.rgb(0, 0, 0, 0.08));
-//		profileImg.setCenterX(100);
-//		profileImg.setCenterY(100);
-
+		StackPane userImg = new StackPane();
+		Label userInitial = new Label(SESSION.get_user_name().substring(0,1).toUpperCase());
+		userInitial.setFont(new Font(20));
+		userImg.getChildren().addAll(profileImg, userInitial);
+		
 		profileSelector = profileSelectorStageConstructor();
 
 		ivLogout.setOnMouseClicked(e -> {
@@ -108,6 +117,9 @@ public class NavigationMenu extends AnchorPane {
 		hProfile.getChildren().addAll(image, vProfileNameEmail);
 //		hProfile.getChildren().addAll(profileImg, vProfileNameEmail);
 		hProfile.getChildren().addAll(ivConfig, ivLogout);
+		
+//		hProfile.getChildren().addAll(userImg, vProfileNameEmail);
+//		hProfile.getChildren().add(ivLogout);
 		/* Fim do conteudo do perfil */
 
 		/* Botao adicionar */

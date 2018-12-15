@@ -138,7 +138,7 @@ public class Event extends Scene {
 		barraTitulo.setId("lBarraTitulo");
 
 		txtTitle = new TextField();
-		txtTitle.setPromptText("TÃ­tulo do evento");
+		txtTitle.setPromptText("Título do evento");
 		txtTitle.setId("lNome");
 		btnSave = new Button("Salvar");
 		btnSave.setId("btnEnviar");
@@ -147,13 +147,15 @@ public class Event extends Scene {
 			try {
 				insert_event();
 				((Stage) this.getWindow()).close();
+				
+				HomePage.listCalendar.update(Calendar.getInstance());
+				HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
 
 				String notificationMessage = "O evento \"" + txtTitle.getText() + "\" foi cadastrado no dia "
 						+ dtStart.getValue().toString();
 
 				NotifyUser.sendNotification("Evento", notificationMessage, MessageType.NONE);
 
-				HomePage.listCalendar.update(Calendar.getInstance());
 
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
@@ -173,7 +175,7 @@ public class Event extends Scene {
 		lblStartDate = new Label("De");
 		dtStart = new DatePicker(date);
 		timeStart = new TimePicker(false);
-		lblEndDate = new Label("atï¿½");
+		lblEndDate = new Label("até");
 		dtEnd = new DatePicker(date);
 		timeEnd = new TimePicker(false);
 

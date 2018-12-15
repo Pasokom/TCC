@@ -34,7 +34,6 @@ public class EventInfo extends Stage {
 		gp.setId("this");
 
 		finalRepeticao = new Label();
-
 		Format formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		Format hour = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -78,6 +77,10 @@ public class EventInfo extends Stage {
 		finalRepeticao.setText(fimRepeticao);
 		if (eventDB.getTipo_repeticao() != 0) {
 			gp.add(rInfo, 0, 5, 2, 1);
+		}
+
+		if (eventDB.getTipo_repeticao() == 2) {
+			gp.add(rWeek, 0, 6, 2, 1);
 		}
 		if (!eventDB.getDescricao().isEmpty()) {
 			gp.add(descricao, 0, 4, 2, 1);

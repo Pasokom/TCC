@@ -15,9 +15,10 @@ public class FrequencyComponent extends HBox {
 	public FrequencyComponent() {
 		repeatOptions = new ChoiceBox<>();
 		// populando a caixa de escolha
-		repeatOptions.setItems(FXCollections.observableArrayList("dia", "semana", "mês", "ano"));
+		repeatOptions.setItems(FXCollections.observableArrayList("dia", "semana", "m�s", "ano"));
 		// repeatOptions.getSelectionModel().select(1); // definindo o segundo item da
 		// lista como o padrao
+
 		// criando spinner de 1 a 100 de 1 em 1'
 		SpinnerValueFactory<Integer> repeatValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1);
 

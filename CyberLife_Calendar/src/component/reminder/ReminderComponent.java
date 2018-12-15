@@ -3,7 +3,9 @@ package component.reminder;
 import java.util.Calendar;
 import java.util.Optional;
 
+import db.functions.reminderFUNCTIONS.ManageReminder;
 import db.pojo.reminderPOJO.ReminderDB;
+import display.scenes.HomePage;
 import display.scenes.Reminder;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -11,9 +13,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -35,10 +37,10 @@ public class ReminderComponent extends HBox {
 	private Label lbl_hora;
 	private ReminderInfo reminderDetails;
 	private Stage profileSelector;
-
 	private ReminderDB reminder;
 
 	public ReminderComponent(ReminderDB reminder) {
+		this.reminder = reminder;
 
 		this.getStylesheets().add(this.getClass().getResource("/css/reminder_component.css").toExternalForm());
 		this.setId("card");
@@ -85,7 +87,10 @@ public class ReminderComponent extends HBox {
 		lbl_titulo.prefWidthProperty().bind(this.widthProperty());
 
 		this.getChildren().add(lbl_titulo);
-		this.getChildren().add(lbl_hora);
+
+		if (reminder.getRepetitionType() != 0)
+			this.getChildren().add(lbl_hora);
+
 		this.getChildren().add(lblEdit);
 
 		this.setId("card");
@@ -151,7 +156,6 @@ public class ReminderComponent extends HBox {
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
-				
 
 			}
 		});
@@ -160,6 +164,8 @@ public class ReminderComponent extends HBox {
 			Stage owner = new Stage();
 			owner.setScene(new Reminder(reminder, owner));
 			owner.show();
+			// TODO abrir tela de lembrete carregando informações dele
+
 		});
 
 		vOptions.getChildren().addAll(lblEditar, lblExcluir);

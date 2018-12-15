@@ -249,8 +249,8 @@ public class Login extends Scene {
 
 		aPane.requestFocus();
 
-//		txtEmail.setText("j");
-//		txtSenha.setText("1");
+		txtEmail.setText("j");
+		txtSenha.setText("1");
 
 		this.setRoot(aPane);
 	}
@@ -356,10 +356,10 @@ public class Login extends Scene {
 					componenteLogin();
 				}
 			}
-			lblLog.setText("Usuário cadastrado com sucesso");
+			lblLog.setText("Usu�rio cadastrado com sucesso");
 			return;
 		}
-		lblLog.setText("email informado já foi cadastrado");
+		lblLog.setText("email informado j� foi cadastrado");
 		return;
 	}
 

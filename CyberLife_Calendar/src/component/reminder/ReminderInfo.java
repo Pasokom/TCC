@@ -34,7 +34,6 @@ public class ReminderInfo extends Stage {
 
 		Scene scene = new Scene(gp);
 		this.setScene(scene);
-
 		scene.getStylesheets().add(this.getClass().getResource("/css/EventInfo.css").toExternalForm());
 		gp.setId("this");
 

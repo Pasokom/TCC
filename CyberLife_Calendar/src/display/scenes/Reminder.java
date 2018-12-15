@@ -11,6 +11,7 @@ import java.util.Calendar;
 import component.CustomScroll;
 import component.Recurrence;
 import component.TimePickerList;
+import component.homepage.CalendarComponent;
 import component.reminder.IntervalComponent;
 import db.functions.reminderFUNCTIONS.CreateReminder;
 import db.pojo.reminderPOJO.ReminderDB;
@@ -113,6 +114,8 @@ public class Reminder extends Scene {
 			try {
 				insert_reminder_and_schedule();
 				this.owner.close();
+				HomePage.listCalendar.update(HomePage.listCalendar.getCurrentDate());
+				HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
 				return;
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
@@ -285,7 +288,7 @@ public class Reminder extends Scene {
 		}
 		if (is_time_picker) { /* se entrou aqui, então o time picker foi selecionado */
 			if (time_picker_list.get_selected_time().isEmpty()) { /* se o time picker estiver vazio ele sai da função */
-				System.out.println("[INFO] time picker vazio, saindo da fun��o");
+				System.out.println("[INFO] time picker vazio, saindo da fun��o");
 				return;
 			}
 			/*
@@ -314,7 +317,7 @@ public class Reminder extends Scene {
 		create_reminder.schedule_without_recurrence(date_time, time_begin, time_end, false, interval);
 
 		System.out.println("[INFO] horario de lembrete com intervalo");
-		System.out.println("[CONFIRMATION] repetirá entre " + time_begin + " e " + time_end + " \n à cada " + interval
+		System.out.println("[CONFIRMATION] repetir entre " + time_begin + " e " + time_end + " \n à cada " + interval
 				+ " minutos.");
 		return;
 	}

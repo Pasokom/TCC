@@ -1,11 +1,14 @@
 package component.event;
 
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Optional;
 
+import db.functions.event.DeleteEvent;
 import db.functions.event.ManageEvents;
 import db.pojo.eventPOJO.EventDB;
 import display.scenes.Event;
+import display.scenes.HomePage;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -71,7 +74,6 @@ public class EventComponent extends VBox {
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(event.getData_inicio());
-
 		lbl_hora = new Label(
 				calendar.get(Calendar.HOUR_OF_DAY) + ":" + String.format("%02d", calendar.get(Calendar.MINUTE)));
 
@@ -158,6 +160,16 @@ public class EventComponent extends VBox {
 				me.changeEvent(false, event.getCod_evento(), ManageEvents.changeTheEvent.ACTIVE);
 					
 				// TODO atualizar a tela quando finalizar isso / chamar a query que carrega tudo 
+				DeleteEvent deleter = new DeleteEvent(event);
+
+				try {
+					deleter.delete();
+					HomePage.listCalendar.update(Calendar.getInstance());
+					HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
+				} catch (ClassNotFoundException | SQLException e1) {
+					e1.printStackTrace();
+				}
+//				System.out.println("Excluido");
 			}
 		});
 		lblEditar.setOnMouseClicked(e -> {

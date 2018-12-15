@@ -65,6 +65,23 @@ public class EditProfile extends Stage {
 			this.close();
 		});
 
+		txtNome = new TextField();
+		txtSobrenome = new TextField();
+		txtEmail = new TextField();
+		txtSenhaAtual = new PasswordField();
+		txtNovaSenha = new PasswordField();
+
+		this.txtNome.setText(SESSION.get_user_name());
+		this.txtEmail.setText(SESSION.get_user_email());
+		this.txtSobrenome.setText(SESSION.get_user_last_name());
+
+		btnSair = new Button("Sair");
+		btnSalvar = new Button("Salvar");
+
+		btnSair.setOnAction(e -> {
+			this.close();
+		});
+
 		btnSalvar.setOnAction(e -> {
 			int userID = (int) SESSION.get_user_cod();
 			AccountSettings as = new AccountSettings();
@@ -78,7 +95,7 @@ public class EditProfile extends Stage {
 			if ((!compare(SESSION.get_user_email(), txtEmail, 0) && (!hr.email_exists(this.txtEmail.getText()))))
 				as.changeProfile(txtEmail.getText(), userID, AccountSettings.changeThe.EMAIL);
 
-			if (txtSenhaAtual.getText() == bringUserPassword())
+			if (txtSenhaAtual.getText().equals(bringUserPassword()))
 				as.changeProfile(this.txtNovaSenha.getText(), userID, AccountSettings.changeThe.PASSWORD);
 
 			this.close();
