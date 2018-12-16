@@ -95,11 +95,11 @@ public class CreateReminder {
 	 * @throws ClassNotFoundException
 	 */
 	public void schedule_recurrence_never_end(String date_begin, String time_begin, String time_end, boolean all_day,
-			int interval, int recurrence, int week_day) throws SQLException, ClassNotFoundException {
+			int interval, int week_day) throws SQLException, ClassNotFoundException {
 
 		date_begin = all_day ? this.format(date_begin) : date_begin;
 
-		String sql = "{CALL RECORRENCIA_SEM_FIM(?,?,?,?,?,?,?)}";
+		String sql = "{CALL RECORRENCIA_SEM_FIM(?,?,?,?,?,?)}";
 
 		CallableStatement stmt = connection.prepareCall(sql);
 
@@ -107,9 +107,8 @@ public class CreateReminder {
 		stmt.setString(2, time_begin);
 		stmt.setString(3, time_end);
 		stmt.setInt(4, interval);
-		stmt.setInt(5, recurrence);
-		stmt.setInt(6, week_day);
-		stmt.setInt(7, this.get_reminder_cod());
+		stmt.setInt(5, week_day);
+		stmt.setInt(6, this.get_reminder_cod());
 
 		stmt.execute();
 	}

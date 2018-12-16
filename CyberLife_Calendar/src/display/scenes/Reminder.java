@@ -262,9 +262,8 @@ public class Reminder extends Scene {
 		ReminderDB reminder = new ReminderDB();
 
 		reminder.setTitle(txtName.getText());
-		reminder.setRecurrenceType(
-				!this.cbxRepeat.selectedProperty().get() ? 0 : this.recurrence.get_recurrence_type());
-		reminder.setRecurrence(this.recurrence.get_amount_choosed());
+		reminder.setRecurrenceType(!this.cbxRepeat.selectedProperty().get() ? 0 : this.recurrence.get_recurrence_type());
+		reminder.setRecurrence(this.recurrence.get_recurrence_value());
 
 		if (cbxAllDay.selectedProperty().get()) {
 			reminder.setRepetitionType(Enums.RepetitionType.ALL_DAY.getValue());
@@ -415,7 +414,7 @@ public class Reminder extends Scene {
 							String date_choosed = this.time_picker_values().get(j);
 
 							this.create_reminder.schedule_recurrence_never_end(date_choosed, new String(), new String(),
-									false, 0, recurrence, week_day);
+									false, 0, week_day);
 						}
 					}
 					return;
@@ -423,14 +422,14 @@ public class Reminder extends Scene {
 				for (int i = 0; i < week_day_selected().size(); i++) {
 					int week_day = week_day_selected().get(i);
 					this.create_reminder.schedule_recurrence_never_end(date_time, time_begin, time_end, false, interval,
-							recurrence, week_day);
+							week_day);
 				}
 				return;
 			}
 			for (int i = 0; i < week_day_selected().size(); i++) {
 				int week_day = week_day_selected().get(i);
 				this.create_reminder.schedule_recurrence_never_end(date_time, new String(), new String(), true, 0,
-						recurrence, week_day);
+						week_day);
 			}
 			return;
 		}
@@ -438,13 +437,12 @@ public class Reminder extends Scene {
 		if (by_time_picker) {
 			for (int i = 0; i < this.time_picker_values().size(); i++) {
 				String value = this.time_picker_values().get(i);
-				this.create_reminder.schedule_recurrence_never_end(value, new String(), new String(), false, 0,
-						recurrence, 8);
+				this.create_reminder.schedule_recurrence_never_end(value, new String(), new String(), false, 0, 8);
 			}
 			return;
 		}
 		this.create_reminder.schedule_recurrence_never_end(date_time, time_begin, time_end, is_all_day_selected,
-				interval, recurrence, 7);
+				interval, 7);
 		return;
 	}
 
