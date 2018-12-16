@@ -161,22 +161,23 @@ public class CreateReminder {
 
 	public boolean insert_reminder(ReminderDB reminder) throws ClassNotFoundException, SQLException {
 
-		String sql = "{CALL ADICIONAR_LEMBRETE(?,?,?,?,?,?)}";
+		String sql = "{CALL ADICIONAR_LEMBRETE(?,?,?,?,?,?,?)}";
 
 		CallableStatement stmt = Database.get_connection().prepareCall(sql);
 
-		stmt.setString("LEMBRETE", reminder.getTitle());
-		stmt.setBoolean("ATIVO", reminder.isActive());
-		stmt.setInt("TIPO_REPETICAO", reminder.getRepetitionType());
-		stmt.setInt("TIPO_RECORRENCIA", reminder.getRecurrenceType());
-		stmt.setString("CODIGO_LEMBRETE", "@returned_value");
-		stmt.setInt("USUARIO", reminder.getUserID());
+		stmt.setString(/*"LEMBRETE"*/ 1, reminder.getTitle());
+		stmt.setBoolean(/*"ATIVO"*/2, reminder.isActive());
+		stmt.setInt(/* "TIPO_REPETICAO" */ 3, reminder.getRepetitionType());
+		stmt.setInt(/* "TIPO_RECORRENCIA"*/4, reminder.getRecurrenceType());
+		stmt.setInt(/*"RECORRENCIA"*/5, reminder.getRecurrence());
+		stmt.setInt(/*"USUARIO"*/6, reminder.getUserID());
+		stmt.setString(/*"CODIGO_LEMBRETE"*/7, "@returned_value");
 
-		stmt.registerOutParameter(5, Types.INTEGER);
+		stmt.registerOutParameter(7, Types.INTEGER);
 
 		stmt.execute();
 
-		this.set_reminder_cod(stmt.getInt(5));
+		this.set_reminder_cod(stmt.getInt(7));
 
 		System.out.println("[INFO] codigo do lembrete : " + get_reminder_cod());
 

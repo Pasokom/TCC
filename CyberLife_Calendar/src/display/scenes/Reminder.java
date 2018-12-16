@@ -265,7 +265,8 @@ public class Reminder extends Scene {
 		reminder.setTitle(txtName.getText());
 		reminder.setRecurrenceType(
 				!this.cbxRepeat.selectedProperty().get() ? 0 : this.recurrence.get_recurrence_type());
-
+		reminder.setRecurrence(this.recurrence.get_amount_choosed());
+			
 		if (cbxAllDay.selectedProperty().get()) {
 			reminder.setRepetitionType(Enums.RepetitionType.ALL_DAY.getValue());
 			reminder.setActive(true);
