@@ -15,7 +15,6 @@ public class ReminderSchedule {
 	private Time timeBegin;
 	private Time timeEnd;
 	private int weekDay;
-	private int recurrence;
 	private int minutesInterval;
 	private int amount_of_repetition;
 	private boolean isActive;
@@ -117,14 +116,6 @@ public class ReminderSchedule {
 	 */
 	public void setWeekDay(int weekDay) {
 		this.weekDay = weekDay;
-	}
-
-	public int getRecurrence() {
-		return recurrence;
-	}
-
-	public void setRecurrence(int recurrence) {
-		this.recurrence = recurrence;
 	}
 
 	public int getAmount_of_repetition() {

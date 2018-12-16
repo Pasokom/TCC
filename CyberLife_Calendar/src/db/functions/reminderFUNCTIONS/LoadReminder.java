@@ -78,10 +78,10 @@ public class LoadReminder {
 
 		if (type == TypeOfQuery.ALL_REMINDERS)
 			sql = "SELECT LCOD_LEMBRETE, GROUP_CONCAT(HL_CODIGO) CODIGOS FROM VIEW_CARREGAR_TODOS_LEMBRETES  WHERE UCODIGO = "
-					+ userID + " GROUP BY LCOD_LEMBRETE; ";
+					+ userID + " GROUP BY LCOD_LEMBRETE";
 		if (type == TypeOfQuery.REMINDER_FOR_TODAY)
 			sql = "SELECT LCOD_LEMBRETE, GROUP_CONCAT(HL_CODIGO) CODIGOS_HORARIOS FROM VIEW_LEMBRETES_DO_DIA  WHERE UCODIGO = "
-					+ userID + " GROUP BY LCOD_LEMBRETE; ";
+					+ userID + " GROUP BY LCOD_LEMBRETE";
 
 		// System.out.println(sql);
 		ResultSet result = this.connection.createStatement().executeQuery(sql);
@@ -107,7 +107,7 @@ public class LoadReminder {
 			// pega o ID do lembrete no loop atual
 			int l_reminderId = result.getInt(1);
 
-			sqlReminder = final_queryReminder + l_reminderId + ";";
+			sqlReminder = final_queryReminder + l_reminderId;
 
 			// System.out.println(sqlReminder);
 
@@ -118,7 +118,8 @@ public class LoadReminder {
 			l_bringReminder.next();
 
 			ReminderDB l_reminder = getReminder(l_bringReminder.getInt(1), l_bringReminder.getString(2),
-					l_bringReminder.getBoolean(3), l_bringReminder.getInt(4), l_bringReminder.getInt(5));
+					l_bringReminder.getBoolean(3), l_bringReminder.getInt(4), l_bringReminder.getInt(5),
+					l_bringReminder.getInt(6));
 
 			/*
 			 * this is a int array with the ids of the shedules records going to be used for
@@ -145,7 +146,7 @@ public class LoadReminder {
 					rs.next();
 				ReminderSchedule rse = getSchedule(rs.getInt(1), rs.getTimestamp(2, calendar),
 						rs.getTimestamp(3, calendar), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7),
-						rs.getInt(8), rs.getInt(9), rs.getBoolean(10), rs.getInt(11));
+						rs.getInt(8), rs.getBoolean(9), rs.getInt(10));
 				/*
 				 * the reminder that are in the scope of the WHILE loop ( the loop that happen
 				 * on the first resultSet) are the current reminder of the list AND the record
@@ -178,15 +179,13 @@ public class LoadReminder {
 	 * 
 	 */
 	private ReminderSchedule getSchedule(int cod, Timestamp dateBegin, Timestamp dateEnd, String timeBegin,
-			String timeEnd, int minutesInterval, int recurrence, int weekDay, int amountRepetition, boolean isActive,
-			int fkReminder) {
+			String timeEnd, int minutesInterval, int weekDay, int amountRepetition, boolean isActive, int fkReminder) {
 		ReminderSchedule rs = new ReminderSchedule();
 		rs.setDatetime_begin(dateBegin);
 		rs.setDatetime_end(dateEnd);
 		rs.setTimeBegin(timeBegin);
 		rs.setTimeEnd(timeEnd);
 		rs.setMinutesInterval(minutesInterval);
-		rs.setRecurrence(recurrence);
 		rs.setWeekDay(weekDay);
 		rs.setAmount_of_repetition(amountRepetition);
 		rs.setFk_reminder(fkReminder);
@@ -194,13 +193,15 @@ public class LoadReminder {
 		return rs;
 	}
 
-	private ReminderDB getReminder(int cod, String title, boolean active, int typeRecurrence, int typeRepetition) {
+	private ReminderDB getReminder(int cod, String title, boolean active, int typeRecurrence, int typeRepetition,
+			int recurrence) {
 		ReminderDB reminder = new ReminderDB();
 		reminder.setReminderId(cod);
 		reminder.setTitle(title);
 		reminder.setActive(active);
 		reminder.setRecurrenceType(typeRecurrence);
 		reminder.setRepetitionType(typeRepetition);
+		reminder.setRecurrence(recurrence);
 		return reminder;
 	}
 

@@ -9,11 +9,21 @@ public class ReminderDB {
 	private boolean active;
 	private int recurrenceType;
 	private int repetitionType;
+	private int recurrence;
 	private int userID;
+
 	private ArrayList<ReminderSchedule> lReminderSchedule;
 
 	public ReminderDB() {
 		this.lReminderSchedule = new ArrayList<ReminderSchedule>();
+	}
+
+	public int getRecurrence() {
+		return recurrence;
+	}
+
+	public void setRecurrence(int recurrence) {
+		this.recurrence = recurrence;
 	}
 
 	/**
