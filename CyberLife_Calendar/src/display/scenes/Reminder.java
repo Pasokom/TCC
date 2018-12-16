@@ -262,7 +262,8 @@ public class Reminder extends Scene {
 		ReminderDB reminder = new ReminderDB();
 
 		reminder.setTitle(txtName.getText());
-		reminder.setRecurrenceType(!this.cbxRepeat.selectedProperty().get() ? 0 : this.recurrence.get_recurrence_type());
+		reminder.setRecurrenceType(
+				!this.cbxRepeat.selectedProperty().get() ? 0 : this.recurrence.get_recurrence_type());
 		reminder.setRecurrence(this.recurrence.get_recurrence_value());
 
 		if (cbxAllDay.selectedProperty().get()) {
@@ -397,8 +398,6 @@ public class Reminder extends Scene {
 
 		String date_time = dtDate.getValue().toString();
 
-		int recurrence = this.recurrence.get_recurrence_value();
-
 		if (by_week) {
 
 			while (!is_all_day_selected) {
@@ -477,7 +476,7 @@ public class Reminder extends Scene {
 							String date_choosed = this.time_picker_values().get(j);
 							if (!is_by_amount)
 								this.create_reminder.schedule_recurrence_by_choosed_date(date_choosed, date_end,
-										new String(), new String(), false, 0, recurrence, week_day);
+										new String(), new String(), false, 0, week_day);
 							else
 								this.create_reminder.schedule_by_amount(date_begin, new String(), new String(), false,
 										0, week_day, amount);
@@ -490,7 +489,7 @@ public class Reminder extends Scene {
 					int week_day = week_day_selected().get(i);
 					if (!is_by_amount)
 						this.create_reminder.schedule_recurrence_by_choosed_date(date_begin, date_end, time_begin,
-								time_end, false, interval, recurrence, week_day);
+								time_end, false, interval, week_day);
 					else
 						this.create_reminder.schedule_by_amount(date_begin, time_begin, time_end, false, interval,
 								week_day, amount);
@@ -501,7 +500,7 @@ public class Reminder extends Scene {
 				int week_day = week_day_selected().get(i);
 				if (!is_by_amount)
 					this.create_reminder.schedule_recurrence_by_choosed_date(date_begin, date_end, new String(),
-							new String(), true, 0, recurrence, week_day);
+							new String(), true, 0, week_day);
 				else
 					this.create_reminder.schedule_by_amount(date_begin, new String(), new String(), true, 0, week_day,
 							amount);
@@ -515,20 +514,20 @@ public class Reminder extends Scene {
 					String value = this.time_picker_values().get(i);
 					if (!is_by_amount)
 						this.create_reminder.schedule_recurrence_by_choosed_date(value, date_end, time_begin, time_end,
-								false, 0, recurrence, 8);
+								false, 0, 8);
 					else
 						this.create_reminder.schedule_by_amount(value, new String(), new String(), false, 0, 8, amount);
 				}
 			if (!by_time_picker && !is_all_day_selected)
 				this.create_reminder.schedule_recurrence_by_choosed_date(date_begin, date_end, time_begin, time_end,
-						false, interval, recurrence, 7);
+						false, interval, 7);
 			else
 				this.create_reminder.schedule_by_amount(date_begin, time_begin, time_end, false, interval, 7, amount);
 
 			if (is_all_day_selected) {
 				if (is_by_amount)
 					this.create_reminder.schedule_recurrence_by_choosed_date(date_begin, date_end, time_begin, time_end,
-							true, 0, recurrence, 7);
+							true, 0, 7);
 				else
 					this.create_reminder.schedule_by_amount(date_begin, time_begin, time_end, true, 0, 8, amount);
 			}

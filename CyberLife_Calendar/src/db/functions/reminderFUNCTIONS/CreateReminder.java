@@ -114,13 +114,13 @@ public class CreateReminder {
 	}
 
 	public void schedule_recurrence_by_choosed_date(String date_begin, String date_end, String time_begin,
-			String time_end, boolean is_all_day, int interval, int recurrence, int week_day)
+			String time_end, boolean is_all_day, int interval, int week_day)
 			throws SQLException, ClassNotFoundException {
 
 		date_begin = is_all_day ? this.format(date_begin) : date_begin;
 		date_end = is_all_day ? this.format(date_end) : date_end;
 
-		String sql = "{ CALL RECORRENCIA_DATA_DEFINIDA(?,?,?,?,?,?,?,?)}";
+		String sql = "{ CALL RECORRENCIA_DATA_DEFINIDA(?,?,?,?,?,?,?)}";
 
 		CallableStatement stmt = this.connection.prepareCall(sql);
 
@@ -129,9 +129,8 @@ public class CreateReminder {
 		stmt.setString(3, time_begin);
 		stmt.setString(4, time_end);
 		stmt.setInt(5, interval);
-		stmt.setInt(6, recurrence);
-		stmt.setInt(7, week_day);
-		stmt.setInt(8, this.get_reminder_cod());
+		stmt.setInt(6, week_day);
+		stmt.setInt(7, this.get_reminder_cod());
 
 		stmt.execute();
 	}
