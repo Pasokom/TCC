@@ -47,8 +47,8 @@ public class CalendarComponent extends GridPane {
 		date.add(Calendar.DATE, -date.get(Calendar.DATE) + 1);
 
 		Calendar last_day_month = Calendar.getInstance();
-		last_day_month.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), 
-			date.getActualMaximum(Calendar.DAY_OF_MONTH));
+		last_day_month.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH),
+				date.getActualMaximum(Calendar.DAY_OF_MONTH));
 
 		int last_day_week = last_day_month.get(Calendar.DAY_OF_WEEK);
 		/* Dia da semana do primeiro dia do mes */
@@ -67,23 +67,21 @@ public class CalendarComponent extends GridPane {
 		int aux4 = beforeMonth.getActualMaximum(Calendar.DAY_OF_MONTH);
 
 		for (int i = 1; i <= aux3 + first_day_week - 1 + (7 - last_day_week); i++) {
-			
+
 			Label lblDay;
-			
-			if(i < first_day_week){
+
+			if (i < first_day_week) {
 				lblDay = new Label(String.valueOf(aux4 - first_day_week + i + 1));
 				lblDay.setId("other_month");
-			}
-			else if(i - first_day_week + 1 > aux3){
+			} else if (i - first_day_week + 1 > aux3) {
 				lblDay = new Label(String.valueOf(i - first_day_week - aux3 + 1));
 				lblDay.setId("other_month");
-			}
-			else{
+			} else {
 				lblDay = new Label(String.valueOf(i - first_day_week + 1));
-			
+
 				if (lblDay.getText().equals(String.valueOf(today.get(Calendar.DATE)))
-				&& date.get(Calendar.MONTH) == today.get(Calendar.MONTH)
-				&& date.get(Calendar.YEAR) == today.get(Calendar.YEAR)) {
+						&& date.get(Calendar.MONTH) == today.get(Calendar.MONTH)
+						&& date.get(Calendar.YEAR) == today.get(Calendar.YEAR)) {
 
 					lblDay.setId("today");
 				}
@@ -97,12 +95,12 @@ public class CalendarComponent extends GridPane {
 			dateItem.setId("date_item");
 
 			VBox box = new VBox();
-			
-			if(i <= 7){
+
+			if (i <= 7) {
 				Label dayWeek = new Label(Enums.DayOfWeek.values()[i - 1].getValue());
 				dayWeek.setPrefWidth(100);
 
-				if(i == today.get(Calendar.DAY_OF_WEEK) && date.get(Calendar.MONTH) == today.get(Calendar.MONTH))
+				if (i == today.get(Calendar.DAY_OF_WEEK) && date.get(Calendar.MONTH) == today.get(Calendar.MONTH))
 					dayWeek.setId("today_week");
 				else
 					dayWeek.setId("day_week");
@@ -115,8 +113,8 @@ public class CalendarComponent extends GridPane {
 			GridPane.setHgrow(dateItem, Priority.ALWAYS);
 			GridPane.setVgrow(dateItem, Priority.ALWAYS);
 
-			if(i >= first_day_week && i - first_day_week + 1 < aux3)
-				if(demoList[day - 1] != null)
+			if (i >= first_day_week && i - first_day_week + 1 < aux3)
+				if (demoList[day - 1] != null)
 					dateItem.getChildren().add(demoList[day - 1]);
 
 			dateItem.setOnMouseClicked(e -> {
@@ -139,11 +137,11 @@ public class CalendarComponent extends GridPane {
 		}
 	}
 
-	public Calendar getDate(){
+	public Calendar getDate() {
 		return this.date;
 	}
 
-	private VBox[] getDemoList(){
+	private VBox[] getDemoList() {
 
 		VBox[] boxes = new VBox[31];
 
@@ -155,10 +153,9 @@ public class CalendarComponent extends GridPane {
 
 		retrieveEvents.updateList(this.date);
 
+		for (EventDB event : RetrieveEvents.listEvents) {
 
-		for(EventDB event : RetrieveEvents.listEvents) {
-		
-			if(event.getData_inicio() != null){
+			if (event.getData_inicio() != null) {
 				Date eventDate = new Date(event.getData_inicio().getTime());
 				Calendar eDate = Calendar.getInstance();
 				eDate.setTime(eventDate);
@@ -167,11 +164,10 @@ public class CalendarComponent extends GridPane {
 
 				int month_date = this.date.get(Calendar.MONTH);
 
-				if(eDate.get(Calendar.MONTH) == month_date)
-				{
+				if (eDate.get(Calendar.MONTH) == month_date) {
 					int eDay = eDate.get(Calendar.DATE);
 
-					if(boxes[eDay - 1].getChildren().size() < 4){
+					if (boxes[eDay - 1].getChildren().size() < 4) {
 
 						boxes[eDay - 1].getChildren().add(eDemo);
 					}
@@ -188,27 +184,26 @@ public class CalendarComponent extends GridPane {
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+		if (reminders != null)
+			for (ReminderDB reminder : reminders) {
 
-		for (ReminderDB reminder : reminders) {
-			
-			Date eventDate = new Date(reminder.getlReminderSchedule().get(0).getDatetime_begin().getTime());
-			Calendar eDate = Calendar.getInstance();
-			eDate.setTime(eventDate);
+				Date eventDate = new Date(reminder.getlReminderSchedule().get(0).getDatetime_begin().getTime());
+				Calendar eDate = Calendar.getInstance();
+				eDate.setTime(eventDate);
 
-			ReminderComponentDemo rDemo = new ReminderComponentDemo(reminder);
+				ReminderComponentDemo rDemo = new ReminderComponentDemo(reminder);
 
-			int month_date = this.date.get(Calendar.MONTH);
+				int month_date = this.date.get(Calendar.MONTH);
 
-			if(eDate.get(Calendar.MONTH) == month_date)
-			{
-				int eDay = eDate.get(Calendar.DATE);
-				if(boxes[eDay - 1].getChildren().size() < 4){
+				if (eDate.get(Calendar.MONTH) == month_date) {
+					int eDay = eDate.get(Calendar.DATE);
+					if (boxes[eDay - 1].getChildren().size() < 4) {
 
-					boxes[eDay - 1].getChildren().add(rDemo);
+						boxes[eDay - 1].getChildren().add(rDemo);
+					}
 				}
+
 			}
-			
-		}
 
 		return boxes;
 	}

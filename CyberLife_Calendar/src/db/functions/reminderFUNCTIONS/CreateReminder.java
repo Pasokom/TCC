@@ -138,11 +138,11 @@ public class CreateReminder {
 	}
 
 	public void schedule_by_amount(String date_begin, String time_begin, String time_end, boolean is_all_day,
-			int interval, int recurrence, int week_day, int amount) throws SQLException, ClassNotFoundException {
+			int interval, int week_day, int amount) throws SQLException, ClassNotFoundException {
 
 		date_begin = is_all_day ? this.format(date_begin) : date_begin;
 
-		String sql = "{CALL RECORRENCIA_POR_QTDE_REPETICAO(?,?,?,?,?,?,?,?)}";
+		String sql = "{CALL RECORRENCIA_POR_QTDE_REPETICAO(?,?,?,?,?,?,?)}";
 
 		CallableStatement stmt = this.connection.prepareCall(sql);
 
@@ -150,10 +150,9 @@ public class CreateReminder {
 		stmt.setString(2, time_begin);
 		stmt.setString(3, time_end);
 		stmt.setInt(4, interval);
-		stmt.setInt(5, recurrence);
-		stmt.setInt(6, week_day);
-		stmt.setInt(7, amount);
-		stmt.setInt(8, this.get_reminder_cod());
+		stmt.setInt(5, week_day);
+		stmt.setInt(6, amount);
+		stmt.setInt(7, this.get_reminder_cod());
 
 		stmt.execute();
 		return;
@@ -165,13 +164,13 @@ public class CreateReminder {
 
 		CallableStatement stmt = Database.get_connection().prepareCall(sql);
 
-		stmt.setString(/*"LEMBRETE"*/ 1, reminder.getTitle());
-		stmt.setBoolean(/*"ATIVO"*/2, reminder.isActive());
+		stmt.setString(/* "LEMBRETE" */ 1, reminder.getTitle());
+		stmt.setBoolean(/* "ATIVO" */2, reminder.isActive());
 		stmt.setInt(/* "TIPO_REPETICAO" */ 3, reminder.getRepetitionType());
-		stmt.setInt(/* "TIPO_RECORRENCIA"*/4, reminder.getRecurrenceType());
-		stmt.setInt(/*"RECORRENCIA"*/5, reminder.getRecurrence());
-		stmt.setInt(/*"USUARIO"*/6, reminder.getUserID());
-		stmt.setString(/*"CODIGO_LEMBRETE"*/7, "@returned_value");
+		stmt.setInt(/* "TIPO_RECORRENCIA" */4, reminder.getRecurrenceType());
+		stmt.setInt(/* "RECORRENCIA" */5, reminder.getRecurrence());
+		stmt.setInt(/* "USUARIO" */6, reminder.getUserID());
+		stmt.setString(/* "CODIGO_LEMBRETE" */7, "@returned_value");
 
 		stmt.registerOutParameter(7, Types.INTEGER);
 

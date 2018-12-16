@@ -78,19 +78,18 @@ public class Reminder extends Scene {
 		if (reminder.getRecurrenceType() != 0)
 			this.cbxRepeat.setSelected(true);
 
-
 		this.recurrence.setTypeFrequency(reminder.getRecurrenceType());
-	
-		if (reminder.getRecurrenceType() == 2) 
+
+		if (reminder.getRecurrenceType() == 2)
 			setWeekDays(reminder);
-		
-		
-		
+
 	}
-	
-	/** 
-	 * 	
-	 * Set the checkboxes of the week days according with the days of the schedule of these reminder
+
+	/**
+	 * 
+	 * Set the checkboxes of the week days according with the days of the schedule
+	 * of these reminder
+	 * 
 	 * @param ReminderDB
 	 */
 	public void setWeekDays(ReminderDB r) {
@@ -266,7 +265,7 @@ public class Reminder extends Scene {
 		reminder.setRecurrenceType(
 				!this.cbxRepeat.selectedProperty().get() ? 0 : this.recurrence.get_recurrence_type());
 		reminder.setRecurrence(this.recurrence.get_amount_choosed());
-			
+
 		if (cbxAllDay.selectedProperty().get()) {
 			reminder.setRepetitionType(Enums.RepetitionType.ALL_DAY.getValue());
 			reminder.setActive(true);
@@ -451,10 +450,10 @@ public class Reminder extends Scene {
 
 	private void schedule_amount_or_date(boolean is_by_amount) throws SQLException, ClassNotFoundException {
 
-		boolean by_time_picker = !this.cbxAllDay.selectedProperty().get() ? this.radTime.selectedProperty().get()
-				: false;
-		boolean by_week = this.recurrence.get_recurrence_type() == Enums.TypeRecurrence.WEEKLY.getValue();
+//		boolean by_time_picker = !this.cbxAllDay.selectedProperty().get() ? this.radTime.selectedProperty().get() : false;
+		boolean by_time_picker = this.radTime.selectedProperty().get();
 		boolean is_all_day_selected = this.cbxAllDay.selectedProperty().get();
+		boolean by_week = this.recurrence.get_recurrence_type() == Enums.TypeRecurrence.WEEKLY.getValue();
 
 		String time_begin = this.interval.start_time();
 		String time_end = this.interval.end_time();
@@ -465,7 +464,7 @@ public class Reminder extends Scene {
 
 		int amount = this.recurrence.get_amount_choosed();
 		int recurrence = this.recurrence.get_recurrence_value();
-		while (by_week) {
+		if (by_week) {
 
 			while (!is_all_day_selected) {
 				if (by_time_picker) {
@@ -483,7 +482,7 @@ public class Reminder extends Scene {
 										new String(), new String(), false, 0, recurrence, week_day);
 							else
 								this.create_reminder.schedule_by_amount(date_begin, new String(), new String(), false,
-										0, recurrence, week_day, amount);
+										0, week_day, amount);
 							// j = 0;
 						}
 					}
@@ -496,7 +495,7 @@ public class Reminder extends Scene {
 								time_end, false, interval, recurrence, week_day);
 					else
 						this.create_reminder.schedule_by_amount(date_begin, time_begin, time_end, false, interval,
-								recurrence, week_day, amount);
+								week_day, amount);
 				}
 				return;
 			}
@@ -506,29 +505,36 @@ public class Reminder extends Scene {
 					this.create_reminder.schedule_recurrence_by_choosed_date(date_begin, date_end, new String(),
 							new String(), true, 0, recurrence, week_day);
 				else
-					this.create_reminder.schedule_by_amount(date_begin, new String(), new String(), true, 0, recurrence,
-							week_day, amount);
-			}
-		}
-		if (by_time_picker) {
-			for (int i = 0; i < this.time_picker_values().size(); i++) {
-				String value = this.time_picker_values().get(i);
-				if (!is_by_amount)
-					this.create_reminder.schedule_recurrence_by_choosed_date(value, date_end, time_begin, time_end,
-							false, 0, recurrence, 8);
-				else
-					this.create_reminder.schedule_by_amount(value, new String(), new String(), false, 0, recurrence, 8,
+					this.create_reminder.schedule_by_amount(date_begin, new String(), new String(), true, 0, week_day,
 							amount);
 			}
-			return;
 		}
-		if (!is_by_amount)
-			this.create_reminder.schedule_recurrence_by_choosed_date(date_begin, date_end, time_begin, time_end, false,
-					0, recurrence, 7);
-		else
-			this.create_reminder.schedule_by_amount(date_begin, time_begin, time_end, false, 0, recurrence, 8, amount);
+		/** if is not by week will get to here */
 
-		return;
+		if (!by_week) {
+			if (by_time_picker)
+				for (int i = 0; i < this.time_picker_values().size(); i++) {
+					String value = this.time_picker_values().get(i);
+					if (!is_by_amount)
+						this.create_reminder.schedule_recurrence_by_choosed_date(value, date_end, time_begin, time_end,
+								false, 0, recurrence, 8);
+					else
+						this.create_reminder.schedule_by_amount(value, new String(), new String(), false, 0, 8, amount);
+				}
+			if (!by_time_picker && !is_all_day_selected)
+				this.create_reminder.schedule_recurrence_by_choosed_date(date_begin, date_end, time_begin, time_end,
+						false, interval, recurrence, 7);
+			else
+				this.create_reminder.schedule_by_amount(date_begin, time_begin, time_end, false, interval, 7, amount);
+
+			if (is_all_day_selected) {
+				if (is_by_amount)
+					this.create_reminder.schedule_recurrence_by_choosed_date(date_begin, date_end, time_begin, time_end,
+							true, 0, recurrence, 7);
+				else
+					this.create_reminder.schedule_by_amount(date_begin, time_begin, time_end, true, 0, 8, amount);
+			}
+		}
 	}
 
 	/*
