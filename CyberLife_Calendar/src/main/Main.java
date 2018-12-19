@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.util.TimeZone;
 
 import db.Database;
+import db.functions.appointment.LoadAppointment;
 import db.functions.registrationAndLogin.HandlerLogin;
 import display.poupoup.EditProfile;
 import display.scenes.HomePage;
@@ -26,6 +27,10 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+
+		LoadAppointment appointment = new LoadAppointment();
+		appointment.load();
+
 		Database.get_connection();
 		main_stage = primaryStage;
 		main_stage.setWidth(800);
