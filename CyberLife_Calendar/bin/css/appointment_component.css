@@ -25,11 +25,10 @@ Label{
 	-fx-padding: 10;
 }
 
-#demo_card{
-	-fx-background-color: #660cdc;
-	-fx-background-radius: 5 5 5 5;
-	-fx-font-size: 10;
-	-fx-padding: 0 2 0 2;
+#moon_card{
+	-fx-background-color: #03073B;
+	-fx-background-radius: 3 0 0 3;
+	-fx-padding: 10;
 }
 
 #titulo{
@@ -49,4 +48,17 @@ Label{
 
 #edit:hover{
 	-fx-cursor: hand;
+}
+
+#moon-1{
+	-fx-image: url("../../resources/images/moon/moon-1.png");
+}
+#moon-2{
+	-fx-image: url("../../resources/images/moon/moon-2.png");
+}
+#moon-3{
+	-fx-image: url("../../resources/images/moon/moon-3.png");
+}
+#moon-4{
+	-fx-image: url("../../resources/images/moon/moon-4.png");
 }

@@ -282,6 +282,8 @@ public class Reminder extends Scene {
 		try {
 
 			create.insert_reminder(reminder);
+			HomePage.listCalendar.update(HomePage.listCalendar.getCurrentDate());
+			HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
 
 		} catch (ClassNotFoundException | SQLException e) {
 

@@ -18,6 +18,7 @@ import db.Database;
 import db.pojo.AppointmentDB;
 import db.pojo.DayDB;
 import db.pojo.HolidayDB;
+import db.pojo.Moon;
 import db.pojo.eventPOJO.EventDB;
 import db.pojo.reminderPOJO.ReminderDB;
 
@@ -29,6 +30,9 @@ public class LoadAppointment {
     public ArrayList<AppointmentDB> loadFromDay(Calendar date) {
 
         ArrayList<AppointmentDB> appointments = new ArrayList<>();
+
+        Moon moon = getMoonPhase(date);
+        appointments.add(moon);
 
         ArrayList<HolidayDB> holidays = loadHolidays(date, "daily");
 
@@ -224,5 +228,42 @@ public class LoadAppointment {
         }
         
         return holidays;
+    }
+
+    private Moon getMoonPhase(Calendar date){
+
+        Moon moon = new Moon();
+
+        try {
+
+            String protocol = "http://";
+            String host = "localhost/cyberlife/calendar/API/query/moons.php";
+            String day = "?date=" + date.getTime().getTime() / 1000;
+            
+            URL url = new URL(protocol+host+day);
+
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+            String line;
+            StringBuffer buffer = new StringBuffer();
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line);
+            }
+            reader.close();
+            con.disconnect();
+
+            JSONObject jsonResponse = new JSONObject(buffer.toString());
+
+            moon.setPhase(jsonResponse.getInt("phase"));
+            moon.setDescription(jsonResponse.getString("description"));
+
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+
+        return moon;
     }
 }

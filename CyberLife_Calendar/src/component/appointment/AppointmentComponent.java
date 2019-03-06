@@ -3,9 +3,12 @@ package component.appointment;
 import java.util.Calendar;
 
 import db.pojo.HolidayDB;
+import db.pojo.Moon;
 import db.pojo.eventPOJO.EventDB;
 import db.pojo.reminderPOJO.ReminderDB;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -103,6 +106,28 @@ public class AppointmentComponent extends VBox{
         VBox card = new VBox();
         card.getChildren().addAll(sup_title, lbl_titulo);
         card.setId("holiday_card");
+
+        this.getChildren().add(card);
+    }
+
+    public AppointmentComponent(Moon moon){
+        
+        this.getStylesheets().add(this.getClass().getResource("/css/appointment_component.css").toExternalForm());
+		this.setId("this");
+
+        lbl_titulo = new Label(moon.getDescription());
+        lbl_titulo.setId("titulo");
+
+        ImageView img_moon = new ImageView();
+        img_moon.setPreserveRatio(true);
+        img_moon.setFitWidth(30);
+        img_moon.setId("moon-" + moon.getPhase());
+
+        HBox card = new HBox();
+        card.setAlignment(Pos.CENTER_LEFT);
+        card.setSpacing(10);
+        card.getChildren().addAll(img_moon, lbl_titulo);
+        card.setId("moon_card");
 
         this.getChildren().add(card);
     }

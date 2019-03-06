@@ -1,31 +1,24 @@
 package component.homepage;
 
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import component.CustomScroll;
 import component.appointment.AppointmentComponent;
-import component.event.EventComponent;
 import db.functions.appointment.LoadAppointment;
 import db.functions.event.RetrieveEvents;
 import db.pojo.AppointmentDB;
 import db.pojo.HolidayDB;
+import db.pojo.Moon;
 import db.pojo.eventPOJO.EventDB;
 import db.pojo.reminderPOJO.ReminderDB;
-import display.scenes.HomePage;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import statics.Enums;
-import statics.SESSION;
 
 public class ListCalendar extends VBox {
 
@@ -118,6 +111,9 @@ public class ListCalendar extends VBox {
 					break;
 				case "holiday":
 					component = new AppointmentComponent((HolidayDB)appointment);
+					break;
+				case "moon":
+					component = new AppointmentComponent((Moon)appointment);
 					break;
 				default:
 					component = new AppointmentComponent();
