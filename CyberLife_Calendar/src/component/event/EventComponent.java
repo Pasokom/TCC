@@ -38,7 +38,7 @@ public class EventComponent extends VBox {
 	private Label lbl_titulo;
 	private Label lbl_hora;
 	private ImageView lblEdit;
-	private EventInfo eventDetails;
+	//private EventInfo eventDetails;
 	private Stage profileSelector;
 	private EventDB event;
 
@@ -56,7 +56,7 @@ public class EventComponent extends VBox {
 		lblEdit.setPreserveRatio(true);
 
 		/* instanciando componentes */
-		eventDetails = new EventInfo(event);
+		//eventDetails = new EventInfo(event);
 
 		lblEdit.setVisible(false);
 
@@ -111,11 +111,11 @@ public class EventComponent extends VBox {
 			/* Pega a localizacao atual do componente em relacao a tela */
 			Point2D point2d = this.localToScreen(0d, 0d);
 
-			eventDetails.setX(point2d.getX() + this.widthProperty().doubleValue() + 10); // posiciona ao lado do
+			//eventDetails.setX(point2d.getX() + this.widthProperty().doubleValue() + 10); // posiciona ao lado do
 																							// componente
-			eventDetails.setY(point2d.getY()); // posiciona na mesma altura
+			//eventDetails.setY(point2d.getY()); // posiciona na mesma altura
 
-			eventDetails.show();
+			//eventDetails.show();
 		});
 	}
 
@@ -173,9 +173,9 @@ public class EventComponent extends VBox {
 			}
 		});
 		lblEditar.setOnMouseClicked(e -> {
-			Stage st = new Stage();
-			st.setScene(new Event(this.event, st)); // TODO atualizar a tela 
-			st.show();
+			//Stage st = new Stage();
+			//st.setScene(new Event(this.event, st)); // TODO atualizar a tela 
+			//st.show();
 		});
 
 		vOptions.getChildren().addAll(lblEditar, lblExcluir);

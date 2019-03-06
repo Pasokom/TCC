@@ -1,24 +1,73 @@
-.root { 
-
+.root{
+    -fx-padding: 20 20 0 20;
+    -fx-spacing: 10;
+    -fx-background-color: #FFFFFF;
 }
 
-HBox{
-	-fx-spacing: 10;
+.date-picker{
+    -fx-focus-color: #5E35B1;
+    -fx-faint-focus-color: transparent;
 }
 
-#lNome {
-	-fx-pref-width: 500;
-	-fx-font-size: 20;
+.text-input{
+    -fx-focus-color: #5E35B1;
+    -fx-faint-focus-color: transparent;
+    -fx-text-box-border: darkgray;
+    -fx-padding: 6px;
 }
 
-#btnEnviar{
-	-fx-padding: 12 20;
-	-fx-border-color: transparent;
-	-fx-background-color: #304FFE;
-	-fx-text-fill: white;
+.text-input, .text-input:focused { 
+    -fx-prompt-text-fill:darkgray;
 }
 
-#btnEnviar:hover{
-	-fx-background-color: #3D5AFE;
+.text-area{
+    -fx-padding: 0;
 }
 
+.text-area .content{
+    -fx-padding: 6px;
+}
+
+.check-box .box {
+    -fx-background-color: white;
+    -fx-border-color:grey;
+    -fx-border-radius:3px;
+    -fx-border-width:3px;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: white;
+    -fx-shape: "M75 200 L200 300 L400 20 L370 0 L190 240 L100 170 Z";
+}
+
+.check-box:selected .box {
+    -fx-background-color: #5E35B1;
+    -fx-border-color: #5E35B1;
+}
+
+#title{
+    -fx-font-size: 25px;
+    -fx-padding: 0;
+    -fx-focus-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+}
+
+#title .content{
+    -fx-background-color: transparent;
+}
+
+#img_schedule{
+	-fx-graphic: url("../../resources/images/round_schedule_black_24dp.png");
+    -fx-opacity: 0.5;
+}
+
+#img_place{
+	-fx-graphic: url("../../resources/images/round_place_black_24dp.png");
+    -fx-opacity: 0.5;
+}
+
+#img_note{
+	-fx-graphic: url("../../resources/images/round_notes_black_24dp.png");
+    -fx-opacity: 0.5;
+}

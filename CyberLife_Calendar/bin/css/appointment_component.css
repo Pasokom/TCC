@@ -1,0 +1,52 @@
+#this{
+	-fx-background-color: transparent;
+} 
+
+Label{
+	-fx-text-fill: white;
+	-fx-font-size: 14;
+}
+
+#reminder_card{
+	-fx-background-color: #0D47A1;
+	-fx-background-radius: 3 0 0 3;
+	-fx-padding: 10;
+}
+
+#event_card{
+	-fx-background-color: #660cdc;
+	-fx-background-radius: 3 0 0 3;
+	-fx-padding: 10;
+}
+
+#holiday_card{
+	-fx-background-color: #006064;
+	-fx-background-radius: 3 0 0 3;
+	-fx-padding: 10;
+}
+
+#demo_card{
+	-fx-background-color: #660cdc;
+	-fx-background-radius: 5 5 5 5;
+	-fx-font-size: 10;
+	-fx-padding: 0 2 0 2;
+}
+
+#titulo{
+	-fx-font-weight: bold;
+}
+
+#above_info{
+    -fx-text-fill: rgba(255,255,255,0.5);
+    -fx-font-weight: bold;
+    -fx-font-size: 12;
+}
+
+#edit {
+	-fx-image: url("../../resources/images/more.png");
+	-fx-padding: 50;
+}
+
+#edit:hover{
+	-fx-cursor: hand;
+}

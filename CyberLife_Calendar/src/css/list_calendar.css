@@ -1,4 +1,5 @@
 #this{
+	/* #DEDEDE */
 	-fx-background-color: #DEDEDE;
 }
 
@@ -17,4 +18,13 @@
 
 #list{
 	-fx-background-color: transparent;
+}
+
+#day_week{
+	-fx-background-color: #00796B;
+	-fx-padding: 4 4 4 10;
+}
+
+#day_week Label{
+	-fx-text-fill: #FFFFFF;
 }

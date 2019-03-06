@@ -1,154 +1,86 @@
 package db.pojo.reminderPOJO;
 
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class ReminderSchedule {
 
-	private int cod;
-	private int fk_reminder;
-	private Timestamp datetime_begin;
-	private Timestamp datetime_end;
-	private Time timeBegin;
-	private Time timeEnd;
-	private int weekDay;
-	private int minutesInterval;
-	private int amount_of_repetition;
-	private boolean isActive;
+	private int cod_repeticao;
+	private int intervalo;
+	private boolean[] dias_semana;
+	private int fk_lembrete;
 
 	/**
-	 * @param isActive the isActive to set
+	 * @return the cod_repeticao
 	 */
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
+	public int getCod_repeticao() {
+		return cod_repeticao;
 	}
 
 	/**
-	 * @return the isActive
+	 * @param cod_repeticao the cod_repeticao to set
 	 */
-	public boolean isActive() {
-		return isActive;
+	public void setCod_repeticao(int cod_repeticao) {
+		this.cod_repeticao = cod_repeticao;
 	}
 
 	/**
-	 * @param fk_reminder the fk_reminder to set
+	 * @return the intervalo
 	 */
-	public void setFk_reminder(int fk_reminder) {
-		this.fk_reminder = fk_reminder;
+	public int getIntervalo() {
+		return intervalo;
 	}
 
 	/**
-	 * @return the fk_reminder
+	 * @param intervalo the intervalo to set
 	 */
-	public int getFk_reminder() {
-		return fk_reminder;
+	public void setIntervalo(int intervalo) {
+		this.intervalo = intervalo;
 	}
 
 	/**
-	 * @return the minutesInterval
+	 * @return the dias_semana
 	 */
-	public int getMinutesInterval() {
-		return minutesInterval;
+	public boolean[] getDias_semana() {
+		return dias_semana;
 	}
 
 	/**
-	 * @param minutesInterval the minutesInterval to set
+	 * @param dias_semana the dias_semana to set
 	 */
-	public void setMinutesInterval(int minutesInterval) {
-		this.minutesInterval = minutesInterval;
+	public void setDias_semana(boolean[] dias_semana) {
+		this.dias_semana = dias_semana;
+	}
+
+	public String getDias_semanaToString() {
+
+		String list = "";
+
+		for (int i = 0; i < this.dias_semana.length; i++) {
+
+			list += (dias_semana[i] ? 1 : 0) + (i + 1 < dias_semana.length ? "," : "");
+		}
+
+		return list;
+	}
+
+	public void setDias_semanaToArray(String dias_semana) {
+
+		this.dias_semana = new boolean[7];
+
+		for (int i = 0; i < this.dias_semana.length; i++) {
+			this.dias_semana[i] = dias_semana.split(",")[i].equals("1") ? true : false;
+		}
 	}
 
 	/**
-	 * @param timeBegin the timeBegin to set
+	 * @return the fk_lembrete
 	 */
-	public void setTimeBegin(String timeBegin) {
-		if (timeBegin != null)
-			try {
-				SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
-				Date date = sdf.parse(timeBegin);
-				this.timeBegin = new Time(date.getTime());
-				// System.out.println(timeBegin);
-			} catch (ParseException e) {
-				System.out.println("Error - função setTimeBegin - POJO ReminderSchedule");
-			}
+	public int getFk_lembrete() {
+		return fk_lembrete;
 	}
 
 	/**
-	 * @param timeEnd the timeEnd to set
+	 * @param fk_lembrete the fk_lembrete to set
 	 */
-	public void setTimeEnd(String timeEnd) {
-		if (timeEnd != null)
-			try {
-				SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
-				Date date = sdf.parse(timeEnd);
-				this.timeEnd = new Time(date.getTime());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-	}
-
-	/**
-	 * @return the timeBegin
-	 */
-	public Time getTimeBegin() {
-		return timeBegin;
-	}
-
-	/**
-	 * @return the timeEnd
-	 */
-	public Time getTimeEnd() {
-		return timeEnd;
-	}
-
-	/**
-	 * @return the weekDay
-	 */
-	public int getWeekDay() {
-		return weekDay;
-	}
-
-	/**
-	 * @param weekDay the weekDay to set
-	 */
-	public void setWeekDay(int weekDay) {
-		this.weekDay = weekDay;
-	}
-
-	public int getAmount_of_repetition() {
-		return amount_of_repetition;
-	}
-
-	public void setAmount_of_repetition(int amount_of_repetition) {
-		this.amount_of_repetition = amount_of_repetition;
-	}
-
-	public int getCod() {
-		return cod;
-	}
-
-	public void setCod(int cod) {
-		this.cod = cod;
-	}
-
-	public void setDatetime_begin(Timestamp datetime_begin) {
-		// System.out.println(datetime_begin);
-		this.datetime_begin = datetime_begin;
-	}
-
-	public void setDatetime_end(Timestamp datetime_end) {
-		if (datetime_end != null)
-			this.datetime_end = datetime_end;
-	}
-
-	public Timestamp getDatetime_end() {
-		return datetime_end;
-	}
-
-	public Timestamp getDatetime_begin() {
-		return datetime_begin;
+	public void setFk_lembrete(int fk_lembrete) {
+		this.fk_lembrete = fk_lembrete;
 	}
 }

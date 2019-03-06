@@ -12,6 +12,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import listeners.windows.CloseWindowEsc;
@@ -88,14 +89,22 @@ public class AddFloatingActionButton extends StackPane {
 
 		lblLembrete.setOnMouseClicked(e -> {
 			Stage st = new Stage();
-			st.setScene(new Reminder(st));
+			st.setWidth(300);
+			st.setHeight(400);
+			st.initStyle(StageStyle.UTILITY);
+			st.initModality(Modality.APPLICATION_MODAL);
+			st.setScene(new Reminder());
 			new CloseWindowEsc(st);
 			st.show();
 		});
 
 		lblEvento.setOnMouseClicked(e -> {
 			Stage st = new Stage();
-			st.setScene(new Event(st));
+			st.setWidth(300);
+			st.setHeight(400);
+			st.initStyle(StageStyle.UTILITY);
+			st.initModality(Modality.APPLICATION_MODAL);
+			st.setScene(new Event());
 			st.show();
 		});
 		

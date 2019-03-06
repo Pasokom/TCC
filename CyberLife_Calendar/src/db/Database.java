@@ -16,28 +16,11 @@ import java.sql.SQLException;
 public class Database {
 
 	private final static String SERVER = "127.0.0.1";
-	private final static String DB_NAME = "CYBER_LIFE"; // só para testes mesmo
+	private final static String DB_NAME = "cyberlife_calendar"; // só para testes mesmo
 	private final static String USER = "root";
 	private final static String PASSWORD = "1234";
 	private final static String CONNECTION_STRING = "jdbc:mysql://" + SERVER + "/" + DB_NAME + "?user=" + USER
 			+ "&password=" + PASSWORD + "&useTimezone=true&serverTimezone=UTC";
-
-	// TODO A construct to the Database class
-	public Database() throws SQLException {
-		// try {
-		// /*
-		// * procura a biblioteca do drive do mysql no projeto
-		// */
-		// Class.forName("com.mysql.jdbc.Driver");
-		// } catch (ClassNotFoundException e) {
-		// e.printStackTrace();
-		// }
-		// try {
-		// connection = DriverManager.getConnection(CONNECTION_STRING);
-		// } catch (Exception e) {
-		// System.out.println(e.getStackTrace());
-		// }
-	}
 
 	/**
 	 * Retorna um objeto de conexão com banco de dados

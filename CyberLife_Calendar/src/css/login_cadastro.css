@@ -1,0 +1,71 @@
+AnchorPane{
+	-fx-background-image: url("../../resources/images/CyberLife.png");
+	-fx-background-repeat: no-repeat;
+	-fx-background-color: transparent;
+	-fx-padding: 10;
+	-fx-alignment: center;
+	-fx-background-position: left, center;
+	-fx-background-size: 75%;
+	-fx-background-insets: -20, -10;
+}
+
+VBox{
+	-fx-background-color: white;
+	-fx-spacing: 10;
+}
+
+GridPane{
+	-fx-background-color: white;
+}
+
+HBox{
+	-fx-spacing: 10;
+}
+
+.text-input{
+    -fx-focus-color: #304FFE;
+    -fx-faint-focus-color: transparent;
+    -fx-text-box-border: darkgray;
+    -fx-padding: 6px;
+}
+
+.text-input, .text-input:focused { 
+    -fx-prompt-text-fill:darkgray;
+}
+
+.check-box .box {
+    -fx-background-color: white;
+    -fx-border-color:grey;
+    -fx-border-radius:3px;
+    -fx-border-width:3px;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: white;
+    -fx-shape: "M75 200 L200 300 L400 20 L370 0 L190 240 L100 170 Z";
+}
+
+.check-box:selected .box {
+    -fx-background-color: #304FFE;
+    -fx-border-color: #304FFE;
+}
+
+.button{
+	-fx-focus-color: #304FFE;
+	-fx-padding: 6px;
+}
+
+#lblEmail{
+	-fx-graphic: url("../../resources/images/round_email_black_24dp.png");
+	-fx-opacity: 0.6;
+}
+
+#lblPsw{
+	-fx-graphic: url("../../resources/images/round_vpn_key_black_24dp.png");
+	-fx-opacity: 0.6;
+}
+
+#lblNomeCadast{
+	-fx-graphic: url("../../resources/images/round_person_black_24dp.png");
+	-fx-opacity: 0.6;
+}

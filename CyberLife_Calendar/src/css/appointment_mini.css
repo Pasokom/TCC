@@ -1,0 +1,30 @@
+#this{
+	-fx-background-color: transparent;
+} 
+
+Label{
+	-fx-text-fill: white;
+	-fx-font-size: 14;
+}
+
+.hbox{
+	-fx-background-radius: 4;
+	-fx-font-size: 10;
+	-fx-padding: 0 5 0 5;
+}
+
+#titulo{
+	-fx-font-weight: bold;
+}
+
+#reminder{
+    -fx-background-color: #0D47A1;
+}
+
+#event{
+    -fx-background-color: #660cdc;
+}
+
+#holiday{
+    -fx-background-color: #004D40;
+}

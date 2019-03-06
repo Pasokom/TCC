@@ -13,12 +13,11 @@ import db.pojo.eventPOJO.EventSchedule;
 import statics.SESSION;
 
 public class CreateEvent {
-	public CreateEvent() throws ClassNotFoundException, SQLException {
-	}
 
 	public int insert_event(EventDB event) throws ClassNotFoundException, SQLException {
 
-		String sql = "insert into EVENTO (TITULO, DATA_INICIO, DATA_FIM, DIA_TODO, LOCAL_EVENTO, DESCRICAO, TIPO_REPETICAO, TIPO_FIM_REPETICAO, FK_USUARIO) "
+		String sql = "insert into EVENTO (TITULO, DATA_INICIO, DATA_FIM, DIA_TODO, LOCAL_EVENTO, "
+				+ "DESCRICAO, TIPO_REPETICAO, TIPO_FIM_REPETICAO, FK_USUARIO) "
 				+ "values(?,?,?,?,?,?,?,?,?)";
 
 		PreparedStatement statement = Database.get_connection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -35,15 +34,26 @@ public class CreateEvent {
 		statement.executeUpdate();
 
 		ResultSet generatedKeys = statement.getGeneratedKeys();
-		if (generatedKeys.next())
-			return generatedKeys.getInt(1);
+
+		if (generatedKeys.next()) {
+
+			int codigo = generatedKeys.getInt(1);
+
+			event.getHorario_evento().setFk_evento(codigo);
+			event.getHorario_fim_evento().setFk_evento(codigo);
+
+			insert_event_schedule(event.getHorario_evento());
+			insert_event_end_schedule(event.getHorario_fim_evento());
+
+			return codigo;
+		}
 
 		return 0;
 	}
 
 	public void insert_event_schedule(EventSchedule schedule) throws ClassNotFoundException, SQLException {
 
-		String sql = "insert into E_REPETIR (INTERVALO, DIAS_SEMANA, FK_EVENTO)" + "values(?,?,?)";
+		String sql = "insert into EVENTO_REPETICAO (INTERVALO, DIAS_SEMANA, FK_EVENTO)" + "values(?,?,?)";
 
 		PreparedStatement statement = Database.get_connection().prepareStatement(sql);
 		statement.setInt(1, schedule.getIntervalo());
@@ -55,7 +65,7 @@ public class CreateEvent {
 
 	public void insert_event_end_schedule(EventEndSchedule schedule) throws ClassNotFoundException, SQLException {
 
-		String sql = "insert into E_FIM_REPETICAO(DIA_FIM, QTD_RECORRENCIAS, FK_EVENTO)" + "values(?,?,?)";
+		String sql = "insert into EVENTO_FIM_REPETICAO (DIA_FIM, QTD_RECORRENCIAS, FK_EVENTO)" + "values(?,?,?)";
 
 		PreparedStatement statement = Database.get_connection().prepareStatement(sql);
 		statement.setDate(1, schedule.getDia_fim());

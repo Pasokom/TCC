@@ -6,23 +6,24 @@
 	-fx-background-color: rgba(0,0,0,0.2);
 }
 
-#today{
-	-fx-background-color: rgb(9, 84, 178);
-	-fx-background-radius: 50%;
-	-fx-background-insets: -6 -7 -6 -7;
-	-fx-text-fill: #ffffff;
-}
+
 
 #other_month{
 	-fx-text-fill: rgba(0,0,0,0.3);
 }
 
 #day_week{
-	-fx-text-fill: rgba(0,0,0,0.5);
-	-fx-font-size: 15pt;
+	-fx-background-color: #00796B;
+	-fx-background-insets: 0 -3 0 0;
+	-fx-padding: 4;
+	-fx-text-fill: #FFFFFF;
 }
 
 #today_week{
 	-fx-text-fill: rgba(9, 84, 178, 0.8);
 	-fx-font-size: 15pt;
+}
+
+#this{
+	-fx-background-color: rgba(0,0,0,0.05)
 }

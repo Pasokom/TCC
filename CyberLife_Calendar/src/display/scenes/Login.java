@@ -5,7 +5,10 @@ import java.util.Optional;
 
 import db.functions.registrationAndLogin.HandlerLogin;
 import db.functions.registrationAndLogin.HandlerRegistration;
-import db.functions.user.PictureSettings;
+import db.pojo.UserSession;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -17,7 +20,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -74,126 +76,157 @@ public class Login extends Scene {
 	public Login() {
 
 		/**
-		 * quando voce extender Scene tem que colocar isso aqui, OBRIGATORIO nï¿½o
+		 * quando voce extender Scene tem que colocar isso aqui, OBRIGATORIO nÃ£o
 		 * precisa necessariamente ser uma hbox, qualquer componente serve
 		 */
 		super(new HBox());
 
-		this.getStylesheets().add(this.getClass().getResource("/css/login-cadastro.css").toExternalForm());
+		this.getStylesheets().add(this.getClass().getResource("/css/login_cadastro.css").toExternalForm());
 
 		this.login = new HandlerLogin();
 		this.registration = new HandlerRegistration();
 
-		lblTitle = new Label("Login");
-		lblTitle.setFont(new Font(25));
+		this.lblTitle = new Label("Login");
+		this.lblTitle.setFont(new Font(25));
 
-		lblTitleCadast = new Label("Cadastro");
-		lblTitleCadast.setFont(new Font(25));
+		this.lblTitleCadast = new Label("Cadastro");
+		this.lblTitleCadast.setFont(new Font(25));
 
-		lblLog = new Label();
+		this.lblLog = new Label();
+		this.lblLog.setWrapText(true);
+		this.lblLog.setVisible(false);
+		this.lblLog.setManaged(false);
 
 		/* Email */
 		HBox hbEmail = new HBox();
 
-		lblEmail = new Label();
-		lblEmail.setId("lblEmail");
+		this.lblEmail = new Label();
+		this.lblEmail.setId("lblEmail");
 
-		txtEmail = new TextField();
-		txtEmail.setPromptText("Email");
+		this.txtEmail = new TextField();
+		this.txtEmail.setPromptText("Email");
 
 		hbEmail.getChildren().addAll(lblEmail, txtEmail);
 
 		/* Senha */
 		HBox hbPwd = new HBox();
 
-		lblSenha = new Label();
-		lblSenha.setId("lblPsw");
+		this.lblSenha = new Label();
+		this.lblSenha.setId("lblPsw");
 
-		txtSenha = new PasswordField();
-		txtSenha.setPromptText("Senha");
+		this.txtSenha = new PasswordField();
+		this.txtSenha.setPromptText("Senha");
 
 		hbPwd.getChildren().addAll(lblSenha, txtSenha);
 
 		/* Cadastro nome */
 		HBox hbNome = new HBox();
 
-		lblNomeCadast = new Label();
-		lblNomeCadast.setId("lblNomeCadast");
-		txtNomeCadast = new TextField();
-		txtNomeCadast.setPromptText("Nome");
+		this.lblNomeCadast = new Label();
+		this.lblNomeCadast.setId("lblNomeCadast");
+		this.txtNomeCadast = new TextField();
+		this.txtNomeCadast.setPromptText("Nome");
 
 		hbNome.setVisible(true);
 		hbNome.getChildren().addAll(lblNomeCadast, txtNomeCadast);
 
 		/* Cadastro sobrenome */
-		txtSobrenomeCadast = new TextField();
-		txtSobrenomeCadast.setPromptText("Sobrenome");
+		this.txtSobrenomeCadast = new TextField();
+		this.txtSobrenomeCadast.setPromptText("Sobrenome");
 
 		/* Cadastro email */
 		HBox hbEmailCadast = new HBox();
 
-		lblEmailCadast = new Label();
-		lblEmailCadast.setId("lblEmail");
+		this.lblEmailCadast = new Label();
+		this.lblEmailCadast.setId("lblEmail");
 
-		txtEmailCadast = new TextField();
-		txtEmailCadast.setPromptText("Email");
+		this.txtEmailCadast = new TextField();
+		this.txtEmailCadast.setPromptText("Email");
 
 		hbEmailCadast.getChildren().addAll(lblEmailCadast, txtEmailCadast);
 
 		/* Cadastro senha */
 		HBox hbPwdCadast = new HBox();
 
-		lblSenhaCadast = new Label();
-		lblSenhaCadast.setId("lblPsw");
+		this.lblSenhaCadast = new Label();
+		this.lblSenhaCadast.setId("lblPsw");
 
-		txtSenhaCadast = new PasswordField();
-		txtSenhaCadast.setPromptText("Senha");
+		this.txtSenhaCadast = new PasswordField();
+		this.txtSenhaCadast.setPromptText("Senha");
 
 		hbPwdCadast.getChildren().addAll(lblSenhaCadast, txtSenhaCadast);
 
-		txtSenhaConfirmCadast = new PasswordField();
-		txtSenhaConfirmCadast.setPromptText("Confirmar senha");
+		this.txtSenhaConfirmCadast = new PasswordField();
+		this.txtSenhaConfirmCadast.setPromptText("Confirmar senha");
 
-		rdHabilitarCadast = new Button("Cadastrar-se");
-		rdHabilitarCadast.setOnAction(e -> {
+		this.rdHabilitarCadast = new Button("Cadastrar-se");
+		this.rdHabilitarCadast.setOnAction(e -> {
 			componenteLogin();
 		});
 
-		backLogin = new Button("Voltar");
-		backLogin.setOnAction(e -> {
+		this.backLogin = new Button("Voltar");
+		this.backLogin.setOnAction(e -> {
 			componenteLogin();
 		});
 
-		this.h_wrong_login = new HBox();
-		this.lbl_error_message = new Label("Login ou senha incorretos");
+		this.lbl_error_message = new Label();
 		this.lbl_error_message.setVisible(false);
-		h_wrong_login.getChildren().add(this.lbl_error_message);
-		h_wrong_login.setAlignment(Pos.CENTER);
+		this.lbl_error_message.setManaged(false);
 
 		this.h_stayConnected = new HBox();
 		this.cb_stayConnected = new CheckBox();
-		h_stayConnected.getChildren().addAll(cb_stayConnected, new Label("Mantenha-me conectado"));
+		this.h_stayConnected.getChildren().addAll(cb_stayConnected, new Label("Mantenha-me conectado"));
 
-		btnEntrar = new Button("Entrar");
+		this.btnEntrar = new Button("Entrar");
 		this.btnEntrar.setOnAction(e -> {
 			login();
 		});
+
 		this.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.ENTER)
 				login();
 		});
+
 		this.setOnMouseClicked(e -> {
 			this.lbl_error_message.setVisible(false);
-		});
-		this.txtEmail.setOnMouseClicked(e -> {
-			this.lbl_error_message.setVisible(false);
-		});
-		this.txtSenha.setOnMouseClicked(e -> {
-			this.lbl_error_message.setVisible(false);
+			this.lbl_error_message.setManaged(false);
+
+			this.lblLog.setVisible(false);
+			this.lblLog.setManaged(false);
 		});
 
-		btnCadastrar = new Button("Cadastrar-se");
-		btnCadastrar.setOnAction(event -> {
+		this.txtEmail.setOnMouseClicked(e -> {
+			this.lbl_error_message.setVisible(false);
+			this.lbl_error_message.setManaged(false);
+		});
+		
+		this.txtSenha.setOnMouseClicked(e -> {
+			this.lbl_error_message.setVisible(false);
+			this.lbl_error_message.setManaged(false);
+		});
+
+		ChangeListener<String> changeText = new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				
+				StringProperty textProperty = (StringProperty) observable ;
+				TextField textField = (TextField) textProperty.getBean();
+
+				textField.setStyle("-fx-focus-color: #304FFE;");
+			}
+		};
+
+		this.txtEmail.textProperty().addListener(changeText);
+		this.txtSenha.textProperty().addListener(changeText);
+
+		this.txtNomeCadast.textProperty().addListener(changeText);
+		this.txtEmailCadast.textProperty().addListener(changeText);
+		this.txtSenhaCadast.textProperty().addListener(changeText);
+		this.txtSenhaConfirmCadast.textProperty().addListener(changeText);
+
+		this.btnCadastrar = new Button("Cadastrar-se");
+		this.btnCadastrar.setOnAction(event -> {
 			try {
 				registration();
 			} catch (ClassNotFoundException | SQLException e1) {
@@ -201,7 +234,7 @@ public class Login extends Scene {
 			}
 		});
 
-		vbLogin.getChildren().addAll(lblTitle, hbEmail, hbPwd, h_stayConnected, h_wrong_login, hLogin);
+		vbLogin.getChildren().addAll(lblTitle, hbEmail, hbPwd, h_stayConnected, lbl_error_message, hLogin);
 		vbCadastro.getChildren().addAll(lblTitleCadast, hbNome, txtSobrenomeCadast, hbEmailCadast, hbPwdCadast,
 				hCadastro);
 
@@ -226,6 +259,7 @@ public class Login extends Scene {
 
 		pnlLayout.setHgap(10);
 		pnlLayout.setVgap(10);
+		pnlLayout.setPrefWidth(250);
 
 		pnlLayout.add(lblTitleCadast, 0, 0, 2, 1);
 		pnlLayout.add(lblNomeCadast, 0, 1);
@@ -249,8 +283,8 @@ public class Login extends Scene {
 
 		aPane.requestFocus();
 
-		txtEmail.setText("j");
-		txtSenha.setText("1");
+		UserSession session = UserSession.fromSerialization();
+		this.txtEmail.setText(session.getUser_email());
 
 		this.setRoot(aPane);
 	}
@@ -278,23 +312,44 @@ public class Login extends Scene {
 	/**
 	 * usa a classe {@link HandlerLogin} para fazer o login, se os dados informados
 	 * estiverem errados a label de mensagem de erro vai ficar visivel se o login
-	 * for feito com sucesso ir�o iniciar as variaveis globais da classe
+	 * for feito com sucesso irão iniciar as variaveis globais da classe
 	 * {@link statics.SESSION} e abrir a tela principal
 	 * 
 	 */
 	private void login() {
 		boolean is_email_empty = txtEmail.getText().trim().isEmpty();
-		boolean is_password_empy = txtSenha.getText().isEmpty();
+		boolean is_password_empty = txtSenha.getText().isEmpty();
 
-		if (!is_email_empty && !is_password_empy) {
+		if (!is_email_empty && !is_password_empty) {
 
 			if (login.login(txtEmail.getText(), txtSenha.getText(), this.cb_stayConnected.selectedProperty().get())) {
+
 				Main.main_stage.setScene(new HomePage());
-				return;
 			}
-			this.lbl_error_message.setVisible(true);
+			else{
+
+				this.lbl_error_message.setText("Login ou senha incorretos");
+
+				this.lbl_error_message.setVisible(true);
+				this.lbl_error_message.setManaged(true);
+			}
+		}
+		else {
+
+			if(is_password_empty){
+
+				txtSenha.setStyle("-fx-focus-color: red;");
+				txtSenha.requestFocus();
+			}
+			if(is_email_empty) {
+
+				txtEmail.setStyle("-fx-focus-color: red;");
+				txtEmail.requestFocus();
+			}
+			this.lbl_error_message.setText("*Campo não preenchido");
 		}
 		this.lbl_error_message.setVisible(true);
+		this.lbl_error_message.setManaged(true);
 	}
 
 	/**
@@ -306,33 +361,61 @@ public class Login extends Scene {
 	 */
 	private void registration() throws ClassNotFoundException, SQLException {
 
-		if (txtSenhaCadast.getText().isEmpty() || txtSenhaConfirmCadast.getText().isEmpty()) {
-			lblLog.setText("Podem haver campos n�o preenchidos!");
+		this.lblLog.setVisible(true);
+		this.lblLog.setManaged(true);
+
+		boolean is_email_field_empty = txtEmailCadast.getText().isEmpty();
+		boolean is_name_field_empty = txtNomeCadast.getText().isEmpty();
+
+		if(is_name_field_empty){
+			txtNomeCadast.setStyle("-fx-focus-color: red;");
+			txtNomeCadast.requestFocus();
+			lblLog.setText("*Campo não preenchido!");
+			return;
+		}
+
+		if (is_email_field_empty) {
+			txtEmailCadast.setStyle("-fx-focus-color: red;");
+			txtEmailCadast.requestFocus();
+			lblLog.setText("*Campo não preenchido!");
+			return;
+		}
+
+		if (txtSenhaCadast.getText().isEmpty()) {
+			txtSenhaCadast.setStyle("-fx-focus-color: red;");
+			txtSenhaCadast.requestFocus();
+			lblLog.setText("*Campo não preenchido!");
+			return;
+		}
+
+		if(txtSenhaConfirmCadast.getText().isEmpty()){
+			txtSenhaConfirmCadast.setStyle("-fx-focus-color: red;");
+			txtSenhaConfirmCadast.requestFocus();
+			lblLog.setText("*Campo não preenchido!");
 			return;
 		}
 
 		if (txtSenhaCadast.getText().length() < 1) { // 8) {
-			lblLog.setText("Senha deve conter no min�mo 8 caracteres!");
+			txtSenhaCadast.setStyle("-fx-focus-color: red;");
+			txtSenhaCadast.requestFocus();
+			lblLog.setText("Senha deve conter no mínimo 8 caracteres!");
 			return;
 		}
 		boolean password_are_diferent = txtSenhaCadast.getText().equals(txtSenhaConfirmCadast.getText());
 
 		if (!password_are_diferent) {
-			lblLog.setText("senhas informadas n�o correspondem!");
-			return;
-		}
-
-		boolean is_email_field_empty = txtEmailCadast.getText().isEmpty();
-		boolean is_name_field_empty = txtNomeCadast.getText().isEmpty();
-
-		if (is_email_field_empty || is_name_field_empty) {
-			lblLog.setText("pode haver campos n�o preenchidos!");
+			txtSenhaConfirmCadast.setStyle("-fx-focus-color: red;");
+			txtSenhaConfirmCadast.requestFocus();
+			lblLog.setText("senhas informadas não correspondem!");
 			return;
 		}
 
 		if (!txtEmailCadast.getText().contains("@")
 				&& (!txtEmailCadast.getText().contains(".com") || !txtEmailCadast.getText().contains(".br"))) {
-			lblLog.setText("Formato de e-mail n�o reconhecido!");
+			
+			txtEmailCadast.setStyle("-fx-focus-color: red;");
+			txtEmailCadast.requestFocus();
+			lblLog.setText("Formato de e-mail não reconhecido!");
 			return;
 		}
 
@@ -350,30 +433,16 @@ public class Login extends Scene {
 			 * false heuehueh
 			 */
 			if (this.registration.insert_user(name, last_name, email, password)) {
-				Optional<ButtonType> vOptional = new Alert(AlertType.CONFIRMATION, "Voc� foi cadastrado coom sucesso! "
+				Optional<ButtonType> vOptional = new Alert(AlertType.CONFIRMATION, "Você foi cadastrado com sucesso! "
 						+ txtNomeCadast.getText() + " " + txtSobrenomeCadast.getText()).showAndWait();
 				if (vOptional.get() == ButtonType.OK) {
 					componenteLogin();
 				}
 			}
-			lblLog.setText("Usu�rio cadastrado com sucesso");
+			lblLog.setText("Usuário cadastrado com sucesso");
 			return;
 		}
-		lblLog.setText("email informado j� foi cadastrado");
+		lblLog.setText("email informado já foi cadastrado");
 		return;
 	}
-
-	private Scene cena(PictureSettings p) {
-		HBox hb = new HBox();
-
-		ImageView i = new ImageView();
-
-		i.setImage(p.getUserImage(1));
-
-		hb.getChildren().add(i);
-		Scene scene = new Scene(hb);
-
-		return scene;
-	}
-
 }

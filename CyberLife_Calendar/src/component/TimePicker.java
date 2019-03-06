@@ -14,7 +14,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -23,7 +22,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import listeners.windows.CloseWindowEsc;
 
 /**
  * 
@@ -54,6 +52,16 @@ public class TimePicker extends HBox {
 	 */
 	public TimePicker(boolean isDeletable) {
 		this.isDeletable = isDeletable;
+		this.init();
+	}
+
+	public TimePicker(boolean isDeletable, Calendar time) {
+		this.isDeletable = isDeletable;
+		this.init();
+		this.change_label(time);
+	}
+
+	private void init(){
 
 		timeDisplay = new TextField();
 		timeDisplay.setPrefWidth(60);
@@ -106,12 +114,6 @@ public class TimePicker extends HBox {
 			timeSelectorStage.setX(point2d.getX());
 			timeSelectorStage.setY(timeDisplay.getHeight() + point2d.getY());
 
-			timeSelector.setOnKeyPressed(e1 -> {
-				if (e1.getCode() == KeyCode.ESCAPE)
-					System.out.println("esc");
-
-				new CloseWindowEsc(timeSelectorStage).handle(e1);
-			});
 			timeSelectorStage.show();
 		});
 
@@ -160,7 +162,7 @@ public class TimePicker extends HBox {
 
 		Scene timeSelectorCena = new Scene(vBox);
 
-		timeSelectorCena.getStylesheets().add(this.getClass().getResource("/css/timepicker.css").toExternalForm());
+		timeSelectorCena.getStylesheets().add(this.getClass().getResource("../css/timepicker.css").toExternalForm());
 
 		timeSelectorStage.setScene(timeSelectorCena);
 
@@ -317,12 +319,27 @@ public class TimePicker extends HBox {
 		return timeDisplay.getText();
 	}
 
+	public int getHours(){
+
+		return Integer.parseInt(this.hour.getText());
+	}
+
+	public int getMinutes(){
+
+		return Integer.parseInt(this.min.getText());
+	}
+
 	public void close_stage() {
 		timeSelectorStage.close();
 	}
 
 	private void change_label() {
 		timeDisplay.setText(hour.getText() + ":" + min.getText());
+	}
+
+	private void change_label(Calendar time){
+		timeDisplay.setText(String.format("%02d", time.get(Calendar.HOUR_OF_DAY)) + 
+			":" + String.format("%02d", time.get(Calendar.MINUTE)));
 	}
 
 	public void set_event_ok(EventHandler<ActionEvent> e) {

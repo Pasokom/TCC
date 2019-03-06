@@ -1,7 +1,6 @@
 package component.homepage;
 
-import java.io.File;
-
+import db.pojo.UserSession;
 import display.poupoup.EditProfile;
 import display.scenes.Login;
 import javafx.beans.value.ChangeListener;
@@ -19,7 +18,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import listeners.IOFunctions;
 import main.Main;
 import statics.SESSION;
 
@@ -166,9 +164,9 @@ public class NavigationMenu extends AnchorPane {
 
 		lblSairPro.setOnMouseClicked(e -> {
 
+			UserSession.close();
+
 			stage.close();
-			IOFunctions io = new IOFunctions();
-			io.deleteFileIfExists(new File(io.getSerializationFolder() + "/stay_connected.ser"));
 			SESSION.END_SESSION();
 			Main.main_stage.close();
 			/**
@@ -179,8 +177,9 @@ public class NavigationMenu extends AnchorPane {
 		});
 
 		lblSair.setOnMouseClicked(e -> {
-			IOFunctions io = new IOFunctions();
-			io.deleteFileIfExists(new File(io.getSerializationFolder() + "/stay_connected.ser"));
+			
+			UserSession.close();
+
 			SESSION.END_SESSION();
 			Main.main_stage.setScene(new Login());
 		});

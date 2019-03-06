@@ -1,0 +1,28 @@
+#day{
+	-fx-font-size: 15;
+}
+
+#today{
+	-fx-text-fill: #2979FF;
+	-fx-font-size: 15;
+	-fx-font-weight: bolder;
+}
+
+#menu{
+	-fx-image: url("../../resources/images/round_more_vert_black_24dp.png");
+}
+
+#this{
+	-fx-background-color: #FEFEFE;
+}
+
+#other_month{
+	-fx-text-fill: rgba(0,0,0,0.3);
+}
+
+#holiday_month{
+	-fx-background-color: rgba(0,0,0,0.5);
+	-fx-background-insets: -4 -5 -4 -5;
+	-fx-background-radius: 50%;
+	-fx-text-fill: #ffffff;
+}

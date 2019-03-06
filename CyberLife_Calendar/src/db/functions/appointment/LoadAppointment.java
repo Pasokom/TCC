@@ -5,23 +5,194 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+
 import org.json.*;
 
+import db.Database;
+import db.pojo.AppointmentDB;
+import db.pojo.DayDB;
+import db.pojo.HolidayDB;
 import db.pojo.eventPOJO.EventDB;
+import db.pojo.reminderPOJO.ReminderDB;
 
 /**
  * LoadAppointment
  */
 public class LoadAppointment {
 
-    public ArrayList<EventDB> load(){
+    public ArrayList<AppointmentDB> loadFromDay(Calendar date) {
 
-        ArrayList<EventDB> events = new ArrayList<>();
+        ArrayList<AppointmentDB> appointments = new ArrayList<>();
+
+        ArrayList<HolidayDB> holidays = loadHolidays(date, "daily");
+
+        for(HolidayDB holiday : holidays){
+            appointments.add(holiday);
+        }
+
+        String sql = "{CALL CARREGAR_DIA(?)}";
 
         try {
 
-            URL url = new URL("http://localhost/cyberlife/calendar/API/?user=1");
+            PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+            statement.setTimestamp(1, new Timestamp(date.getTimeInMillis()), Calendar.getInstance());
+
+            ResultSet rSet = statement.executeQuery();
+
+            while(rSet.next()){
+
+                AppointmentDB appointment;
+
+                switch (rSet.getInt("TIPO")) {
+                    case 1:
+                        appointment = createDailyReminder(rSet);
+                        break;
+                    case 2:
+                        appointment = createDailyEvent(rSet);
+                        break;
+                    default:
+                        appointment = createDailyReminder(rSet);
+                        break;
+                }
+
+                appointments.add(appointment);
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        return appointments;
+    }
+
+    public ArrayList<DayDB> loadFromMonth(Calendar date) {
+
+        ArrayList<DayDB> days = new ArrayList<>();
+
+        for(int i = 0; i < 31; i++) {
+
+            DayDB day = new DayDB();
+            day.setDay(i + 1);
+            day.setAppointments(new ArrayList<AppointmentDB>());
+            days.add(day);
+        }
+
+        ArrayList<HolidayDB> holidays = loadHolidays(date, "monthly");
+
+        for(HolidayDB holiday : holidays){
+            days.get(holiday.getDia_mes() - 1).getAppointments().add(holiday);
+        }
+
+        String sql = "{CALL CARREGAR_MES(?)}";
+
+        try {
+
+            PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+            statement.setTimestamp(1, new Timestamp(date.getTimeInMillis()), Calendar.getInstance());
+
+            ResultSet rSet = statement.executeQuery();
+
+            while (rSet.next()){
+
+                AppointmentDB appointment;
+
+                switch (rSet.getInt("TIPO")) {
+                    case 1:
+                        appointment = createMonthlyReminder(rSet);
+                        break;
+                    case 2:
+                        appointment = createMonthlyEvent(rSet);
+                        break;
+                    default:
+                        appointment = createMonthlyReminder(rSet);
+                        break;
+                }
+
+                days.get(rSet.getInt("DIA") - 1).getAppointments().add(appointment);
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        return days;
+    }
+
+    private EventDB createMonthlyEvent(ResultSet rSet) throws SQLException {
+
+        EventDB event = new EventDB();
+
+        Calendar timezone = Calendar.getInstance();
+
+        event.setCod_evento(rSet.getInt("CODIGO"));
+        event.setTitulo(rSet.getString("TITULO"));
+        event.setData_inicio(rSet.getTimestamp("DATA_INICIO", timezone));
+        event.setData_fim(rSet.getTimestamp("DATA_FIM", timezone));
+
+        return event;
+    }
+
+    private ReminderDB createMonthlyReminder(ResultSet rSet) throws SQLException {
+
+        ReminderDB reminder = new ReminderDB();
+
+        Calendar timezone = Calendar.getInstance();
+
+        reminder.setCod_lembrete(rSet.getInt("CODIGO"));
+        reminder.setTitulo(rSet.getString("TITULO"));
+        reminder.setHorario(rSet.getTimestamp("DATA_INICIO", timezone));
+
+        return reminder;
+    }
+
+    private EventDB createDailyEvent(ResultSet rSet) throws SQLException {
+
+        EventDB event = new EventDB();
+
+        Calendar timezone = Calendar.getInstance();
+
+        event.setCod_evento(rSet.getInt("CODIGO"));
+        event.setTitulo(rSet.getString("TITULO"));
+        event.setData_inicio(rSet.getTimestamp("DATA_INICIO", timezone));
+        event.setData_fim(rSet.getTimestamp("DATA_FIM", timezone));
+        event.setDia_todo(rSet.getBoolean("DIA_TODO"));
+
+        return event;
+    }
+
+    private ReminderDB createDailyReminder(ResultSet rSet) throws SQLException {
+
+        ReminderDB reminder = new ReminderDB();
+
+        Calendar timezone = Calendar.getInstance();
+
+        reminder.setCod_lembrete(rSet.getInt("CODIGO"));
+        reminder.setTitulo(rSet.getString("TITULO"));
+        reminder.setHorario(rSet.getTimestamp("DATA_INICIO", timezone));
+        reminder.setDia_todo(rSet.getBoolean("DIA_TODO"));
+
+        return reminder;
+    }
+
+    private ArrayList<HolidayDB> loadHolidays(Calendar date, String qtype){
+
+        ArrayList<HolidayDB> holidays = new ArrayList<>();
+
+        try {
+
+            String protocol = "http://";
+            String host = "localhost/cyberlife/calendar/API/query/holidays.php";
+            String type = "?type=" + qtype;
+            String day = "&date=" + date.getTime().getTime() / 1000;
+            
+            URL url = new URL(protocol+host+type+day);
+
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
 
@@ -37,34 +208,21 @@ public class LoadAppointment {
 
             JSONObject jsonResponse = new JSONObject(buffer.toString());
             JSONArray data = jsonResponse.getJSONArray("data");
+            
+            for(int i = 0; i < data.length(); i++){
 
-            for (int i = 0; i < data.length(); i++) {
-                events.add(createEvent(data.getJSONObject(i)));
+                HolidayDB holiday = new HolidayDB();
+                holiday.setNome(data.getJSONObject(i).getString("name"));
+                holiday.setDia_mes(data.getJSONObject(i).getInt("day"));
+
+                holidays.add(holiday);
             }
+
 
         } catch (IOException | JSONException e) {
             e.printStackTrace();
-		}
-
-        return events;
-    }
-
-    private EventDB createEvent(JSONObject obj) throws JSONException {
-
-        EventDB event = new EventDB();
-        System.out.println("---------------------");
-        System.out.println(obj.getInt("cod_evento"));
-        System.out.println(obj.getString("titulo"));
-        System.out.println(obj.getLong("data_inicio"));
-        System.out.println(obj.getLong("data_fim"));
-        System.out.println(obj.getBoolean("dia_todo"));
-        System.out.println(obj.getString("local_evento"));
-        System.out.println(obj.getString("descricao"));
-        System.out.println(obj.getBoolean("concluido"));
-        System.out.println(obj.getBoolean("excluido"));
-        System.out.println(obj.getInt("tipo_repeticao"));
-        System.out.println(obj.getInt("tipo_fim_repeticao"));
-        System.out.println(obj.getInt("fk_usuario"));
-        return event;
+        }
+        
+        return holidays;
     }
 }

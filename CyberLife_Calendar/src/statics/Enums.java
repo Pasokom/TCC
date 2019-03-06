@@ -2,6 +2,21 @@ package statics;
 
 public class Enums {
 
+	public static enum AppointmentType {
+
+		REMINDER(1), EVENT(2), HOLIDAY(5);
+
+		private int value;
+
+		private AppointmentType(int value) {
+			this.value = value;
+		}
+
+		public int getValue(){
+			return this.value;
+		}
+	}
+
 	/**
 	 * <h2>
 	 * <p>
@@ -81,8 +96,23 @@ public class Enums {
 		}
 	}
 
+	public static enum DayType {
+		NORMAL(0), TODAY(1), HOLIDAY(2), TODAY_HOLIDAY(3), OTHER_MONTH(4);
+
+		private int value;
+
+		public int getValue(){
+			return value;
+		}
+
+		private DayType(int value){
+			this.value = value;
+		}
+	}
+
 	public static enum DayOfWeek {
-		SUNDAY("Dom"), MONDAY("Seg"), TUESDAY("Ter"), WEDNESDAY("Qua"), THURSDAY("Qui"), FRYDAY("Sex"), SATURDAY("Sab");
+		SUNDAY("Domingo"), MONDAY("Segunda"), TUESDAY("Terça"), WEDNESDAY("Quarta"), THURSDAY("Quinta"), 
+		FRYDAY("Sexta"), SATURDAY("Sábado");
 
 		String name;
 
@@ -93,11 +123,15 @@ public class Enums {
 		public String getValue() {
 			return this.name;
 		}
+
+		public String getAbrev(){
+			return this.name.substring(0, 3);
+		}
 	}
 
 	public static enum Month {
 
-		JANUARY("Janeiro"), FEBRUARY("Fevereiro"), MARCH("Mar�o"), APRIL("Abril"), MAY("Maio"), JUNE("Junho"),
+		JANUARY("Janeiro"), FEBRUARY("Fevereiro"), MARCH("Março"), APRIL("Abril"), MAY("Maio"), JUNE("Junho"),
 		JULY("Julho"), AUGUST("Agosto"), SEPTEMBER("Setembro"), OCTOBER("Outubro"), NOVEMBER("Novembro"),
 		DECEMBER("Dezembro");
 

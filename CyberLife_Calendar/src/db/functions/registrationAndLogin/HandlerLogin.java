@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import db.Database;
 import db.functions.user.PictureSettings;
-import listeners.IOFunctions;
+import db.pojo.UserSession;
 import statics.SESSION;
 
 public class HandlerLogin {
@@ -20,8 +20,8 @@ public class HandlerLogin {
 	 */
 	public boolean login(String email, String password, boolean serialize) {
 
-		String sql = "SELECT UCODIGO, UEMAIL, UNOME, USOBRENOME, USENHA FROM USUARIO WHERE UEMAIL='" + email
-				+ "' AND USENHA='" + password + "';";
+		String sql = "SELECT COD_USUARIO, EMAIL, NOME, SOBRENOME, SENHA FROM USUARIO WHERE EMAIL='" + email
+				+ "' AND SENHA='" + password + "';";
 		try {
 			ResultSet result = Database.get_connection().createStatement().executeQuery(sql);
 
@@ -29,8 +29,16 @@ public class HandlerLogin {
 			if (!result.first())
 				return false;
 			if (serialize) {
-				IOFunctions s = new IOFunctions();
-				s.doSerialization(result.getInt(1), "stay_connected");
+				//IOFunctions s = new IOFunctions();
+				//s.doSerialization(result.getInt(1), "stay_connected");
+
+				UserSession session = new UserSession(email, result.getInt(1));
+				session.serialize();
+			}
+			else {
+
+				UserSession session = new UserSession(email);
+				session.serialize();
 			}
 			SESSION.start_session(result.getInt(1), result.getString(2), result.getString(3), result.getString(4));
 			PictureSettings ps = new PictureSettings();
@@ -38,13 +46,14 @@ public class HandlerLogin {
 			return true;
 		} catch (ClassNotFoundException | SQLException e) {
 			System.out.println("[ERROR] função login() - classe HandlerLogin");
+			e.printStackTrace();
 		}
 		return false;
 	}
 
 	public boolean loginBySerialization(int userID) {
 
-		final String sql = "SELECT * FROM USUARIO WHERE UCODIGO = " + userID + " ;";
+		final String sql = "SELECT * FROM USUARIO WHERE COD_USUARIO = " + userID + " ;";
 		try {
 			ResultSet result = Database.get_connection().createStatement().executeQuery(sql);
 			System.out.println(!result.first() ? "[WARNING] : no data found" : "[CONFIRMATION] : work");

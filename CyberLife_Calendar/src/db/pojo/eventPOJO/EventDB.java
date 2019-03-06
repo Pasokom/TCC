@@ -2,7 +2,9 @@ package db.pojo.eventPOJO;
 
 import java.sql.Timestamp;
 
-public class EventDB {
+import db.pojo.AppointmentDB;
+
+public class EventDB extends AppointmentDB {
 
 	private int cod_evento;
 	private String titulo;
@@ -13,9 +15,14 @@ public class EventDB {
 	private String descricao;
 	private int tipo_repeticao;
 	private int tipo_fim_repeticao;
+	private boolean ativo;
 	private int fk_usuario;
 	private EventSchedule horario_evento;
 	private EventEndSchedule horario_fim_evento;
+
+	public EventDB() {
+		super("event");
+	}
 
 	public int getCod_evento() {
 		return cod_evento;
@@ -87,6 +94,14 @@ public class EventDB {
 
 	public void setTipo_fim_repeticao(int tipo_fim_repeticao) {
 		this.tipo_fim_repeticao = tipo_fim_repeticao;
+	}
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
 	}
 
 	public int getFk_usuario() {

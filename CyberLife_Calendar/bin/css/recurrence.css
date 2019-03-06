@@ -1,0 +1,80 @@
+.combo-box{
+    -fx-padding: 2px;
+    -fx-focus-color: #5E35B1;
+    -fx-faint-focus-color: transparent;
+    -fx-body-color: white;
+}
+
+.combo-box-popup .list-view .list-cell:filled:selected, .combo-box-popup .list-view .list-cell:filled:selected:hover 
+{
+    -fx-background: -fx-accent;
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+    -fx-text-fill: #000000;
+}
+
+.combo-box-popup .list-view .list-cell:filled:hover 
+{
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+    -fx-text-fill: #000000;;
+}
+
+.date-picker{
+    -fx-focus-color: #5E35B1;
+    -fx-faint-focus-color: transparent;
+}
+
+.text-input{
+    -fx-focus-color: #5E35B1;
+    -fx-faint-focus-color: transparent;
+    -fx-text-box-border: darkgray;
+    -fx-padding: 6px;
+}
+
+.text-input, .text-input:focused { 
+    -fx-prompt-text-fill:darkgray;
+}
+
+.toggle-button{
+    -fx-body-color: white;
+    -fx-focus-color: #5E35B1;
+    -fx-faint-focus-color: transparent;
+    -fx-background-radius: 50%;
+    -fx-pref-width: 28;
+    -fx-pref-height: 28;
+}
+
+.toggle-button:selected{
+    -fx-color: #5E35B1;
+}
+
+.radio-button{
+    -fx-body-color: white;
+    -fx-focus-color: #5E35B1;
+    -fx-faint-focus-color: transparent;
+    -fx-background-insets: -3;
+}
+
+.radio-button:selected{
+    -fx-outer-border: #5E35B1;
+}
+
+.radio-button .radio{
+    -fx-border-width: 2px;
+    -fx-border-radius: 50%;
+    -fx-border-color: -fx-outer-border;
+}
+
+.radio-button:selected .radio{
+    -fx-border-color: #5E35B1;
+}
+
+.radio-button .dot{
+    -fx-mark-color: #5E35B1;
+    -fx-padding: 4.5px;
+}
+
+#title{
+    -fx-font-size: 25px;
+    -fx-padding: 0;
+    -fx-text-fill: #555555;
+}

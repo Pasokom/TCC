@@ -1,120 +1,193 @@
 package db.pojo.reminderPOJO;
 
-import java.util.ArrayList;
+import java.sql.Timestamp;
+import db.pojo.AppointmentDB;
 
-public class ReminderDB {
+public class ReminderDB extends AppointmentDB {
 
-	private int reminderId;
-	private String title;
-	private boolean active;
-	private int recurrenceType;
-	private int repetitionType;
-	private int recurrence;
-	private int userID;
+	private int cod_lembrete;
+	private String titulo;
+	private Timestamp horario;
+	private Timestamp horario_fim;
+	private int intervalo_minutos;
+	private boolean dia_todo;
+	private int tipo_repeticao;
+	private int tipo_fim_repeticao;
+	private boolean ativo;
+	private int fk_usuario;
 
-	private ArrayList<ReminderSchedule> lReminderSchedule;
+	private ReminderSchedule schedule;
+	private ReminderEndSchedule reminderEndSchedule;
 
 	public ReminderDB() {
-		this.lReminderSchedule = new ArrayList<ReminderSchedule>();
-	}
-
-	public int getRecurrence() {
-		return recurrence;
-	}
-
-	public void setRecurrence(int recurrence) {
-		this.recurrence = recurrence;
+		super("reminder");
 	}
 
 	/**
-	 * @return the lReminderSchedule
+	 * @return the cod_lembrete
 	 */
-	public ArrayList<ReminderSchedule> getlReminderSchedule() {
-		return lReminderSchedule;
+	public int getCod_lembrete() {
+		return cod_lembrete;
 	}
 
 	/**
-	 * @param active the active to set
+	 * @param cod_lembrete the cod_lembrete to set
 	 */
-	public void setActive(boolean active) {
-		this.active = active;
+	public void setCod_lembrete(int cod_lembrete) {
+		this.cod_lembrete = cod_lembrete;
 	}
 
 	/**
-	 * @return the active
+	 * @return the titulo
 	 */
-	public boolean isActive() {
-		return active;
+	public String getTitulo() {
+		return titulo;
 	}
 
 	/**
-	 * @param recurrenceType the recurrenceType to set
+	 * @param titulo the titulo to set
 	 */
-	public void setRecurrenceType(int recurrenceType) {
-		this.recurrenceType = recurrenceType;
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
 	/**
-	 * @param reminderId the reminderId to set
+	 * @return the horario
 	 */
-	public void setReminderId(int reminderId) {
-		this.reminderId = reminderId;
+	public Timestamp getHorario() {
+		return horario;
 	}
 
 	/**
-	 * @param repetitionType the repetitionType to set
+	 * @param horario the horario to set
 	 */
-	public void setRepetitionType(int repetitionType) {
-		this.repetitionType = repetitionType;
+	public void setHorario(Timestamp horario) {
+		this.horario = horario;
 	}
 
 	/**
-	 * @param title the title to set
+	 * @return the horario_fim
 	 */
-	public void setTitle(String title) {
-		this.title = title;
+	public Timestamp getHorario_fim() {
+		return horario_fim;
 	}
 
 	/**
-	 * @param userID the userID to set
+	 * @param horario_fim the horario_fim to set
 	 */
-	public void setUserID(int userID) {
-		this.userID = userID;
+	public void setHorario_fim(Timestamp horario_fim) {
+		this.horario_fim = horario_fim;
 	}
 
 	/**
-	 * @return the recurrenceType
+	 * @return the intervalo_minutos
 	 */
-	public int getRecurrenceType() {
-		return recurrenceType;
+	public int getIntervalo_minutos() {
+		return intervalo_minutos;
 	}
 
 	/**
-	 * @return the reminderId
+	 * @param intervalo_minutos the intervalo_minutos to set
 	 */
-	public int getReminderId() {
-		return reminderId;
+	public void setIntervalo_minutos(int intervalo_minutos) {
+		this.intervalo_minutos = intervalo_minutos;
 	}
 
 	/**
-	 * @return the repetitionType
+	 * @return the dia_todo
 	 */
-	public int getRepetitionType() {
-		return repetitionType;
+	public boolean isDia_todo() {
+		return dia_todo;
 	}
 
 	/**
-	 * @return the title
+	 * @param dia_todo the dia_todo to set
 	 */
-	public String getTitle() {
-		return title;
+	public void setDia_todo(boolean dia_todo) {
+		this.dia_todo = dia_todo;
 	}
 
 	/**
-	 * @return the userID
+	 * @return the tipo_repeticao
 	 */
-	public int getUserID() {
-		return userID;
+	public int getTipo_repeticao() {
+		return tipo_repeticao;
 	}
 
+	/**
+	 * @param tipo_repeticao the tipo_repeticao to set
+	 */
+	public void setTipo_repeticao(int tipo_repeticao) {
+		this.tipo_repeticao = tipo_repeticao;
+	}
+
+	/**
+	 * @return the tipo_fim_repeticao
+	 */
+	public int getTipo_fim_repeticao() {
+		return tipo_fim_repeticao;
+	}
+
+	/**
+	 * @param tipo_fim_repeticao the tipo_fim_repeticao to set
+	 */
+	public void setTipo_fim_repeticao(int tipo_fim_repeticao) {
+		this.tipo_fim_repeticao = tipo_fim_repeticao;
+	}
+
+	/**
+	 * @return the ativo
+	 */
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	/**
+	 * @param ativo the ativo to set
+	 */
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+
+	/**
+	 * @return the fk_usuario
+	 */
+	public int getFk_usuario() {
+		return fk_usuario;
+	}
+
+	/**
+	 * @param fk_usuario the fk_usuario to set
+	 */
+	public void setFk_usuario(int fk_usuario) {
+		this.fk_usuario = fk_usuario;
+	}
+
+	/**
+	 * @return the schedule
+	 */
+	public ReminderSchedule getSchedule() {
+		return schedule;
+	}
+
+	/**
+	 * @param schedule the schedule to set
+	 */
+	public void setSchedule(ReminderSchedule schedule) {
+		this.schedule = schedule;
+	}
+
+	/**
+	 * @return the reminderEndSchedule
+	 */
+	public ReminderEndSchedule getReminderEndSchedule() {
+		return reminderEndSchedule;
+	}
+
+	/**
+	 * @param reminderEndSchedule the reminderEndSchedule to set
+	 */
+	public void setReminderEndSchedule(ReminderEndSchedule reminderEndSchedule) {
+		this.reminderEndSchedule = reminderEndSchedule;
+	}
 }

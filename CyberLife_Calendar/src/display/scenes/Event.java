@@ -1,30 +1,21 @@
 package display.scenes;
 
-import java.awt.AWTException;
-import java.awt.Image;
-import java.awt.SystemTray;
-import java.awt.Toolkit;
-import java.awt.TrayIcon;
-import java.awt.TrayIcon.MessageType;
-import java.net.MalformedURLException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Calendar;
 
-import component.CustomScroll;
 import component.Recurrence;
-import component.reminder.TimePicker;
+import component.TimePicker;
 import db.functions.event.CreateEvent;
-import db.functions.event.ManageEvents;
 import db.pojo.eventPOJO.EventDB;
 import db.pojo.eventPOJO.EventEndSchedule;
 import db.pojo.eventPOJO.EventSchedule;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.geometry.Insets;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -32,412 +23,276 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import listeners.windows.CloseWindowEsc;
-import main.Main;
-import statics.Enums;
-import statics.NotifyUser;
+import statics.SESSION;
 
 public class Event extends Scene {
 
-	private Label lblStartDate, lblEndDate, lblPlace;
-	private TextField txtTitle, txtPlace;
-	private TextArea txtDetails;
-	private Button btnSave;
-	private DatePicker dtStart, dtEnd;
-	private TimePicker timeStart, timeEnd;
-	private CheckBox cbxAllDay, cbxRepeat;
-	private Recurrence recurrence;
-	private CreateEvent createEvent;
-	private Stage owner;
+	private TextField txt_title;
 
-	public Event(Stage owner) {
+	private Label img_schedule;
+	private Label lbl_allday;
+	private CheckBox cbx_allday;
+	private DatePicker dt_start;
+	private TimePicker t_start;
+	private DatePicker dt_end;
+	private TimePicker t_end;
+
+	private Label img_place;
+	private TextField txt_place;
+
+	private Label img_note;
+	private TextArea txt_description;
+	private AnchorPane container;
+
+	private StackPane pane;
+	private VBox main;
+	private HBox tabSelector;
+
+	private Recurrence repetition;
+
+	public Event() {
 		super(new VBox());
-		this.owner = owner;
-		init();
+
+		this.getStylesheets().add(this.getClass().getResource("../../css/event.css").toExternalForm());
+
+		main = vbox_mainContent();
+		repetition = new Recurrence();
+
+		container = new AnchorPane();
+
+		pane = new StackPane();
+		pane.getChildren().add(main);
+
+		tabSelector = hbox_tabSelector();
+
+		AnchorPane.setTopAnchor(pane, 5d);
+		AnchorPane.setRightAnchor(pane, 0d);
+		AnchorPane.setLeftAnchor(pane, 0d);
+		AnchorPane.setBottomAnchor(tabSelector, 0d);
+
+		container.getChildren().addAll(pane, tabSelector);
+
+		this.setRoot(container);
 	}
 
-	public Event(EventDB event, Stage owner) {
-		super(new VBox());
-		this.owner = owner;
-		init();
+	private VBox vbox_mainContent() {
 
-		EventSchedule es = event.getHorario_evento();
-		EventEndSchedule ens = event.getHorario_fim_evento();
+		VBox content = new VBox();
+		content.setSpacing(5);
 
-		this.txtPlace.setText(event.getLocal_evento());
-		this.txtDetails.setText(event.getDescricao());
-		this.txtTitle.setText(event.getTitulo());
+		/* TÃ­tulo */
+		txt_title = new TextField();
+		txt_title.setId("title");
+		txt_title.setPromptText("Titulo");
 
-		this.dtStart.setValue(event.getData_inicio().toLocalDateTime().toLocalDate());
-		this.dtEnd.setValue(event.getData_fim().toLocalDateTime().toLocalDate());
+		/* Horario */
+		GridPane pnl_schedule = new GridPane();
+		pnl_schedule.setHgap(5);
+		pnl_schedule.setVgap(5);
 
-		/* para horarios definidos para o projeto */
-		String time_begin = event.getEventTime(String.valueOf(event.getData_inicio()));
-		String time_end = event.getEventTime(String.valueOf(event.getData_fim()));
+		img_schedule = new Label();
+		img_schedule.setId("img_schedule");
+		img_schedule.setPrefSize(10, 10);
 
-		/**
-		 * dia todo e repeticao
-		 */
-		this.cbxAllDay.setSelected(event.isDia_todo());
-		if (!event.isDia_todo()) { // se a opção 'dia todo ' estiver selecionada, os horarios não vão ficar
-									// visiveis
-			this.timeEnd.setText(time_end);
-			this.timeStart.setText(time_begin);
-		}
+		lbl_allday = new Label("Dia inteiro");
+		cbx_allday = new CheckBox();
 
-		if (event.getTipo_repeticao() > 0) {
-			this.cbxRepeat.setSelected(true);
-			if (event.getTipo_repeticao() == Enums.TypeRecurrence.WEEKLY.getValue()) {
-				// System.out.println(es.getDias_semana().length + " dias");
-				setWeekDays(es.getDias_semana());
+		cbx_allday.selectedProperty().addListener(new ChangeListener<Boolean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+
+				t_start.setDisable(newValue);
+				t_end.setDisable(newValue);
 			}
-		}
-		/**
-		 * frequency component
-		 */
-		this.recurrence.setTypeFrequency(event.getTipo_repeticao());
-		this.recurrence.setChoosedValue(es.getIntervalo());
-
-		/** end recurrence */
-		boolean never_end = ens.getQtd_recorrencias() != 0 || ens.getDia_fim() == null;
-		boolean by_date = ens.getQtd_recorrencias() == 0 && ens.getDia_fim() != null;
-		boolean by_amount = ens.getQtd_recorrencias() > 0;
-
-		if (never_end) {
-			this.recurrence.setSelectionEnd(0);
-		}
-		if (by_date) {
-			this.recurrence.setSelectionEnd(1);
-			this.recurrence.setDatePickerValue(new DatePicker(ens.getDia_fim().toLocalDate()));
-		}
-		if (by_amount) {
-			this.recurrence.setSelectionEnd(2);
-			this.recurrence.setSpinnerValue(ens.getQtd_recorrencias());
-		}
-		this.btnSave.setOnAction(e -> {
-			changeEvent(event);
-			changeSchedules(es, ens);
-			owner.close();
-			// TODO atualizar no calendario e na lista
 		});
+
+		GridPane.setHalignment(cbx_allday, HPos.RIGHT);
+
+		Calendar time = Calendar.getInstance();
+
+		dt_start = new DatePicker(LocalDate.now());
+		dt_start.setPromptText("Inicio");
+		t_start = new TimePicker(false, time);
+		t_start.setPrefWidth(80);
+
+		time.add(Calendar.HOUR, 1);
+
+		dt_end = new DatePicker(LocalDate.now());
+		dt_end.setPromptText("Fim");
+		t_end = new TimePicker(false, time);
+		t_end.setPrefWidth(80);
+
+		pnl_schedule.add(img_schedule, 0, 0);
+		pnl_schedule.add(lbl_allday, 1, 0);
+		pnl_schedule.add(cbx_allday, 2, 0);
+		pnl_schedule.add(dt_start, 1, 1);
+		pnl_schedule.add(t_start, 2, 1);
+		pnl_schedule.add(dt_end, 1, 2);
+		pnl_schedule.add(t_end, 2, 2);
+
+		/* Local */
+		img_place = new Label();
+		img_place.setId("img_place");
+
+		txt_place = new TextField();
+		txt_place.setPromptText("Local");
+
+		pnl_schedule.add(img_place, 0, 3);
+		pnl_schedule.add(txt_place, 1, 3, 2, 1);
+
+		/* nota */
+		img_note = new Label();
+		img_note.setId("img_note");
+		GridPane.setValignment(img_note, VPos.TOP);
+
+		txt_description = new TextArea();
+		txt_description.setPromptText("Nota");
+		txt_description.setPrefRowCount(5);
+
+		pnl_schedule.add(img_note, 0, 4);
+		pnl_schedule.add(txt_description, 1, 4, 2, 1);
+
+		content.getChildren().addAll(txt_title, pnl_schedule);
+
+		return content;
 	}
 
-	private void init() {
-		Main.main_stage.setTitle("EVENTO");
-		/* scene */ this.getStylesheets().add("css/event.css");
-		this.setOnKeyPressed(new CloseWindowEsc(owner));
-		VBox vb = new VBox();
+	private HBox hbox_tabSelector() {
 
-		CustomScroll customScroll = new CustomScroll();
+		HBox content = new HBox();
 
-		customScroll.setComponent(vb);
+		content.getStylesheets().add(this.getClass().getResource("../../css/event_tab_layout.css").toExternalForm());
 
-		vb.setSpacing(20);
-		vb.setPadding(new Insets(20, 35, 50, 35));
+		content.setId("tab_layout");
 
-		/* barra de titulo */
-		HBox barraTitulo = new HBox();
-		barraTitulo.setId("lBarraTitulo");
+		ToggleGroup opt_group = new ToggleGroup();
 
-		txtTitle = new TextField();
-		txtTitle.setPromptText("T�tulo do evento");
-		txtTitle.setId("lNome");
-		btnSave = new Button("Salvar");
-		btnSave.setId("btnEnviar");
-		btnSave.setOnAction(evento -> {
+		ToggleButton opt_1 = new ToggleButton();
+		opt_1.setToggleGroup(opt_group);
+		opt_1.setId("opt_1");
+		opt_1.setSelected(true);
+		ToggleButton opt_2 = new ToggleButton();
+		opt_2.setToggleGroup(opt_group);
+		opt_2.setId("opt_2");
 
-			try {
-				insert_event();
-				((Stage) this.getWindow()).close();
+		Button btn_done = new Button();
+		btn_done.setId("btn_done");
 
-				HomePage.listCalendar.update(Calendar.getInstance());
-				HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
+		opt_1.setOnMouseClicked(e -> {
 
-				String notificationMessage = "O evento \"" + txtTitle.getText() + "\" foi cadastrado no dia "
-						+ dtStart.getValue().toString();
-
-				NotifyUser.sendNotification("Evento", notificationMessage, MessageType.NONE);
-
-			} catch (ClassNotFoundException | SQLException e) {
-				e.printStackTrace();
-			}
-
+			pane.getChildren().clear();
+			pane.getChildren().add(main);
 		});
 
-		barraTitulo.getChildren().addAll(txtTitle, btnSave);
-		/* fim barra de titulo */
+		opt_2.setOnMouseClicked(e -> {
 
-		/* barra de data e hora */
-		HBox dateTimeBar = new HBox();
-
-		java.util.Date data = new java.util.Date();
-		LocalDate date = data.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-		lblStartDate = new Label("De");
-		dtStart = new DatePicker(date);
-		timeStart = new TimePicker(false);
-		lblEndDate = new Label("at�");
-		dtEnd = new DatePicker(date);
-		timeEnd = new TimePicker(false);
-
-		dateTimeBar.getChildren().addAll(lblStartDate, dtStart, timeStart, lblEndDate, dtEnd, timeEnd);
-		/* fim da barra de data e hora */
-
-		/* barra repetir e dia inteiro */
-		HBox hbRepetir = new HBox();
-		hbRepetir.setId("hbRepetir");
-
-		cbxAllDay = new CheckBox("Dia inteiro");
-		cbxAllDay.selectedProperty().addListener(new ChangeListener<Boolean>() {
-			public void changed(ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) {
-
-				timeStart.setVisible(!newValue);
-				timeEnd.setVisible(!newValue);
-				timeStart.setManaged(!newValue);
-				timeEnd.setManaged(!newValue);
-			}
+			pane.getChildren().clear();
+			pane.getChildren().add(repetition);
 		});
 
-		cbxRepeat = new CheckBox("Repetir");
-		cbxRepeat.selectedProperty().addListener(new ChangeListener<Boolean>() {
-			public void changed(ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) {
-
-				recurrence.setVisible(newValue);
-				recurrence.setManaged(newValue);
-			}
+		btn_done.setOnMouseClicked(e -> {
+			createEvent();
 		});
 
-		hbRepetir.getChildren().addAll(cbxAllDay, cbxRepeat);
-		/* fim barra repetir e dia inteiro */
+		Region region = new Region();
+		HBox.setHgrow(region, Priority.ALWAYS);
 
-		/* local */
-		HBox hbPlace = new HBox();
-		lblPlace = new Label("Local");
-		txtPlace = new TextField();
-		txtPlace.setPrefWidth(300);
+		content.prefWidthProperty().bind(container.widthProperty());
+		content.getChildren().addAll(opt_1, opt_2, region, btn_done);
 
-		hbPlace.getChildren().addAll(lblPlace, txtPlace);
-		/* fim local */
-
-		txtDetails = new TextArea();
-		txtDetails.setPromptText("Adicionar detalhes");
-		txtDetails.setMaxWidth(580);
-
-		recurrence = new Recurrence();
-
-		recurrence.setVisible(false);
-		recurrence.setManaged(false);
-
-		vb.getChildren().addAll(barraTitulo, dateTimeBar, hbRepetir, hbPlace, txtDetails, recurrence);
-		this.setRoot(customScroll);
+		return content;
 	}
 
-	/*
-	 * insere o evento no banco de dados
-	 */
-	private void insert_event() throws ClassNotFoundException, SQLException {
+	private void createEvent() {
 
-		int tipo_repeticao = cbxRepeat.isSelected() ? recurrence.get_recurrence_type() : 0;
+		String titulo = this.txt_title.getText();
+		Timestamp data_inicio = new Timestamp(getDate(this.dt_start, this.t_start));
+		Timestamp data_fim = new Timestamp(getDate(this.dt_end, this.t_end));
+		boolean dia_todo = this.cbx_allday.isSelected();
+		String local_evento = this.txt_place.getText();
+		String descricao = this.txt_description.getText();
+		int tipo_repeticao = this.repetition.getTypeRecurrence();
+		int tipo_fim_repeticao = this.repetition.getTypeEndRecurrence();
+		int fk_usuario = (int) SESSION.get_user_cod();
 
-		Timestamp data_inicio = Timestamp.valueOf(dtStart.getValue().toString() + " "
-				+ (cbxAllDay.isSelected() ? "00:00:00" : timeStart.get_value() + ":00"));
-		Timestamp data_fim = Timestamp.valueOf(dtEnd.getValue().toString() + " "
-				+ (cbxAllDay.isSelected() ? "00:00:00" : timeEnd.get_value() + ":00"));
+		int intervalo = this.repetition.getInterval();
+		boolean[] dias_semana = this.repetition.getWeek();
 
-		this.createEvent = new CreateEvent();
+		Date dia_fim = this.repetition.getEndDay();
+		int qtd_recorrencias = this.repetition.getQtdRecurrences();
 
 		EventDB event = new EventDB();
-		event.setTitulo(txtTitle.getText());
+
+		event.setTitulo(titulo);
 		event.setData_inicio(data_inicio);
 		event.setData_fim(data_fim);
-		event.setDia_todo(cbxAllDay.isSelected());
-		event.setLocal_evento(txtPlace.getText());
-		event.setDescricao(txtDetails.getText());
+		event.setDia_todo(dia_todo);
+		event.setLocal_evento(local_evento);
+		event.setDescricao(descricao);
 		event.setTipo_repeticao(tipo_repeticao);
-		event.setTipo_fim_repeticao(recurrence.getSelectedEnd());
-
-		int fk = createEvent.insert_event(event);
+		event.setTipo_fim_repeticao(tipo_fim_repeticao);
+		event.setFk_usuario(fk_usuario);
 
 		EventSchedule schedule = new EventSchedule();
-		schedule.setIntervalo(recurrence.get_recurrence_value());
-		schedule.setDias_semana(recurrence.get_selected_days());
-		schedule.setFk_evento(fk);
 
-		createEvent.insert_event_schedule(schedule);
+		schedule.setIntervalo(intervalo);
+		schedule.setDias_semana(dias_semana);
 
 		EventEndSchedule endSchedule = new EventEndSchedule();
-		endSchedule.setDia_fim(Date.valueOf(recurrence.get_end_date()));
-		endSchedule.setQtd_recorrencias(recurrence.get_amount_choosed());
-		endSchedule.setFk_evento(fk);
 
-		createEvent.insert_event_end_schedule(endSchedule);
+		endSchedule.setDia_fim(dia_fim);
+		endSchedule.setQtd_recorrencias(qtd_recorrencias);
+
+		event.setHorario_evento(schedule);
+		event.setHorario_fim_evento(endSchedule);
+
+		CreateEvent create = new CreateEvent();
+
+		try {
+
+			create.insert_event(event);
+			HomePage.listCalendar.update(HomePage.listCalendar.getCurrentDate());
+			HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
+
+		} catch (ClassNotFoundException | SQLException e) {
+			
+			e.printStackTrace();
+		}
+
 	}
 
-	private void changeSchedules(EventSchedule es, EventEndSchedule ens) {
-		ManageEvents changes = new ManageEvents();
+	private long getDate(DatePicker date, TimePicker time){
 
-		if (cbxRepeat.selectedProperty().get()) {
+		Calendar c = Calendar.getInstance();
 
-			if (!compare(es.getDias_semanaToString(), buildWeekDays(), 0))
-				changes.changeRepetition(buildWeekDays(), es.getCod_repeticao(),
-						ManageEvents.changeTheRepetition.WEEK_DAYS, "E_REPETIR");
-			if (!compare(es.getIntervalo(), this.recurrence.get_recurrence_value(), 1))
-				changes.changeRepetition(this.recurrence.get_recurrence_value(), es.getCod_repeticao(),
-						ManageEvents.changeTheRepetition.INTERVAL, "E_REPETIR");
+		c.set(Calendar.DAY_OF_MONTH, date.getValue().getDayOfMonth());
+		c.set(Calendar.MONTH, date.getValue().getMonthValue() - 1);
+		c.set(Calendar.YEAR, date.getValue().getYear());
 
-			if (this.recurrence.is_never_selected()) {
-				changes.changeRepetition(" NULL ", ens.getCod_fim_repeticao(), ManageEvents.changeTheRepetition.END_DAY,
-						"E_FIM_REPETICAO");
-				changes.changeRepetition(0, ens.getCod_fim_repeticao(),
-						ManageEvents.changeTheRepetition.AMOUNT_OF_RECURRENCES, "E_FIM_REPETICAO");
-			}
-			if (this.recurrence.is_by_amount()) {
-				changes.changeRepetition(this.recurrence.get_amount_choosed(), ens.getCod_fim_repeticao(),
-						ManageEvents.changeTheRepetition.AMOUNT_OF_RECURRENCES, "E_FIM_REPETICAO");
-				changes.changeRepetition(" ", ens.getCod_fim_repeticao(), ManageEvents.changeTheRepetition.END_DAY,
-						"E_FIM_REPETICAO");
-			}
-			if (this.recurrence.on_date()) {
-				changes.changeRepetition(this.recurrence.get_end_date(), ens.getCod_fim_repeticao(),
-						ManageEvents.changeTheRepetition.END_DAY, "E_FIM_REPETICAO");
-				changes.changeRepetition(0, ens.getCod_fim_repeticao(),
-						ManageEvents.changeTheRepetition.AMOUNT_OF_RECURRENCES, "E_FIM_REPETICAO");
-			}
+		if(!this.cbx_allday.isSelected()){
+
+			c.set(Calendar.HOUR_OF_DAY, time.getHours());
+			c.set(Calendar.MINUTE, time.getMinutes());
 		}
-	}
+		else {
 
-	private void changeEvent(EventDB event) {
-		ManageEvents applyChanges = new ManageEvents();
-
-		if (!compare(event.getTitulo(), this.txtTitle.getText(), 0))
-			applyChanges.changeEvent(this.txtTitle.getText(), event.getCod_evento(), ManageEvents.changeTheEvent.TITLE);
-
-		if (!compare(event.getDescricao(), this.txtDetails.getText(), 0)) {
-			applyChanges.changeEvent(this.txtDetails.getText(), event.getCod_evento(),
-					ManageEvents.changeTheEvent.DESCRIPTION);
+			c.set(Calendar.HOUR_OF_DAY, 0);
+			c.set(Calendar.MINUTE, 0);
 		}
-		if (!compare(event.getLocal_evento(), this.txtPlace.getText(), 0)) {
-			applyChanges.changeEvent(this.txtPlace.getText(), event.getCod_evento(),
-					ManageEvents.changeTheEvent.EVENT_LOCATION);
-		}
-		String date_begin = retrieveInRightFormat(this.dtStart.getValue().toString(),
-				this.timeStart.get_value().toString());
-		String old_date_begin = retrieveInRightFormat(event.getData_inicio().toString().substring(0, 10),
-				event.getData_inicio().toString().substring(11, 16));
 
-//		System.out.println( "1 : " + date_begin +  " \n 2 : " + old_date_begin);
-		if (!compare(old_date_begin, date_begin, 0)) {
-			if (!cbxAllDay.selectedProperty().get()) {
-				applyChanges.changeEvent(date_begin, event.getCod_evento(), ManageEvents.changeTheEvent.DATE_BEGIN);
-			} else {
-				date_begin = retrieveInRightFormat(this.dtStart.getValue().toString(), new String());
-				applyChanges.changeEvent(date_begin, event.getCod_evento(), ManageEvents.changeTheEvent.DATE_BEGIN);
-			}
-		}
-		String date_end = retrieveInRightFormat(this.dtEnd.getValue().toString(), this.timeEnd.get_value().toString());
-		String old_date_end = old_date_begin = retrieveInRightFormat(event.getData_fim().toString().substring(0, 10),
-				event.getData_fim().toString().substring(11, 16));
-		if (!compare(old_date_end, date_end, 0)) {
-			if (!cbxAllDay.selectedProperty().get()) {
-				applyChanges.changeEvent(date_end, event.getCod_evento(), ManageEvents.changeTheEvent.DATE_END);
-			} else {
-				date_end = retrieveInRightFormat(this.dtEnd.getValue().toString(), new String());
-				applyChanges.changeEvent(date_end, event.getCod_evento(), ManageEvents.changeTheEvent.DATE_END);
-			}
-		}
-		if (!compare(event.isDia_todo(), this.cbxAllDay.selectedProperty().get(), 2)) {
-			applyChanges.changeEvent(this.cbxAllDay.selectedProperty().get(), event.getCod_evento(),
-					ManageEvents.changeTheEvent.ALL_DAY);
-		}
-		if (this.cbxRepeat.selectedProperty().get()) {
-			if (!compare(event.getTipo_repeticao(), recurrence.get_recurrence_type(), 1))
-				applyChanges.changeEvent(this.recurrence.get_recurrence_type(), event.getCod_evento(),
-						ManageEvents.changeTheEvent.TYPE_OF_REPETITION);
-			if (!compare(event.getTipo_fim_repeticao(), recurrence.getSelectedEnd(), 1))
-				applyChanges.changeEvent(this.recurrence.getSelectedEnd(), event.getCod_evento(),
-						ManageEvents.changeTheEvent.TYPE_OF_REPETITION_END);
-		}
-	}
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
 
-	private String retrieveInRightFormat(String date_value, String time_value) {
-
-		String complete_value = date_value + " " + time_value;
-
-		if (time_value.isEmpty())
-			return date_value + " 00:00:00";
-
-		if (complete_value.length() == 19)
-			return complete_value;
-
-		complete_value += ":00";
-
-		if (complete_value.length() == 19)
-			return complete_value;
-
-		return "00:00";
-	}
-
-	private String buildWeekDays() {
-		StringBuilder stb = new StringBuilder();
-		int i = 0;
-		boolean[] vector = recurrence.get_selected_days();
-		System.out.println(vector.length + " tamanho vetor");
-		while (i < vector.length) {
-			if (i != 0)
-				stb.append(',');
-			if (!vector[i]) {
-				stb.append('0');
-				i++;
-				continue;
-			}
-			stb.append("1");
-			i++;
-		}
-		return stb.toString();
-	}
-
-	private boolean compare(Object oldValue, Object newValue, int type_object) {
-		if (type_object == 0)
-			return String.valueOf(oldValue).equals(String.valueOf(newValue));
-		if (type_object == 1)
-			return (int) oldValue == (int) newValue;
-		if (type_object == 2)
-			return (boolean) oldValue == (boolean) newValue;
-		return false;
-	}
-
-	private void setWeekDays(boolean[] days) {
-		int i = 0;
-		while (i < days.length) {
-			if (days[i] == true)
-				this.recurrence.setDay(i);
-			i++;
-		}
-	}
-
-	public void displayTray() throws AWTException, MalformedURLException {
-		// Obtain only one instance of the SystemTray object
-		SystemTray tray = SystemTray.getSystemTray();
-
-		// If the icon is a file
-		Image image = Toolkit.getDefaultToolkit().createImage("icon.png");
-		// Alternative (if the icon is on the classpath):
-		// Image image =
-		// Toolkit.getDefaultToolkit().createImage(getClass().getResource("icon.png"));
-
-		TrayIcon trayIcon = new TrayIcon(image, "Tray Demo");
-		// Let the system resize the image if needed
-		trayIcon.setImageAutoSize(true);
-		// Set tooltip text for the tray icon
-		trayIcon.setToolTip("System tray icon demo");
-		tray.add(trayIcon);
-
-		// trayIcon.displayMessage("Evento",
-		// "O evento \"" + txtTitle.getText() + "\" foi cadastrado no dia " +
-		// dtStart.getValue().toString(),
-		// MessageType.INFO);
+		return c.getTimeInMillis();
 	}
 }

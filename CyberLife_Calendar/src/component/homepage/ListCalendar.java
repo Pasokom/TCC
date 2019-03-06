@@ -8,10 +8,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 import component.CustomScroll;
+import component.appointment.AppointmentComponent;
 import component.event.EventComponent;
-import component.reminder.ReminderComponent;
+import db.functions.appointment.LoadAppointment;
 import db.functions.event.RetrieveEvents;
-import db.functions.reminderFUNCTIONS.LoadReminder;
+import db.pojo.AppointmentDB;
+import db.pojo.HolidayDB;
 import db.pojo.eventPOJO.EventDB;
 import db.pojo.reminderPOJO.ReminderDB;
 import display.scenes.HomePage;
@@ -27,14 +29,13 @@ import statics.SESSION;
 
 public class ListCalendar extends VBox {
 
-	private Label lblSelectedDate, lblReminder;
+	private Label lblSelectedDate, lblWeekDay;
 	private VBox vContent, vAllDay;
-	private CustomScroll listReminder, listAllDay;
+	private CustomScroll listAllDay;
 	private ArrayList<VBox> hours;
 	private Calendar currentDate;
 
 	RetrieveEvents retrieveEvents = new RetrieveEvents();
-	LoadReminder loadReminders;
 
 	public ListCalendar(Calendar date) {
 		this.currentDate = date;
@@ -52,14 +53,27 @@ public class ListCalendar extends VBox {
 		HBox hHeader = new HBox();
 		hHeader.setId("header");
 
-		this.lblSelectedDate = new Label(date.get(Calendar.DAY_OF_MONTH) + "/" + (date.get(Calendar.MONTH) + 1));
+		this.lblSelectedDate = new Label(date.get(Calendar.DAY_OF_MONTH) + " " + Enums.Month.values()[date.get(Calendar.MONTH)].getValue().substring(0,3));
 		lblSelectedDate.setFont(new Font(30));
-		this.lblReminder = new Label(" - Programação");
 
 		hHeader.setAlignment(Pos.CENTER_LEFT);
 
-		hHeader.getChildren().addAll(lblSelectedDate, lblReminder);
+		hHeader.getChildren().addAll(lblSelectedDate);
 		/* Fim do cabeï¿½ario da programaï¿½ï¿½o */
+
+		/* Dia da semana */
+		HBox hDayWeek = new HBox();
+		hDayWeek.setId("day_week");
+
+		this.lblWeekDay = new Label(Enums.DayOfWeek.values()[date.get(Calendar.DAY_OF_WEEK) - 1].getValue());
+		lblWeekDay.setFont(new Font(20));
+		lblWeekDay.setMinHeight(32);
+		lblWeekDay.setMaxHeight(32);
+
+		hDayWeek.setAlignment(Pos.CENTER_LEFT);
+
+		hDayWeek.getChildren().addAll(lblWeekDay);
+		/* fim dia da semana */
 
 		/* Lista dia todo */
 		this.vAllDay = new VBox();
@@ -73,119 +87,44 @@ public class ListCalendar extends VBox {
 		listAllDay.setMinViewportHeight(100);
 		listAllDay.setId("list");
 
-		/* Lista de horarios */
-		hours = new ArrayList<>();
-		addHours();
-
 		this.vContent = new VBox();
 		this.vContent.setId("content");
 		vContent.setPadding(new Insets(10, 0, 10, 10));
 		vContent.setSpacing(10);
-		vContent.getChildren().addAll(hours);
-
-		this.listReminder = new CustomScroll();
-		vContent.prefWidthProperty().bind(listReminder.widthProperty());
-		listReminder.setComponent(vContent);
-		listReminder.setId("list");
 
 		this.getChildren().clear();
 
-		this.getChildren().add(hHeader);
-		this.getChildren().add(vAllDay);
-		this.getChildren().add(listReminder);
+		this.getChildren().addAll(hHeader, hDayWeek);
+		this.getChildren().add(listAllDay);
 
-		addEvents(date);
-		addReminders(date);
+
+		addAppointments(date);
 	}
 
-	private void addHours() {
+	private void addAppointments(Calendar date){
 
-		for (int i = 0; i < 24; i++) {
+		ArrayList<AppointmentDB> appointments = new LoadAppointment().loadFromDay(date);
 
-			VBox hour = new VBox();
-			hour.setSpacing(5);
+		for (AppointmentDB appointment : appointments) {
+			
+			AppointmentComponent component;
 
-			Label lblHour = new Label(i + ":00");
-
-			VBox hourContent = new VBox();
-			hourContent.setSpacing(5);
-
-			Separator separator = new Separator();
-
-			hour.getChildren().addAll(lblHour, hourContent, separator);
-
-			this.hours.add(hour);
-		}
-	}
-
-	private void addReminders(Calendar date) {
-		ArrayList<ReminderDB> reminders = new ArrayList<>();
-
-		try {
-			loadReminders = new LoadReminder();
-			reminders = loadReminders.getReminders((int) SESSION.get_user_cod(),	LoadReminder.TypeOfQuery.ALL_REMINDERS);
-		} catch (SQLException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		if (reminders == null)
-			return;
-
-		for (ReminderDB reminder : reminders) {
-
-			Date eventDate = new Date(reminder.getlReminderSchedule().get(0).getDatetime_begin().getTime());
-
-			LocalDate myDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			LocalDate myEventDate = eventDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-			if (myDate.compareTo(myEventDate) == 0) {
-
-				ReminderComponent rC = new ReminderComponent(reminder);
-
-				Calendar calendar = Calendar.getInstance();
-				calendar.setTime(reminder.getlReminderSchedule().get(0).getDatetime_begin());
-
-				if(reminder.getRepetitionType() == Enums.RepetitionType.ALL_DAY.getValue()){
-					vAllDay.getChildren().add(rC);
-				}
-				else{
-					rC.setPadding(new Insets(0, 10, 0, 0));
-					((VBox) ((VBox) this.vContent.getChildren().get(calendar.get(Calendar.HOUR_OF_DAY))).getChildren()
-						.get(1)).getChildren().add(rC);
-				}
+			switch (appointment.getType()) {
+				case "reminder":
+					component = new AppointmentComponent((ReminderDB)appointment);
+					break;
+				case "event":
+					component = new AppointmentComponent((EventDB)appointment);
+					break;
+				case "holiday":
+					component = new AppointmentComponent((HolidayDB)appointment);
+					break;
+				default:
+					component = new AppointmentComponent();
+					break;
 			}
-		}
-	}
 
-	private void addEvents(Calendar date) {
-
-		if (HomePage.calendarComponent != null)
-			retrieveEvents.updateList(HomePage.calendarComponent.getDate());
-		else
-			retrieveEvents.updateList(date);
-			
-		for(EventDB event : RetrieveEvents.listEvents) {
-			
-			Date eventDate = new Date(event.getData_inicio().getTime());
-			
-			LocalDate myDate = date.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			LocalDate myEventDate = eventDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-			if (myDate.compareTo(myEventDate) == 0) {
-
-				EventComponent eC = new EventComponent(event);
-
-				Calendar calendar = Calendar.getInstance();
-				calendar.setTime(event.getData_inicio());
-
-				if (event.isDia_todo())
-					vAllDay.getChildren().add(eC);
-				else{
-					eC.setPadding(new Insets(0,10,0,0));
-					((VBox) ((VBox) this.vContent.getChildren().get(calendar.get(Calendar.HOUR_OF_DAY))).getChildren()
-							.get(1)).getChildren().add(eC);
-				}
-			}
+			vAllDay.getChildren().add(component);
 		}
 	}
 

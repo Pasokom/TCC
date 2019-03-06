@@ -1,0 +1,45 @@
+.button{
+    -fx-body-color: #5E35B1;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-outer-border: transparent;
+    -fx-padding: 8px;
+}
+
+.button:hover{
+    -fx-body-color: rgb(79, 27, 182);
+}
+
+.toggle-button{
+    -fx-body-color: white;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-outer-border: transparent;
+    -fx-padding: 8px;
+}
+
+#tab_layout{
+    -fx-background-color: #FFFFFF;
+}
+
+#tab_layout Label {
+    -fx-padding: 10;
+}
+
+#tab_layout Label:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+}
+
+#opt_1{
+	-fx-graphic: url("../../resources/images/round_event_black_24dp.png");
+    -fx-opacity: 0.5;
+}
+
+#opt_2{
+	-fx-graphic: url("../../resources/images/round_refresh_black_24dp.png");
+    -fx-opacity: 0.5;
+}
+
+#btn_done{
+    -fx-graphic: url("../../resources/images/round_done_white_24dp.png");
+}
