@@ -180,7 +180,7 @@ public class Recurrence extends VBox {
 
     public int getInterval(){
 
-        return Integer.parseInt(this.txt_qtd_recurrence.getText());
+        return Integer.parseInt(this.txt_repeat_qtd.getText());
     }
 
     public boolean[] getWeek(){

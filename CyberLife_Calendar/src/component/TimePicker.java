@@ -32,6 +32,8 @@ import javafx.stage.StageStyle;
  */
 public class TimePicker extends HBox {
 
+	private Calendar time;
+
 	private TextField timeDisplay;
 	private Button timeDeleter;
 	private Stage timeSelectorStage;
@@ -44,19 +46,8 @@ public class TimePicker extends HBox {
 	private Button btnCancelar;
 	private Button btnOK;
 
-	private boolean isDeletable;
-
-	/**
-	 * 
-	 * @param isDeletable timepicker pode ser excluido ou nao
-	 */
-	public TimePicker(boolean isDeletable) {
-		this.isDeletable = isDeletable;
-		this.init();
-	}
-
-	public TimePicker(boolean isDeletable, Calendar time) {
-		this.isDeletable = isDeletable;
+	public TimePicker(Calendar time) {
+		this.time = time;
 		this.init();
 		this.change_label(time);
 	}
@@ -83,11 +74,9 @@ public class TimePicker extends HBox {
 		HBox horario = new HBox();
 		horario.setPadding(new Insets(10, 50, 10, 50));
 
-		Calendar calendar = Calendar.getInstance();
-
-		hour = new Label(String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY)));
+		hour = new Label(String.format("%02d", this.time.get(Calendar.HOUR_OF_DAY)));
 		Label doisPonto = new Label(":");
-		min = new Label(String.format("%02d", calendar.get(Calendar.MINUTE)));
+		min = new Label(String.format("%02d", this.time.get(Calendar.MINUTE)));
 
 		horario.getChildren().addAll(hour, doisPonto, min); // display de horas e minutos
 
@@ -167,9 +156,6 @@ public class TimePicker extends HBox {
 		timeSelectorStage.setScene(timeSelectorCena);
 
 		this.getChildren().add(timeDisplay);
-
-		if (isDeletable)
-			this.getChildren().add(timeDeleter);
 
 		timeDeleter.setOnAction(event -> {
 			/* remove o componente de uma lista */
@@ -344,9 +330,5 @@ public class TimePicker extends HBox {
 
 	public void set_event_ok(EventHandler<ActionEvent> e) {
 		this.btnOK.setOnAction(e);
-	}
-
-	public boolean isDeletable() {
-		return isDeletable;
 	}
 }

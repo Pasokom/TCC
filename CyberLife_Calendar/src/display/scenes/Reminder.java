@@ -138,7 +138,7 @@ public class Reminder extends Scene {
 
 		Calendar time = Calendar.getInstance();
 
-		t_start = new TimePicker(false, time);
+		t_start = new TimePicker(time);
 		t_start.setPrefWidth(80);
 
 		pnl_layout.add(dt_start, 1, 1);
@@ -163,9 +163,9 @@ public class Reminder extends Scene {
 		pnl_layout.add(lbl_interval, 1, 2);
 		pnl_layout.add(cbx_interval, 2, 2);
 
-		dt_end = new DatePicker(LocalDate.now());
 		time.add(Calendar.HOUR, 1);
-		t_end = new TimePicker(false, time);
+		dt_end = new DatePicker(LocalDate.of(time.get(Calendar.YEAR), time.get(Calendar.MONTH) + 1, time.get(Calendar.DAY_OF_MONTH)));
+		t_end = new TimePicker(time);
 		t_end.setPrefWidth(80);
 
 		t_end.setDisable(true);
@@ -244,7 +244,7 @@ public class Reminder extends Scene {
 		String titulo = this.txt_title.getText();
 		Timestamp horario = new Timestamp(getDate(this.dt_start, this.t_start));
 		Timestamp horario_fim = new Timestamp(getDate(this.dt_end, this.t_end));
-		int intervalo_minutos = Integer.parseInt(this.txt_minutes.getText());
+		int intervalo_minutos = this.cbx_interval.isSelected() ? Integer.parseInt(this.txt_minutes.getText()) : 0;
 		boolean dia_todo = this.cbx_allday.isSelected();
 		int tipo_repeticao = this.repetition.getTypeRecurrence();
 		int tipo_fim_repeticao = this.repetition.getTypeEndRecurrence();

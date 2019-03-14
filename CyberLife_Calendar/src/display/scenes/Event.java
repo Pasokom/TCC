@@ -122,14 +122,14 @@ public class Event extends Scene {
 
 		dt_start = new DatePicker(LocalDate.now());
 		dt_start.setPromptText("Inicio");
-		t_start = new TimePicker(false, time);
+		t_start = new TimePicker(time);
 		t_start.setPrefWidth(80);
 
 		time.add(Calendar.HOUR, 1);
 
 		dt_end = new DatePicker(LocalDate.now());
 		dt_end.setPromptText("Fim");
-		t_end = new TimePicker(false, time);
+		t_end = new TimePicker(time);
 		t_end.setPrefWidth(80);
 
 		pnl_schedule.add(img_schedule, 0, 0);
