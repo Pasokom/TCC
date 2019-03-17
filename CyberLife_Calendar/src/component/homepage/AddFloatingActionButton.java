@@ -2,24 +2,23 @@ package component.homepage;
 
 import display.scenes.Event;
 import display.scenes.Reminder;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import listeners.windows.CloseWindowEsc;
 
 public class AddFloatingActionButton extends StackPane {
 
-	private Stage addSelectorStage;
+	private Popup addSelectorStage;
 
 	private Label addImg;
 
@@ -40,16 +39,16 @@ public class AddFloatingActionButton extends StackPane {
 
 		this.getChildren().addAll(circulo, addImg);
 
-		addSelectorStage = addSelectorStageConstructor();
+		addSelectorStage = addSelectorPopup();
 
 		this.setOnMouseClicked(e -> {
 
 			Point2D point2d = this.addImg.localToScreen(0d, 0d);
 
-			addSelectorStage.setX(point2d.getX() + circulo.getRadius() + 13);
-			addSelectorStage.setY(point2d.getY() - circulo.getRadius());
+			addSelectorStage.setX(point2d.getX() + circulo.getRadius() + 12);
+			addSelectorStage.setY(point2d.getY() - circulo.getRadius() - 10);
 
-			addSelectorStage.show();
+			addSelectorStage.show(this.getScene().getWindow());
 		});
 		
 		this.setOnMouseEntered(e -> {
@@ -63,29 +62,16 @@ public class AddFloatingActionButton extends StackPane {
 		circulo.setId("circulo");
 	}
 
-	private Stage addSelectorStageConstructor() {
+	private Popup addSelectorPopup() {
 
-		Stage stage = new Stage();
-		stage.initStyle(StageStyle.UNDECORATED);
+		Popup popup = new Popup();
 
-		stage.focusedProperty().addListener(new ChangeListener<Boolean>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-
-				if (!newValue) {
-
-					stage.close();
-				}
-			}
-
-		});
-			
 		VBox vOptions = new VBox();
 
 		Label lblLembrete = new Label("Lembrete");
 		Label lblEvento = new Label("Evento");
-		lblEvento.prefWidthProperty().bind(stage.widthProperty());
+		lblEvento.setPrefWidth(120);
+		lblLembrete.setPrefWidth(120);
 
 		lblLembrete.setOnMouseClicked(e -> {
 			Stage st = new Stage();
@@ -108,14 +94,19 @@ public class AddFloatingActionButton extends StackPane {
 			st.show();
 		});
 		
-		
 		vOptions.getChildren().addAll(lblEvento, lblLembrete);
 
-		Scene scene = new Scene(vOptions);
-		stage.setScene(scene);
+		popup.getContent().add(vOptions);
+		popup.setAutoHide(true);
 
-		scene.getStylesheets().add(this.getClass().getResource("/css/add_fab_selector.css").toExternalForm());
+		DropShadow shadow = new DropShadow();
+		shadow.setOffsetX(0);
+		shadow.setOffsetY(0);
 
-		return stage;
+		vOptions.setEffect(shadow);
+
+		vOptions.getStylesheets().add(this.getClass().getResource("/css/add_fab_selector.css").toExternalForm());
+
+		return popup;
 	}
 }
