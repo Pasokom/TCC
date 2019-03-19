@@ -20,7 +20,11 @@ import db.pojo.DayDB;
 import db.pojo.HolidayDB;
 import db.pojo.Moon;
 import db.pojo.eventPOJO.EventDB;
+import db.pojo.eventPOJO.EventEndSchedule;
+import db.pojo.eventPOJO.EventSchedule;
 import db.pojo.reminderPOJO.ReminderDB;
+import db.pojo.reminderPOJO.ReminderEndSchedule;
+import db.pojo.reminderPOJO.ReminderSchedule;
 
 /**
  * LoadAppointment
@@ -36,7 +40,7 @@ public class LoadAppointment {
 
         ArrayList<HolidayDB> holidays = loadHolidays(date, "daily");
 
-        for(HolidayDB holiday : holidays){
+        for (HolidayDB holiday : holidays) {
             appointments.add(holiday);
         }
 
@@ -49,20 +53,20 @@ public class LoadAppointment {
 
             ResultSet rSet = statement.executeQuery();
 
-            while(rSet.next()){
+            while (rSet.next()) {
 
                 AppointmentDB appointment;
 
                 switch (rSet.getInt("TIPO")) {
-                    case 1:
-                        appointment = createDailyReminder(rSet);
-                        break;
-                    case 2:
-                        appointment = createDailyEvent(rSet);
-                        break;
-                    default:
-                        appointment = createDailyReminder(rSet);
-                        break;
+                case 1:
+                    appointment = createDailyReminder(rSet);
+                    break;
+                case 2:
+                    appointment = createDailyEvent(rSet);
+                    break;
+                default:
+                    appointment = createDailyReminder(rSet);
+                    break;
                 }
 
                 appointments.add(appointment);
@@ -79,7 +83,7 @@ public class LoadAppointment {
 
         ArrayList<DayDB> days = new ArrayList<>();
 
-        for(int i = 0; i < 31; i++) {
+        for (int i = 0; i < 31; i++) {
 
             DayDB day = new DayDB();
             day.setDay(i + 1);
@@ -89,7 +93,7 @@ public class LoadAppointment {
 
         ArrayList<HolidayDB> holidays = loadHolidays(date, "monthly");
 
-        for(HolidayDB holiday : holidays){
+        for (HolidayDB holiday : holidays) {
             days.get(holiday.getDia_mes() - 1).getAppointments().add(holiday);
         }
 
@@ -102,20 +106,20 @@ public class LoadAppointment {
 
             ResultSet rSet = statement.executeQuery();
 
-            while (rSet.next()){
+            while (rSet.next()) {
 
                 AppointmentDB appointment;
 
                 switch (rSet.getInt("TIPO")) {
-                    case 1:
-                        appointment = createMonthlyReminder(rSet);
-                        break;
-                    case 2:
-                        appointment = createMonthlyEvent(rSet);
-                        break;
-                    default:
-                        appointment = createMonthlyReminder(rSet);
-                        break;
+                case 1:
+                    appointment = createMonthlyReminder(rSet);
+                    break;
+                case 2:
+                    appointment = createMonthlyEvent(rSet);
+                    break;
+                default:
+                    appointment = createMonthlyReminder(rSet);
+                    break;
                 }
 
                 days.get(rSet.getInt("DIA") - 1).getAppointments().add(appointment);
@@ -126,6 +130,196 @@ public class LoadAppointment {
         }
 
         return days;
+    }
+
+    public ReminderDB loadReminder(int cod) {
+
+        ReminderDB reminder = new ReminderDB(); 
+
+        String sql = "{CALL CARREGAR_LEMBRETE(?)}";
+
+        try {
+
+            PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+
+            statement.setInt(1, cod);
+
+            ResultSet rSet = statement.executeQuery();
+
+            while (rSet.next()) {
+                
+                reminder = createReminder(rSet);
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        return reminder;
+    }
+
+    public ReminderDB loadReminder(int cod, ReminderDB recurrence) {
+
+        ReminderDB reminder = new ReminderDB(); 
+
+        String sql = "{CALL CARREGAR_LEMBRETE(?)}";
+
+        try {
+
+            PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+
+            statement.setInt(1, cod);
+
+            ResultSet rSet = statement.executeQuery();
+
+            while (rSet.next()) {
+                
+                reminder = createReminder(rSet, recurrence);
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        return reminder;
+    }
+
+    public EventDB loadEvent(int cod, EventDB recurrence) {
+
+        EventDB event = new EventDB(); 
+
+        String sql = "{CALL CARREGAR_EVENTO(?)}";
+
+        try {
+
+            PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+
+            statement.setInt(1, cod);
+
+            ResultSet rSet = statement.executeQuery();
+
+            while (rSet.next()) {
+                
+                event = createEvent(rSet, recurrence);
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        return event;
+    }
+
+    private ReminderDB createReminder(ResultSet rSet) throws SQLException {
+
+        ReminderDB reminder = new ReminderDB();
+
+        Calendar timezone = Calendar.getInstance();
+
+        reminder.setCod_lembrete(rSet.getInt("COD_LEMBRETE"));
+        reminder.setTitulo(rSet.getString("TITULO"));
+        reminder.setHorario(rSet.getTimestamp("HORARIO", timezone));
+        reminder.setHorario_fim(rSet.getTimestamp("HORARIO_FIM", timezone));
+        reminder.setIntervalo_minutos(rSet.getInt("INTERVALO_MINUTOS"));
+        reminder.setDia_todo(rSet.getBoolean("DIA_TODO"));
+        reminder.setTipo_repeticao(rSet.getInt("TIPO_REPETICAO"));
+        reminder.setTipo_fim_repeticao(rSet.getInt("TIPO_FIM_REPETICAO"));
+        reminder.setAtivo(rSet.getBoolean("ATIVO"));
+        reminder.setFk_usuario(rSet.getInt("FK_USUARIO"));
+
+        ReminderSchedule schedule = new ReminderSchedule();
+
+        schedule.setCod_repeticao(rSet.getInt("COD_REPETICAO"));
+        schedule.setIntervalo(rSet.getInt("INTERVALO"));
+        schedule.setDias_semanaToArray(rSet.getString("DIAS_SEMANA"));
+        schedule.setFk_lembrete(rSet.getInt("FK_LEMBRETE"));
+
+        ReminderEndSchedule endSchedule = new ReminderEndSchedule();
+
+        endSchedule.setCod_fim_repeticao(rSet.getInt("COD_FIM_REPETICAO"));
+        endSchedule.setDia_fim(rSet.getDate("DIA_FIM", timezone));
+        endSchedule.setQtd_recorrencia(rSet.getInt("QTD_RECORRENCIAS"));
+        endSchedule.setFk_lembrete(rSet.getInt("FK_LEMBRETE"));
+
+        reminder.setSchedule(schedule);
+        reminder.setReminderEndSchedule(endSchedule);
+
+        return reminder;
+    }
+
+    private ReminderDB createReminder(ResultSet rSet, ReminderDB recurrence) throws SQLException {
+
+        ReminderDB reminder = new ReminderDB();
+
+        Calendar timezone = Calendar.getInstance();
+
+        reminder.setCod_lembrete(rSet.getInt("COD_LEMBRETE"));
+        reminder.setTitulo(rSet.getString("TITULO"));
+        reminder.setHorario(recurrence.getHorario());
+        reminder.setHorario_fim(recurrence.getHorario_fim());
+        reminder.setIntervalo_minutos(rSet.getInt("INTERVALO_MINUTOS"));
+        reminder.setDia_todo(rSet.getBoolean("DIA_TODO"));
+        reminder.setTipo_repeticao(rSet.getInt("TIPO_REPETICAO"));
+        reminder.setTipo_fim_repeticao(rSet.getInt("TIPO_FIM_REPETICAO"));
+        reminder.setAtivo(rSet.getBoolean("ATIVO"));
+        reminder.setFk_usuario(rSet.getInt("FK_USUARIO"));
+
+        ReminderSchedule schedule = new ReminderSchedule();
+
+        schedule.setCod_repeticao(rSet.getInt("COD_REPETICAO"));
+        schedule.setIntervalo(rSet.getInt("INTERVALO"));
+        schedule.setDias_semanaToArray(rSet.getString("DIAS_SEMANA"));
+        schedule.setFk_lembrete(rSet.getInt("FK_LEMBRETE"));
+
+        ReminderEndSchedule endSchedule = new ReminderEndSchedule();
+
+        endSchedule.setCod_fim_repeticao(rSet.getInt("COD_FIM_REPETICAO"));
+        endSchedule.setDia_fim(rSet.getDate("DIA_FIM", timezone));
+        endSchedule.setQtd_recorrencia(rSet.getInt("QTD_RECORRENCIAS"));
+        endSchedule.setFk_lembrete(rSet.getInt("FK_LEMBRETE"));
+
+        reminder.setSchedule(schedule);
+        reminder.setReminderEndSchedule(endSchedule);
+
+        return reminder;
+    }
+
+    private EventDB createEvent(ResultSet rSet, EventDB recurrence) throws SQLException {
+
+        EventDB event = new EventDB();
+
+        Calendar timezone = Calendar.getInstance();
+
+        event.setCod_evento(rSet.getInt("COD_EVENTO"));
+        event.setTitulo(rSet.getString("TITULO"));
+        event.setData_inicio(recurrence.getData_inicio());
+        event.setData_fim(recurrence.getData_fim());
+        event.setDia_todo(rSet.getBoolean("DIA_TODO"));
+        event.setLocal_evento(rSet.getString("LOCAL_EVENTO"));
+        event.setDescricao(rSet.getString("DESCRICAO"));
+        event.setTipo_repeticao(rSet.getInt("TIPO_REPETICAO"));
+        event.setTipo_fim_repeticao(rSet.getInt("TIPO_FIM_REPETICAO"));
+        event.setAtivo(rSet.getBoolean("ATIVO"));
+        event.setFk_usuario(rSet.getInt("FK_USUARIO"));
+
+        EventSchedule schedule = new EventSchedule();
+
+        schedule.setCod_repeticao(rSet.getInt("COD_REPETICAO"));
+        schedule.setIntervalo(rSet.getInt("INTERVALO"));
+        schedule.setDias_semanaToArray(rSet.getString("DIAS_SEMANA"));
+        schedule.setFk_evento(rSet.getInt("FK_EVENTO"));
+
+        EventEndSchedule endSchedule = new EventEndSchedule();
+
+        endSchedule.setCod_fim_repeticao(rSet.getInt("COD_FIM_REPETICAO"));
+        endSchedule.setDia_fim(rSet.getDate("DIA_FIM", timezone));
+        endSchedule.setQtd_recorrencias(rSet.getInt("QTD_RECORRENCIAS"));
+        endSchedule.setFk_evento(rSet.getInt("FK_EVENTO"));
+
+        event.setHorario_evento(schedule);
+        event.setHorario_fim_evento(endSchedule);
+
+        return event;
     }
 
     private EventDB createMonthlyEvent(ResultSet rSet) throws SQLException {
@@ -179,6 +373,7 @@ public class LoadAppointment {
         reminder.setCod_lembrete(rSet.getInt("CODIGO"));
         reminder.setTitulo(rSet.getString("TITULO"));
         reminder.setHorario(rSet.getTimestamp("DATA_INICIO", timezone));
+        reminder.setHorario_fim(rSet.getTimestamp("DATA_FIM", timezone));
         reminder.setDia_todo(rSet.getBoolean("DIA_TODO"));
 
         return reminder;

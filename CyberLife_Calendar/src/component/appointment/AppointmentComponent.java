@@ -2,10 +2,12 @@ package component.appointment;
 
 import java.util.Calendar;
 
+import db.functions.appointment.LoadAppointment;
 import db.pojo.HolidayDB;
 import db.pojo.Moon;
 import db.pojo.eventPOJO.EventDB;
 import db.pojo.reminderPOJO.ReminderDB;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -16,6 +18,8 @@ public class AppointmentComponent extends VBox{
 
     private Label lbl_titulo;
     private Label sup_title;
+
+    private LoadAppointment load;
 
     public AppointmentComponent() {
         
@@ -34,6 +38,8 @@ public class AppointmentComponent extends VBox{
 
     public AppointmentComponent(EventDB event) {
         
+        load = new LoadAppointment();
+
         this.getStylesheets().add(this.getClass().getResource("/css/appointment_component.css").toExternalForm());
 		this.setId("this");
 
@@ -64,10 +70,25 @@ public class AppointmentComponent extends VBox{
         card.setId("event_card");
 
         this.getChildren().add(card);
+
+        this.setOnMouseClicked(e -> {
+
+            EventDB c_event = load.loadEvent(event.getCod_evento(), event);
+            AppointmentInfo info = new AppointmentInfo(c_event);
+
+            Point2D point2d = this.localToScreen(0d, 0d);
+
+            info.show(this.getScene().getWindow());
+
+            info.setX(point2d.getX() + this.getWidth() + 5);
+            info.setY(point2d.getY() + (this.getHeight() / 2) - (info.getHeight() / 2));
+        });
     }
 
     public AppointmentComponent(ReminderDB reminder) {
         
+        load = new LoadAppointment();
+
         this.getStylesheets().add(this.getClass().getResource("/css/appointment_component.css").toExternalForm());
 		this.setId("this");
 
@@ -90,6 +111,19 @@ public class AppointmentComponent extends VBox{
         card.setId("reminder_card");
 
         this.getChildren().add(card);
+
+        this.setOnMouseClicked(e -> {
+
+            ReminderDB c_reminder = load.loadReminder(reminder.getCod_lembrete(), reminder);
+            AppointmentInfo info = new AppointmentInfo(c_reminder);
+
+            Point2D point2d = this.localToScreen(0d, 0d);
+
+            info.show(this.getScene().getWindow());
+
+            info.setX(point2d.getX() + this.getWidth() + 5);
+            info.setY(point2d.getY() + (this.getHeight() / 2) - (info.getHeight() / 2));
+        });
     }
 
     public AppointmentComponent(HolidayDB holiday) {
