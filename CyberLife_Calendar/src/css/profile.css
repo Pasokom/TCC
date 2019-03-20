@@ -1,0 +1,51 @@
+VBox{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 3px;
+    -fx-padding: 10px;
+}
+
+.label{
+    -fx-font-size: 14px;
+}
+
+.separator{
+    -fx-padding: 2px;
+}
+
+.option{
+    -fx-padding: 5px 0;
+    -fx-spacing: 10px;
+}
+
+.option .label{
+    -fx-padding: 2px 0px 0px 0px;
+}
+
+.option:hover{
+    -fx-background-color: rgb(0, 0, 0, 0.2);
+    -fx-background-insets: 0px -20px 0px -20px;
+}
+
+#name{
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+#img_profile{
+    -fx-padding: 0px 0px 0px 3px;
+}
+
+#img_exit{
+    -fx-image: url("../../resources/images/round_exit_to_app_black_24dp.png");
+    -fx-opacity: 0.7;
+}
+
+#img_config{
+    -fx-image: url("../../resources/images/round_settings_black_24dp.png");
+    -fx-opacity: 0.7;
+}
+
+#img_help{
+    -fx-image: url("../../resources/images/round_help_black_24dp.png");
+    -fx-opacity: 0.7;
+}

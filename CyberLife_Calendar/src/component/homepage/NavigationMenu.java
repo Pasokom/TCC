@@ -2,6 +2,7 @@ package component.homepage;
 
 import db.pojo.UserSession;
 import display.poupoup.EditProfile;
+import display.poupoup.Profile;
 import display.scenes.Login;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -75,6 +76,18 @@ public class NavigationMenu extends AnchorPane {
 		Label userInitial = new Label(SESSION.get_user_name().substring(0, 1).toUpperCase());
 		userInitial.setFont(new Font(20));
 		userImg.getChildren().addAll(profileImg, userInitial);
+
+		userImg.setOnMouseClicked(e -> {
+
+			Profile profile = new Profile();
+
+			Point2D point = userImg.localToScreen(0d, 0d);
+
+			profile.setX(point.getX() + userImg.getHeight());
+			profile.setY(point.getY());
+
+			profile.show(this.getScene().getWindow()); 
+		});
 
 		profileSelector = profileSelectorStageConstructor();
 
