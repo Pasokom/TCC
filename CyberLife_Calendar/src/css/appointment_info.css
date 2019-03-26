@@ -38,6 +38,37 @@
     -fx-font-size: 14px;
 }
 
+#hb_buttons{
+    -fx-padding: 20px 0px 0px 0px;
+}
+
+#hb_buttons .button{
+    -fx-body-color: white;
+    -fx-background-radius: 3px;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-outer-border: transparent;
+    -fx-opacity: 0.7;
+    -fx-pref-width: 40px;
+    -fx-pref-height: 40px;
+}
+
+#hb_buttons .button:hover{
+    -fx-body-color: rgba(0, 0, 0, 0.2);
+}
+
+#btn_delete{
+    -fx-graphic: url("../../resources/images/round_delete_outline_black_24dp.png");
+}
+
+#btn_edit{
+    -fx-graphic: url("../../resources/images/outline_create_black_24dp.png");
+}
+
+#btn_done{
+    -fx-graphic: url("../../resources/images/round_done_outline_black_24dp.png");
+}
+
 #week{
     -fx-padding: 5px 0px 5px 10px;
     -fx-spacing: 5px;

@@ -104,8 +104,11 @@ public class AppointmentComponent extends VBox{
 
         VBox card = new VBox();
 
-        if(!reminder.isDia_todo())
-            card.getChildren().add(sup_title);
+        if(reminder.isConcluido())
+            lbl_titulo.setStyle("-fx-strikethrough: true;");
+        else
+            if(!reminder.isDia_todo())
+                card.getChildren().add(sup_title);
 
         card.getChildren().add(lbl_titulo);
         card.setId("reminder_card");

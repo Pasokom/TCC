@@ -1,0 +1,60 @@
+.vbox{
+    -fx-padding: 10px;
+    -fx-spacing: 5px;
+}
+
+.hbox{
+    -fx-spacing: 5px;
+}
+
+.radio-button{
+    -fx-body-color: white;
+    -fx-focus-color: #006064;
+    -fx-faint-focus-color: transparent;
+    -fx-background-insets: -3;
+}
+
+.radio-button:selected{
+    -fx-outer-border: #006064;
+}
+
+.radio-button .radio{
+    -fx-border-width: 2px;
+    -fx-border-radius: 50%;
+    -fx-border-color: -fx-outer-border;
+}
+
+.radio-button:selected .radio{
+    -fx-border-color: #006064;
+}
+
+.radio-button .dot{
+    -fx-mark-color: #006064;
+    -fx-padding: 4.5px;
+}
+
+.button{
+    -fx-body-color: white;
+    -fx-background-radius: 3px;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-outer-border: transparent;
+    -fx-padding: 10px;
+}
+
+.button:hover{
+    -fx-body-color: rgba(0, 0, 0, 0.1);
+}
+
+#title{
+    -fx-font-size: 24px;
+}
+
+#btn_delete{
+    -fx-body-color: #D32F2F;
+    -fx-text-fill: white;
+}
+
+#btn_delete:hover{
+    -fx-body-color: #B71C1C;
+}

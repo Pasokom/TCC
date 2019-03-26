@@ -2,7 +2,6 @@ package component;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import javafx.beans.value.ChangeListener;
@@ -10,7 +9,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -18,7 +16,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -203,5 +200,54 @@ public class Recurrence extends VBox {
     public int getQtdRecurrences(){
 
         return Integer.parseInt(this.txt_qtd_recurrence.getText());
+    }
+
+    public void setTypeRecurrence(int typeRecurrence) {
+
+        if(typeRecurrence != 0){
+
+            this.chb_recurrence.setSelected(true);
+            this.chb_repeat_type.getSelectionModel().select(typeRecurrence - 1);
+        }
+    }
+
+    public void setTypeEndRecurrence(int typeEndRecurrence) {
+
+        switch (typeEndRecurrence) {
+            case 0:
+                rad_never.setSelected(true);
+                break;
+            case 1:
+                rad_in.setSelected(true);
+                break;
+            case 2:
+                rad_after.setSelected(true);
+                break;
+            default:
+                rad_never.setSelected(true);
+                break;
+        }
+    }
+
+    public void setInterval(int interval) {
+
+        this.txt_repeat_qtd.setText(String.valueOf(interval));
+    }
+
+    public void setWeek(boolean[] dias_semana) {
+
+        for (int i = 0; i < 7; i++) {
+            ((ToggleButton)this.pnl_week.getChildren().get(i)).setSelected(dias_semana[i]);
+        }
+    }
+
+    public void setEndDay(Date dia_fim) {
+
+        this.dt_end.setValue(dia_fim.toLocalDate());
+    }
+
+    public void setQtdRecurrences(int qtd_recurrences) {
+
+        this.txt_qtd_recurrence.setText(String.valueOf(qtd_recurrences));
     }
 }

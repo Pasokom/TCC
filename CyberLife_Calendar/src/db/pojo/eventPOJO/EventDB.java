@@ -19,6 +19,7 @@ public class EventDB extends AppointmentDB {
 	private int fk_usuario;
 	private EventSchedule horario_evento;
 	private EventEndSchedule horario_fim_evento;
+	private int cod_recorrencia;
 
 	public EventDB() {
 		super("event");
@@ -126,6 +127,14 @@ public class EventDB extends AppointmentDB {
 
 	public void setHorario_fim_evento(EventEndSchedule horario_fim_evento) {
 		this.horario_fim_evento = horario_fim_evento;
+	}
+
+	public int getCod_recorrencia() {
+		return cod_recorrencia;
+	}
+
+	public void setCod_recorrencia(int cod_recorrencia) {
+		this.cod_recorrencia = cod_recorrencia;
 	}
 
 	public String getEventTime(String inValue) {

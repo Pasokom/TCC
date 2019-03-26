@@ -8,6 +8,7 @@ import java.util.Calendar;
 
 import component.Recurrence;
 import component.TimePicker;
+import db.functions.appointment.EditAppointment;
 import db.functions.reminder.CreateReminder;
 import db.pojo.reminderPOJO.ReminderDB;
 import db.pojo.reminderPOJO.ReminderEndSchedule;
@@ -63,6 +64,9 @@ public class Reminder extends Scene {
 	private HBox tabSelector;
 	private Recurrence repetition;
 
+	private ReminderDB reminder;
+	private boolean edit = false;
+
 	public Reminder() {
 		super(new VBox());
 
@@ -86,6 +90,59 @@ public class Reminder extends Scene {
 		container.getChildren().addAll(pane, tabSelector);
 
 		this.setRoot(container);
+	}
+
+	public Reminder(ReminderDB reminder) {
+		super(new VBox());
+
+		this.reminder = reminder;
+		this.edit = true;
+
+		this.getStylesheets().add(this.getClass().getResource("../../css/reminder.css").toExternalForm());
+
+		main = vbox_mainContent();
+		repetition = new Recurrence();
+
+		container = new AnchorPane();
+
+		pane = new StackPane();
+		pane.getChildren().add(main);
+
+		tabSelector = hbox_tabSelector();
+
+		AnchorPane.setTopAnchor(pane, 5d);
+		AnchorPane.setRightAnchor(pane, 0d);
+		AnchorPane.setLeftAnchor(pane, 0d);
+		AnchorPane.setBottomAnchor(tabSelector, 0d);
+
+		container.getChildren().addAll(pane, tabSelector);
+
+		this.setRoot(container);
+
+		txt_title.setText(reminder.getTitulo());
+		cbx_allday.setSelected(reminder.isDia_todo());
+		dt_start.setValue(reminder.getHorario().toLocalDateTime().toLocalDate());
+		t_start.setValue(reminder.getHorario().toLocalDateTime().toLocalTime());
+
+		if(reminder.getIntervalo_minutos() != 0) {
+
+			cbx_interval.setSelected(true);
+			dt_end.setValue(reminder.getHorario_fim().toLocalDateTime().toLocalDate());
+			t_end.setValue(reminder.getHorario_fim().toLocalDateTime().toLocalTime());
+			txt_minutes.setText(String.valueOf(reminder.getIntervalo_minutos()));
+		}
+		else {
+
+			dt_end.setValue(reminder.getHorario().toLocalDateTime().toLocalDate());
+			t_end.setValue(reminder.getHorario().toLocalDateTime().toLocalTime());
+		}
+
+		repetition.setTypeRecurrence(reminder.getTipo_repeticao());
+		repetition.setTypeEndRecurrence(reminder.getTipo_fim_repeticao());
+		repetition.setInterval(reminder.getSchedule().getIntervalo());
+		repetition.setWeek(reminder.getSchedule().getDias_semana());
+		repetition.setEndDay(reminder.getReminderEndSchedule().getDia_fim());
+		repetition.setQtdRecurrences(reminder.getReminderEndSchedule().getQtd_recorrencia());
 	}
 
 	private VBox vbox_mainContent() {
@@ -227,7 +284,10 @@ public class Reminder extends Scene {
 
 		btn_done.setOnAction(e -> {
 
-			createReminder();
+			if(!this.edit)
+				createReminder();
+			else
+				editReminder();
 		});
 
 		Region region = new Region();
@@ -240,6 +300,31 @@ public class Reminder extends Scene {
 	}
 
 	private void createReminder() {
+
+		CreateReminder create = new CreateReminder();
+
+		try {
+
+			create.insert_reminder(getReminder());
+			HomePage.listCalendar.update(HomePage.listCalendar.getCurrentDate());
+			HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
+
+		} catch (ClassNotFoundException | SQLException e) {
+
+			e.printStackTrace();
+		}
+		
+	}
+
+	private void editReminder() {
+
+		EditAppointment edit = new EditAppointment();
+		edit.edit(getReminder());
+		HomePage.listCalendar.update(HomePage.listCalendar.getCurrentDate());
+		HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
+	}
+
+	private ReminderDB getReminder(){
 
 		String titulo = this.txt_title.getText();
 		Timestamp horario = new Timestamp(getDate(this.dt_start, this.t_start));
@@ -277,19 +362,7 @@ public class Reminder extends Scene {
 		reminder.setSchedule(reminderSchedule);
 		reminder.setReminderEndSchedule(reminderEndSchedule);
 
-		CreateReminder create = new CreateReminder();
-
-		try {
-
-			create.insert_reminder(reminder);
-			HomePage.listCalendar.update(HomePage.listCalendar.getCurrentDate());
-			HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
-
-		} catch (ClassNotFoundException | SQLException e) {
-
-			e.printStackTrace();
-		}
-		
+		return reminder;
 	}
 
 	private long getDate(DatePicker date, TimePicker time){

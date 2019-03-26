@@ -4,8 +4,13 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
+import db.functions.appointment.DeleteAppointment;
+import db.functions.appointment.EditAppointment;
 import db.pojo.eventPOJO.EventDB;
 import db.pojo.reminderPOJO.ReminderDB;
+import display.scenes.Event;
+import display.scenes.HomePage;
+import display.scenes.Reminder;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,8 +18,12 @@ import javafx.scene.control.Separator;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Popup;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import statics.Enums;
+import statics.Enums.DialogResult;
 
 /**
  * AppointmentInfo
@@ -34,9 +43,12 @@ public class AppointmentInfo extends Popup {
     HBox hb_week;
 
     Button btn_delete;
+    Button btn_edit;
     Button btn_done;
 
     public AppointmentInfo(ReminderDB reminder) {
+
+        DeleteAppointment deleter = new DeleteAppointment();
 
         VBox root = new VBox();
         root.getStyleClass().add("vbox");
@@ -87,6 +99,53 @@ public class AppointmentInfo extends Popup {
         Separator separator_repetition = new Separator();
         Label lbl_recurrence = new Label("Recorrência");
         lbl_recurrence.getStyleClass().add("pane_label");
+        
+        /* Botões de controle */
+        btn_delete = new Button();
+        btn_delete.setId("btn_delete");
+        btn_edit = new Button();
+        btn_edit.setId("btn_edit");
+        btn_done = new Button();
+        btn_done.setId("btn_done");
+
+        HBox hb_control_buttons = new HBox();
+        hb_control_buttons.setAlignment(Pos.CENTER_RIGHT);
+        hb_control_buttons.getChildren().addAll(btn_delete, btn_edit, btn_done);
+        hb_control_buttons.setId("hb_buttons");
+
+        btn_delete.setOnAction(e -> {
+
+            DeleteConfirmation confirmation = new DeleteConfirmation();
+            confirmation.showAndWait();
+
+            if (confirmation.result == DialogResult.OK) {
+
+                if (confirmation.isAll())
+                    deleter.delete(reminder, true);
+                else
+                    deleter.delete(reminder, false);
+
+                HomePage.listCalendar.update(HomePage.listCalendar.getCurrentDate());
+                HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
+            }
+        });
+
+        btn_edit.setOnAction(e -> {
+            Stage st = new Stage();
+			st.setWidth(300);
+			st.setHeight(400);
+			st.initStyle(StageStyle.UTILITY);
+			st.initModality(Modality.APPLICATION_MODAL);
+			st.setScene(new Reminder(reminder));
+			st.show();
+        });
+
+        btn_done.setOnAction(e -> {
+            EditAppointment edit = new EditAppointment();
+            edit.markAsDone(reminder);
+            HomePage.listCalendar.update(HomePage.listCalendar.getCurrentDate());
+            HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
+        });
 
         root.getChildren().add(lbl_title);
         root.getChildren().add(lbl_date);
@@ -111,6 +170,8 @@ public class AppointmentInfo extends Popup {
                 root.getChildren().add(lbl_end_repetition);
         }
 
+        root.getChildren().addAll(hb_control_buttons);
+
         DropShadow shadow = new DropShadow();
 		shadow.setOffsetX(0);
 		shadow.setOffsetY(0);
@@ -124,6 +185,8 @@ public class AppointmentInfo extends Popup {
     }
 
     public AppointmentInfo(EventDB event) {
+
+        DeleteAppointment deleter = new DeleteAppointment();
 
         VBox root = new VBox();
         root.getStyleClass().add("vbox");
@@ -175,6 +238,44 @@ public class AppointmentInfo extends Popup {
 
         buildWeek(event.getHorario_evento().getDias_semana());
 
+        /* Botões de controle */
+        btn_delete = new Button();
+        btn_delete.setId("btn_delete");
+        btn_edit = new Button();
+        btn_edit.setId("btn_edit");
+
+        btn_delete.setOnAction(e -> {
+
+            DeleteConfirmation confirmation = new DeleteConfirmation();
+            confirmation.showAndWait();
+
+            if (confirmation.result == DialogResult.OK) {
+
+                if (confirmation.isAll())
+                    deleter.delete(event, true);
+                else
+                    deleter.delete(event, false);
+
+                HomePage.listCalendar.update(HomePage.listCalendar.getCurrentDate());
+                HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
+            }
+        });
+
+        btn_edit.setOnAction(e -> {
+            Stage st = new Stage();
+			st.setWidth(300);
+			st.setHeight(400);
+			st.initStyle(StageStyle.UTILITY);
+			st.initModality(Modality.APPLICATION_MODAL);
+			st.setScene(new Event(event));
+			st.show();
+        });
+
+        HBox hb_control_buttons = new HBox();
+        hb_control_buttons.setAlignment(Pos.CENTER_RIGHT);
+        hb_control_buttons.getChildren().addAll(btn_delete, btn_edit);
+        hb_control_buttons.setId("hb_buttons");
+
         lbl_end_repetition = new Label(buildRecurrenceEnd(event.getTipo_fim_repeticao(), 
             event.getHorario_fim_evento().getQtd_recorrencias(), event.getHorario_fim_evento().getDia_fim()));
         lbl_end_repetition.getStyleClass().add("inside_label");
@@ -207,6 +308,8 @@ public class AppointmentInfo extends Popup {
             if(event.getTipo_fim_repeticao() != 0)
                 root.getChildren().add(lbl_end_repetition);
         }
+
+        root.getChildren().addAll(hb_control_buttons);
 
         DropShadow shadow = new DropShadow();
 		shadow.setOffsetX(0);

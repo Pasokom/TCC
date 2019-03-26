@@ -2,10 +2,6 @@
 	-fx-background-color: transparent;
 } 
 
-Label{
-	-fx-text-fill: white;
-	-fx-font-size: 14;
-}
 
 #reminder_card{
 	-fx-background-color: #0D47A1;
@@ -32,6 +28,8 @@ Label{
 }
 
 #titulo{
+	-fx-text-fill: white;
+	-fx-font-size: 14;
 	-fx-font-weight: bold;
 }
 
