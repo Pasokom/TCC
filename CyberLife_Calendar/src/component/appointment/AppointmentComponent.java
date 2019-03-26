@@ -13,6 +13,10 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 public class AppointmentComponent extends VBox{
 
@@ -104,13 +108,23 @@ public class AppointmentComponent extends VBox{
 
         VBox card = new VBox();
 
-        if(reminder.isConcluido())
-            lbl_titulo.setStyle("-fx-strikethrough: true;");
-        else
+        if(reminder.isConcluido()){
+
+            Text txt_titulo = new Text();
+            txt_titulo.setText(reminder.getTitulo());
+            txt_titulo.setFont(Font.font("Helvetica", FontWeight.BOLD, 14));
+            txt_titulo.setFill(Color.WHITE);
+            txt_titulo.setStyle("-fx-strikethrough: true;");
+            card.getChildren().add(txt_titulo);
+        }
+        else{
+
             if(!reminder.isDia_todo())
                 card.getChildren().add(sup_title);
 
-        card.getChildren().add(lbl_titulo);
+            card.getChildren().add(lbl_titulo);
+        }
+
         card.setId("reminder_card");
 
         this.getChildren().add(card);
