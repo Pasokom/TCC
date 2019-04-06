@@ -1,0 +1,68 @@
+.root{
+    -fx-background-color: #FFFFFF;
+}
+
+.vbox{
+	-fx-padding: 10px;
+	-fx-spacing: 10px;
+}
+
+.hbox{
+    -fx-spacing: 10px;
+}
+
+.text-input{
+    -fx-focus-color: #0097A7;
+    -fx-faint-focus-color: transparent;
+    -fx-text-box-border: darkgray;
+    -fx-padding: 6px;
+}
+
+.text-input, .text-input:focused { 
+    -fx-prompt-text-fill:darkgray;
+}
+
+.spinner{
+    -fx-pref-width: 50px;
+}
+
+.text-field{
+    -fx-pref-width: 50px;
+}
+
+.toggle-button{
+    -fx-background-color: rgba(0, 0, 0, 0.12);
+}
+
+.toggle-button:selected{
+    -fx-background-color: #0097A7;
+    -fx-text-fill: #FFFFFF;
+}
+
+#title{
+    -fx-font-size: 25px;
+    -fx-padding: 0;
+    -fx-focus-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+}
+
+#title .content{
+    -fx-background-color: transparent;
+}
+
+#circle_next{
+    -fx-fill: #0097A7;
+}
+
+#img_next{
+    -fx-image: url("../../resources/images/round_arrow_forward_white_24dp.png");
+}
+
+#img_back{
+    -fx-image: url("../../resources/images/round_arrow_back_white_24dp.png");
+}
+
+#img_done{
+    -fx-image: url("../../resources/images/round_done_white_24dp.png");
+}

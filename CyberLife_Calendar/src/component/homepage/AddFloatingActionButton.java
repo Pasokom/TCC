@@ -1,6 +1,7 @@
 package component.homepage;
 
 import display.scenes.Event;
+import display.scenes.Meta;
 import display.scenes.Reminder;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
@@ -45,8 +46,8 @@ public class AddFloatingActionButton extends StackPane {
 
 			Point2D point2d = this.addImg.localToScreen(0d, 0d);
 
-			addSelectorStage.setX(point2d.getX() + circulo.getRadius() + 12);
-			addSelectorStage.setY(point2d.getY() - circulo.getRadius() - 10);
+			addSelectorStage.setX(point2d.getX() + circulo.getRadius() + 14);
+			addSelectorStage.setY(point2d.getY() - circulo.getRadius() - 60);
 
 			addSelectorStage.show(this.getScene().getWindow());
 		});
@@ -70,8 +71,10 @@ public class AddFloatingActionButton extends StackPane {
 
 		Label lblLembrete = new Label("Lembrete");
 		Label lblEvento = new Label("Evento");
+		Label lblMeta = new Label("Meta");
 		lblEvento.setPrefWidth(120);
 		lblLembrete.setPrefWidth(120);
+		lblMeta.setPrefWidth(120);
 
 		lblLembrete.setOnMouseClicked(e -> {
 			Stage st = new Stage();
@@ -94,7 +97,17 @@ public class AddFloatingActionButton extends StackPane {
 			st.show();
 		});
 		
-		vOptions.getChildren().addAll(lblEvento, lblLembrete);
+		lblMeta.setOnMouseClicked(e -> {
+			Stage st = new Stage();
+			st.setWidth(300);
+			st.setHeight(400);
+			st.initStyle(StageStyle.UTILITY);
+			st.initModality(Modality.APPLICATION_MODAL);
+			st.setScene(new Meta());
+			st.show();
+		});
+
+		vOptions.getChildren().addAll(lblEvento, lblLembrete, lblMeta);
 
 		popup.getContent().add(vOptions);
 		popup.setAutoHide(true);
