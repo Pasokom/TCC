@@ -31,7 +31,8 @@ public class ListCalendar extends VBox {
 	RetrieveEvents retrieveEvents = new RetrieveEvents();
 
 	public ListCalendar(Calendar date) {
-		this.currentDate = date;
+		this.currentDate = Calendar.getInstance();
+		this.currentDate.setTime(date.getTime());
 
 		this.prefWidthProperty().set(250);
 		this.setId("this");
@@ -126,7 +127,7 @@ public class ListCalendar extends VBox {
 
 	public void update(Calendar date) {
 		this.currentDate = date;
-		addComponents(date);
+		addComponents(this.currentDate);
 	}
 
 	public Calendar getCurrentDate(){

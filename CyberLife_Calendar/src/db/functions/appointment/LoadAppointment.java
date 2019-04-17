@@ -25,6 +25,7 @@ import db.pojo.eventPOJO.EventSchedule;
 import db.pojo.reminderPOJO.ReminderDB;
 import db.pojo.reminderPOJO.ReminderEndSchedule;
 import db.pojo.reminderPOJO.ReminderSchedule;
+import statics.SESSION;
 
 /**
  * LoadAppointment
@@ -44,12 +45,13 @@ public class LoadAppointment {
             appointments.add(holiday);
         }
 
-        String sql = "{CALL CARREGAR_DIA(?)}";
+        String sql = "{CALL CARREGAR_DIA(?, ?)}";
 
         try {
 
             PreparedStatement statement = Database.get_connection().prepareStatement(sql);
             statement.setTimestamp(1, new Timestamp(date.getTimeInMillis()), Calendar.getInstance());
+            statement.setInt(2, (int)SESSION.get_user_cod());
 
             ResultSet rSet = statement.executeQuery();
 
@@ -97,12 +99,13 @@ public class LoadAppointment {
             days.get(holiday.getDia_mes() - 1).getAppointments().add(holiday);
         }
 
-        String sql = "{CALL CARREGAR_MES(?)}";
+        String sql = "{CALL CARREGAR_MES(?, ?)}";
 
         try {
 
             PreparedStatement statement = Database.get_connection().prepareStatement(sql);
             statement.setTimestamp(1, new Timestamp(date.getTimeInMillis()), Calendar.getInstance());
+            statement.setInt(2, (int)SESSION.get_user_cod());
 
             ResultSet rSet = statement.executeQuery();
 

@@ -24,13 +24,7 @@ import statics.SESSION;
 
 public class NavigationMenu extends AnchorPane {
 
-	private Label lblNome, lblEmail;
-	private HBox hProfile;
-	private VBox vProfileNameEmail;
 	private Stage profileSelector;
-
-	private ImageView ivLogout;
-
 	private EditProfile editProfile;
 
 	public NavigationMenu() {
@@ -58,13 +52,7 @@ public class NavigationMenu extends AnchorPane {
 
 		});
 
-		ivLogout = new ImageView();
-		ivLogout.setId("logout");
-
-		ivLogout.setFitWidth(35);
-		ivLogout.setPreserveRatio(true);
 		/* Conteudo do perfil */
-		hProfile = new HBox();
 
 		Circle profileImg = new Circle();
 		profileImg.setRadius(20);
@@ -91,57 +79,18 @@ public class NavigationMenu extends AnchorPane {
 
 		profileSelector = profileSelectorStageConstructor();
 
-		ivLogout.setOnMouseClicked(e -> {
-
-			Point2D point = ivLogout.localToScreen(0d, 0d);
-
-			profileSelector.setX(point.getX() + 35);
-			profileSelector.setY(point.getY());
-
-			profileSelector.show();
-		});
-
-		/* VBox do nome e email */
-		vProfileNameEmail = new VBox();
-
-		lblNome = new Label(SESSION.get_user_name() + " " + SESSION.get_user_last_name());
-		lblEmail = new Label(SESSION.get_user_email());
-		lblEmail.setId("email");
-
-		lblEmail.setOnMouseClicked(e -> {
-			editProfile.showAndWait();
-		});
-		lblNome.setOnMouseClicked(e -> {
-			editProfile.showAndWait();
-		});
-
-		this.setOnMouseClicked(e -> {
-			if (this.editProfile.isShowing())
-				this.editProfile.close();
-		});
-
-		vProfileNameEmail.getChildren().addAll(lblNome, lblEmail);
-		/* Fim VBox do nome e email */
-
-		hProfile.getChildren().addAll(userImg, vProfileNameEmail);
-		hProfile.getChildren().add(ivLogout);
-		/* Fim do conteudo do perfil */
-
 		/* Botao adicionar */
 		AddFloatingActionButton circleButton = new AddFloatingActionButton();
 
 		/* Fim botao adicionar */
 
-		AnchorPane.setTopAnchor(ivLogout, 0d);
-		AnchorPane.setLeftAnchor(ivLogout, 5d);
-
-		AnchorPane.setTopAnchor(hProfile, 0d);
-		AnchorPane.setLeftAnchor(hProfile, 0d);
+		AnchorPane.setTopAnchor(userImg, 0d);
+		AnchorPane.setLeftAnchor(userImg, 5d);
 
 		AnchorPane.setBottomAnchor(circleButton, 0d);
 		AnchorPane.setRightAnchor(circleButton, -20d);
 
-		this.getChildren().addAll(hProfile, circleButton);
+		this.getChildren().addAll(userImg, circleButton);
 	}
 
 	private Stage profileSelectorStageConstructor() {

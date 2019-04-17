@@ -1,6 +1,11 @@
 package display.poupoup;
 
+import component.Instructions.Intro_Foda;
+import db.pojo.UserSession;
+import display.scenes.Login;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.effect.DropShadow;
@@ -12,6 +17,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.stage.Popup;
+import javafx.stage.Stage;
+import main.Main;
 import statics.SESSION;
 
 /**
@@ -26,6 +33,8 @@ public class Profile extends Popup {
     ImageView img_help; Label lbl_help;
 
     public Profile() {
+
+        EditProfile editProfile = new EditProfile();
         
         VBox root = new VBox();
         root.getStylesheets().add(this.getClass().getResource("../../css/profile.css").toExternalForm());
@@ -63,6 +72,23 @@ public class Profile extends Popup {
 
         Separator separator = new Separator();
 
+        lbl_exit.setOnMouseClicked(e -> {
+			
+            UserSession.close();
+
+			SESSION.END_SESSION();
+			Main.main_stage.setScene(new Login());
+		});
+
+        hb_exit.setOnMouseClicked(e -> {
+        	
+        	UserSession.close();
+
+			SESSION.END_SESSION();
+			Main.main_stage.setScene(new Login());
+			this.hide();
+        });
+        
         HBox hb_settings = new HBox();
         img_config = new ImageView();
         img_config.setId("img_config");
@@ -71,6 +97,10 @@ public class Profile extends Popup {
         hb_settings.getChildren().addAll(img_config, lbl_config);
         hb_settings.getStyleClass().add("option");
 
+        lbl_config.setOnMouseClicked(e -> {
+			editProfile.show(); 
+		});
+
         HBox hb_help = new HBox();
         img_help = new ImageView();
         img_help.setId("img_help");
@@ -78,9 +108,14 @@ public class Profile extends Popup {
         hb_help.getChildren().addAll(img_help, lbl_help);
         hb_help.getStyleClass().add("option");
 
+        hb_help.setOnMouseClicked(e ->{
+            this.hide();
+            Intro_Foda intro = new Intro_Foda();
+            intro.show(this);
+        });
+
         vb_options.getChildren().addAll(hb_exit, separator, hb_settings, hb_help);
         root.getChildren().addAll(hb_profile, vb_options);
-
         DropShadow shadow = new DropShadow();
         root.setEffect(shadow);
         root.setMinWidth(250);

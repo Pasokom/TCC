@@ -31,6 +31,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import statics.SESSION;
 
 public class Reminder extends Scene {
@@ -228,6 +229,7 @@ public class Reminder extends Scene {
 		btn_done.setOnAction(e -> {
 
 			createReminder();
+			((Stage)this.getWindow()).close();
 		});
 
 		Region region = new Region();

@@ -203,6 +203,7 @@ public class Event extends Scene {
 
 		btn_done.setOnMouseClicked(e -> {
 			createEvent();
+			((Stage)getWindow()).close();
 		});
 
 		Region region = new Region();
