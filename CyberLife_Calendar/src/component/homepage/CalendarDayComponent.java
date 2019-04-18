@@ -3,7 +3,6 @@ package component.homepage;
 import java.util.ArrayList;
 
 import component.appointment.AppointmentMini;
-import component.event.EventComponentDemo;
 import db.pojo.AppointmentDB;
 import db.pojo.HolidayDB;
 import db.pojo.eventPOJO.EventDB;
@@ -68,11 +67,11 @@ public class CalendarDayComponent extends AnchorPane {
         menu.setVisible(false);
 
         this.setOnMouseEntered(e -> {
-            menu.setVisible(true);
+            //menu.setVisible(true);
         });
 
         this.setOnMouseExited(e -> {
-            menu.setVisible(false);
+            //menu.setVisible(false);
         });
         
         VBox content = new VBox();
@@ -101,9 +100,6 @@ public class CalendarDayComponent extends AnchorPane {
         AnchorPane.setBottomAnchor(more, 1d);
         AnchorPane.setRightAnchor(more, 1d);
         this.getChildren().add(more);
-
-        //this.maxCards = (int)((this.getHeight() - header.getHeight() - 10) / 25);
-        //addAppointments();
 
         this.heightProperty().addListener((obs, oldVal, newVal) -> {
 

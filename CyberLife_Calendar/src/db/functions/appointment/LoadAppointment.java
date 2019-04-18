@@ -25,6 +25,7 @@ import db.pojo.eventPOJO.EventSchedule;
 import db.pojo.reminderPOJO.ReminderDB;
 import db.pojo.reminderPOJO.ReminderEndSchedule;
 import db.pojo.reminderPOJO.ReminderSchedule;
+import statics.SESSION;
 
 /**
  * LoadAppointment
@@ -44,12 +45,13 @@ public class LoadAppointment {
             appointments.add(holiday);
         }
 
-        String sql = "{CALL CARREGAR_DIA(?)}";
+        String sql = "{CALL CARREGAR_DIA(?, ?)}";
 
         try {
 
             PreparedStatement statement = Database.get_connection().prepareStatement(sql);
             statement.setTimestamp(1, new Timestamp(date.getTimeInMillis()), Calendar.getInstance());
+            statement.setInt(2, (int)SESSION.get_user_cod());
 
             ResultSet rSet = statement.executeQuery();
 
@@ -97,12 +99,13 @@ public class LoadAppointment {
             days.get(holiday.getDia_mes() - 1).getAppointments().add(holiday);
         }
 
-        String sql = "{CALL CARREGAR_MES(?)}";
+        String sql = "{CALL CARREGAR_MES(?, ?)}";
 
         try {
 
             PreparedStatement statement = Database.get_connection().prepareStatement(sql);
             statement.setTimestamp(1, new Timestamp(date.getTimeInMillis()), Calendar.getInstance());
+            statement.setInt(2, (int)SESSION.get_user_cod());
 
             ResultSet rSet = statement.executeQuery();
 
@@ -263,8 +266,6 @@ public class LoadAppointment {
         reminder.setTipo_fim_repeticao(rSet.getInt("TIPO_FIM_REPETICAO"));
         reminder.setAtivo(rSet.getBoolean("ATIVO"));
         reminder.setFk_usuario(rSet.getInt("FK_USUARIO"));
-        reminder.setCod_recorrencia(recurrence.getCod_recorrencia());
-        reminder.setConcluido(recurrence.isConcluido());
 
         ReminderSchedule schedule = new ReminderSchedule();
 
@@ -303,7 +304,6 @@ public class LoadAppointment {
         event.setTipo_fim_repeticao(rSet.getInt("TIPO_FIM_REPETICAO"));
         event.setAtivo(rSet.getBoolean("ATIVO"));
         event.setFk_usuario(rSet.getInt("FK_USUARIO"));
-        event.setCod_recorrencia(recurrence.getCod_recorrencia());
 
         EventSchedule schedule = new EventSchedule();
 
@@ -359,7 +359,6 @@ public class LoadAppointment {
         Calendar timezone = Calendar.getInstance();
 
         event.setCod_evento(rSet.getInt("CODIGO"));
-        event.setCod_recorrencia(rSet.getInt("COD_RECORRENCIA"));
         event.setTitulo(rSet.getString("TITULO"));
         event.setData_inicio(rSet.getTimestamp("DATA_INICIO", timezone));
         event.setData_fim(rSet.getTimestamp("DATA_FIM", timezone));
@@ -375,11 +374,9 @@ public class LoadAppointment {
         Calendar timezone = Calendar.getInstance();
 
         reminder.setCod_lembrete(rSet.getInt("CODIGO"));
-        reminder.setCod_recorrencia(rSet.getInt("COD_RECORRENCIA"));
         reminder.setTitulo(rSet.getString("TITULO"));
         reminder.setHorario(rSet.getTimestamp("DATA_INICIO", timezone));
         reminder.setHorario_fim(rSet.getTimestamp("DATA_FIM", timezone));
-        reminder.setConcluido(rSet.getBoolean("CONCLUIDO"));
         reminder.setDia_todo(rSet.getBoolean("DIA_TODO"));
 
         return reminder;

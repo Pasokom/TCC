@@ -1,5 +1,6 @@
 package db.functions.registrationAndLogin;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -20,17 +21,19 @@ public class HandlerLogin {
 	 */
 	public boolean login(String email, String password, boolean serialize) {
 
-		String sql = "SELECT COD_USUARIO, EMAIL, NOME, SOBRENOME, SENHA FROM USUARIO WHERE EMAIL='" + email
-				+ "' AND SENHA='" + password + "';";
-		try {
-			ResultSet result = Database.get_connection().createStatement().executeQuery(sql);
+		String sql = "SELECT COD_USUARIO, EMAIL, NOME, SOBRENOME, SENHA FROM USUARIO WHERE EMAIL = ? AND SENHA = md5(?)";
 
-//			System.out.println(!result.first() ? "[WARNING] : no data found" : "[CONFIRMATION] : work");
+		try {
+			PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+			statement.setString(1, email);
+			statement.setString(2, password);
+
+			ResultSet result = statement.executeQuery();
+
 			if (!result.first())
 				return false;
+
 			if (serialize) {
-				//IOFunctions s = new IOFunctions();
-				//s.doSerialization(result.getInt(1), "stay_connected");
 
 				UserSession session = new UserSession(email, result.getInt(1));
 				session.serialize();
@@ -40,10 +43,13 @@ public class HandlerLogin {
 				UserSession session = new UserSession(email);
 				session.serialize();
 			}
+
 			SESSION.start_session(result.getInt(1), result.getString(2), result.getString(3), result.getString(4));
 			PictureSettings ps = new PictureSettings();
 			SESSION.setImage(ps.getUserImage((int) SESSION.get_user_cod()));
+
 			return true;
+
 		} catch (ClassNotFoundException | SQLException e) {
 			System.out.println("[ERROR] função login() - classe HandlerLogin");
 			e.printStackTrace();
