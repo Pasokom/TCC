@@ -266,6 +266,8 @@ public class LoadAppointment {
         reminder.setTipo_fim_repeticao(rSet.getInt("TIPO_FIM_REPETICAO"));
         reminder.setAtivo(rSet.getBoolean("ATIVO"));
         reminder.setFk_usuario(rSet.getInt("FK_USUARIO"));
+        reminder.setCod_recorrencia(recurrence.getCod_recorrencia());
+        reminder.setConcluido(recurrence.isConcluido());
 
         ReminderSchedule schedule = new ReminderSchedule();
 
@@ -304,6 +306,7 @@ public class LoadAppointment {
         event.setTipo_fim_repeticao(rSet.getInt("TIPO_FIM_REPETICAO"));
         event.setAtivo(rSet.getBoolean("ATIVO"));
         event.setFk_usuario(rSet.getInt("FK_USUARIO"));
+        event.setCod_recorrencia(recurrence.getCod_recorrencia());
 
         EventSchedule schedule = new EventSchedule();
 
@@ -359,6 +362,7 @@ public class LoadAppointment {
         Calendar timezone = Calendar.getInstance();
 
         event.setCod_evento(rSet.getInt("CODIGO"));
+        event.setCod_recorrencia(rSet.getInt("COD_RECORRENCIA"));
         event.setTitulo(rSet.getString("TITULO"));
         event.setData_inicio(rSet.getTimestamp("DATA_INICIO", timezone));
         event.setData_fim(rSet.getTimestamp("DATA_FIM", timezone));
@@ -374,9 +378,11 @@ public class LoadAppointment {
         Calendar timezone = Calendar.getInstance();
 
         reminder.setCod_lembrete(rSet.getInt("CODIGO"));
+        reminder.setCod_recorrencia(rSet.getInt("COD_RECORRENCIA"));
         reminder.setTitulo(rSet.getString("TITULO"));
         reminder.setHorario(rSet.getTimestamp("DATA_INICIO", timezone));
         reminder.setHorario_fim(rSet.getTimestamp("DATA_FIM", timezone));
+        reminder.setConcluido(rSet.getBoolean("CONCLUIDO"));
         reminder.setDia_todo(rSet.getBoolean("DIA_TODO"));
 
         return reminder;

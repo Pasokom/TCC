@@ -3,15 +3,17 @@ package component.homepage;
 import db.pojo.UserSession;
 import display.poupoup.EditProfile;
 import display.poupoup.Profile;
+import display.scenes.HomePage;
 import display.scenes.Login;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -24,13 +26,7 @@ import statics.SESSION;
 
 public class NavigationMenu extends AnchorPane {
 
-	private Label lblNome, lblEmail;
-	private HBox hProfile;
-	private VBox vProfileNameEmail;
 	private Stage profileSelector;
-
-	private ImageView ivLogout;
-
 	private EditProfile editProfile;
 
 	public NavigationMenu() {
@@ -55,17 +51,9 @@ public class NavigationMenu extends AnchorPane {
 					stage.close();
 				}
 			}
-
 		});
 
-		ivLogout = new ImageView();
-		ivLogout.setId("logout");
-
-		ivLogout.setFitWidth(35);
-		ivLogout.setPreserveRatio(true);
 		/* Conteudo do perfil */
-		hProfile = new HBox();
-
 		Circle profileImg = new Circle();
 		profileImg.setRadius(20);
 		profileImg.setFill(Color.rgb(0, 0, 0, 0.08));
@@ -91,57 +79,55 @@ public class NavigationMenu extends AnchorPane {
 
 		profileSelector = profileSelectorStageConstructor();
 
-		ivLogout.setOnMouseClicked(e -> {
-
-			Point2D point = ivLogout.localToScreen(0d, 0d);
-
-			profileSelector.setX(point.getX() + 35);
-			profileSelector.setY(point.getY());
-
-			profileSelector.show();
-		});
-
-		/* VBox do nome e email */
-		vProfileNameEmail = new VBox();
-
-		lblNome = new Label(SESSION.get_user_name() + " " + SESSION.get_user_last_name());
-		lblEmail = new Label(SESSION.get_user_email());
-		lblEmail.setId("email");
-
-		lblEmail.setOnMouseClicked(e -> {
-			editProfile.showAndWait();
-		});
-		lblNome.setOnMouseClicked(e -> {
-			editProfile.showAndWait();
-		});
-
-		this.setOnMouseClicked(e -> {
-			if (this.editProfile.isShowing())
-				this.editProfile.close();
-		});
-
-		vProfileNameEmail.getChildren().addAll(lblNome, lblEmail);
-		/* Fim VBox do nome e email */
-
-		hProfile.getChildren().addAll(userImg, vProfileNameEmail);
-		hProfile.getChildren().add(ivLogout);
-		/* Fim do conteudo do perfil */
-
 		/* Botao adicionar */
 		AddFloatingActionButton circleButton = new AddFloatingActionButton();
 
 		/* Fim botao adicionar */
+		AnchorPane.setTopAnchor(userImg, 10d);
+		AnchorPane.setLeftAnchor(userImg, 10d);
 
-		AnchorPane.setTopAnchor(ivLogout, 0d);
-		AnchorPane.setLeftAnchor(ivLogout, 5d);
+		AnchorPane.setBottomAnchor(circleButton, 10d);
+		AnchorPane.setRightAnchor(circleButton, 10d);
 
-		AnchorPane.setTopAnchor(hProfile, 0d);
-		AnchorPane.setLeftAnchor(hProfile, 0d);
+		/* Opções */
+		ToggleGroup grp_options = new ToggleGroup();
 
-		AnchorPane.setBottomAnchor(circleButton, 0d);
-		AnchorPane.setRightAnchor(circleButton, -20d);
+		VBox vb_options = new VBox();
+		ToggleButton btn_calendar = new ToggleButton("Calendário");
+		ToggleButton btn_goals = new ToggleButton("Metas");
+		
+		btn_calendar.setPrefWidth(230);
+		btn_goals.setPrefWidth(230);
+		btn_calendar.setAlignment(Pos.CENTER_LEFT);
+		btn_goals.setAlignment(Pos.CENTER_LEFT);
+		btn_calendar.setId("btn_calendar");
+		btn_goals.setId("btn_goals");
+		btn_calendar.setGraphicTextGap(15);
+		btn_goals.setGraphicTextGap(15);
+		btn_calendar.setToggleGroup(grp_options);
+		btn_goals.setToggleGroup(grp_options);
+		btn_calendar.setSelected(true);
 
-		this.getChildren().addAll(hProfile, circleButton);
+		btn_calendar.setOnAction(e -> {
+
+			HomePage.goals.setVisible(false);
+			HomePage.goals.setManaged(false);
+		});
+
+		btn_goals.setOnAction(e -> {
+
+			HomePage.goals.setVisible(true);
+			HomePage.goals.setManaged(true);
+		});
+
+		vb_options.setFillWidth(true);
+		vb_options.setSpacing(1);
+		vb_options.getChildren().addAll(btn_calendar, btn_goals);
+
+		AnchorPane.setLeftAnchor(vb_options, 0d);
+		AnchorPane.setTopAnchor(vb_options, 100d);
+
+		this.getChildren().addAll(userImg, circleButton, vb_options);
 	}
 
 	private Stage profileSelectorStageConstructor() {
@@ -159,7 +145,6 @@ public class NavigationMenu extends AnchorPane {
 					stage.close();
 				}
 			}
-
 		});
 
 		Label lblSair = new Label("Sair");

@@ -1,6 +1,17 @@
 #this{
 	-fx-background-color: #3949AB;
-	-fx-padding: 15 30 15 15;
+}
+
+.toggle-button {
+	-fx-background-color: #3949AB;
+	-fx-background-radius: 0 20 20 0;
+	-fx-font-size: 15;
+	-fx-font-weight: bold;
+	-fx-text-fill: #ffffff;
+}
+
+.toggle-button:selected {
+	-fx-background-color: rgba(0, 0, 0, 0.15);
 }
 
 HBox{
@@ -11,12 +22,22 @@ Label{
 	-fx-text-fill: white;
 }
 
+#btn_calendar {
+	-fx-graphic: url("../../resources/images/round_calendar_today_white_24dp.png");
+}
+
+#btn_goals {
+	-fx-graphic: url("../../resources/images/round_outlined_flag_white_24dp.png");
+}
+
 #logout{
 	-fx-image: url("../../resources/images/logout.png");
 }
+
 #config{  
 	-fx-image:url("../../resources/images/config.png");
 }
+
 #logout:hover{
 	-fx-cursor: hand;
 }

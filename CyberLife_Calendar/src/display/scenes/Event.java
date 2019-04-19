@@ -33,6 +33,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import statics.SESSION;
 
 public class Event extends Scene {
@@ -250,8 +251,10 @@ public class Event extends Scene {
 
 		btn_done.setOnMouseClicked(e -> {
 
-			if(!this.edit)
+			if(!this.edit) {
 				createEvent();
+				((Stage)getWindow()).close();
+			}
 			else
 				editEvent();
 		});

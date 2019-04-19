@@ -82,7 +82,7 @@ public class NotifyUser {
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-					}
+					} 
 				}
 			}
 		});
