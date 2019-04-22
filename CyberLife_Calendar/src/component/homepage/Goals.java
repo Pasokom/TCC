@@ -1,27 +1,41 @@
 package component.homepage;
 
+import java.util.ArrayList;
+
+import component.goal.GoalComponent;
+import db.functions.appointment.LoadAppointment;
+import db.pojo.goalPOJO.GoalDB;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Font;
 
-/**
- * Goals
- */
-public class Goals extends VBox {
+public class Goals extends FlowPane {
 
     public Goals() {
         
-        this.setBackground(new Background(new BackgroundFill(Paint.valueOf("#ffffff"), new CornerRadii(0d), new Insets(0d))));
+        this.getStylesheets().add(this.getClass().getResource("../../css/goals.css").toExternalForm());
+        this.getStyleClass().add("this");
 
-        Label lbl_metas = new Label("Metas");
-        lbl_metas.setFont(new Font(42));
-        lbl_metas.setPadding(new Insets(20));
+        LoadAppointment load = new LoadAppointment();
+        ArrayList<GoalDB> goals = load.loadGoals();
 
-        this.getChildren().add(lbl_metas);
+        for (GoalDB goal : goals) {
+            
+            this.getChildren().add(new GoalComponent(goal));
+        }
+    }
+
+    public void update() {
+
+        this.getChildren().clear();
+
+        LoadAppointment load = new LoadAppointment();
+        ArrayList<GoalDB> goals = load.loadGoals();
+
+        for (GoalDB goal : goals) {
+            
+            this.getChildren().add(new GoalComponent(goal));
+        }
     }
 }

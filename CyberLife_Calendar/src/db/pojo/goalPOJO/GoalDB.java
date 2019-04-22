@@ -1,8 +1,5 @@
 package db.pojo.goalPOJO;
 
-/**
- * GoalDB
- */
 public class GoalDB {
 
     private int cod_meta;
@@ -12,6 +9,9 @@ public class GoalDB {
     private int periodo;
     private int fk_usuario;
     private int cod_recorrencia;
+
+    private int cod_semana;
+    private int qtd_concluido;
 
     /**
      * @return the cod_meta
@@ -109,5 +109,33 @@ public class GoalDB {
      */
     public void setCod_recorrencia(int cod_recorrencia) {
         this.cod_recorrencia = cod_recorrencia;
+    }
+
+    /**
+     * @return the cod_semana
+     */
+    public int getCod_semana() {
+        return cod_semana;
+    }
+
+    /**
+     * @param cod_semana the cod_semana to set
+     */
+    public void setCod_semana(int cod_semana) {
+        this.cod_semana = cod_semana;
+    }
+
+    /**
+     * @return the qtd_concluido
+     */
+    public int getQtd_concluido() {
+        return qtd_concluido;
+    }
+
+    /**
+     * @param qtd_concluido the qtd_concluido to set
+     */
+    public void setQtd_concluido(int qtd_concluido) {
+        this.qtd_concluido = qtd_concluido;
     }
 }

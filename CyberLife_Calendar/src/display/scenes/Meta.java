@@ -17,6 +17,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import statics.SESSION;
 
 public class Meta extends Scene {
@@ -249,6 +250,8 @@ public class Meta extends Scene {
 
 			CreateAppointment appointment = new CreateAppointment();
 			appointment.create(this.getGoal());
+			HomePage.goals.update();
+			((Stage)this.getWindow()).close();
 		});
 
 		fab_done.setOnMouseEntered(e -> {

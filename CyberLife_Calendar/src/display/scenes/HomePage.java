@@ -25,10 +25,7 @@ public class HomePage extends Scene {
 
 		NotifyUser.init();
 
-		Main.main_stage.setWidth(800);
-		Main.main_stage.setHeight(500);
-
-		/* Configurando menu de navega��o */
+		/* Configurando menu de navegação */
 		menu = new NavigationMenu();
 		AnchorPane.setLeftAnchor(menu, 0d);
 		AnchorPane.setTopAnchor(menu, 0d);

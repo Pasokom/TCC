@@ -1,4 +1,4 @@
-﻿/* datas comemorativas com dia fixo */
+/* datas comemorativas com dia fixo */
 INSERT INTO DATAS_COMEMORATIVAS (NOME, TIPO_DATA, DIA, MES) VALUES
 	("Ano Novo", 0, 1, 1),
     ("Tiradentes", 0, 21, 4),
@@ -30,4 +30,3 @@ INSERT INTO DATAS_COMEMORATIVAS (NOME, TIPO_DATA, DIA) VALUES
 	("Sexta-Feira da Paixão", 2, -2),
 	("Domingo de Páscoa", 2, 0),
 	("Corpus Christi", 2, 60);
-    

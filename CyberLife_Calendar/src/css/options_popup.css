@@ -1,0 +1,12 @@
+.this {
+    -fx-background-color: white;
+}
+
+.this .label {
+    -fx-padding: 10px;
+    -fx-pref-width: 150px;
+}
+
+.this .label:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+}

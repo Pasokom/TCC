@@ -62,6 +62,24 @@ public class EditAppointment {
 
             e.printStackTrace();
         }
+    }
+
+    public void updateGoalWeek(int cod, int new_value) {
+
+        String sql = "{CALL ATUALIZA_SEMANA_META(?,?)}";
+
+        try {
+
+            PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+            statement.setInt(1, cod);
+            statement.setInt(2, new_value);
+
+            statement.execute();
+
+        } catch (ClassNotFoundException | SQLException e) {
+
+            e.printStackTrace();
+        }
 
     }
 }
