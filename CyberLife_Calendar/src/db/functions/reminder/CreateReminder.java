@@ -10,7 +10,6 @@ import db.Database;
 import db.pojo.reminderPOJO.ReminderDB;
 import db.pojo.reminderPOJO.ReminderEndSchedule;
 import db.pojo.reminderPOJO.ReminderSchedule;
-import statics.SESSION;
 
 public class CreateReminder {
 

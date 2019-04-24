@@ -145,4 +145,9 @@ public class Enums {
 			return this.name;
 		}
 	}
+
+	public static enum DialogResult {
+
+		OK, CANCEL;
+	}
 }

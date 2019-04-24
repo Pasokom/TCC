@@ -19,6 +19,9 @@ public class ReminderDB extends AppointmentDB {
 	private ReminderSchedule schedule;
 	private ReminderEndSchedule reminderEndSchedule;
 
+	private int cod_recorrencia;
+	private boolean concluido;
+
 	public ReminderDB() {
 		super("reminder");
 	}
@@ -189,5 +192,33 @@ public class ReminderDB extends AppointmentDB {
 	 */
 	public void setReminderEndSchedule(ReminderEndSchedule reminderEndSchedule) {
 		this.reminderEndSchedule = reminderEndSchedule;
+	}
+
+	/**
+	 * @return the cod_recorrencia
+	 */
+	public int getCod_recorrencia() {
+		return cod_recorrencia;
+	}
+
+	/**
+	 * @param cod_recorrencia the cod_recorrencia to set
+	 */
+	public void setCod_recorrencia(int cod_recorrencia) {
+		this.cod_recorrencia = cod_recorrencia;
+	}
+
+	/**
+	 * @return the concluido
+	 */
+	public boolean isConcluido() {
+		return concluido;
+	}
+
+	/**
+	 * @param concluido the concluido to set
+	 */
+	public void setConcluido(boolean concluido) {
+		this.concluido = concluido;
 	}
 }

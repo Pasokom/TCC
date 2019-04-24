@@ -22,6 +22,7 @@ import db.pojo.Moon;
 import db.pojo.eventPOJO.EventDB;
 import db.pojo.eventPOJO.EventEndSchedule;
 import db.pojo.eventPOJO.EventSchedule;
+import db.pojo.goalPOJO.GoalDB;
 import db.pojo.reminderPOJO.ReminderDB;
 import db.pojo.reminderPOJO.ReminderEndSchedule;
 import db.pojo.reminderPOJO.ReminderSchedule;
@@ -51,7 +52,7 @@ public class LoadAppointment {
 
             PreparedStatement statement = Database.get_connection().prepareStatement(sql);
             statement.setTimestamp(1, new Timestamp(date.getTimeInMillis()), Calendar.getInstance());
-            statement.setInt(2, (int)SESSION.get_user_cod());
+            statement.setInt(2, (int) SESSION.get_user_cod());
 
             ResultSet rSet = statement.executeQuery();
 
@@ -105,7 +106,7 @@ public class LoadAppointment {
 
             PreparedStatement statement = Database.get_connection().prepareStatement(sql);
             statement.setTimestamp(1, new Timestamp(date.getTimeInMillis()), Calendar.getInstance());
-            statement.setInt(2, (int)SESSION.get_user_cod());
+            statement.setInt(2, (int) SESSION.get_user_cod());
 
             ResultSet rSet = statement.executeQuery();
 
@@ -137,7 +138,7 @@ public class LoadAppointment {
 
     public ReminderDB loadReminder(int cod) {
 
-        ReminderDB reminder = new ReminderDB(); 
+        ReminderDB reminder = new ReminderDB();
 
         String sql = "{CALL CARREGAR_LEMBRETE(?)}";
 
@@ -150,7 +151,7 @@ public class LoadAppointment {
             ResultSet rSet = statement.executeQuery();
 
             while (rSet.next()) {
-                
+
                 reminder = createReminder(rSet);
             }
 
@@ -163,7 +164,7 @@ public class LoadAppointment {
 
     public ReminderDB loadReminder(int cod, ReminderDB recurrence) {
 
-        ReminderDB reminder = new ReminderDB(); 
+        ReminderDB reminder = new ReminderDB();
 
         String sql = "{CALL CARREGAR_LEMBRETE(?)}";
 
@@ -176,7 +177,7 @@ public class LoadAppointment {
             ResultSet rSet = statement.executeQuery();
 
             while (rSet.next()) {
-                
+
                 reminder = createReminder(rSet, recurrence);
             }
 
@@ -189,7 +190,7 @@ public class LoadAppointment {
 
     public EventDB loadEvent(int cod, EventDB recurrence) {
 
-        EventDB event = new EventDB(); 
+        EventDB event = new EventDB();
 
         String sql = "{CALL CARREGAR_EVENTO(?)}";
 
@@ -202,7 +203,7 @@ public class LoadAppointment {
             ResultSet rSet = statement.executeQuery();
 
             while (rSet.next()) {
-                
+
                 event = createEvent(rSet, recurrence);
             }
 
@@ -211,6 +212,41 @@ public class LoadAppointment {
         }
 
         return event;
+    }
+
+    public ArrayList<GoalDB> loadGoals() {
+
+        ArrayList<GoalDB> goals = new ArrayList<GoalDB>();
+
+        String sql = "SELECT * FROM META" 
+            + " LEFT JOIN META_SEMANA ON COD_META = FK_META WHERE INICIO_SEMANA <= NOW() AND FIM_SEMANA >= NOW()";
+
+        try {
+
+            PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+            ResultSet rSet = statement.executeQuery();
+
+            while(rSet.next()) {
+
+                GoalDB goal = new GoalDB();
+                goal.setCod_meta(rSet.getInt("COD_META"));
+                goal.setTitulo(rSet.getString("TITULO"));
+                goal.setQtd_semana(rSet.getInt("QTD_SEMANA"));
+                goal.setDuracao_minutos(rSet.getInt("DURACAO_MINUTOS"));
+                goal.setPeriodo(rSet.getInt("PERIODO"));
+                goal.setFk_usuario(rSet.getInt("FK_USUARIO"));
+                goal.setCod_semana(rSet.getInt("COD_SEMANA"));
+                goal.setQtd_concluido(rSet.getInt("QTD_CONCLUIDO"));    
+
+                goals.add(goal);
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+
+            e.printStackTrace();
+        }
+
+        return goals;
     }
 
     private ReminderDB createReminder(ResultSet rSet) throws SQLException {
@@ -266,6 +302,8 @@ public class LoadAppointment {
         reminder.setTipo_fim_repeticao(rSet.getInt("TIPO_FIM_REPETICAO"));
         reminder.setAtivo(rSet.getBoolean("ATIVO"));
         reminder.setFk_usuario(rSet.getInt("FK_USUARIO"));
+        reminder.setCod_recorrencia(recurrence.getCod_recorrencia());
+        reminder.setConcluido(recurrence.isConcluido());
 
         ReminderSchedule schedule = new ReminderSchedule();
 
@@ -304,6 +342,7 @@ public class LoadAppointment {
         event.setTipo_fim_repeticao(rSet.getInt("TIPO_FIM_REPETICAO"));
         event.setAtivo(rSet.getBoolean("ATIVO"));
         event.setFk_usuario(rSet.getInt("FK_USUARIO"));
+        event.setCod_recorrencia(recurrence.getCod_recorrencia());
 
         EventSchedule schedule = new EventSchedule();
 
@@ -359,6 +398,7 @@ public class LoadAppointment {
         Calendar timezone = Calendar.getInstance();
 
         event.setCod_evento(rSet.getInt("CODIGO"));
+        event.setCod_recorrencia(rSet.getInt("COD_RECORRENCIA"));
         event.setTitulo(rSet.getString("TITULO"));
         event.setData_inicio(rSet.getTimestamp("DATA_INICIO", timezone));
         event.setData_fim(rSet.getTimestamp("DATA_FIM", timezone));
@@ -374,9 +414,11 @@ public class LoadAppointment {
         Calendar timezone = Calendar.getInstance();
 
         reminder.setCod_lembrete(rSet.getInt("CODIGO"));
+        reminder.setCod_recorrencia(rSet.getInt("COD_RECORRENCIA"));
         reminder.setTitulo(rSet.getString("TITULO"));
         reminder.setHorario(rSet.getTimestamp("DATA_INICIO", timezone));
         reminder.setHorario_fim(rSet.getTimestamp("DATA_FIM", timezone));
+        reminder.setConcluido(rSet.getBoolean("CONCLUIDO"));
         reminder.setDia_todo(rSet.getBoolean("DIA_TODO"));
 
         return reminder;

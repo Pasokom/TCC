@@ -8,6 +8,7 @@ import java.util.Calendar;
 
 import component.Recurrence;
 import component.TimePicker;
+import db.functions.appointment.EditAppointment;
 import db.functions.event.CreateEvent;
 import db.pojo.eventPOJO.EventDB;
 import db.pojo.eventPOJO.EventEndSchedule;
@@ -60,6 +61,9 @@ public class Event extends Scene {
 
 	private Recurrence repetition;
 
+	private boolean edit = false;
+	private EventDB event;
+
 	public Event() {
 		super(new VBox());
 
@@ -83,6 +87,50 @@ public class Event extends Scene {
 		container.getChildren().addAll(pane, tabSelector);
 
 		this.setRoot(container);
+	}
+
+	public Event(EventDB event) {
+		super(new VBox());
+
+		this.event = event;
+		this.edit = true;
+
+		this.getStylesheets().add(this.getClass().getResource("../../css/event.css").toExternalForm());
+
+		main = vbox_mainContent();
+		repetition = new Recurrence();
+
+		container = new AnchorPane();
+
+		pane = new StackPane();
+		pane.getChildren().add(main);
+
+		tabSelector = hbox_tabSelector();
+
+		AnchorPane.setTopAnchor(pane, 5d);
+		AnchorPane.setRightAnchor(pane, 0d);
+		AnchorPane.setLeftAnchor(pane, 0d);
+		AnchorPane.setBottomAnchor(tabSelector, 0d);
+
+		container.getChildren().addAll(pane, tabSelector);
+
+		this.setRoot(container);
+
+		txt_title.setText(event.getTitulo());
+		cbx_allday.setSelected(event.isDia_todo());
+		dt_start.setValue(event.getData_inicio().toLocalDateTime().toLocalDate());
+		t_start.setValue(event.getData_inicio().toLocalDateTime().toLocalTime());
+		dt_end.setValue(event.getData_fim().toLocalDateTime().toLocalDate());
+		t_end.setValue(event.getData_fim().toLocalDateTime().toLocalTime());
+		txt_place.setText(event.getLocal_evento());
+		txt_description.setText(event.getDescricao());
+
+		repetition.setTypeRecurrence(event.getTipo_repeticao());
+		repetition.setTypeEndRecurrence(event.getTipo_fim_repeticao());
+		repetition.setInterval(event.getHorario_evento().getIntervalo());
+		repetition.setWeek(event.getHorario_evento().getDias_semana());
+		repetition.setEndDay(event.getHorario_fim_evento().getDia_fim());
+		repetition.setQtdRecurrences(event.getHorario_fim_evento().getQtd_recorrencias());
 	}
 
 	private VBox vbox_mainContent() {
@@ -202,8 +250,13 @@ public class Event extends Scene {
 		});
 
 		btn_done.setOnMouseClicked(e -> {
-			createEvent();
-			((Stage)getWindow()).close();
+
+			if(!this.edit) {
+				createEvent();
+				((Stage)getWindow()).close();
+			}
+			else
+				editEvent();
 		});
 
 		Region region = new Region();
@@ -262,7 +315,7 @@ public class Event extends Scene {
 
 		try {
 
-			create.insert_event(event);
+			create.insert_event(getEvent());
 			HomePage.listCalendar.update(HomePage.listCalendar.getCurrentDate());
 			HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
 
@@ -271,6 +324,60 @@ public class Event extends Scene {
 			e.printStackTrace();
 		}
 
+	}
+
+	private void editEvent() {
+
+		EditAppointment edit = new EditAppointment();
+		edit.edit(getEvent());
+		HomePage.listCalendar.update(HomePage.listCalendar.getCurrentDate());
+		HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
+	}
+
+	private EventDB getEvent(){
+
+		String titulo = this.txt_title.getText();
+		Timestamp data_inicio = new Timestamp(getDate(this.dt_start, this.t_start));
+		Timestamp data_fim = new Timestamp(getDate(this.dt_end, this.t_end));
+		boolean dia_todo = this.cbx_allday.isSelected();
+		String local_evento = this.txt_place.getText();
+		String descricao = this.txt_description.getText();
+		int tipo_repeticao = this.repetition.getTypeRecurrence();
+		int tipo_fim_repeticao = this.repetition.getTypeEndRecurrence();
+		int fk_usuario = (int) SESSION.get_user_cod();
+
+		int intervalo = this.repetition.getInterval();
+		boolean[] dias_semana = this.repetition.getWeek();
+
+		Date dia_fim = this.repetition.getEndDay();
+		int qtd_recorrencias = this.repetition.getQtdRecurrences();
+
+		EventDB event = new EventDB();
+
+		event.setTitulo(titulo);
+		event.setData_inicio(data_inicio);
+		event.setData_fim(data_fim);
+		event.setDia_todo(dia_todo);
+		event.setLocal_evento(local_evento);
+		event.setDescricao(descricao);
+		event.setTipo_repeticao(tipo_repeticao);
+		event.setTipo_fim_repeticao(tipo_fim_repeticao);
+		event.setFk_usuario(fk_usuario);
+
+		EventSchedule schedule = new EventSchedule();
+
+		schedule.setIntervalo(intervalo);
+		schedule.setDias_semana(dias_semana);
+
+		EventEndSchedule endSchedule = new EventEndSchedule();
+
+		endSchedule.setDia_fim(dia_fim);
+		endSchedule.setQtd_recorrencias(qtd_recorrencias);
+
+		event.setHorario_evento(schedule);
+		event.setHorario_fim_evento(endSchedule);
+
+		return event;
 	}
 
 	private long getDate(DatePicker date, TimePicker time){

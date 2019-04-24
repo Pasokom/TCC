@@ -30,5 +30,3 @@ INSERT INTO DATAS_COMEMORATIVAS (NOME, TIPO_DATA, DIA) VALUES
 	("Sexta-Feira da Paixão", 2, -2),
 	("Domingo de Páscoa", 2, 0),
 	("Corpus Christi", 2, 60);
-    
-

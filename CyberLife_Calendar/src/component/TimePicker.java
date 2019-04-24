@@ -1,5 +1,6 @@
 package component;
 
+import java.time.LocalTime;
 import java.util.Calendar;
 
 import javafx.beans.value.ChangeListener;
@@ -303,6 +304,12 @@ public class TimePicker extends HBox {
 	 */
 	public String get_value() {
 		return timeDisplay.getText();
+	}
+
+	public void setValue(LocalTime time) {
+		String hours = String.format("%02d", time.getHour());
+		String minutes = String.format("%02d", time.getMinute());
+		this.timeDisplay.setText(hours + ":" + minutes);
 	}
 
 	public int getHours(){
