@@ -1,6 +1,7 @@
-/db/
 /component/
+/css/
+/db/
 /display/
-/statics/
 /listeners/
 /main/
+/statics/

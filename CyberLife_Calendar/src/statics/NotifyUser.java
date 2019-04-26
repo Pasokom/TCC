@@ -13,8 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import db.functions.event.RetrieveEvents;
-import db.pojo.eventPOJO.EventDB;
+import db.functions.appointment.LoadAppointment;
 
 public class NotifyUser {
 
@@ -65,15 +64,15 @@ public class NotifyUser {
 					
 					if(minute != Calendar.getInstance().get(Calendar.MINUTE)) {
 
-						RetrieveEvents retrieveEvents = new RetrieveEvents();
-						ArrayList<EventDB> lista = retrieveEvents.getNowEvents();
+						LoadAppointment load = new LoadAppointment();
+						ArrayList<String> lista = load.loadNotifications();
 
 						Format formatter = new SimpleDateFormat("HH:mm");
 						
-						for (EventDB event : lista) {
-							String hora = formatter.format(event.getData_inicio());
+						for (String appointment : lista) {
 
-							sendNotification("Evento", event.getTitulo() + " " + hora, MessageType.INFO);
+							//String hora = formatter.format(Calendar.getInstance());
+							sendNotification("Compromisso", appointment, MessageType.INFO);
 						}
 						
 						minute = Calendar.getInstance().get(Calendar.MINUTE);

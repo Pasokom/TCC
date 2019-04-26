@@ -120,6 +120,24 @@ public class NavigationMenu extends AnchorPane {
 			HomePage.goals.setManaged(true);
 		});
 
+		btn_calendar.selectedProperty().addListener((obs, oldSelection, newSelection) -> {
+			if(!newSelection){
+				btn_calendar.setSelected(oldSelection);
+			}
+			else {
+				btn_goals.setSelected(false);
+			}
+		});
+
+		btn_goals.selectedProperty().addListener((obs, oldSelection, newSelection) -> {
+			if(!newSelection){
+				btn_goals.setSelected(oldSelection);
+			}
+			else {
+				btn_calendar.setSelected(false);
+			}
+		});
+
 		vb_options.setFillWidth(true);
 		vb_options.setSpacing(1);
 		vb_options.getChildren().addAll(btn_calendar, btn_goals);
@@ -127,7 +145,7 @@ public class NavigationMenu extends AnchorPane {
 		AnchorPane.setLeftAnchor(vb_options, 0d);
 		AnchorPane.setTopAnchor(vb_options, 100d);
 
-		this.getChildren().addAll(userImg, circleButton, vb_options);
+		this.getChildren().addAll(userImg, vb_options, circleButton);
 	}
 
 	private Stage profileSelectorStageConstructor() {
