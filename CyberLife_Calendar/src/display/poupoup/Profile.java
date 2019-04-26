@@ -1,6 +1,7 @@
 package display.poupoup;
 
 import component.Instructions.Intro_Foda;
+import component.homepage.NavigationMenu;
 import db.pojo.UserSession;
 import display.scenes.Login;
 import javafx.geometry.Point2D;
@@ -9,11 +10,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.stage.Popup;
@@ -41,16 +44,18 @@ public class Profile extends Popup {
 
         HBox hb_profile = new HBox();
 
+		Image img = new Image("https://scontent.fgig3-1.fna.fbcdn.net/v/t1.0-9/52602770_415964209209408_4522653068663193600_n.jpg?_nc_cat=108&_nc_ht=scontent.fgig3-1.fna&oh=09a742a155a2d36af799d54adbdb4f20&oe=5D3D10DA");
+
         Circle profileImg = new Circle();
 		profileImg.setRadius(20);
-		profileImg.setFill(Color.rgb(0, 0, 0, 0.08));
+		profileImg.setFill(new ImagePattern(img));
 		profileImg.setCenterX(100);
 		profileImg.setCenterY(100);
 
 		StackPane userImg = new StackPane();
-		Label userInitial = new Label(SESSION.get_user_name().substring(0, 1).toUpperCase());
-		userInitial.setFont(new Font(20));
-        userImg.getChildren().addAll(profileImg, userInitial);
+/* 		Label userInitial = new Label(SESSION.get_user_name().substring(0, 1).toUpperCase());
+		userInitial.setFont(new Font(20)); */
+        userImg.getChildren().addAll(profileImg);
         userImg.setId("img_profile");
 
         VBox vb_email_name = new VBox();
