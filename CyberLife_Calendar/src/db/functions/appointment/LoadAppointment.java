@@ -23,6 +23,7 @@ import db.pojo.eventPOJO.EventDB;
 import db.pojo.eventPOJO.EventEndSchedule;
 import db.pojo.eventPOJO.EventSchedule;
 import db.pojo.goalPOJO.GoalDB;
+import db.pojo.projectPOJO.ProjectDB;
 import db.pojo.reminderPOJO.ReminderDB;
 import db.pojo.reminderPOJO.ReminderEndSchedule;
 import db.pojo.reminderPOJO.ReminderSchedule;
@@ -219,11 +220,12 @@ public class LoadAppointment {
         ArrayList<GoalDB> goals = new ArrayList<GoalDB>();
 
         String sql = "SELECT * FROM META" 
-            + " LEFT JOIN META_SEMANA ON COD_META = FK_META WHERE INICIO_SEMANA <= NOW() AND FIM_SEMANA >= NOW()";
+            + " LEFT JOIN META_SEMANA ON COD_META = FK_META WHERE INICIO_SEMANA <= NOW() AND FIM_SEMANA >= NOW() AND FK_USUARIO = ?";
 
         try {
 
             PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+            statement.setInt(1, (int)SESSION.get_user_cod());
             ResultSet rSet = statement.executeQuery();
 
             while(rSet.next()) {
@@ -247,6 +249,13 @@ public class LoadAppointment {
         }
 
         return goals;
+    }
+
+    private ArrayList<ProjectDB> loadProjects() {
+
+        ArrayList<ProjectDB> projects = new ArrayList<>();
+
+        return projects;
     }
 
     private ReminderDB createReminder(ResultSet rSet) throws SQLException {

@@ -5,11 +5,13 @@ import display.poupoup.EditProfile;
 import display.poupoup.Profile;
 import display.scenes.HomePage;
 import display.scenes.Login;
+import display.scenes.Project;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -89,6 +91,8 @@ public class NavigationMenu extends AnchorPane {
 		AnchorPane.setBottomAnchor(circleButton, 10d);
 		AnchorPane.setRightAnchor(circleButton, 10d);
 
+		VBox vb_items = new VBox();
+
 		/* Opções */
 		ToggleGroup grp_options = new ToggleGroup();
 
@@ -124,10 +128,24 @@ public class NavigationMenu extends AnchorPane {
 		vb_options.setSpacing(1);
 		vb_options.getChildren().addAll(btn_calendar, btn_goals);
 
-		AnchorPane.setLeftAnchor(vb_options, 0d);
-		AnchorPane.setTopAnchor(vb_options, 100d);
+		VBox vb_projects = new VBox();
+		Label lbl_projects = new Label("PROJETOS");
+		Button btn_add_project = new Button("+ Adicionar projeto");
 
-		this.getChildren().addAll(userImg, circleButton, vb_options);
+		btn_add_project.setOnAction(e -> {
+
+			Stage st = new Stage();
+			st.setScene(new Project());
+			st.show();
+		});
+
+		vb_projects.getChildren().addAll(lbl_projects, btn_add_project);
+		vb_items.getChildren().addAll(vb_options, vb_projects);
+
+		AnchorPane.setLeftAnchor(vb_items, 0d);
+		AnchorPane.setTopAnchor(vb_items, 100d);
+
+		this.getChildren().addAll(userImg, circleButton, vb_items);
 	}
 
 	private Stage profileSelectorStageConstructor() {
