@@ -37,8 +37,8 @@ public class Intro_Foda extends Popup{
         DropShadow shadow = new DropShadow();
         vb_intro.setEffect(shadow);
 
-        btnNext = new Button("->");
-        btnPreview = new Button("<-");
+        btnNext = new Button(">");
+        btnPreview = new Button("<");
 
         lbl_title = new Label("Bem vindo!");
         lbl_title.setId("title");
@@ -54,13 +54,26 @@ public class Intro_Foda extends Popup{
         vb_intro.getChildren().addAll(lbl_title, lbl_intro, hb_intro);
 
         btnNext.setOnMouseClicked(e ->{
+            btnPreview.setDisable(false);
+
             pos ++;
             lbl_intro.setText(pag[pos]);
+
+            if(pos == 2){
+                btnNext.setDisable(true);
+            }
         });
 
+        btnPreview.setDisable(true);
+
         btnPreview.setOnMouseClicked(e ->{
+            btnNext.setDisable(false);
             pos --;
             lbl_intro.setText(pag[pos]);
+            
+            if(pos == 0){
+                btnPreview.setDisable(true);
+            }
         });
 
         vb_intro.setSpacing(15);
