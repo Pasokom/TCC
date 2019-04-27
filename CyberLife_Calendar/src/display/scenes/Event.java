@@ -270,47 +270,6 @@ public class Event extends Scene {
 
 	private void createEvent() {
 
-		String titulo = this.txt_title.getText();
-		Timestamp data_inicio = new Timestamp(getDate(this.dt_start, this.t_start));
-		Timestamp data_fim = new Timestamp(getDate(this.dt_end, this.t_end));
-		boolean dia_todo = this.cbx_allday.isSelected();
-		String local_evento = this.txt_place.getText();
-		String descricao = this.txt_description.getText();
-		int tipo_repeticao = this.repetition.getTypeRecurrence();
-		int tipo_fim_repeticao = this.repetition.getTypeEndRecurrence();
-		int fk_usuario = (int) SESSION.get_user_cod();
-
-		int intervalo = this.repetition.getInterval();
-		boolean[] dias_semana = this.repetition.getWeek();
-
-		Date dia_fim = this.repetition.getEndDay();
-		int qtd_recorrencias = this.repetition.getQtdRecurrences();
-
-		EventDB event = new EventDB();
-
-		event.setTitulo(titulo);
-		event.setData_inicio(data_inicio);
-		event.setData_fim(data_fim);
-		event.setDia_todo(dia_todo);
-		event.setLocal_evento(local_evento);
-		event.setDescricao(descricao);
-		event.setTipo_repeticao(tipo_repeticao);
-		event.setTipo_fim_repeticao(tipo_fim_repeticao);
-		event.setFk_usuario(fk_usuario);
-
-		EventSchedule schedule = new EventSchedule();
-
-		schedule.setIntervalo(intervalo);
-		schedule.setDias_semana(dias_semana);
-
-		EventEndSchedule endSchedule = new EventEndSchedule();
-
-		endSchedule.setDia_fim(dia_fim);
-		endSchedule.setQtd_recorrencias(qtd_recorrencias);
-
-		event.setHorario_evento(schedule);
-		event.setHorario_fim_evento(endSchedule);
-
 		CreateEvent create = new CreateEvent();
 
 		try {

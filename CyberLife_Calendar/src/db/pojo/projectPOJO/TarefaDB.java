@@ -4,7 +4,7 @@ public class TarefaDB {
 
     private int cod_tarefa;
     private String nome_tarefa;
-    private int fk_tarefa;
+    private int fk_projeto;
 
     /**
      * @return the cod_tarefa
@@ -37,15 +37,15 @@ public class TarefaDB {
     /**
      * @return the fk_tarefa
      */
-    public int getFk_tarefa() {
-        return fk_tarefa;
+    public int getFk_projeto() {
+        return fk_projeto;
     }
 
     /**
      * @param fk_tarefa the fk_tarefa to set
      */
-    public void setFk_tarefa(int fk_tarefa) {
-        this.fk_tarefa = fk_tarefa;
+    public void setFk_projeto(int fk_projeto) {
+        this.fk_projeto = fk_projeto;
     }
 
 }

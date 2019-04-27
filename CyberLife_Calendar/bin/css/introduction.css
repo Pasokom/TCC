@@ -1,0 +1,10 @@
+#title{
+    -fx-font-size: 18;
+    -fx-text-fill: #222222;
+}
+
+.vbox{
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 20;
+    -fx-background-radius: 10;
+}

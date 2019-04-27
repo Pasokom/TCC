@@ -219,16 +219,16 @@ public class LoadAppointment {
 
         ArrayList<GoalDB> goals = new ArrayList<GoalDB>();
 
-        String sql = "SELECT * FROM META" 
-            + " LEFT JOIN META_SEMANA ON COD_META = FK_META WHERE INICIO_SEMANA <= NOW() AND FIM_SEMANA >= NOW() AND FK_USUARIO = ?";
+        String sql = "SELECT * FROM META"
+                + " LEFT JOIN META_SEMANA ON COD_META = FK_META WHERE INICIO_SEMANA <= NOW() AND FIM_SEMANA >= NOW() AND FK_USUARIO = ?";
 
         try {
 
             PreparedStatement statement = Database.get_connection().prepareStatement(sql);
-            statement.setInt(1, (int)SESSION.get_user_cod());
+            statement.setInt(1, (int) SESSION.get_user_cod());
             ResultSet rSet = statement.executeQuery();
 
-            while(rSet.next()) {
+            while (rSet.next()) {
 
                 GoalDB goal = new GoalDB();
                 goal.setCod_meta(rSet.getInt("COD_META"));
@@ -238,7 +238,7 @@ public class LoadAppointment {
                 goal.setPeriodo(rSet.getInt("PERIODO"));
                 goal.setFk_usuario(rSet.getInt("FK_USUARIO"));
                 goal.setCod_semana(rSet.getInt("COD_SEMANA"));
-                goal.setQtd_concluido(rSet.getInt("QTD_CONCLUIDO"));    
+                goal.setQtd_concluido(rSet.getInt("QTD_CONCLUIDO"));
 
                 goals.add(goal);
             }
@@ -251,11 +251,62 @@ public class LoadAppointment {
         return goals;
     }
 
-    private ArrayList<ProjectDB> loadProjects() {
+    public ArrayList<ProjectDB> loadProjects() {
 
         ArrayList<ProjectDB> projects = new ArrayList<>();
 
+        String sql = "SELECT * FROM PROJETO WHERE FK_USUARIO = ?";
+
+        try {
+
+            PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+
+            statement.setInt(1, (int)SESSION.get_user_cod());
+
+            ResultSet rSet = statement.executeQuery();
+
+            while (rSet.next()) {
+                
+                ProjectDB project = new ProjectDB();
+                project.setCod_projeto(rSet.getInt("COD_PROJETO"));
+                project.setTitulo(rSet.getString("TITULO"));
+                project.setData_entrega(rSet.getTimestamp("DATA_ENTREGA"));
+                
+                projects.add(project);
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+
+            e.printStackTrace();
+        }
+
         return projects;
+    }
+
+    public ArrayList<String> loadNotifications() {
+
+        ArrayList<String> appointments = new ArrayList<>();
+
+        String sql = "{ CALL NOTIFICACAO(?) }";
+
+        try {
+
+            PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+            statement.setInt(1, (int)SESSION.get_user_cod());
+
+            ResultSet rSet = statement.executeQuery();
+
+            while (rSet.next()) {
+                
+                appointments.add(rSet.getString("TITULO"));
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+
+            e.printStackTrace();
+        }
+
+        return appointments;
     }
 
     private ReminderDB createReminder(ResultSet rSet) throws SQLException {

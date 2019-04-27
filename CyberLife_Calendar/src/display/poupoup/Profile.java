@@ -111,7 +111,7 @@ public class Profile extends Popup {
         hb_help.setOnMouseClicked(e ->{
             this.hide();
             Intro_Foda intro = new Intro_Foda();
-            intro.show(this);
+            intro.show(this.getOwnerWindow());
         });
 
         vb_options.getChildren().addAll(hb_exit, separator, hb_settings, hb_help);

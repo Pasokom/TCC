@@ -1,12 +1,14 @@
 package db.pojo.projectPOJO;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class ProjectDB {
 
     private int cod_projeto;
     private String titulo;
     private Timestamp data_entrega;
+    private ArrayList<TarefaDB> tarefas = new ArrayList<>();
 
     /**
      * @return the cod_projeto
@@ -48,5 +50,19 @@ public class ProjectDB {
      */
     public void setData_entrega(Timestamp data_entrega) {
         this.data_entrega = data_entrega;
+    }
+
+    /**
+     * @return the tarefas
+     */
+    public ArrayList<TarefaDB> getTarefas() {
+        return tarefas;
+    }
+
+    /**
+     * @param tarefas the tarefas to set
+     */
+    public void setTarefas(ArrayList<TarefaDB> tarefas) {
+        this.tarefas = tarefas;
     }
 }

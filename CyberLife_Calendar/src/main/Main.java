@@ -46,10 +46,5 @@ public class Main extends Application {
 
 		main_stage.setScene(new Login());
 		main_stage.show(); 
-
-//		main_stage.setFullScreen(true);
-
-	/* 	EditProfile editProfile = new EditProfile();
-		editProfile.show(); */
 	}
 }

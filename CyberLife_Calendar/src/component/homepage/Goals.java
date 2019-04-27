@@ -5,10 +5,7 @@ import java.util.ArrayList;
 import component.goal.GoalComponent;
 import db.functions.appointment.LoadAppointment;
 import db.pojo.goalPOJO.GoalDB;
-import javafx.geometry.Insets;
-import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.text.Font;
 
 public class Goals extends FlowPane {
 

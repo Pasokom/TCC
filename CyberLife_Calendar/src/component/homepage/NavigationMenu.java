@@ -1,6 +1,10 @@
 package component.homepage;
 
+import java.util.ArrayList;
+
+import db.functions.appointment.LoadAppointment;
 import db.pojo.UserSession;
+import db.pojo.projectPOJO.ProjectDB;
 import display.poupoup.EditProfile;
 import display.poupoup.Profile;
 import display.scenes.HomePage;
@@ -13,6 +17,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
@@ -130,6 +135,23 @@ public class NavigationMenu extends AnchorPane {
 
 		VBox vb_projects = new VBox();
 		Label lbl_projects = new Label("PROJETOS");
+		lbl_projects.setId("lbl_projects");
+		
+		vb_projects.getChildren().add(lbl_projects);
+
+		ArrayList<ProjectDB> projects = new LoadAppointment().loadProjects();
+
+		for (ProjectDB project : projects) {
+			
+			ToggleButton opt_project = new ToggleButton(project.getTitulo());
+			opt_project.setPrefWidth(230);
+			opt_project.setAlignment(Pos.CENTER_LEFT);
+			opt_project.setToggleGroup(grp_options);
+			vb_projects.getChildren().add(opt_project);
+		}
+
+		Separator separator = new Separator();
+
 		Button btn_add_project = new Button("+ Adicionar projeto");
 
 		btn_add_project.setOnAction(e -> {
@@ -139,13 +161,14 @@ public class NavigationMenu extends AnchorPane {
 			st.show();
 		});
 
-		vb_projects.getChildren().addAll(lbl_projects, btn_add_project);
+		vb_projects.getChildren().addAll(separator, btn_add_project);
 		vb_items.getChildren().addAll(vb_options, vb_projects);
+		vb_items.setSpacing(5);
 
 		AnchorPane.setLeftAnchor(vb_items, 0d);
 		AnchorPane.setTopAnchor(vb_items, 100d);
 
-		this.getChildren().addAll(userImg, circleButton, vb_items);
+		this.getChildren().addAll(userImg, vb_items, circleButton);
 	}
 
 	private Stage profileSelectorStageConstructor() {
