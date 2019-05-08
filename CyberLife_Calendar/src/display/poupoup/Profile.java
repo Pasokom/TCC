@@ -44,7 +44,7 @@ public class Profile extends Popup {
 
         HBox hb_profile = new HBox();
 
-		Image img = new Image("https://scontent.fgig3-1.fna.fbcdn.net/v/t1.0-9/52602770_415964209209408_4522653068663193600_n.jpg?_nc_cat=108&_nc_ht=scontent.fgig3-1.fna&oh=09a742a155a2d36af799d54adbdb4f20&oe=5D3D10DA");
+		Image img = new Image("http://localhost/cyberlife/imagens/a.jpeg");
 
         Circle profileImg = new Circle();
 		profileImg.setRadius(20);
