@@ -1,0 +1,30 @@
+.root {
+    -fx-padding: 30 20 20 20;
+}
+
+.text-input{
+    -fx-focus-color: #5E35B1;
+    -fx-faint-focus-color: transparent;
+    -fx-text-box-border: darkgray;
+    -fx-padding: 6px;
+}
+
+.text-input, .text-input:focused { 
+    -fx-prompt-text-fill:darkgray;
+}
+
+.vbox {
+    -fx-spacing: 5;
+}
+
+#title{
+    -fx-font-size: 25px;
+    -fx-padding: 0;
+    -fx-focus-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+}
+
+#title .content{
+    -fx-background-color: transparent;
+}

@@ -7,6 +7,7 @@ public class ProjectDB {
 
     private int cod_projeto;
     private String titulo;
+    private Timestamp data_inicio;
     private Timestamp data_entrega;
     private ArrayList<TarefaDB> tarefas = new ArrayList<>();
 
@@ -36,6 +37,20 @@ public class ProjectDB {
      */
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    /**
+     * @return the data_inicio
+     */
+    public Timestamp getData_inicio() {
+        return data_inicio;
+    }
+
+    /**
+     * @param data_inicio the data_inicio to set
+     */
+    public void setData_inicio(Timestamp data_inicio) {
+        this.data_inicio = data_inicio;
     }
 
     /**

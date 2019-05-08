@@ -29,6 +29,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import main.Main;
@@ -38,6 +39,8 @@ public class NavigationMenu extends AnchorPane {
 
 	private Stage profileSelector;
 	private EditProfile editProfile;
+	private ToggleGroup grp_options;
+	private VBox vb_projects;
 
 	public NavigationMenu() {
 
@@ -63,7 +66,7 @@ public class NavigationMenu extends AnchorPane {
 			}
 		});
 		
-		Image img = new Image("https://scontent.fgig3-1.fna.fbcdn.net/v/t1.0-9/52602770_415964209209408_4522653068663193600_n.jpg?_nc_cat=108&_nc_ht=scontent.fgig3-1.fna&oh=09a742a155a2d36af799d54adbdb4f20&oe=5D3D10DA");
+		Image img = new Image("https://conteudo.imguol.com.br/c/entretenimento/84/2019/04/18/faustinho-olokinho-meu-1555611956793_v2_450x450.jpg");
 		
 		/* Conteudo do perfil */
 		Circle profileImg = new Circle();
@@ -104,7 +107,7 @@ public class NavigationMenu extends AnchorPane {
 		VBox vb_items = new VBox();
 
 		/* Opções */
-		ToggleGroup grp_options = new ToggleGroup();
+		grp_options = new ToggleGroup();
 
 		VBox vb_options = new VBox();
 		ToggleButton btn_calendar = new ToggleButton("Calendário");
@@ -126,47 +129,26 @@ public class NavigationMenu extends AnchorPane {
 
 			HomePage.goals.setVisible(false);
 			HomePage.goals.setManaged(false);
+			HomePage.project.setVisible(false);
+			HomePage.project.setManaged(false);
 		});
 
 		btn_goals.setOnAction(e -> {
 
 			HomePage.goals.setVisible(true);
 			HomePage.goals.setManaged(true);
+			HomePage.project.setVisible(false);
+			HomePage.project.setManaged(false);
 		});
 
 		vb_options.setFillWidth(true);
 		vb_options.setSpacing(1);
 		vb_options.getChildren().addAll(btn_calendar, btn_goals);
 
-		VBox vb_projects = new VBox();
-		Label lbl_projects = new Label("PROJETOS");
-		lbl_projects.setId("lbl_projects");
-		
-		vb_projects.getChildren().add(lbl_projects);
+		vb_projects = new VBox();
 
-		ArrayList<ProjectDB> projects = new LoadAppointment().loadProjects();
+		updateProjects();
 
-		for (ProjectDB project : projects) {
-			
-			ToggleButton opt_project = new ToggleButton(project.getTitulo());
-			opt_project.setPrefWidth(230);
-			opt_project.setAlignment(Pos.CENTER_LEFT);
-			opt_project.setToggleGroup(grp_options);
-			vb_projects.getChildren().add(opt_project);
-		}
-
-		Separator separator = new Separator();
-
-		Button btn_add_project = new Button("+ Adicionar projeto");
-
-		btn_add_project.setOnAction(e -> {
-
-			Stage st = new Stage();
-			st.setScene(new Project());
-			st.show();
-		});
-
-		vb_projects.getChildren().addAll(separator, btn_add_project);
 		vb_items.getChildren().addAll(vb_options, vb_projects);
 		vb_items.setSpacing(5);
 
@@ -174,6 +156,55 @@ public class NavigationMenu extends AnchorPane {
 		AnchorPane.setTopAnchor(vb_items, 100d);
 
 		this.getChildren().addAll(userImg, vb_items, circleButton);
+	}
+
+	public void updateProjects() {
+
+		vb_projects.getChildren().clear();
+
+		Label lbl_projects = new Label("PROJETOS");
+		lbl_projects.setId("lbl_projects");
+
+		vb_projects.getChildren().add(lbl_projects);
+
+		ArrayList<ProjectDB> projects = new LoadAppointment().loadProjects();
+
+		for (ProjectDB project : projects) {
+			
+			ProjectButton opt_project = new ProjectButton();
+			opt_project.setText(project.getTitulo());
+			opt_project.setPrefWidth(230);
+			opt_project.setAlignment(Pos.CENTER_LEFT);
+			opt_project.setToggleGroup(grp_options);
+			opt_project.setProjeto(project);
+			vb_projects.getChildren().add(opt_project);
+
+			opt_project.setOnAction(e -> {
+
+				HomePage.project.loadProject(((ProjectButton)e.getSource()).getProjeto());
+				HomePage.project.setVisible(true);
+				HomePage.project.setManaged(true);
+				HomePage.goals.setVisible(false);
+				HomePage.goals.setManaged(false);
+			});
+		}
+
+		Button btn_add_project = new Button("+ Adicionar projeto");
+
+		btn_add_project.setOnAction(e -> {
+
+			Stage st = new Stage();
+			st.setWidth(300);
+			st.setHeight(300);
+			st.initStyle(StageStyle.UTILITY);
+			st.initModality(Modality.APPLICATION_MODAL);
+			st.setScene(new Project());
+			st.show();
+		});
+
+		Separator separator = new Separator();
+		
+		vb_projects.getChildren().addAll(separator, btn_add_project);
 	}
 
 	private Stage profileSelectorStageConstructor() {

@@ -261,17 +261,18 @@ public class LoadAppointment {
 
             PreparedStatement statement = Database.get_connection().prepareStatement(sql);
 
-            statement.setInt(1, (int)SESSION.get_user_cod());
+            statement.setInt(1, (int) SESSION.get_user_cod());
 
             ResultSet rSet = statement.executeQuery();
 
             while (rSet.next()) {
-                
+
                 ProjectDB project = new ProjectDB();
                 project.setCod_projeto(rSet.getInt("COD_PROJETO"));
                 project.setTitulo(rSet.getString("TITULO"));
+                project.setData_inicio(rSet.getTimestamp("DATA_INICIO"));
                 project.setData_entrega(rSet.getTimestamp("DATA_ENTREGA"));
-                
+
                 projects.add(project);
             }
 
@@ -281,6 +282,38 @@ public class LoadAppointment {
         }
 
         return projects;
+    }
+
+    public ProjectDB loadProject(int cod) {
+
+        String sql = "SELECT * FROM PROJETO WHERE COD_PROJETO = ?";
+
+        ProjectDB project = new ProjectDB();
+
+        try {
+
+            PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+
+            statement.setInt(1, cod);
+
+            ResultSet rSet = statement.executeQuery();
+
+            if(rSet.next()) {
+
+                Calendar timezone = Calendar.getInstance();
+
+                project.setCod_projeto(rSet.getInt("COD_PROJETO"));
+                project.setTitulo(rSet.getString("TITULO"));
+                project.setData_inicio(rSet.getTimestamp("DATA_INICIO", timezone));
+                project.setData_entrega(rSet.getTimestamp("DATA_ENTREGA", timezone));
+            }
+            
+        } catch (ClassNotFoundException | SQLException e) {
+
+            e.printStackTrace();
+        }
+
+        return project;
     }
 
     public ArrayList<String> loadNotifications() {

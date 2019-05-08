@@ -38,7 +38,7 @@ public class CreateAppointment {
 
     public void create(ProjectDB project) {
 
-        String sql = "INSERT INTO PROJETO (TITULO, DATA_ENTREGA, FK_USUARIO) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO PROJETO (TITULO, DATA_INICIO, DATA_ENTREGA, FK_USUARIO) VALUES (?, NOW(), ?, ?)";
 
         Calendar timezone = Calendar.getInstance();
 
