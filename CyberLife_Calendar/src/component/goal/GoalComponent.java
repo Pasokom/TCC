@@ -31,6 +31,7 @@ public class GoalComponent extends VBox {
         lbl_title.setId("title");
         lbl_title.setPrefWidth(200);
         lbl_more = new Label();
+        lbl_more.setVisible(false);
         lbl_more.setId("lbl_more");
 
         HBox hb_title = new HBox();
@@ -53,6 +54,16 @@ public class GoalComponent extends VBox {
 			popup.setY(point2d.getY() - 9);
 
             popup.show(this.getScene().getWindow());
+        });
+
+        this.setOnMouseEntered(e -> {
+
+            lbl_more.setVisible(true);
+        });
+
+        this.setOnMouseExited(e -> {
+
+            lbl_more.setVisible(false);
         });
     }
 

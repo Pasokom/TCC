@@ -28,7 +28,7 @@ public class Main extends Application {
 		Database.get_connection();
 		main_stage = primaryStage;
 		main_stage.setWidth(875);
-		main_stage.setHeight(500);
+		main_stage.setHeight(515);
 		main_stage.getIcons().add(new Image(new FileInputStream(new File(IMAGE_PATH))));
 
 		TimeZone.getDefault();

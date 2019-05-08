@@ -23,6 +23,7 @@ import db.pojo.eventPOJO.EventDB;
 import db.pojo.eventPOJO.EventEndSchedule;
 import db.pojo.eventPOJO.EventSchedule;
 import db.pojo.goalPOJO.GoalDB;
+import db.pojo.projectPOJO.ProjectDB;
 import db.pojo.reminderPOJO.ReminderDB;
 import db.pojo.reminderPOJO.ReminderEndSchedule;
 import db.pojo.reminderPOJO.ReminderSchedule;
@@ -224,7 +225,7 @@ public class LoadAppointment {
         try {
 
             PreparedStatement statement = Database.get_connection().prepareStatement(sql);
-            statement.setInt(1, (int)SESSION.get_user_cod());
+            statement.setInt(1, (int) SESSION.get_user_cod());
             ResultSet rSet = statement.executeQuery();
 
             while (rSet.next()) {
@@ -248,6 +249,71 @@ public class LoadAppointment {
         }
 
         return goals;
+    }
+
+    public ArrayList<ProjectDB> loadProjects() {
+
+        ArrayList<ProjectDB> projects = new ArrayList<>();
+
+        String sql = "SELECT * FROM PROJETO WHERE FK_USUARIO = ?";
+
+        try {
+
+            PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+
+            statement.setInt(1, (int) SESSION.get_user_cod());
+
+            ResultSet rSet = statement.executeQuery();
+
+            while (rSet.next()) {
+
+                ProjectDB project = new ProjectDB();
+                project.setCod_projeto(rSet.getInt("COD_PROJETO"));
+                project.setTitulo(rSet.getString("TITULO"));
+                project.setData_inicio(rSet.getTimestamp("DATA_INICIO"));
+                project.setData_entrega(rSet.getTimestamp("DATA_ENTREGA"));
+
+                projects.add(project);
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+
+            e.printStackTrace();
+        }
+
+        return projects;
+    }
+
+    public ProjectDB loadProject(int cod) {
+
+        String sql = "SELECT * FROM PROJETO WHERE COD_PROJETO = ?";
+
+        ProjectDB project = new ProjectDB();
+
+        try {
+
+            PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+
+            statement.setInt(1, cod);
+
+            ResultSet rSet = statement.executeQuery();
+
+            if(rSet.next()) {
+
+                Calendar timezone = Calendar.getInstance();
+
+                project.setCod_projeto(rSet.getInt("COD_PROJETO"));
+                project.setTitulo(rSet.getString("TITULO"));
+                project.setData_inicio(rSet.getTimestamp("DATA_INICIO", timezone));
+                project.setData_entrega(rSet.getTimestamp("DATA_ENTREGA", timezone));
+            }
+            
+        } catch (ClassNotFoundException | SQLException e) {
+
+            e.printStackTrace();
+        }
+
+        return project;
     }
 
     public ArrayList<String> loadNotifications() {

@@ -44,7 +44,7 @@ public class NotifyUser {
 		try {
 			tray.add(trayIcon);
 		} catch (AWTException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		

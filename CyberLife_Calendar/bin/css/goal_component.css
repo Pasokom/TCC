@@ -5,11 +5,29 @@
 }
 
 #title {
-    -fx-font-size: 15;
+    -fx-font-size: 18;
 	-fx-font-weight: bold;
 	-fx-text-fill: #0097A7;
 }
 
+.progress-bar > .bar {
+    -fx-background-color: #0097A7;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 7;
+}
+
+.progress-bar > .track {
+    -fx-background-color: #E0E0E0;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
+
 #lbl_more {
     -fx-graphic: url("../../resources/images/round_more_vert_black_24dp.png");
+    -fx-opacity: 0.5;
+}
+
+#lbl_more:hover {
+    -fx-cursor: hand;
 }

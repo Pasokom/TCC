@@ -14,12 +14,39 @@
 	-fx-background-color: rgba(0, 0, 0, 0.15);
 }
 
+.button {
+	-fx-background-color: rgba(0, 0, 0, 0.15);
+	-fx-background-radius: 20 20 20 20;
+	-fx-font-size: 15;
+	-fx-font-weight: bold;
+	-fx-text-fill: #ffffff;
+}
+
+.button:hover {
+	-fx-background-color: rgba(0, 0, 0, 0.3);
+}
+
+.label {
+	-fx-font-size: 15;
+	-fx-font-weight: bold;
+	-fx-text-fill: #ffffff;
+}
+
+.separator {
+	-fx-padding: 10;
+}
+
 HBox{
 	-fx-spacing: 10;
 }
 
 Label{
 	-fx-text-fill: white;
+}
+
+#lbl_projects {
+	-fx-padding: 10;
+	-fx-opacity: 0.5;
 }
 
 #btn_calendar {

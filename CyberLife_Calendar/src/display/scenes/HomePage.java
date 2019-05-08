@@ -6,6 +6,7 @@ import component.homepage.CalendarComponent;
 import component.homepage.Goals;
 import component.homepage.ListCalendar;
 import component.homepage.NavigationMenu;
+import component.homepage.Project;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -14,10 +15,11 @@ import statics.NotifyUser;
 
 public class HomePage extends Scene {
 
-	private NavigationMenu menu;
+	public static NavigationMenu menu;
 	public static ListCalendar listCalendar;
 	public static CalendarComponent calendarComponent;
 	public static Goals goals;
+	public static Project project;
 	private AnchorPane layout;
 
 	public HomePage() {
@@ -61,8 +63,17 @@ public class HomePage extends Scene {
 		goals.setManaged(false);
 		goals.setVisible(false);
 
+		/* Configurando visualizador de projetos */
+		project = new Project();
+		AnchorPane.setTopAnchor(project, 0d);
+		AnchorPane.setRightAnchor(project, 0d);
+		AnchorPane.setBottomAnchor(project, 0d);
+		AnchorPane.setLeftAnchor(project, menu.getPrefWidth());
+		project.setManaged(false);
+		project.setVisible(false);
+
 		layout = new AnchorPane();
-		layout.getChildren().addAll(menu, listCalendar, calendarBar, calendarComponent, goals);
+		layout.getChildren().addAll(menu, listCalendar, calendarBar, calendarComponent, goals, project);
 
 		this.setRoot(layout);
 	}

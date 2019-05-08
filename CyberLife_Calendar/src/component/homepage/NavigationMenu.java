@@ -1,16 +1,23 @@
 package component.homepage;
 
+import java.util.ArrayList;
+
+import db.functions.appointment.LoadAppointment;
 import db.pojo.UserSession;
+import db.pojo.projectPOJO.ProjectDB;
 import display.poupoup.EditProfile;
 import display.poupoup.Profile;
 import display.scenes.HomePage;
 import display.scenes.Login;
+import display.scenes.Project;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
@@ -22,6 +29,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import main.Main;
@@ -31,6 +39,8 @@ public class NavigationMenu extends AnchorPane {
 
 	private Stage profileSelector;
 	private EditProfile editProfile;
+	private ToggleGroup grp_options;
+	private VBox vb_projects;
 
 	public NavigationMenu() {
 
@@ -56,7 +66,11 @@ public class NavigationMenu extends AnchorPane {
 			}
 		});
 		
+<<<<<<< HEAD
 		Image img = new Image("http://localhost/cyberlife/imagens/a.jpeg");
+=======
+		Image img = new Image("https://conteudo.imguol.com.br/c/entretenimento/84/2019/04/18/faustinho-olokinho-meu-1555611956793_v2_450x450.jpg");
+>>>>>>> 8cd24f09c57ad33f8a8c242e29894f728e5158e3
 		
 		/* Conteudo do perfil */
 		Circle profileImg = new Circle();
@@ -94,8 +108,10 @@ public class NavigationMenu extends AnchorPane {
 		AnchorPane.setBottomAnchor(circleButton, 10d);
 		AnchorPane.setRightAnchor(circleButton, 10d);
 
+		VBox vb_items = new VBox();
+
 		/* Opções */
-		ToggleGroup grp_options = new ToggleGroup();
+		grp_options = new ToggleGroup();
 
 		VBox vb_options = new VBox();
 		ToggleButton btn_calendar = new ToggleButton("Calendário");
@@ -117,40 +133,82 @@ public class NavigationMenu extends AnchorPane {
 
 			HomePage.goals.setVisible(false);
 			HomePage.goals.setManaged(false);
+			HomePage.project.setVisible(false);
+			HomePage.project.setManaged(false);
 		});
 
 		btn_goals.setOnAction(e -> {
 
 			HomePage.goals.setVisible(true);
 			HomePage.goals.setManaged(true);
-		});
-
-		btn_calendar.selectedProperty().addListener((obs, oldSelection, newSelection) -> {
-			if(!newSelection){
-				btn_calendar.setSelected(oldSelection);
-			}
-			else {
-				btn_goals.setSelected(false);
-			}
-		});
-
-		btn_goals.selectedProperty().addListener((obs, oldSelection, newSelection) -> {
-			if(!newSelection){
-				btn_goals.setSelected(oldSelection);
-			}
-			else {
-				btn_calendar.setSelected(false);
-			}
+			HomePage.project.setVisible(false);
+			HomePage.project.setManaged(false);
 		});
 
 		vb_options.setFillWidth(true);
 		vb_options.setSpacing(1);
 		vb_options.getChildren().addAll(btn_calendar, btn_goals);
 
-		AnchorPane.setLeftAnchor(vb_options, 0d);
-		AnchorPane.setTopAnchor(vb_options, 100d);
+		vb_projects = new VBox();
 
-		this.getChildren().addAll(userImg, vb_options, circleButton);
+		updateProjects();
+
+		vb_items.getChildren().addAll(vb_options, vb_projects);
+		vb_items.setSpacing(5);
+
+		AnchorPane.setLeftAnchor(vb_items, 0d);
+		AnchorPane.setTopAnchor(vb_items, 100d);
+
+		this.getChildren().addAll(userImg, vb_items, circleButton);
+	}
+
+	public void updateProjects() {
+
+		vb_projects.getChildren().clear();
+
+		Label lbl_projects = new Label("PROJETOS");
+		lbl_projects.setId("lbl_projects");
+
+		vb_projects.getChildren().add(lbl_projects);
+
+		ArrayList<ProjectDB> projects = new LoadAppointment().loadProjects();
+
+		for (ProjectDB project : projects) {
+			
+			ProjectButton opt_project = new ProjectButton();
+			opt_project.setText(project.getTitulo());
+			opt_project.setPrefWidth(230);
+			opt_project.setAlignment(Pos.CENTER_LEFT);
+			opt_project.setToggleGroup(grp_options);
+			opt_project.setProjeto(project);
+			vb_projects.getChildren().add(opt_project);
+
+			opt_project.setOnAction(e -> {
+
+				HomePage.project.loadProject(((ProjectButton)e.getSource()).getProjeto());
+				HomePage.project.setVisible(true);
+				HomePage.project.setManaged(true);
+				HomePage.goals.setVisible(false);
+				HomePage.goals.setManaged(false);
+			});
+		}
+
+		Button btn_add_project = new Button("+ Adicionar projeto");
+
+		btn_add_project.setOnAction(e -> {
+
+			Stage st = new Stage();
+			st.setWidth(300);
+			st.setHeight(300);
+			st.initStyle(StageStyle.UTILITY);
+			st.initModality(Modality.APPLICATION_MODAL);
+			st.setScene(new Project());
+			st.show();
+		});
+
+		Separator separator = new Separator();
+		
+		vb_projects.getChildren().addAll(separator, btn_add_project);
 	}
 
 	private Stage profileSelectorStageConstructor() {
