@@ -14,6 +14,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class Project extends Scene {
 
@@ -43,6 +44,7 @@ public class Project extends Scene {
 
             createProject();
             HomePage.menu.updateProjects();
+            ((Stage)this.getWindow()).close();
         });
 
         VBox vBox = new VBox();

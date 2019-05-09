@@ -66,11 +66,7 @@ public class NavigationMenu extends AnchorPane {
 			}
 		});
 		
-<<<<<<< HEAD
 		Image img = new Image("http://localhost/cyberlife/imagens/a.jpeg");
-=======
-		Image img = new Image("https://conteudo.imguol.com.br/c/entretenimento/84/2019/04/18/faustinho-olokinho-meu-1555611956793_v2_450x450.jpg");
->>>>>>> 8cd24f09c57ad33f8a8c242e29894f728e5158e3
 		
 		/* Conteudo do perfil */
 		Circle profileImg = new Circle();
