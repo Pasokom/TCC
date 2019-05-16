@@ -11,6 +11,7 @@ import db.pojo.AppointmentDB;
 import db.pojo.HolidayDB;
 import db.pojo.Moon;
 import db.pojo.eventPOJO.EventDB;
+import db.pojo.projectPOJO.TarefaDB;
 import db.pojo.reminderPOJO.ReminderDB;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -115,6 +116,9 @@ public class ListCalendar extends VBox {
 					break;
 				case "moon":
 					component = new AppointmentComponent((Moon)appointment);
+					break;
+				case "task":
+					component = new AppointmentComponent((TarefaDB)appointment);
 					break;
 				default:
 					component = new AppointmentComponent();

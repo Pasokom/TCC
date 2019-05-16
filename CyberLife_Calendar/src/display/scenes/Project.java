@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import component.homepage.NavigationMenu;
 import db.functions.appointment.CreateAppointment;
 import db.pojo.projectPOJO.ProjectDB;
 import db.pojo.projectPOJO.TarefaDB;

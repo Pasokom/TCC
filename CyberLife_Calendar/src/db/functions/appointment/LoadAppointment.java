@@ -24,6 +24,7 @@ import db.pojo.eventPOJO.EventEndSchedule;
 import db.pojo.eventPOJO.EventSchedule;
 import db.pojo.goalPOJO.GoalDB;
 import db.pojo.projectPOJO.ProjectDB;
+import db.pojo.projectPOJO.TarefaDB;
 import db.pojo.reminderPOJO.ReminderDB;
 import db.pojo.reminderPOJO.ReminderEndSchedule;
 import db.pojo.reminderPOJO.ReminderSchedule;
@@ -67,6 +68,9 @@ public class LoadAppointment {
                     break;
                 case 2:
                     appointment = createDailyEvent(rSet);
+                    break;
+                case 3:
+                    appointment = createDailyTask(rSet);
                     break;
                 default:
                     appointment = createDailyReminder(rSet);
@@ -298,7 +302,7 @@ public class LoadAppointment {
 
             ResultSet rSet = statement.executeQuery();
 
-            if(rSet.next()) {
+            if (rSet.next()) {
 
                 Calendar timezone = Calendar.getInstance();
 
@@ -307,13 +311,72 @@ public class LoadAppointment {
                 project.setData_inicio(rSet.getTimestamp("DATA_INICIO", timezone));
                 project.setData_entrega(rSet.getTimestamp("DATA_ENTREGA", timezone));
             }
-            
+
         } catch (ClassNotFoundException | SQLException e) {
 
             e.printStackTrace();
         }
 
         return project;
+    }
+
+    public TarefaDB loadCurrentTask(int cod_project) {
+
+        TarefaDB tarefa = new TarefaDB();
+
+        String sql = "{ CALL TAREFA_ATUAL(?) }";
+
+        try {
+
+            PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+            statement.setInt(1, cod_project);
+
+            ResultSet rSet = statement.executeQuery();
+
+            if (rSet.next()) {
+
+                tarefa.setCod_tarefa(rSet.getInt("COD_TAREFA"));
+                tarefa.setNome_tarefa(rSet.getString("NOME_TAREFA"));
+                tarefa.setFk_projeto(rSet.getInt("FK_PROJETO"));
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+
+            e.printStackTrace();
+        }
+
+        return tarefa;
+    }
+
+    public ArrayList<TarefaDB> loadAllTasks(int cod_project) {
+
+        ArrayList<TarefaDB> tasks = new ArrayList<>();
+
+        String sql = "SELECT * FROM TAREFA WHERE FK_PROJETO = ?";
+
+        try {
+
+            PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+            statement.setInt(1, cod_project);
+
+            ResultSet rSet = statement.executeQuery();
+
+            while (rSet.next()) {
+                
+                TarefaDB task = new TarefaDB();
+                task.setCod_tarefa(rSet.getInt("COD_TAREFA"));
+                task.setFk_projeto(rSet.getInt("FK_PROJETO"));
+                task.setNome_tarefa(rSet.getString("NOME_TAREFA"));
+
+                tasks.add(task);
+            }
+            
+        } catch (ClassNotFoundException | SQLException e) {
+
+            e.printStackTrace();
+        }
+
+        return tasks;
     }
 
     public ArrayList<String> loadNotifications() {
@@ -515,6 +578,20 @@ public class LoadAppointment {
         reminder.setDia_todo(rSet.getBoolean("DIA_TODO"));
 
         return reminder;
+    }
+
+    private TarefaDB createDailyTask(ResultSet rSet) throws SQLException {
+
+        TarefaDB task = new TarefaDB();
+
+        Calendar timezone = Calendar.getInstance();
+
+        task.setCod_tarefa(rSet.getInt("CODIGO"));
+        task.setNome_tarefa(rSet.getString("TITULO"));
+        task.setData_inicio(rSet.getTimestamp("DATA_INICIO", timezone));
+        task.setData_fim(rSet.getTimestamp("DATA_FIM", timezone));
+
+        return task;
     }
 
     private ArrayList<HolidayDB> loadHolidays(Calendar date, String qtype){

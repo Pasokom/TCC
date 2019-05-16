@@ -27,14 +27,32 @@
 	-fx-padding: 10;
 }
 
+#task_card{
+	-fx-background-color: #8C3926;
+	-fx-background-radius: 3 0 0 3;
+	-fx-padding: 10;
+}
+
 #titulo{
 	-fx-text-fill: white;
 	-fx-font-size: 14;
 	-fx-font-weight: bold;
 }
 
+#titulo_black{
+	-fx-text-fill: black;
+	-fx-font-size: 14;
+	-fx-font-weight: bold;
+}
+
 #above_info{
     -fx-text-fill: rgba(255,255,255,0.5);
+    -fx-font-weight: bold;
+    -fx-font-size: 12;
+}
+
+#above_info_dark{
+    -fx-text-fill: rgba(0,0,0,0.5);
     -fx-font-weight: bold;
     -fx-font-size: 12;
 }

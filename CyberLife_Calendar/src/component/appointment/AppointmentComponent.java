@@ -6,6 +6,7 @@ import db.functions.appointment.LoadAppointment;
 import db.pojo.HolidayDB;
 import db.pojo.Moon;
 import db.pojo.eventPOJO.EventDB;
+import db.pojo.projectPOJO.TarefaDB;
 import db.pojo.reminderPOJO.ReminderDB;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
@@ -179,6 +180,24 @@ public class AppointmentComponent extends VBox{
         card.setSpacing(10);
         card.getChildren().addAll(img_moon, lbl_titulo);
         card.setId("moon_card");
+
+        this.getChildren().add(card);
+    }
+
+    public AppointmentComponent(TarefaDB task) {
+
+        this.getStylesheets().add(this.getClass().getResource("/css/appointment_component.css").toExternalForm());
+		this.setId("this");
+
+        lbl_titulo = new Label(task.getNome_tarefa());
+        lbl_titulo.setId("titulo");
+
+        sup_title = new Label("Agora");
+        sup_title.setId("above_info");
+
+        VBox card = new VBox();
+        card.getChildren().addAll(sup_title, lbl_titulo);
+        card.setId("task_card");
 
         this.getChildren().add(card);
     }

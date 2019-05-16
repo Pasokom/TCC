@@ -1,0 +1,14 @@
+.this {
+    -fx-background-color: #EEEEEE;
+    -fx-padding: 30px;
+}
+
+.bold {
+    -fx-font-weight: bold;
+}
+
+#title {
+    -fx-font-size: 50px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #8C3926;
+}
