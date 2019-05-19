@@ -3,6 +3,7 @@ package component.homepage;
 import java.util.ArrayList;
 
 import db.functions.appointment.LoadAppointment;
+import db.functions.registrationAndLogin.HandlerLogin;
 import db.pojo.UserSession;
 import db.pojo.projectPOJO.ProjectDB;
 import display.poupoup.EditProfile;
@@ -66,19 +67,29 @@ public class NavigationMenu extends AnchorPane {
 			}
 		});
 		
-		Image img = new Image("http://localhost/cyberlife/imagens/a.jpeg");
-		
-		/* Conteudo do perfil */
 		Circle profileImg = new Circle();
+		HandlerLogin handlerLogin = new HandlerLogin();
+		/* Conteudo do perfil */
 		profileImg.setRadius(20);
-		profileImg.setFill(new ImagePattern(img));
 		profileImg.setCenterX(100);
 		profileImg.setCenterY(100);
 
 		StackPane userImg = new StackPane();
-/* 		Label userInitial = new Label(SESSION.get_user_name().substring(0, 1).toUpperCase());
-		userInitial.setFont(new Font(20)); */
-		userImg.getChildren().addAll(profileImg);
+
+		if (handlerLogin.userImageExists()){
+
+			Image img = new Image("http://localhost/cyberlife/imagens/img" + SESSION.get_user_cod() + ".jpeg");
+			profileImg.setFill(new ImagePattern(img));
+			userImg.getChildren().addAll(profileImg);
+		}
+		else {
+
+			Label userInitial = new Label(SESSION.get_user_name().substring(0, 1).toUpperCase());
+			userInitial.setFont(new Font(20));
+			userImg.getChildren().addAll(profileImg, userInitial);
+		}
+		
+
 
 		userImg.setOnMouseClicked(e -> {
 

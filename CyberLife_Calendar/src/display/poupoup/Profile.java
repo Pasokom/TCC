@@ -38,17 +38,18 @@ public class Profile extends Popup {
     public Profile() {
 
         EditProfile editProfile = new EditProfile();
-        
+
+
         VBox root = new VBox();
         root.getStylesheets().add(this.getClass().getResource("../../css/profile.css").toExternalForm());
 
         HBox hb_profile = new HBox();
 
-		Image img = new Image("http://localhost/cyberlife/imagens/a.jpeg");
-
         Circle profileImg = new Circle();
-		profileImg.setRadius(20);
-		profileImg.setFill(new ImagePattern(img));
+
+        Image img = new Image("http://localhost/cyberlife/imagens/a.jpeg");
+        profileImg.setFill(new ImagePattern(img));
+        profileImg.setRadius(20);
 		profileImg.setCenterX(100);
 		profileImg.setCenterY(100);
 
@@ -78,7 +79,7 @@ public class Profile extends Popup {
         Separator separator = new Separator();
 
         lbl_exit.setOnMouseClicked(e -> {
-			
+
             UserSession.close();
 
 			SESSION.END_SESSION();
@@ -86,14 +87,14 @@ public class Profile extends Popup {
 		});
 
         hb_exit.setOnMouseClicked(e -> {
-        	
+
         	UserSession.close();
 
 			SESSION.END_SESSION();
 			Main.main_stage.setScene(new Login());
 			this.hide();
         });
-        
+
         HBox hb_settings = new HBox();
         img_config = new ImageView();
         img_config.setId("img_config");
@@ -103,7 +104,7 @@ public class Profile extends Popup {
         hb_settings.getStyleClass().add("option");
 
         lbl_config.setOnMouseClicked(e -> {
-			editProfile.show(); 
+			editProfile.show();
 		});
 
         HBox hb_help = new HBox();
