@@ -27,6 +27,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -85,8 +86,6 @@ public class NavigationMenu extends AnchorPane {
 			userInitial.setFont(new Font(20));
 			userImg.getChildren().addAll(profileImg, userInitial);
 		}
-		
-
 
 		userImg.setOnMouseClicked(e -> {
 

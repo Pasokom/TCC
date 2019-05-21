@@ -2,8 +2,10 @@ package display.poupoup;
 
 import component.Instructions.Intro_Foda;
 import component.homepage.NavigationMenu;
+import db.functions.registrationAndLogin.HandlerLogin;
 import db.pojo.UserSession;
 import display.scenes.Login;
+import display.scenes.Settings;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -46,18 +48,26 @@ public class Profile extends Popup {
         HBox hb_profile = new HBox();
 
         Circle profileImg = new Circle();
-
-        Image img = new Image("http://localhost/cyberlife/imagens/a.jpeg");
-        profileImg.setFill(new ImagePattern(img));
+        HandlerLogin handlerLogin = new HandlerLogin();
+        
         profileImg.setRadius(20);
 		profileImg.setCenterX(100);
 		profileImg.setCenterY(100);
 
-		StackPane userImg = new StackPane();
-/* 		Label userInitial = new Label(SESSION.get_user_name().substring(0, 1).toUpperCase());
-		userInitial.setFont(new Font(20)); */
-        userImg.getChildren().addAll(profileImg);
-        userImg.setId("img_profile");
+        StackPane userImg = new StackPane();
+        
+        if (handlerLogin.userImageExists()){
+
+			Image img = new Image("http://localhost/cyberlife/imagens/img" + SESSION.get_user_cod() + ".jpeg");
+			profileImg.setFill(new ImagePattern(img));
+			userImg.getChildren().addAll(profileImg);
+		}
+		else {
+
+			Label userInitial = new Label(SESSION.get_user_name().substring(0, 1).toUpperCase());
+			userInitial.setFont(new Font(20));
+			userImg.getChildren().addAll(profileImg, userInitial);
+		}
 
         VBox vb_email_name = new VBox();
         lbl_name = new Label(SESSION.get_user_name() + " " + SESSION.get_user_last_name());
@@ -104,7 +114,11 @@ public class Profile extends Popup {
         hb_settings.getStyleClass().add("option");
 
         lbl_config.setOnMouseClicked(e -> {
-			editProfile.show();
+            Stage stage = new Stage();
+            stage.setScene(new Settings());
+            stage.setWidth(400);
+            stage.setHeight(350);
+            stage.show();
 		});
 
         HBox hb_help = new HBox();

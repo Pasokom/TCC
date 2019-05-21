@@ -192,7 +192,11 @@ public class AppointmentComponent extends VBox{
         lbl_titulo = new Label(task.getNome_tarefa());
         lbl_titulo.setId("titulo");
 
-        sup_title = new Label("Agora");
+        Calendar start_time = Calendar.getInstance();
+        start_time.setTime(task.getData_inicio());
+
+        sup_title = new Label(
+            start_time.get(Calendar.HOUR_OF_DAY) + ":" + String.format("%02d", start_time.get(Calendar.MINUTE)));
         sup_title.setId("above_info");
 
         VBox card = new VBox();
