@@ -1,5 +1,10 @@
 package db.functions.registrationAndLogin;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -74,5 +79,44 @@ public class HandlerLogin {
 			System.out.println("[ERROR] function : loginBySerialization - classe HandlerLogin");
 		}
 		return false;
+	}
+
+	public boolean userImageExists() {
+
+		try {
+
+            String protocol = "http://";
+            String host = "localhost/cyberlife/calendar/API/query/photo.php";
+            String id = "?id=" + SESSION.get_user_cod();
+            
+            URL url = new URL(protocol+host+id);
+
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+            String line;
+            StringBuffer buffer = new StringBuffer();
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line);
+            }
+            reader.close();
+            con.disconnect();
+
+			String response = buffer.toString();
+			
+			if(response.equals("existe")) {
+				return true;
+			}
+			else {
+				return false;
+			}
+
+        } catch (IOException e) {
+			e.printStackTrace();
+			
+			return false;
+        }
 	}
 }
