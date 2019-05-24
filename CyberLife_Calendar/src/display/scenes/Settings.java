@@ -56,6 +56,8 @@ public class Settings extends Scene {
         Tab tab = new Tab("Usuário");
         tab.setClosable(false);
 
+        HBox hb_user = new HBox();
+
         return tab;
     }
 
