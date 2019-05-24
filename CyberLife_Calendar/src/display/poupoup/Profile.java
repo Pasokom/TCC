@@ -41,7 +41,6 @@ public class Profile extends Popup {
 
         EditProfile editProfile = new EditProfile();
 
-
         VBox root = new VBox();
         root.getStylesheets().add(this.getClass().getResource("../../css/profile.css").toExternalForm());
 
