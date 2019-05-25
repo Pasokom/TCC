@@ -71,14 +71,16 @@ public class CreateAppointment {
 
     public void create(TarefaDB task) {
 
-        String sql = "INSERT INTO TAREFA (NOME_TAREFA, FK_PROJETO) VALUES (?, ?)";
+        String sql = "INSERT INTO TAREFA (NOME_TAREFA, DURACAO_MINUTOS, IMPORTANCIA, FK_PROJETO) VALUES (?, ?, ?, ?)";
 
         try {
 
             PreparedStatement statement = Database.get_connection().prepareStatement(sql);
 
             statement.setString(1, task.getNome_tarefa());
-            statement.setInt(2, task.getFk_projeto());
+            statement.setInt(2, task.getDuracao());
+            statement.setInt(3, task.getImportancia());
+            statement.setInt(4, task.getFk_projeto());
 
             statement.execute();
 

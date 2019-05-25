@@ -324,12 +324,13 @@ public class LoadAppointment {
 
         TarefaDB tarefa = new TarefaDB();
 
-        String sql = "{ CALL TAREFA_ATUAL(?) }";
+        String sql = "{ CALL TAREFA_ATUAL(?, ?) }";
 
         try {
 
             PreparedStatement statement = Database.get_connection().prepareStatement(sql);
             statement.setInt(1, cod_project);
+            statement.setInt(2, (int)SESSION.get_user_cod());
 
             ResultSet rSet = statement.executeQuery();
 
@@ -365,8 +366,10 @@ public class LoadAppointment {
                 
                 TarefaDB task = new TarefaDB();
                 task.setCod_tarefa(rSet.getInt("COD_TAREFA"));
-                task.setFk_projeto(rSet.getInt("FK_PROJETO"));
                 task.setNome_tarefa(rSet.getString("NOME_TAREFA"));
+                task.setDuracao(rSet.getInt("DURACAO_MINUTOS"));
+                task.setImportancia(rSet.getInt("IMPORTANCIA"));
+                task.setFk_projeto(rSet.getInt("FK_PROJETO"));
 
                 tasks.add(task);
             }

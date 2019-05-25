@@ -1,5 +1,6 @@
 package display.scenes;
 
+import component.TimePicker;
 import db.functions.appointment.CreateAppointment;
 import db.pojo.projectPOJO.TarefaDB;
 import javafx.geometry.Insets;
@@ -16,8 +17,10 @@ import javafx.stage.Stage;
 public class Task extends Scene {
 
     private TextField txt_title;
-    private Label lbl_marcadores;
-    private ChoiceBox<String> cbx_marcadores;
+    private Label lbl_duration;
+    private ChoiceBox<String> cbx_duration;
+    private Label lbl_labels;
+    private ChoiceBox<String> cbx_labels;
     private Label lbl_importance;
     private Spinner<Integer> spn_importance;
     private Label lbl_dependency;
@@ -36,12 +39,22 @@ public class Task extends Scene {
         txt_title.setId("title");
         txt_title.setPromptText("Título");
 
-        lbl_marcadores = new Label("Marcador");
-        cbx_marcadores = new ChoiceBox<>();
-        cbx_marcadores.setPrefWidth(100);
-        cbx_marcadores.setPadding(new Insets(2));
+        lbl_duration = new Label("Duração");
+        cbx_duration = new ChoiceBox<>();
+        cbx_duration.getItems().add("30 minutos");
+        cbx_duration.getItems().add("1 hora");
+        cbx_duration.getItems().add("2 horas");
+        cbx_duration.setPadding(new Insets(2));
+        cbx_duration.getSelectionModel().selectFirst();
 
-        VBox vb_marcador = new VBox(lbl_marcadores, cbx_marcadores);
+        VBox vb_duration = new VBox(lbl_duration, cbx_duration);
+
+        lbl_labels = new Label("Marcador");
+        cbx_labels = new ChoiceBox<>();
+        cbx_labels.setPrefWidth(100);
+        cbx_labels.setPadding(new Insets(2));
+
+        VBox vb_marcador = new VBox(lbl_labels, cbx_labels);
 
         lbl_importance = new Label("Importância");
         spn_importance = new Spinner<>(0, 5, 0);
@@ -55,8 +68,11 @@ public class Task extends Scene {
 
         VBox vb_dependecy = new VBox(lbl_dependency, cbx_depedency);
 
-        HBox hb_lv1 = new HBox(vb_marcador, vb_importace);
+        HBox hb_lv1 = new HBox(vb_duration, vb_importace);
         hb_lv1.setSpacing(30);
+
+        HBox hb_lv2 = new HBox(vb_marcador, vb_dependecy);
+        hb_lv2.setSpacing(30);
 
         Button btn_add = new Button("Adicionar tarefa");
 
@@ -70,7 +86,7 @@ public class Task extends Scene {
 
         VBox vb_root = new VBox();
         vb_root.setSpacing(10);
-        vb_root.getChildren().addAll(txt_title, hb_lv1, vb_dependecy, btn_add);
+        vb_root.getChildren().addAll(txt_title, hb_lv1, hb_lv2, btn_add);
 
         this.setRoot(vb_root);
     }
@@ -79,8 +95,24 @@ public class Task extends Scene {
 
         TarefaDB tarefa = new TarefaDB();
         tarefa.setNome_tarefa(this.txt_title.getText());
+        tarefa.setDuracao(this.getDuration());
+        tarefa.setImportancia(this.spn_importance.getValue());
         tarefa.setFk_projeto(this.cod_project);
 
         return tarefa;
+    }
+
+    private int getDuration() {
+
+        switch (cbx_duration.getSelectionModel().getSelectedIndex()) {
+            case 0:
+                return 30;
+            case 1:
+                return 60;
+            case 2:
+                return 120;
+            default:
+                return 30;
+        }
     }
 }

@@ -8,6 +8,8 @@ public class TarefaDB extends AppointmentDB {
 
     private int cod_tarefa;
     private String nome_tarefa;
+    private int duracao;
+    private int importancia;
     private int fk_projeto;
     
     private Timestamp data_inicio;
@@ -85,6 +87,22 @@ public class TarefaDB extends AppointmentDB {
      */
     public void setData_fim(Timestamp data_fim) {
         this.data_fim = data_fim;
+    }
+
+    public int getDuracao() {
+        return duracao;
+    }
+
+    public void setDuracao(int duracao) {
+        this.duracao = duracao;
+    }
+
+    public int getImportancia() {
+        return importancia;
+    }
+
+    public void setImportancia(int importancia) {
+        this.importancia = importancia;
     }
 
 }
