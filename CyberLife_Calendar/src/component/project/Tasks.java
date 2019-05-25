@@ -9,6 +9,7 @@ import display.scenes.Task;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -19,6 +20,7 @@ public class Tasks extends VBox {
     private Button btn_add_task;
     private Label lbl_current_task;
     private Label lbl_all_tasks;
+    private Button btn_filter;
 
     private int cod_project;
 
@@ -56,9 +58,12 @@ public class Tasks extends VBox {
         }
 
         lbl_all_tasks = new Label("Todas as tarefas");
+        btn_filter = new Button("Todos");
+
+        HBox hb_all_tasks = new HBox(lbl_all_tasks, btn_filter);
 
         ArrayList<TarefaDB> tasks = loader.loadAllTasks(cod_project);
-        this.getChildren().add(lbl_all_tasks);
+        this.getChildren().add(hb_all_tasks);
 
         FlowPane fp_taks = new FlowPane();
         fp_taks.setHgap(10);
