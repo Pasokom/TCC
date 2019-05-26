@@ -4,6 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class Labels extends VBox {
 
@@ -19,6 +20,12 @@ public class Labels extends VBox {
         this.cod_project = cod_project;
 
         btn_add_label = new Button(" + adicionar marcador");
+        btn_add_label.setOnAction(e -> {
+            
+            Stage stage = new Stage();
+            stage.setScene(new display.scenes.Label(this.cod_project));
+            stage.show();
+        });
 
         lbl_all_labels = new Label("Todos os marcadores");
         flw_all_labels = new FlowPane();

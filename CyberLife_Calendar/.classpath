@@ -5,8 +5,8 @@
 			<accessrule kind="accessible" pattern="javafx/**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-8.0.13.jar"/>
 	<classpathentry kind="lib" path="lib/java-json.jar"/>
+	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
