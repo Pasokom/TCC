@@ -10,6 +10,8 @@ public class TarefaDB extends AppointmentDB {
     private String nome_tarefa;
     private int duracao;
     private int importancia;
+    private int dependencia;
+    private String fk_nome_marcador;
     private int fk_projeto;
     
     private Timestamp data_inicio;
@@ -105,4 +107,24 @@ public class TarefaDB extends AppointmentDB {
         this.importancia = importancia;
     }
 
+    public String getFk_nome_marcador() {
+        return fk_nome_marcador;
+    }
+
+    public void setFk_nome_marcador(String fk_nome_marcador) {
+        this.fk_nome_marcador = fk_nome_marcador;
+    }
+
+    public int getDependencia() {
+        return dependencia;
+    }
+
+    public void setDependencia(int dependencia) {
+        this.dependencia = dependencia;
+    }
+
+    @Override
+    public String toString() {
+        return this.nome_tarefa;
+    }
 }

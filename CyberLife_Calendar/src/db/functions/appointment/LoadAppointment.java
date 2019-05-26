@@ -369,6 +369,44 @@ public class LoadAppointment {
                 task.setNome_tarefa(rSet.getString("NOME_TAREFA"));
                 task.setDuracao(rSet.getInt("DURACAO_MINUTOS"));
                 task.setImportancia(rSet.getInt("IMPORTANCIA"));
+                task.setDependencia(rSet.getInt("DEPENDENCIA"));
+                task.setFk_nome_marcador(rSet.getString("FK_NOME_MARCADOR"));
+                task.setFk_projeto(rSet.getInt("FK_PROJETO"));
+
+                tasks.add(task);
+            }
+            
+        } catch (ClassNotFoundException | SQLException e) {
+
+            e.printStackTrace();
+        }
+
+        return tasks;
+    }
+
+    public ArrayList<TarefaDB> loadTasksFiltered(int cod_project, String label) {
+
+        ArrayList<TarefaDB> tasks = new ArrayList<>();
+
+        String sql = "SELECT * FROM TAREFA WHERE FK_NOME_MARCADOR = ? AND FK_PROJETO = ?";
+
+        try {
+
+            PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+            statement.setString(1, label);
+            statement.setInt(2, cod_project);
+
+            ResultSet rSet = statement.executeQuery();
+
+            while (rSet.next()) {
+                
+                TarefaDB task = new TarefaDB();
+                task.setCod_tarefa(rSet.getInt("COD_TAREFA"));
+                task.setNome_tarefa(rSet.getString("NOME_TAREFA"));
+                task.setDuracao(rSet.getInt("DURACAO_MINUTOS"));
+                task.setImportancia(rSet.getInt("IMPORTANCIA"));
+                task.setDependencia(rSet.getInt("DEPENDENCIA"));
+                task.setFk_nome_marcador(rSet.getString("FK_NOME_MARCADOR"));
                 task.setFk_projeto(rSet.getInt("FK_PROJETO"));
 
                 tasks.add(task);

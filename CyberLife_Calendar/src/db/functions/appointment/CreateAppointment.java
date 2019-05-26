@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.Calendar;
 
 import db.Database;
@@ -71,7 +72,7 @@ public class CreateAppointment {
 
     public void create(TarefaDB task) {
 
-        String sql = "INSERT INTO TAREFA (NOME_TAREFA, DURACAO_MINUTOS, IMPORTANCIA, FK_PROJETO) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO TAREFA (NOME_TAREFA, DURACAO_MINUTOS, IMPORTANCIA, DEPENDENCIA, FK_NOME_MARCADOR, FK_PROJETO) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
 
@@ -80,7 +81,14 @@ public class CreateAppointment {
             statement.setString(1, task.getNome_tarefa());
             statement.setInt(2, task.getDuracao());
             statement.setInt(3, task.getImportancia());
-            statement.setInt(4, task.getFk_projeto());
+
+            if (task.getDependencia() > 0)
+                statement.setInt(4, task.getDependencia());
+            else
+                statement.setNull(4, Types.INTEGER);
+
+            statement.setString(5, task.getFk_nome_marcador());
+            statement.setInt(6, task.getFk_projeto());
 
             statement.execute();
 

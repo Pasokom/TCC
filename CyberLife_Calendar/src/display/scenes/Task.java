@@ -1,7 +1,12 @@
 package display.scenes;
 
+import java.util.ArrayList;
+
 import component.TimePicker;
 import db.functions.appointment.CreateAppointment;
+import db.functions.appointment.LoadAppointment;
+import db.functions.projectFeatures.LoadFeature;
+import db.pojo.LabelDB;
 import db.pojo.projectPOJO.TarefaDB;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -24,7 +29,7 @@ public class Task extends Scene {
     private Label lbl_importance;
     private Spinner<Integer> spn_importance;
     private Label lbl_dependency;
-    private ChoiceBox<String> cbx_depedency;
+    private ChoiceBox<TarefaDB> cbx_depedency;
 
     private int cod_project;
 
@@ -54,10 +59,20 @@ public class Task extends Scene {
         cbx_labels.setPrefWidth(100);
         cbx_labels.setPadding(new Insets(2));
 
+        cbx_labels.getItems().add("Nenhum");
+        cbx_labels.getSelectionModel().select(0);
+
+        LoadFeature feature = new LoadFeature();
+        ArrayList<LabelDB> labels = feature.loadLabels(this.cod_project);
+
+        for (LabelDB label : labels) {
+            cbx_labels.getItems().add(label.getNome_marcador());
+        }
+
         VBox vb_marcador = new VBox(lbl_labels, cbx_labels);
 
         lbl_importance = new Label("Importância");
-        spn_importance = new Spinner<>(0, 5, 0);
+        spn_importance = new Spinner<>(1, 5, 1);
 
         VBox vb_importace = new VBox(lbl_importance, spn_importance);
 
@@ -65,6 +80,19 @@ public class Task extends Scene {
         cbx_depedency = new ChoiceBox<>();
         cbx_depedency.setPrefWidth(100);
         cbx_depedency.setPadding(new Insets(2));
+
+        TarefaDB nothingTask = new TarefaDB();
+        nothingTask.setNome_tarefa("Nenhuma");
+
+        cbx_depedency.getItems().add(nothingTask);
+        cbx_depedency.getSelectionModel().select(0);
+
+        LoadAppointment appointment = new LoadAppointment();
+        ArrayList<TarefaDB> tasks = appointment.loadAllTasks(this.cod_project);
+
+        for (TarefaDB task : tasks) {
+            cbx_depedency.getItems().add(task);
+        }
 
         VBox vb_dependecy = new VBox(lbl_dependency, cbx_depedency);
 
@@ -97,6 +125,11 @@ public class Task extends Scene {
         tarefa.setNome_tarefa(this.txt_title.getText());
         tarefa.setDuracao(this.getDuration());
         tarefa.setImportancia(this.spn_importance.getValue());
+        tarefa.setDependencia(cbx_depedency.getSelectionModel().getSelectedItem().getCod_tarefa());
+
+        if(cbx_labels.getSelectionModel().getSelectedIndex() > 0)
+            tarefa.setFk_nome_marcador(cbx_labels.getSelectionModel().getSelectedItem());
+
         tarefa.setFk_projeto(this.cod_project);
 
         return tarefa;
