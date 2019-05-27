@@ -1,0 +1,15 @@
+#this{
+	-fx-background-color: transparent;
+} 
+
+#label_card{
+	-fx-background-color: #03073B;
+	-fx-background-radius: 3 3 3 3;
+	-fx-padding: 10;
+}
+
+#titulo{
+	-fx-text-fill: white;
+	-fx-font-size: 14;
+	-fx-font-weight: bold;
+}
