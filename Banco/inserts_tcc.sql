@@ -17,8 +17,8 @@ INSERT INTO DATAS_COMEMORATIVAS (NOME, TIPO_DATA, DIA, MES) VALUES
 
 /* datas comemorativas com dia da semana fixo */
 INSERT INTO DATAS_COMEMORATIVAS (NOME, TIPO_DATA, DIA_SEMANA, SEMANA, MES) VALUES
-	("Dias das Mães", 1, 0, 2, 5),
-	("Dias dos Pais", 1, 0, 2, 8);
+	("Dia das Mães", 1, 0, 2, 5),
+	("Dia dos Pais", 1, 0, 2, 8);
 
 /*
  * datas comemorativas móveis (que dependem da páscoa)
