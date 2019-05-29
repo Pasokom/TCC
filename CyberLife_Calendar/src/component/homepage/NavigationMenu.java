@@ -68,7 +68,7 @@ public class NavigationMenu extends AnchorPane {
 		Circle profileImg = new Circle();
 		HandlerLogin handlerLogin = new HandlerLogin();
 		/* Conteudo do perfil */
-		profileImg.setRadius(20);
+		profileImg.setRadius(40);
 		profileImg.setCenterX(100);
 		profileImg.setCenterY(100);
 

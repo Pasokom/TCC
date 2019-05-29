@@ -1,9 +1,12 @@
 package display.scenes;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Calendar;
 
 import component.TimePicker;
+import db.functions.registrationAndLogin.HandlerLogin;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,6 +20,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -76,24 +80,52 @@ public class Settings extends Scene {
         profileEdit.setRadius(50);
 		profileEdit.setCenterX(100);
         profileEdit.setCenterY(100);
+
+        HandlerLogin handlerLogin = new HandlerLogin();
+
+        Image img;
         
         StackPane userImg = new StackPane();
+        if (handlerLogin.userImageExists()){
 
-        Image img = new Image("http://localhost/cyberlife/imagens/img" + SESSION.get_user_cod() + ".jpeg");
+            img = new Image("http://localhost/cyberlife/imagens/img" + SESSION.get_user_cod() + ".jpeg");
+			profileImg.setFill(new ImagePattern(img));
+            userImg.getChildren().addAll(profileImg);
+		}
+		else {
+
+			Label userInitial = new Label(SESSION.get_user_name().substring(0, 1).toUpperCase());
+			userInitial.setFont(new Font(20));
+			userImg.getChildren().addAll(profileImg, userInitial);
+		}
+
         Image imgPhoto = new Image("http://localhost/cyberlife/imagens/camera.png");
         
-        profileImg.setFill(new ImagePattern(img));
+        
         profileEdit.setFill(new ImagePattern(imgPhoto));
-        userImg.getChildren().addAll(profileEdit, profileImg);
 
         profileImg.setOnMouseClicked(y ->{
             FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Open Resource File");
+            fileChooser.setTitle("Escolha uma imagem");
             fileChooser.getExtensionFilters().addAll(
-            new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif", "*.jpeg"),
-            new ExtensionFilter("All Files", "*.*"));
+            new ExtensionFilter("Arquivos de imagem", "*.png", "*.jpg", "*.gif", "*.jpeg"),
+            new ExtensionFilter("Todos os arquivos", "*.*"));
+            
+            File selectedFile = fileChooser.showOpenDialog(new Stage());
+            
+            if(selectedFile.exists()){
+                File delete = new File("C:\\Apache24\\htdocs\\cyberlife\\imagens\\img" + SESSION.get_user_cod() + ".jpeg");
+                delete.delete();
+            }
 
-            fileChooser.showOpenDialog(new Stage());
+            File dest = new File("C:\\Apache24\\htdocs\\cyberlife\\imagens\\img" + SESSION.get_user_cod() + ".jpeg");
+            
+            try {
+                copyFileUsingJava7Files(selectedFile, dest);
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
         });
 
         profileImg.setOnMouseEntered(e ->{
@@ -143,6 +175,10 @@ public class Settings extends Scene {
         tab.setContent(vb_content);
 
         return tab;
+    }
+
+    private static void copyFileUsingJava7Files(File source, File dest) throws IOException {
+        Files.copy(source.toPath(), dest.toPath());
     }
 
     private Tab notifications() {
