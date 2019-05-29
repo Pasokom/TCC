@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.util.Calendar;
 
 import component.TimePicker;
+import component.homepage.NavigationMenu;
 import db.functions.registrationAndLogin.HandlerLogin;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -104,7 +105,7 @@ public class Settings extends Scene {
         
         profileEdit.setFill(new ImagePattern(imgPhoto));
 
-        profileImg.setOnMouseClicked(y ->{
+        profileImg.setOnMouseClicked(e -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Escolha uma imagem");
             fileChooser.getExtensionFilters().addAll(
@@ -112,16 +113,17 @@ public class Settings extends Scene {
             new ExtensionFilter("Todos os arquivos", "*.*"));
             
             File selectedFile = fileChooser.showOpenDialog(new Stage());
-            
-            if(selectedFile.exists()){
-                File delete = new File("C:\\Apache24\\htdocs\\cyberlife\\imagens\\img" + SESSION.get_user_cod() + ".jpeg");
-                delete.delete();
-            }
-
             File dest = new File("C:\\Apache24\\htdocs\\cyberlife\\imagens\\img" + SESSION.get_user_cod() + ".jpeg");
             
+            if(dest.exists()){
+                dest.delete();
+            }
+
             try {
                 copyFileUsingJava7Files(selectedFile, dest);
+                Image imgUp = new Image("http://localhost/cyberlife/imagens/img" + SESSION.get_user_cod() + ".jpeg");
+                profileImg.setFill(new ImagePattern(imgUp));
+                HomePage.menu.update();
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();

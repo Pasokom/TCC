@@ -40,6 +40,7 @@ public class NavigationMenu extends AnchorPane {
 	private EditProfile editProfile;
 	private ToggleGroup grp_options;
 	private VBox vb_projects;
+	private Circle profileImg;
 
 	public NavigationMenu() {
 
@@ -65,10 +66,10 @@ public class NavigationMenu extends AnchorPane {
 			}
 		});
 		
-		Circle profileImg = new Circle();
+		profileImg = new Circle();
 		HandlerLogin handlerLogin = new HandlerLogin();
 		/* Conteudo do perfil */
-		profileImg.setRadius(40);
+		profileImg.setRadius(35);
 		profileImg.setCenterX(100);
 		profileImg.setCenterY(100);
 
@@ -212,6 +213,26 @@ public class NavigationMenu extends AnchorPane {
 		Separator separator = new Separator();
 
 		vb_projects.getChildren().addAll(separator, btn_add_project);
+	}
+
+	public void update() {
+
+		HandlerLogin handlerLogin = new HandlerLogin();
+		/* Conteudo do perfil */
+
+		StackPane userImg = new StackPane();
+
+		if (handlerLogin.userImageExists()){
+
+			Image img = new Image("http://localhost/cyberlife/imagens/img" + SESSION.get_user_cod() + ".jpeg");
+			profileImg.setFill(new ImagePattern(img));
+		}
+		else {
+
+			Label userInitial = new Label(SESSION.get_user_name().substring(0, 1).toUpperCase());
+			userInitial.setFont(new Font(20));
+			userImg.getChildren().addAll(profileImg, userInitial);
+		}
 	}
 
 	private Stage profileSelectorStageConstructor() {
