@@ -32,6 +32,13 @@
     -fx-line-spacing: 0px;
 }
 
+#task_title{
+    -fx-text-fill: #CC361F;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-line-spacing: 0px;
+}
+
 #date{
     -fx-text-fill: rgba(0,0,0,0.5);
     -fx-font-weight: bold;
