@@ -34,6 +34,9 @@ public class Settings extends Scene {
     private Tab tab_user;
     private Tab tab_notifications;
 
+    private Label userInitial;
+    private Image img;
+
     public Settings() {
         super(new VBox());
 
@@ -83,25 +86,24 @@ public class Settings extends Scene {
         profileEdit.setCenterY(100);
 
         HandlerLogin handlerLogin = new HandlerLogin();
-
-        Image img;
         
+        userInitial = new Label();
+
         StackPane userImg = new StackPane();
         if (handlerLogin.userImageExists()){
 
             img = new Image("http://localhost/cyberlife/imagens/img" + SESSION.get_user_cod() + ".jpeg");
 			profileImg.setFill(new ImagePattern(img));
-            userImg.getChildren().addAll(profileImg);
 		}
 		else {
 
-			Label userInitial = new Label(SESSION.get_user_name().substring(0, 1).toUpperCase());
+			userInitial.setText(SESSION.get_user_name().substring(0, 1).toUpperCase());
 			userInitial.setFont(new Font(20));
-			userImg.getChildren().addAll(profileImg, userInitial);
-		}
+        }
+        
+        userImg.getChildren().addAll(profileImg, userInitial);
 
         Image imgPhoto = new Image("http://localhost/cyberlife/imagens/camera.png");
-        
         
         profileEdit.setFill(new ImagePattern(imgPhoto));
 
@@ -112,21 +114,41 @@ public class Settings extends Scene {
             new ExtensionFilter("Arquivos de imagem", "*.png", "*.jpg", "*.gif", "*.jpeg"),
             new ExtensionFilter("Todos os arquivos", "*.*"));
             
-            File selectedFile = fileChooser.showOpenDialog(new Stage());
-            File dest = new File("C:\\Apache24\\htdocs\\cyberlife\\imagens\\img" + SESSION.get_user_cod() + ".jpeg");
-            
-            if(dest.exists()){
-                dest.delete();
-            }
+            File selectedFile;
 
-            try {
-                copyFileUsingJava7Files(selectedFile, dest);
-                Image imgUp = new Image("http://localhost/cyberlife/imagens/img" + SESSION.get_user_cod() + ".jpeg");
-                profileImg.setFill(new ImagePattern(imgUp));
-                HomePage.menu.update();
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
+            File dest = new File("C:\\Apache24\\htdocs\\cyberlife\\imagens\\img" + SESSION.get_user_cod() + ".jpeg");
+
+            selectedFile = fileChooser.showOpenDialog(new Stage());
+
+           /* if(selectedFile == null){
+                if(dest.exists()){
+                    Image imgUp = new Image("http://localhost/cyberlife/imagens/img" + SESSION.get_user_cod() + ".jpeg");
+                    profileImg.setFill(new ImagePattern(imgUp));
+                    userInitial.setText("");
+                    HomePage.menu.update();
+    
+                }else{
+                    userInitial = new Label(SESSION.get_user_name().substring(0, 1).toUpperCase());
+                    userInitial.setFont(new Font(20));
+                }
+
+            }
+            */
+            if(selectedFile != null){
+               
+                if(dest.exists()){
+                    dest.delete();
+                }
+
+                try {
+                    copyFileUsingJava7Files(selectedFile, dest);
+                    Image imgUp = new Image("http://localhost/cyberlife/imagens/img" + SESSION.get_user_cod() + ".jpeg");
+                    profileImg.setFill(new ImagePattern(imgUp));
+                    //userInitial.setText("");
+                    HomePage.menu.update();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 

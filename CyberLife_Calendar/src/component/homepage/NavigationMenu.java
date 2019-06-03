@@ -41,6 +41,8 @@ public class NavigationMenu extends AnchorPane {
 	private ToggleGroup grp_options;
 	private VBox vb_projects;
 	private Circle profileImg;
+	private Label userInitial;
+	private StackPane userImg;
 
 	public NavigationMenu() {
 
@@ -73,7 +75,7 @@ public class NavigationMenu extends AnchorPane {
 		profileImg.setCenterX(100);
 		profileImg.setCenterY(100);
 
-		StackPane userImg = new StackPane();
+		userImg = new StackPane();
 
 		if (handlerLogin.userImageExists()){
 
@@ -83,7 +85,7 @@ public class NavigationMenu extends AnchorPane {
 		}
 		else {
 
-			Label userInitial = new Label(SESSION.get_user_name().substring(0, 1).toUpperCase());
+			userInitial = new Label(SESSION.get_user_name().substring(0, 1).toUpperCase());
 			userInitial.setFont(new Font(20));
 			userImg.getChildren().addAll(profileImg, userInitial);
 		}
@@ -217,22 +219,28 @@ public class NavigationMenu extends AnchorPane {
 
 	public void update() {
 
+		/*profileImg = new Circle();
+        profileImg.setRadius(50);
+		profileImg.setCenterX(100);
+        profileImg.setCenterY(100);*/
+
 		HandlerLogin handlerLogin = new HandlerLogin();
 		/* Conteudo do perfil */
 
-		StackPane userImg = new StackPane();
+		userInitial = new Label();
 
 		if (handlerLogin.userImageExists()){
-
+		
 			Image img = new Image("http://localhost/cyberlife/imagens/img" + SESSION.get_user_cod() + ".jpeg");
 			profileImg.setFill(new ImagePattern(img));
 		}
 		else {
 
-			Label userInitial = new Label(SESSION.get_user_name().substring(0, 1).toUpperCase());
+			userInitial.setText(SESSION.get_user_name().substring(0, 1).toUpperCase());
 			userInitial.setFont(new Font(20));
-			userImg.getChildren().addAll(profileImg, userInitial);
 		}
+		userImg.getChildren().clear();
+		userImg.getChildren().addAll(profileImg, userInitial);
 	}
 
 	private Stage profileSelectorStageConstructor() {
