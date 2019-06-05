@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 
 import component.project.Labels;
 import component.project.Tasks;
+import component.project.Team;
 import db.pojo.projectPOJO.ProjectDB;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -40,9 +41,6 @@ public class Project extends VBox{
         
         lbl_title = new Label();
         lbl_title.setId("title");
-        //lbl_title.setMinWidth(300);
-
-        //lbl_title.setEffect(shadow);
 
         toolbar = new ToolBar();
 
@@ -84,6 +82,10 @@ public class Project extends VBox{
 
         btn_tasks.setOnAction(e -> {
             content_pane.getChildren().set(0, new Tasks(cod_project));
+        });
+
+        btn_team.setOnAction(e -> {
+            content_pane.getChildren().set(0, new Team(cod_project));
         });
 
         btn_labels.setOnAction(e -> {

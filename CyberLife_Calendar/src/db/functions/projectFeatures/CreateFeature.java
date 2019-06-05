@@ -22,8 +22,27 @@ public class CreateFeature {
             statement.execute();
 
         } catch (ClassNotFoundException | SQLException e) {
-            
+
             e.printStackTrace();
         }
-    }    
+    }
+
+    public void sendNotification(String email, int cod_projet) {
+
+        String sql = "{ CALL ENVIAR_NOTIFICACAO(?, ?) }";
+
+        try {
+
+            PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+
+            statement.setString(1, email);
+            statement.setInt(2, cod_projet);
+
+            statement.execute();
+
+        } catch (ClassNotFoundException | SQLException e) {
+
+            e.printStackTrace();
+        }
+    }
 }

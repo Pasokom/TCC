@@ -40,15 +40,19 @@ public class Labels extends VBox {
         flw_all_labels = new FlowPane();
         flw_all_labels.setHgap(10);
         flw_all_labels.setVgap(10);
+        
+        flw_progress = new FlowPane();
+        flw_progress.setHgap(15);
+        flw_progress.setVgap(10);
+
+        lbl_progress = new Label("Progresso");
 
         for (LabelDB label : labels) {
             
             FeatureComponent fc_label = new FeatureComponent(label);
             flw_all_labels.getChildren().add(fc_label);
+            flw_progress.getChildren().addAll(new LabelProgress(label));
         }
-
-        lbl_progress = new Label("Progresso");
-        flw_progress = new FlowPane();
 
         this.setSpacing(10);
         this.getChildren().addAll(btn_add_label, lbl_all_labels, flw_all_labels, lbl_progress, flw_progress);

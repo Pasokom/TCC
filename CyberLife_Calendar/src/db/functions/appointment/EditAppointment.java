@@ -7,6 +7,7 @@ import db.Database;
 import db.functions.event.CreateEvent;
 import db.functions.reminder.CreateReminder;
 import db.pojo.eventPOJO.EventDB;
+import db.pojo.projectPOJO.TarefaDB;
 import db.pojo.reminderPOJO.ReminderDB;
 
 /**
@@ -55,6 +56,24 @@ public class EditAppointment {
             PreparedStatement statement = Database.get_connection().prepareStatement(sql);
 
             statement.setInt(1, reminder.getCod_recorrencia());
+
+            statement.execute();
+
+        } catch (ClassNotFoundException | SQLException e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    public void markAsDone(TarefaDB task) {
+
+        String sql = "{CALL TAREFA_CONCLUIDA(?)}";
+
+        try {
+
+            PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+
+            statement.setInt(1, task.getCod_tarefa());
 
             statement.execute();
 
