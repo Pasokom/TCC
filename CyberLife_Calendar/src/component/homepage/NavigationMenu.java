@@ -7,6 +7,7 @@ import db.functions.registrationAndLogin.HandlerLogin;
 import db.pojo.UserSession;
 import db.pojo.projectPOJO.ProjectDB;
 import display.poupoup.EditProfile;
+import display.poupoup.Notifications;
 import display.poupoup.Profile;
 import display.scenes.HomePage;
 import display.scenes.Login;
@@ -40,6 +41,10 @@ public class NavigationMenu extends AnchorPane {
 	private EditProfile editProfile;
 	private ToggleGroup grp_options;
 	private VBox vb_projects;
+	private Circle profileImg;
+	private Label userInitial;
+	private StackPane userImg;
+	private Label btn_notifications;
 
 	public NavigationMenu() {
 
@@ -65,14 +70,14 @@ public class NavigationMenu extends AnchorPane {
 			}
 		});
 		
-		Circle profileImg = new Circle();
+		profileImg = new Circle();
 		HandlerLogin handlerLogin = new HandlerLogin();
 		/* Conteudo do perfil */
-		profileImg.setRadius(20);
+		profileImg.setRadius(25);
 		profileImg.setCenterX(100);
 		profileImg.setCenterY(100);
 
-		StackPane userImg = new StackPane();
+		userImg = new StackPane();
 
 		if (handlerLogin.userImageExists()){
 
@@ -82,7 +87,7 @@ public class NavigationMenu extends AnchorPane {
 		}
 		else {
 
-			Label userInitial = new Label(SESSION.get_user_name().substring(0, 1).toUpperCase());
+			userInitial = new Label(SESSION.get_user_name().substring(0, 1).toUpperCase());
 			userInitial.setFont(new Font(20));
 			userImg.getChildren().addAll(profileImg, userInitial);
 		}
@@ -162,7 +167,27 @@ public class NavigationMenu extends AnchorPane {
 		AnchorPane.setLeftAnchor(vb_items, 0d);
 		AnchorPane.setTopAnchor(vb_items, 100d);
 
-		this.getChildren().addAll(userImg, vb_items, circleButton);
+		btn_notifications = new Label();
+		btn_notifications.setId("btn_notifications");
+
+		btn_notifications.setOnMouseClicked(e -> {
+
+			Notifications notifications = new Notifications();
+
+			Point2D point2d = this.btn_notifications.localToScreen(0d, 0d);
+
+			notifications.setX(point2d.getX() + this.btn_notifications.getWidth());
+			notifications.setY(point2d.getY());
+
+			notifications.setWidth(200);
+			notifications.setHeight(200);
+			notifications.show(this.getScene().getWindow());
+		});
+
+		AnchorPane.setTopAnchor(btn_notifications, 25d);
+		AnchorPane.setLeftAnchor(btn_notifications, 80d);
+
+		this.getChildren().addAll(userImg, btn_notifications, vb_items, circleButton);
 	}
 
 	public void updateProjects() {
@@ -212,6 +237,32 @@ public class NavigationMenu extends AnchorPane {
 		Separator separator = new Separator();
 
 		vb_projects.getChildren().addAll(separator, btn_add_project);
+	}
+
+	public void update() {
+
+		/*profileImg = new Circle();
+        profileImg.setRadius(50);
+		profileImg.setCenterX(100);
+        profileImg.setCenterY(100);*/
+
+		HandlerLogin handlerLogin = new HandlerLogin();
+		/* Conteudo do perfil */
+
+		userInitial = new Label();
+
+		if (handlerLogin.userImageExists()){
+		
+			Image img = new Image("http://localhost/cyberlife/imagens/img" + SESSION.get_user_cod() + ".jpeg");
+			profileImg.setFill(new ImagePattern(img));
+		}
+		else {
+
+			userInitial.setText(SESSION.get_user_name().substring(0, 1).toUpperCase());
+			userInitial.setFont(new Font(20));
+		}
+		userImg.getChildren().clear();
+		userImg.getChildren().addAll(profileImg, userInitial);
 	}
 
 	private Stage profileSelectorStageConstructor() {

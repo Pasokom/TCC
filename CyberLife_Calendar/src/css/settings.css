@@ -1,0 +1,8 @@
+.root{
+    -fx-border-color: #3949AB;
+    -fx-spacing: 5;
+}
+
+.usuario{
+    -fx-padding: 10px;
+}
