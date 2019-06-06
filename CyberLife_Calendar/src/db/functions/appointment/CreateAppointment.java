@@ -72,7 +72,7 @@ public class CreateAppointment {
 
     public void create(TarefaDB task) {
 
-        String sql = "INSERT INTO TAREFA (NOME_TAREFA, DURACAO_MINUTOS, IMPORTANCIA, DEPENDENCIA, FK_NOME_MARCADOR, FK_PROJETO) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO TAREFA (NOME_TAREFA, DURACAO_MINUTOS, IMPORTANCIA, DEPENDENCIA, FK_NOME_MARCADOR, FK_PROJETO, FK_USUARIO) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try {
 
@@ -89,6 +89,7 @@ public class CreateAppointment {
 
             statement.setString(5, task.getFk_nome_marcador());
             statement.setInt(6, task.getFk_projeto());
+            statement.setInt(7, task.getFk_usuario());
 
             statement.execute();
 

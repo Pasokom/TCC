@@ -7,6 +7,7 @@ import db.functions.appointment.CreateAppointment;
 import db.functions.appointment.LoadAppointment;
 import db.functions.projectFeatures.LoadFeature;
 import db.pojo.LabelDB;
+import db.pojo.UserDB;
 import db.pojo.projectPOJO.TarefaDB;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -18,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import statics.SESSION;
 
 public class Task extends Scene {
 
@@ -30,6 +32,8 @@ public class Task extends Scene {
     private Spinner<Integer> spn_importance;
     private Label lbl_dependency;
     private ChoiceBox<TarefaDB> cbx_depedency;
+    private Label lbl_member;
+    private ChoiceBox<UserDB> cbx_member;
 
     private int cod_project;
 
@@ -112,9 +116,31 @@ public class Task extends Scene {
             ((Stage)this.getWindow()).close();
         });
 
+        /* Membros do projeto */
+        lbl_member = new Label("Integrante");
+        cbx_member = new ChoiceBox<>();
+        cbx_member.setPadding(new Insets(2));
+
+        UserDB me = new UserDB();
+        me.setNome("Eu");
+        me.setSobrenome("");
+        me.setCod_usuario((int)SESSION.get_user_cod());
+        cbx_member.getItems().add(me);
+
+        cbx_member.getSelectionModel().select(0);
+
+        LoadFeature features = new LoadFeature();
+        ArrayList<UserDB> members = features.loadMembers(this.cod_project);
+
+        for (UserDB member : members) {
+            cbx_member.getItems().add(member);
+        }
+
+        VBox vb_member = new VBox(lbl_member, cbx_member);
+
         VBox vb_root = new VBox();
         vb_root.setSpacing(10);
-        vb_root.getChildren().addAll(txt_title, hb_lv1, hb_lv2, btn_add);
+        vb_root.getChildren().addAll(txt_title, hb_lv1, hb_lv2, vb_member, btn_add);
 
         this.setRoot(vb_root);
     }
@@ -131,6 +157,7 @@ public class Task extends Scene {
             tarefa.setFk_nome_marcador(cbx_labels.getSelectionModel().getSelectedItem());
 
         tarefa.setFk_projeto(this.cod_project);
+        tarefa.setFk_usuario(this.cbx_member.getSelectionModel().getSelectedItem().getCod_usuario());
 
         return tarefa;
     }

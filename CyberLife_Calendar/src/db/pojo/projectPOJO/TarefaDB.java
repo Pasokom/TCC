@@ -13,6 +13,7 @@ public class TarefaDB extends AppointmentDB {
     private int dependencia;
     private String fk_nome_marcador;
     private int fk_projeto;
+    private int fk_usuario;
     
     private Timestamp data_inicio;
     private Timestamp data_fim;
@@ -121,6 +122,14 @@ public class TarefaDB extends AppointmentDB {
 
     public void setDependencia(int dependencia) {
         this.dependencia = dependencia;
+    }
+
+    public int getFk_usuario() {
+        return fk_usuario;
+    }
+
+    public void setFk_usuario(int fk_usuario) {
+        this.fk_usuario = fk_usuario;
     }
 
     @Override

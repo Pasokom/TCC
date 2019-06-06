@@ -241,6 +241,7 @@ public class LoadAppointment {
                 task.setDependencia(rSet.getInt("DEPENDENCIA"));
                 task.setFk_nome_marcador(rSet.getString("FK_NOME_MARCADOR"));
                 task.setFk_projeto(rSet.getInt("FK_PROJETO"));
+                task.setFk_usuario(rSet.getInt("FK_USUARIO"));
             }
 
         } catch (ClassNotFoundException | SQLException e) {
