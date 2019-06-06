@@ -7,6 +7,7 @@ import java.util.Calendar;
 import db.functions.appointment.DeleteAppointment;
 import db.functions.appointment.EditAppointment;
 import db.pojo.eventPOJO.EventDB;
+import db.pojo.projectPOJO.TarefaDB;
 import db.pojo.reminderPOJO.ReminderDB;
 import display.scenes.Event;
 import display.scenes.HomePage;
@@ -310,6 +311,70 @@ public class AppointmentInfo extends Popup {
         }
 
         root.getChildren().addAll(hb_control_buttons);
+
+        DropShadow shadow = new DropShadow();
+		shadow.setOffsetX(0);
+		shadow.setOffsetY(0);
+
+        root.setEffect(shadow);
+        root.setMinWidth(300);
+        root.setMaxWidth(450);
+
+        this.setAutoHide(true);
+        this.getContent().add(root);
+    }
+
+    public AppointmentInfo(TarefaDB task) {
+
+        VBox root = new VBox();
+        root.getStyleClass().add("vbox");
+
+        root.getStylesheets().add(this.getClass().getResource("/css/appointment_info.css").toExternalForm());
+
+        /* titulo */
+        lbl_title = new Label(task.getNome_tarefa());
+        lbl_title.setId("task_title");
+        lbl_title.setWrapText(true);
+
+        root.getChildren().add(lbl_title);
+
+        /* marcador */
+        if(task.getFk_nome_marcador() != null) {
+
+            Label lbl_label = new Label(task.getFk_nome_marcador());
+            root.getChildren().add(lbl_label);
+        }
+
+        Separator separator = new Separator();
+
+        /* importância */
+        Label lbl_importancy = new Label("Importância");
+        lbl_importancy.getStyleClass().add("pane_label");
+        Label lbl_importancy_value = new Label("nível " + task.getImportancia());
+        lbl_importancy_value.getStyleClass().add("inside_label");
+
+        root.getChildren().addAll(separator, lbl_importancy, lbl_importancy_value);
+
+        /* dependência */
+        if(task.getDependencia() > 0) {
+
+            Label lbl_dependency = new Label("Depende de");
+            lbl_dependency.getStyleClass().add("pane_label");
+            Label lbl_dependency_value = new Label(String.valueOf(task.getDependencia()));
+            lbl_dependency_value.getStyleClass().add("inside_label");
+
+            root.getChildren().addAll(lbl_dependency, lbl_dependency_value);
+        }
+
+        btn_done = new Button();
+        btn_done.setId("btn_done");
+
+        HBox hb_control_buttons = new HBox();
+        hb_control_buttons.setAlignment(Pos.CENTER_RIGHT);
+        hb_control_buttons.getChildren().add(btn_done);
+        hb_control_buttons.setId("hb_buttons");
+
+        root.getChildren().add(hb_control_buttons);
 
         DropShadow shadow = new DropShadow();
 		shadow.setOffsetX(0);

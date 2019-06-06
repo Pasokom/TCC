@@ -219,6 +219,38 @@ public class LoadAppointment {
         return event;
     }
 
+    public TarefaDB loadTask(int cod) {
+
+        TarefaDB task = new TarefaDB();
+
+        String sql = "SELECT * FROM TAREFA WHERE COD_TAREFA = ?";
+
+        try {
+
+            PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+            statement.setInt(1, cod);
+
+            ResultSet rSet = statement.executeQuery();
+
+            if(rSet.next()) {
+
+                task.setCod_tarefa(rSet.getInt("COD_TAREFA"));
+                task.setNome_tarefa(rSet.getString("NOME_TAREFA"));
+                task.setDuracao(rSet.getInt("DURACAO_MINUTOS"));
+                task.setImportancia(rSet.getInt("IMPORTANCIA"));
+                task.setDependencia(rSet.getInt("DEPENDENCIA"));
+                task.setFk_nome_marcador(rSet.getString("FK_NOME_MARCADOR"));
+                task.setFk_projeto(rSet.getInt("FK_PROJETO"));
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+
+            e.printStackTrace();
+        }
+
+        return task;
+    }
+
     public ArrayList<GoalDB> loadGoals() {
 
         ArrayList<GoalDB> goals = new ArrayList<GoalDB>();

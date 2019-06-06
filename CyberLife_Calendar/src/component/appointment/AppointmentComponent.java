@@ -216,5 +216,18 @@ public class AppointmentComponent extends VBox{
         card.setId("task_card");
 
         this.getChildren().add(card);
+
+        this.setOnMouseClicked(e -> {
+
+            TarefaDB current_task = new LoadAppointment().loadTask(task.getCod_tarefa());
+            AppointmentInfo info = new AppointmentInfo(current_task);
+
+            Point2D point2d = this.localToScreen(0d, 0d);
+
+            info.show(this.getScene().getWindow());
+
+            info.setX(point2d.getX() + this.getWidth() + 5);
+            info.setY(point2d.getY() + (this.getHeight() / 2) - (info.getHeight() / 2));
+        });
     }
 }
