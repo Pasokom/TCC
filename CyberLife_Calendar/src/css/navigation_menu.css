@@ -57,6 +57,14 @@ Label{
 	-fx-graphic: url("../../resources/images/round_outlined_flag_white_24dp.png");
 }
 
+#btn_notifications {
+	-fx-graphic: url("../../resources/images/round_notifications_white_24dp.png");
+}
+
+#btn_notifications:hover{
+	-fx-cursor: hand;
+}
+
 #logout{
 	-fx-image: url("../../resources/images/logout.png");
 }

@@ -369,6 +369,12 @@ public class AppointmentInfo extends Popup {
         btn_done = new Button();
         btn_done.setId("btn_done");
 
+        btn_done.setOnAction(e -> {
+
+            EditAppointment edit = new EditAppointment();
+            edit.markAsDone(task);
+        });
+
         HBox hb_control_buttons = new HBox();
         hb_control_buttons.setAlignment(Pos.CENTER_RIGHT);
         hb_control_buttons.getChildren().add(btn_done);
