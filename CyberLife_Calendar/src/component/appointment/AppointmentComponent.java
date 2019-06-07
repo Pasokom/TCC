@@ -8,9 +8,11 @@ import db.pojo.Moon;
 import db.pojo.eventPOJO.EventDB;
 import db.pojo.projectPOJO.TarefaDB;
 import db.pojo.reminderPOJO.ReminderDB;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -190,7 +192,20 @@ public class AppointmentComponent extends VBox{
 		this.setId("this");
 
         lbl_titulo = new Label(task.getNome_tarefa());
+        lbl_titulo.setPadding(new Insets(2));
+        lbl_titulo.prefWidthProperty().bind(this.widthProperty());
         lbl_titulo.setId("titulo");
+
+        Label img_done = new Label();
+        img_done.setPadding(new Insets(0, 10, 0, 0));
+        img_done.setId("img_done");
+
+        HBox hb_title = new HBox(lbl_titulo);
+        
+        if(task.isConcluido()) {
+
+            hb_title.getChildren().add(img_done);
+        }
 
         VBox card = new VBox();
 
@@ -212,7 +227,7 @@ public class AppointmentComponent extends VBox{
             card.getChildren().add(sup_title);
         }
 
-        card.getChildren().add(lbl_titulo);
+        card.getChildren().add(hb_title);
         card.setId("task_card");
 
         this.getChildren().add(card);

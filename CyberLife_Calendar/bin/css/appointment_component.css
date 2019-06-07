@@ -78,3 +78,7 @@
 #moon-4{
 	-fx-image: url("../../resources/images/moon/moon-4.png");
 }
+
+#img_done {
+	-fx-graphic: url("../../resources/images/round_done_white_24dp.png");
+}

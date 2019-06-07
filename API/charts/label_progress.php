@@ -6,7 +6,7 @@
 	$vCores = array();
 	$vCoresBorda = array();
 	
-	$cSQL = "SELECT IF(CONCLUIDO, 'CONCLUIDO', 'FAZER') CONCLUIDO, COUNT(0) QUANTIDADE FROM TAREFA WHERE FK_NOME_MARCADOR = '$_GET[marcador]'  AND FK_PROJETO = '$_GET[projeto]' GROUP BY CONCLUIDO ORDER BY CONCLUIDO DESC";
+	$cSQL = "SELECT IF(CONCLUIDO, 'CONCLUIDO', 'FAZER') CONCLUIDO, IF(CONCLUIDO, '#0277BD', '#E0E0E0') COR, COUNT(0) QUANTIDADE FROM TAREFA WHERE FK_NOME_MARCADOR = '$_GET[marcador]'  AND FK_PROJETO = '$_GET[projeto]' GROUP BY CONCLUIDO ORDER BY CONCLUIDO DESC";
 	
 	$dados = mysqli_query($oCon, $cSQL);
 
@@ -14,7 +14,8 @@
 
 	while($vReg = mysqli_fetch_assoc($dados)){
 		$vTitulo[] = $vReg['CONCLUIDO'];
-		$vValores[] = $vReg['QUANTIDADE'];
+        $vValores[] = $vReg['QUANTIDADE'];
+        $vCores[] = $vReg['COR'];
     }
 
 	mysqli_close($oCon);
@@ -69,7 +70,7 @@
                         { 
                             label: 'população', 
                             data: <?php echo json_encode($vValores); ?>,
-                            backgroundColor: ['#CC361F', '#0277BD'],
+                            backgroundColor: <?php echo json_encode($vCores); ?>,
                             borderColor: ['#FFFFFF', '#FFFFFF'],
                             borderWidth: 2	 
                         }
