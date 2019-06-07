@@ -42,7 +42,7 @@ public class Tasks extends VBox {
 
             Stage st = new Stage();
             st.setWidth(300);
-            st.setHeight(300);
+            st.setHeight(350);
             st.initStyle(StageStyle.UTILITY);
             st.initModality(Modality.APPLICATION_MODAL);
             st.setScene(new Task(this.cod_project));

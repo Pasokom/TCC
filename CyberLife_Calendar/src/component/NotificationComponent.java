@@ -1,5 +1,6 @@
 package component;
 
+import db.functions.user.ManageNotifications;
 import db.pojo.NotificationDB;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -23,6 +24,8 @@ public class NotificationComponent extends HBox {
         btn_accept.setOnAction(e -> {
 
             this.getScene().getWindow().hide();
+            ManageNotifications manage = new ManageNotifications();
+            manage.accept(notification);
         });
 
         btn_dismiss = new Button("Recusar");
@@ -31,6 +34,8 @@ public class NotificationComponent extends HBox {
         btn_dismiss.setOnAction(e -> {
 
             this.getScene().getWindow().hide();
+            ManageNotifications manage = new ManageNotifications();
+            manage.dismiss(notification);
         });
 
         this.setPadding(new Insets(10));

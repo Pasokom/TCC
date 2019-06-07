@@ -1,12 +1,11 @@
 <?php 
     $id = $_GET['id'];
-    $file = "localhost/cyberlife/imagens/$id.jpg";
+    $file = "http://localhost/cyberlife/imagens/img$id.jpeg";
 
-    $file_headers = @get_headers($file);
-    if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {
-        echo 'non existe';
+    if(@getimagesize($file)) {
+        echo 'existe';
     }
     else {
-        echo 'existe';
+        echo 'non existe';
     }
 ?>

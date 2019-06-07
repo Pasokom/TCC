@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import db.Database;
 import db.pojo.LabelDB;
+import db.pojo.UserDB;
 
 public class LoadFeature {
 
@@ -23,7 +24,7 @@ public class LoadFeature {
 
             ResultSet rSet = statement.executeQuery();
 
-            while(rSet.next()) {
+            while (rSet.next()) {
 
                 LabelDB label = new LabelDB();
                 label.setNome_marcador(rSet.getString("NOME_MARCADOR"));
@@ -33,10 +34,42 @@ public class LoadFeature {
             }
 
         } catch (ClassNotFoundException | SQLException e) {
-            
+
             e.printStackTrace();
         }
 
         return labels;
-    }   
+    }
+
+    public ArrayList<UserDB> loadMembers(int project) {
+
+        ArrayList<UserDB> members = new ArrayList<>();
+
+        String sql = "{ CALL CARREGA_MEMBROS(?) }";
+
+        try {
+
+            PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+            statement.setInt(1, project);
+
+            ResultSet rSet = statement.executeQuery();
+
+            while (rSet.next()) {
+                
+                UserDB member = new UserDB();
+                member.setCod_usuario(rSet.getInt("COD_USUARIO"));
+                member.setNome(rSet.getString("NOME"));
+                member.setSobrenome(rSet.getString("SOBRENOME"));
+                member.setEmail(rSet.getString("EMAIL"));
+
+                members.add(member);
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+            
+            e.printStackTrace();
+        }
+
+        return members;
+    }
 }
