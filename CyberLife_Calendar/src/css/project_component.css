@@ -1,0 +1,33 @@
+.button {
+    -fx-body-color: #0277BD;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-outer-border: transparent;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-padding: 12px;
+}
+
+.button:hover {
+    -fx-body-color: #01579B;
+}
+
+.combo-box{
+    -fx-padding: 2px;
+    -fx-focus-color: #0277BD;
+    -fx-faint-focus-color: transparent;
+    -fx-body-color: white;
+}
+
+.combo-box-popup .list-view .list-cell:filled:selected, .combo-box-popup .list-view .list-cell:filled:selected:hover 
+{
+    -fx-background: -fx-accent;
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+    -fx-text-fill: #000000;
+}
+
+.combo-box-popup .list-view .list-cell:filled:hover 
+{
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+    -fx-text-fill: #000000;;
+}

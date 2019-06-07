@@ -24,7 +24,10 @@ public class Labels extends VBox {
     public Labels(int cod_project) {
         this.cod_project = cod_project;
 
+        this.getStylesheets().add(this.getClass().getResource("../../css/project_component.css").toExternalForm());
+
         btn_add_label = new Button(" + adicionar marcador");
+        btn_add_label.setId("btn_add_label");
         btn_add_label.setOnAction(e -> {
             
             Stage stage = new Stage();

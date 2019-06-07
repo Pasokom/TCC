@@ -24,7 +24,7 @@
         h3 {
             font-family: verdana;
             font-weight: bold;
-            color: #03073B;
+            color: #0277BD;
             text-align: center;
             margin-top: 20px;
         }
@@ -69,7 +69,7 @@
                         { 
                             label: 'população', 
                             data: <?php echo json_encode($vValores); ?>,
-                            backgroundColor: ['#CC361F', '#03073B'],
+                            backgroundColor: ['#CC361F', '#0277BD'],
                             borderColor: ['#FFFFFF', '#FFFFFF'],
                             borderWidth: 2	 
                         }

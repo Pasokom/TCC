@@ -13,6 +13,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
@@ -25,15 +26,15 @@ public class Task extends Scene {
 
     private TextField txt_title;
     private Label lbl_duration;
-    private ChoiceBox<String> cbx_duration;
+    private ComboBox<String> cbx_duration;
     private Label lbl_labels;
-    private ChoiceBox<String> cbx_labels;
+    private ComboBox<String> cbx_labels;
     private Label lbl_importance;
     private Spinner<Integer> spn_importance;
     private Label lbl_dependency;
-    private ChoiceBox<TarefaDB> cbx_depedency;
+    private ComboBox<TarefaDB> cbx_depedency;
     private Label lbl_member;
-    private ChoiceBox<UserDB> cbx_member;
+    private ComboBox<UserDB> cbx_member;
 
     private int cod_project;
 
@@ -49,7 +50,7 @@ public class Task extends Scene {
         txt_title.setPromptText("Título");
 
         lbl_duration = new Label("Duração");
-        cbx_duration = new ChoiceBox<>();
+        cbx_duration = new ComboBox<>();
         cbx_duration.getItems().add("30 minutos");
         cbx_duration.getItems().add("1 hora");
         cbx_duration.getItems().add("2 horas");
@@ -59,7 +60,7 @@ public class Task extends Scene {
         VBox vb_duration = new VBox(lbl_duration, cbx_duration);
 
         lbl_labels = new Label("Marcador");
-        cbx_labels = new ChoiceBox<>();
+        cbx_labels = new ComboBox<>();
         cbx_labels.setPrefWidth(100);
         cbx_labels.setPadding(new Insets(2));
 
@@ -81,7 +82,7 @@ public class Task extends Scene {
         VBox vb_importace = new VBox(lbl_importance, spn_importance);
 
         lbl_dependency = new Label("Dependência");
-        cbx_depedency = new ChoiceBox<>();
+        cbx_depedency = new ComboBox<>();
         cbx_depedency.setPrefWidth(100);
         cbx_depedency.setPadding(new Insets(2));
 
@@ -118,7 +119,7 @@ public class Task extends Scene {
 
         /* Membros do projeto */
         lbl_member = new Label("Integrante");
-        cbx_member = new ChoiceBox<>();
+        cbx_member = new ComboBox<>();
         cbx_member.setPadding(new Insets(2));
 
         UserDB me = new UserDB();

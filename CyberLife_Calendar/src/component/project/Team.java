@@ -18,7 +18,10 @@ public class Team extends VBox {
         
         this.cod_project = cod_project;
 
+        this.getStylesheets().add(this.getClass().getResource("../../css/project_component.css").toExternalForm());
+
         btn_add_user = new Button(" + adicionar integrante");
+        btn_add_user.setId("btn_add_user");
         lbl_all_users = new Label("Todos os integrantes");
         flw_all_users = new FlowPane();
 
