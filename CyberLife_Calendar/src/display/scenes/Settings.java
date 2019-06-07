@@ -169,12 +169,22 @@ public class Settings extends Scene {
 
         Label lbl_email = new Label("Email");
         TextField txt_email = new TextField(SESSION.get_user_email());
+        txt_email.setMaxWidth(200);
 
         Label lbl_passCurrent = new Label("Senha Atual");
         TextField txt_passCurrent = new TextField();
 
+        VBox vb_current_password = new VBox(lbl_passCurrent, txt_passCurrent);
+        vb_current_password.setSpacing(5);
+
         Label lbl_newPass = new Label("Nova senha");
         TextField txt_newPass = new TextField();
+
+        VBox vb_new_password = new VBox(lbl_newPass, txt_newPass);
+        vb_new_password.setSpacing(5);
+
+        HBox hb_password = new HBox(vb_current_password, vb_new_password);
+        hb_password.setSpacing(20);
 
         Tab tab = new Tab("Usuário");
         tab.setClosable(false);
@@ -191,7 +201,7 @@ public class Settings extends Scene {
 
         VBox vb_content = new VBox();
         vb_content.getChildren().addAll(userImg, hb_name,
-            lbl_email, txt_email, lbl_passCurrent, txt_passCurrent, lbl_newPass, txt_newPass, hb_button);
+            lbl_email, txt_email, hb_password, hb_button);
 
         vb_content.setSpacing(7);
         vb_content.getStyleClass().add("usuario");

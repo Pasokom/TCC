@@ -116,7 +116,7 @@ public class Profile extends Popup {
             Stage stage = new Stage();
             stage.setScene(new Settings());
             stage.setWidth(400);
-            stage.setHeight(350);
+            stage.setHeight(400);
             stage.show();
 		});
 
