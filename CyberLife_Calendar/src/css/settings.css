@@ -6,3 +6,14 @@
 .usuario{
     -fx-padding: 10px;
 }
+
+.text-input{
+    -fx-focus-color: #3949AB;
+    -fx-faint-focus-color: transparent;
+    -fx-text-box-border: darkgray;
+    -fx-padding: 6px;
+}
+
+.text-input, .text-input:focused { 
+    -fx-prompt-text-fill:darkgray;
+}

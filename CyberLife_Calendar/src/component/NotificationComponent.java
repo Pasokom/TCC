@@ -23,6 +23,7 @@ public class NotificationComponent extends HBox {
 
         btn_accept.setOnAction(e -> {
 
+            this.getScene().getWindow().hide();
             ManageNotifications manage = new ManageNotifications();
             manage.accept(notification);
         });
@@ -32,6 +33,7 @@ public class NotificationComponent extends HBox {
         
         btn_dismiss.setOnAction(e -> {
 
+            this.getScene().getWindow().hide();
             ManageNotifications manage = new ManageNotifications();
             manage.dismiss(notification);
         });
