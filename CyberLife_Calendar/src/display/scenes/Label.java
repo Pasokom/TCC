@@ -2,6 +2,7 @@ package display.scenes;
 
 import db.functions.projectFeatures.CreateFeature;
 import db.pojo.LabelDB;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -20,10 +21,14 @@ public class Label extends Scene {
 
         this.project = project;
 
+        this.getStylesheets().add(this.getClass().getResource("../../css/labels.css").toExternalForm());
+
         txt_name = new TextField();
         txt_name.setPromptText("Nome");
+        txt_name.setId("title");
 
         btn_create = new Button("Criar");
+        btn_create.setPrefWidth(80);
         btn_create.setOnAction(e -> {
            
             CreateFeature feature = new CreateFeature();
@@ -33,6 +38,8 @@ public class Label extends Scene {
         });
 
         VBox vb_content = new VBox(txt_name, btn_create);
+        vb_content.setPadding(new Insets(15, 15, 20, 15));
+        vb_content.setSpacing(5);
         this.setRoot(vb_content);
     }
     

@@ -1,0 +1,40 @@
+.root {
+    -fx-background-color: #FFFFFF;
+}
+
+.text-input{
+    -fx-focus-color: #0277BD;
+    -fx-faint-focus-color: transparent;
+    -fx-text-box-border: darkgray;
+    -fx-padding: 6px;
+}
+
+.text-input, .text-input:focused { 
+    -fx-prompt-text-fill:darkgray;
+}
+
+#title{
+    -fx-font-size: 20px;
+    -fx-padding: 0;
+    -fx-focus-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+}
+
+#title .content{
+    -fx-background-color: transparent;
+}
+
+.button {
+    -fx-body-color: #0277BD;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-outer-border: transparent;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-padding: 12px;
+}
+
+.button:hover {
+    -fx-body-color: #01579B;
+}

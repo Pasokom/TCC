@@ -9,7 +9,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class Labels extends VBox {
 
@@ -31,6 +33,8 @@ public class Labels extends VBox {
         btn_add_label.setOnAction(e -> {
             
             Stage stage = new Stage();
+            stage.initStyle(StageStyle.UTILITY);
+			stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(new display.scenes.Label(this.cod_project));
             stage.show();
         });
