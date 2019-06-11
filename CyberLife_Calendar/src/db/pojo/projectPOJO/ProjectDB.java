@@ -10,12 +10,21 @@ public class ProjectDB {
     private Timestamp data_inicio;
     private Timestamp data_entrega;
     private ArrayList<TarefaDB> tarefas = new ArrayList<>();
+    private int fk_usuario;
 
     /**
      * @return the cod_projeto
      */
     public int getCod_projeto() {
         return cod_projeto;
+    }
+
+    public int getFk_usuario() {
+        return fk_usuario;
+    }
+
+    public void setFk_usuario(int fk_usuario) {
+        this.fk_usuario = fk_usuario;
     }
 
     /**

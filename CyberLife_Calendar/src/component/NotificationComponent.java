@@ -1,17 +1,18 @@
 package component;
 
-import java.awt.Image;
-
+import db.functions.appointment.LoadAppointment;
 import db.functions.registrationAndLogin.HandlerLogin;
 import db.functions.user.ManageNotifications;
 import db.pojo.NotificationDB;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
 import statics.SESSION;
 
 public class NotificationComponent extends HBox {
@@ -32,28 +33,30 @@ public class NotificationComponent extends HBox {
 
         this.getStylesheets().add(this.getClass().getResource("../css/notificationComponent.css").toExternalForm());
 
-        /*profileImg = new Circle();
-        profileImg.setRadius(10);
+        profileImg = new Circle();
+        profileImg.setRadius(20);
 		profileImg.setCenterX(100);
         profileImg.setCenterY(100);
         
         userImg = new StackPane();
 
         HandlerLogin handlerLogin = new HandlerLogin();
+        LoadAppointment load = new LoadAppointment();
 
-		if (handlerLogin.userImageExists()){
+        int cod_usuario = load.loadProject(notification.getProject_cod()).getFk_usuario();
 
-			img = new Image("http://localhost/cyberlife/imagens/img" + notification.getUser_cod() + ".jpeg");
+		if (handlerLogin.userImageExists(cod_usuario)){
+
+			img = new Image("http://localhost/cyberlife/imagens/img" + cod_usuario + ".jpeg");
 			profileImg.setFill(new ImagePattern(img));
 			userImg.getChildren().addAll(profileImg);
 		}
 		else {
 
 			userInitial = new Label(notification.getTitle().substring(0, 1).toUpperCase());
-			userInitial.setFont(new Font(20));
+			userInitial.setFont(new Font(15));
 			userImg.getChildren().addAll(profileImg, userInitial);
 		}
-        */
 
         btn_accept = new Button();
         btn_accept.setId("btnDone");    
@@ -75,8 +78,8 @@ public class NotificationComponent extends HBox {
             manage.dismiss(notification);
         });
 
-        this.setPadding(new Insets(10));
+        this.setPadding(new Insets(15));
         this.setSpacing(5);
-        this.getChildren().addAll(text, btn_accept, btn_dismiss);
+        this.getChildren().addAll(userImg, text, btn_accept, btn_dismiss);
     }
 }

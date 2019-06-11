@@ -344,6 +344,7 @@ public class LoadAppointment {
                 project.setTitulo(rSet.getString("TITULO"));
                 project.setData_inicio(rSet.getTimestamp("DATA_INICIO", timezone));
                 project.setData_entrega(rSet.getTimestamp("DATA_ENTREGA", timezone));
+                project.setFk_usuario(rSet.getInt("FK_USUARIO"));
             }
 
         } catch (ClassNotFoundException | SQLException e) {

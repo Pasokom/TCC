@@ -81,13 +81,13 @@ public class HandlerLogin {
 		return false;
 	}
 
-	public boolean userImageExists() {
+	public boolean userImageExists(int idInvite) {
 
 		try {
 
             String protocol = "http://";
             String host = "localhost/cyberlife/calendar/API/query/photo.php";
-            String id = "?id=" + SESSION.get_user_cod();
+            String id = "?id=" + idInvite;
             
             URL url = new URL(protocol+host+id);
 

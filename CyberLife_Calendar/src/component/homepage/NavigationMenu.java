@@ -79,7 +79,7 @@ public class NavigationMenu extends AnchorPane {
 
 		userImg = new StackPane();
 
-		if (handlerLogin.userImageExists()){
+		if (handlerLogin.userImageExists((int)SESSION.get_user_cod())){
 
 			Image img = new Image("http://localhost/cyberlife/imagens/img" + SESSION.get_user_cod() + ".jpeg");
 			profileImg.setFill(new ImagePattern(img));
@@ -251,7 +251,7 @@ public class NavigationMenu extends AnchorPane {
 
 		userInitial = new Label();
 
-		if (handlerLogin.userImageExists()){
+		if (handlerLogin.userImageExists((int)SESSION.get_user_cod())){
 		
 			Image img = new Image("http://localhost/cyberlife/imagens/img" + SESSION.get_user_cod() + ".jpeg");
 			profileImg.setFill(new ImagePattern(img));
