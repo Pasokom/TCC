@@ -156,5 +156,3 @@ CREATE TABLE DATAS_COMEMORATIVAS(
     MES int,
     PRIMARY KEY (COD_FERIADO)
 );
-
-select * from usuario;
