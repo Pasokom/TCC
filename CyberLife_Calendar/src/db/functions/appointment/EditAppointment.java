@@ -83,6 +83,24 @@ public class EditAppointment {
         }
     }
 
+    public void markAsUndone(TarefaDB task) {
+
+        String sql = "{CALL TAREFA_NAO_CONCLUIDA(?)}";
+
+        try {
+
+            PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+
+            statement.setInt(1, task.getCod_tarefa());
+
+            statement.execute();
+
+        } catch (ClassNotFoundException | SQLException e) {
+
+            e.printStackTrace();
+        }
+    }
+
     public void updateGoalWeek(int cod, int new_value) {
 
         String sql = "{CALL ATUALIZA_SEMANA_META(?,?)}";

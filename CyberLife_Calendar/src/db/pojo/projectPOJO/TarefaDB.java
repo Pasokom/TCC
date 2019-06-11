@@ -1,5 +1,6 @@
 package db.pojo.projectPOJO;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import db.pojo.AppointmentDB;
@@ -11,6 +12,8 @@ public class TarefaDB extends AppointmentDB {
     private int duracao;
     private int importancia;
     private int dependencia;
+    private boolean concluido;
+    private Date data_concluido;
     private String fk_nome_marcador;
     private int fk_projeto;
     private int fk_usuario;
@@ -135,5 +138,21 @@ public class TarefaDB extends AppointmentDB {
     @Override
     public String toString() {
         return this.nome_tarefa;
+    }
+
+    public boolean isConcluido() {
+        return concluido;
+    }
+
+    public void setConcluido(boolean concluido) {
+        this.concluido = concluido;
+    }
+
+    public Date getData_concluido() {
+        return data_concluido;
+    }
+
+    public void setData_concluido(Date data_concluido) {
+        this.data_concluido = data_concluido;
     }
 }

@@ -1,6 +1,7 @@
 package display.poupoup;
 
 import db.functions.projectFeatures.CreateFeature;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
@@ -19,16 +20,23 @@ public class User extends Popup {
         this.cod_project = cod_project;
 
         txt_email = new TextField();
+        txt_email.setPromptText("Email");
+        txt_email.setId("title");
+        txt_email.setPrefWidth(300);
         btn_send = new Button("Enviar solicitação");
-
+        
         btn_send.setOnAction(e -> {
-
+            
             CreateFeature create = new CreateFeature();
             create.sendNotification(txt_email.getText(), this.cod_project);
             this.hide();
         });
-
+        
         VBox root = new VBox(txt_email, btn_send);
+        root.getStyleClass().add("root");
+        root.getStylesheets().add(this.getClass().getResource("../../css/add_user.css").toExternalForm());
+        root.setPadding(new Insets(15));
+        root.setSpacing(5);
 
         DropShadow shadow = new DropShadow();
         root.setEffect(shadow);

@@ -28,7 +28,7 @@
 }
 
 #task_card{
-	-fx-background-color: #CC361F;
+	-fx-background-color: #0277BD;
 	-fx-background-radius: 3 0 0 3;
 	-fx-padding: 10;
 }
@@ -77,4 +77,8 @@
 }
 #moon-4{
 	-fx-image: url("../../resources/images/moon/moon-4.png");
+}
+
+#img_done {
+	-fx-graphic: url("../../resources/images/round_done_white_24dp.png");
 }

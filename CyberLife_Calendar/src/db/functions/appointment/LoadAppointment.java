@@ -239,6 +239,7 @@ public class LoadAppointment {
                 task.setDuracao(rSet.getInt("DURACAO_MINUTOS"));
                 task.setImportancia(rSet.getInt("IMPORTANCIA"));
                 task.setDependencia(rSet.getInt("DEPENDENCIA"));
+                task.setConcluido(rSet.getBoolean("CONCLUIDO"));
                 task.setFk_nome_marcador(rSet.getString("FK_NOME_MARCADOR"));
                 task.setFk_projeto(rSet.getInt("FK_PROJETO"));
                 task.setFk_usuario(rSet.getInt("FK_USUARIO"));
@@ -403,6 +404,7 @@ public class LoadAppointment {
                 task.setDuracao(rSet.getInt("DURACAO_MINUTOS"));
                 task.setImportancia(rSet.getInt("IMPORTANCIA"));
                 task.setDependencia(rSet.getInt("DEPENDENCIA"));
+                task.setConcluido(rSet.getBoolean("CONCLUIDO"));
                 task.setFk_nome_marcador(rSet.getString("FK_NOME_MARCADOR"));
                 task.setFk_projeto(rSet.getInt("FK_PROJETO"));
 
@@ -439,6 +441,7 @@ public class LoadAppointment {
                 task.setDuracao(rSet.getInt("DURACAO_MINUTOS"));
                 task.setImportancia(rSet.getInt("IMPORTANCIA"));
                 task.setDependencia(rSet.getInt("DEPENDENCIA"));
+                task.setConcluido(rSet.getBoolean("CONCLUIDO"));
                 task.setFk_nome_marcador(rSet.getString("FK_NOME_MARCADOR"));
                 task.setFk_projeto(rSet.getInt("FK_PROJETO"));
 
@@ -662,6 +665,7 @@ public class LoadAppointment {
 
         task.setCod_tarefa(rSet.getInt("CODIGO"));
         task.setNome_tarefa(rSet.getString("TITULO"));
+        task.setConcluido(rSet.getBoolean("CONCLUIDO"));
         task.setData_inicio(rSet.getTimestamp("DATA_INICIO", timezone));
         task.setData_fim(rSet.getTimestamp("DATA_FIM", timezone));
 

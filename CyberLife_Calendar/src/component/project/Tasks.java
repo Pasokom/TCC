@@ -13,6 +13,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
@@ -26,7 +27,7 @@ public class Tasks extends VBox {
     private Button btn_add_task;
     private Label lbl_current_task;
     private Label lbl_all_tasks;
-    private ChoiceBox<String> cbx_labels;
+    private ComboBox<String> cbx_labels;
 
     private FlowPane fp_taks;
 
@@ -36,7 +37,10 @@ public class Tasks extends VBox {
 
         this.cod_project = cod_project;
 
+        this.getStylesheets().add(this.getClass().getResource("../../css/project_component.css").toExternalForm());
+
         btn_add_task = new Button("+ adicionar tarefa");
+        btn_add_task.setId("button_add_task");
 
         btn_add_task.setOnAction(e -> {
 
@@ -67,7 +71,7 @@ public class Tasks extends VBox {
 
         lbl_all_tasks = new Label("Todas as tarefas");
 
-        cbx_labels = new ChoiceBox<>();
+        cbx_labels = new ComboBox<>();
         cbx_labels.setPrefWidth(100);
         cbx_labels.setPadding(new Insets(2));
 
@@ -94,6 +98,7 @@ public class Tasks extends VBox {
         });
 
         HBox hb_all_tasks = new HBox(lbl_all_tasks, cbx_labels);
+        hb_all_tasks.setSpacing(15);
         this.getChildren().add(hb_all_tasks);
 
         fp_taks = new FlowPane();

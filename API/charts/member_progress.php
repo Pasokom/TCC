@@ -6,7 +6,7 @@
 	$vCores = array();
 	$vCoresBorda = array();
 	
-	$cSQL = "SELECT IF(CONCLUIDO, 'CONCLUIDO', 'FAZER') CONCLUIDO, IF(CONCLUIDO, '#0277BD', '#E0E0E0') COR, COUNT(0) QUANTIDADE FROM TAREFA WHERE FK_NOME_MARCADOR = '$_GET[marcador]'  AND FK_PROJETO = '$_GET[projeto]' GROUP BY CONCLUIDO ORDER BY CONCLUIDO DESC";
+	$cSQL = "SELECT IF(CONCLUIDO, 'CONCLUIDO', 'FAZER') CONCLUIDO, IF(CONCLUIDO, '#0277BD', '#E0E0E0') COR, COUNT(0) QUANTIDADE FROM TAREFA WHERE FK_USUARIO = '$_GET[usuario]' AND FK_PROJETO = '$_GET[projeto]' GROUP BY CONCLUIDO ORDER BY CONCLUIDO DESC";
 	
 	$dados = mysqli_query($oCon, $cSQL);
 
@@ -23,11 +23,12 @@
 <html>
     <style>
         h3 {
-            font-family: verdana;
+            font-family: "Arial Black", Gadget, sans-serif;
             font-weight: bold;
             color: #0277BD;
             text-align: center;
-            margin-top: 20px;
+            display: block;
+            margin-top: 40px;
         }
 
         p {
@@ -40,7 +41,7 @@
             margin: auto;
             height: 60vh;
             width: 80vw;
-            top: 10px;
+            top: 20px;
         }
 
         .message {
@@ -49,10 +50,10 @@
         }
     </style>
     <body>
-        <h3><?php echo $_GET['marcador'] ?></h3>
         <div class="chart-container">
             <canvas id="objgrafico"></canvas>
         </div>
+        <h3><?php echo $_GET['nome'] ?></h3>
         <p class="message"> 
             <?php if (empty($vValores)) {
                 echo 'nenhuma tarefa cadastrada';
@@ -63,7 +64,7 @@
     <script>
         var oGrafico = new Chart(document.all.objgrafico.getContext('2d'), 
             { 
-                type: 'pie',
+                type: 'doughnut',
                 data: {  
                     labels: <?php echo json_encode($vTitulo, JSON_UNESCAPED_UNICODE); ?>,
                     datasets: [ 

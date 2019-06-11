@@ -112,7 +112,7 @@ public class Profile extends Popup {
         hb_settings.getChildren().addAll(img_config, lbl_config);
         hb_settings.getStyleClass().add("option");
 
-        lbl_config.setOnMouseClicked(e -> {
+        hb_settings.setOnMouseClicked(e -> {
             Stage stage = new Stage();
             stage.setScene(new Settings());
             stage.setWidth(400);

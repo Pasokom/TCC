@@ -47,6 +47,8 @@ public class AppointmentInfo extends Popup {
     Button btn_edit;
     Button btn_done;
 
+    TarefaDB task;
+
     public AppointmentInfo(ReminderDB reminder) {
 
         DeleteAppointment deleter = new DeleteAppointment();
@@ -326,6 +328,8 @@ public class AppointmentInfo extends Popup {
 
     public AppointmentInfo(TarefaDB task) {
 
+        this.task = task;
+
         VBox root = new VBox();
         root.getStyleClass().add("vbox");
 
@@ -372,7 +376,19 @@ public class AppointmentInfo extends Popup {
         btn_done.setOnAction(e -> {
 
             EditAppointment edit = new EditAppointment();
-            edit.markAsDone(task);
+
+            if (this.task.isConcluido()) {
+
+                edit.markAsUndone(this.task);
+            }
+            else {
+
+                edit.markAsDone(this.task);
+            }
+
+            HomePage.listCalendar.update(HomePage.listCalendar.getCurrentDate());
+            HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
+            this.hide();
         });
 
         HBox hb_control_buttons = new HBox();

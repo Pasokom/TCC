@@ -14,7 +14,7 @@
 
 .text-input{
     -fx-text-fill: rgba(0, 0, 0, 0.8);
-    -fx-focus-color: #0097A7;
+    -fx-focus-color: #0277BD;
     -fx-faint-focus-color: transparent;
     -fx-text-box-border: darkgray;
     -fx-padding: 6px;
@@ -25,7 +25,7 @@
 }
 
 .spinner{
-    -fx-focus-color: #0097A7;
+    -fx-focus-color: #0277BD;
     -fx-pref-width: 50px;
 }
 
@@ -38,12 +38,47 @@
 }
 
 .toggle-button:selected{
-    -fx-background-color: #0097A7;
+    -fx-background-color: #0277BD;
     -fx-text-fill: #FFFFFF;
 }
 
 .scroll-pane{
     -fx-background-color: #FFFFFF;
+}
+
+.combo-box{
+    -fx-padding: 2px;
+    -fx-focus-color: #0277BD;
+    -fx-faint-focus-color: transparent;
+    -fx-body-color: white;
+}
+
+.combo-box-popup .list-view .list-cell:filled:selected, .combo-box-popup .list-view .list-cell:filled:selected:hover 
+{
+    -fx-background: -fx-accent;
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+    -fx-text-fill: #000000;
+}
+
+.combo-box-popup .list-view .list-cell:filled:hover 
+{
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+    -fx-text-fill: #000000;;
+}
+
+.button {
+    -fx-body-color: #0277BD;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-outer-border: transparent;
+    -fx-background-radius: 3;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-padding: 12px;
+}
+
+.button:hover {
+    -fx-body-color: #01579B;
 }
 
 #title{
