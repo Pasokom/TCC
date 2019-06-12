@@ -3,18 +3,15 @@
 	mysqli_set_charset($oCon, 'utf8');
 	$vTitulo = array();
     $vValores = array();
-	$vCores = array();
-	$vCoresBorda = array();
-	
-	$cSQL = "SELECT IF(CONCLUIDO, 'CONCLUIDO', 'FAZER') CONCLUIDO, IF(CONCLUIDO, '#0277BD', '#E0E0E0') COR, COUNT(0) QUANTIDADE FROM TAREFA WHERE FK_NOME_MARCADOR = '$_GET[marcador]'  AND FK_PROJETO = '$_GET[projeto]' GROUP BY CONCLUIDO ORDER BY CONCLUIDO DESC";
+    $vCores = array();
+    
+	$cSQL = "CALL DESEMPENHO_MEMBRO($_GET[projeto], $_GET[usuario])";
 	
 	$dados = mysqli_query($oCon, $cSQL);
 
-	mysqli_set_charset($oCon, 'UTF8');
-
 	while($vReg = mysqli_fetch_assoc($dados)){
-		$vTitulo[] = $vReg['CONCLUIDO'];
-        $vValores[] = $vReg['QUANTIDADE'];
+		$vTitulo[] = $vReg['DATA_TAREFA'];
+        $vValores[] = $vReg['QTD_TAREFAS'];
         $vCores[] = $vReg['COR'];
     }
 
@@ -22,6 +19,13 @@
 ?>
 <html>
     <style>
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 60vh;
+            width: 80vw;
+            top: 20px;
+        }
         h3 {
             font-family: "Arial Black", Gadget, sans-serif;
             font-weight: bold;
@@ -30,54 +34,45 @@
             display: block;
             margin-top: 40px;
         }
-
-        p {
-            font-family: verdana;
-            text-align: center;
-        }
-
-        .chart-container {
-            position: relative;
-            margin: auto;
-            height: 60vh;
-            width: 80vw;
-            top: 20px;
-        }
-
-        .message {
-            position: absolute;
-            top: 40%;
-        }
     </style>
     <body>
+        <h3><?php echo $_GET['nome'] ?></h3>
         <div class="chart-container">
             <canvas id="objgrafico"></canvas>
         </div>
-        <h3><?php echo $_GET['marcador'] ?></h3>
-        <p class="message"> 
-            <?php if (empty($vValores)) {
-                echo 'nenhuma tarefa cadastrada';
-            } ?> 
-        </p>
     </body>
     <script src="lib/chart.js"></script>
     <script>
         var oGrafico = new Chart(document.all.objgrafico.getContext('2d'), 
             { 
-                type: 'doughnut',
+                type: 'line',
                 data: {  
                     labels: <?php echo json_encode($vTitulo, JSON_UNESCAPED_UNICODE); ?>,
                     datasets: [ 
                         { 
-                            label: 'população', 
+                            label: 'tarefas concluídas', 
                             data: <?php echo json_encode($vValores); ?>,
-                            backgroundColor: <?php echo json_encode($vCores); ?>,
-                            borderColor: ['#FFFFFF', '#FFFFFF'],
-                            borderWidth: 2	 
+                            borderColor: '#0277BD',
+                            fill: false,
+                            borderWidth: 4	 
                         }
                     ]
                 },
                 options: {
+                    elements: {
+                        line: {
+                            tension: 0.1
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                            stacked: true,
+                            ticks: {
+                                beginAtZero: true,
+                                stepSize: 1
+                            }
+                        }]
+                    },
                     legend: {
                         display: false
                     },
