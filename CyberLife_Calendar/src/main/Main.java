@@ -12,6 +12,7 @@ import display.scenes.Login;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class Main extends Application {
 
@@ -29,6 +30,8 @@ public class Main extends Application {
 		main_stage = primaryStage;
 		main_stage.setWidth(875);
 		main_stage.setHeight(515);
+		//main_stage.setMaximized(true);
+		main_stage.initStyle(StageStyle.UNDECORATED);
 		main_stage.getIcons().add(new Image(new FileInputStream(new File(IMAGE_PATH))));
 
 		TimeZone.getDefault();
