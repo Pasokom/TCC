@@ -6,12 +6,11 @@ import java.nio.file.Files;
 import java.util.Calendar;
 
 import component.TimePicker;
-import component.homepage.NavigationMenu;
 import db.functions.registrationAndLogin.HandlerLogin;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
@@ -57,10 +56,15 @@ public class Settings extends Scene {
         TimePicker t_begin = new TimePicker(Calendar.getInstance());
         TimePicker t_end = new TimePicker(Calendar.getInstance());
 
+        Label lbl_until = new Label("até");
+
         HBox hb_task_schedule = new HBox();
-        hb_task_schedule.getChildren().addAll(t_begin, t_end);
+        hb_task_schedule.setSpacing(5);
+        hb_task_schedule.getChildren().addAll(t_begin, lbl_until, t_end);
 
         VBox vb_content = new VBox();
+        vb_content.setSpacing(10);
+        vb_content.setPadding(new Insets(10));
         vb_content.getChildren().addAll(lbl_task_schedule, hb_task_schedule);
 
         Tab tab = new Tab("Geral");

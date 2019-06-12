@@ -17,3 +17,17 @@
 .text-input, .text-input:focused { 
     -fx-prompt-text-fill:darkgray;
 }
+
+.button {
+    -fx-body-color: #0277BD;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-outer-border: transparent;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-padding: 12px;
+}
+
+.button:hover {
+    -fx-body-color: #01579B;
+}

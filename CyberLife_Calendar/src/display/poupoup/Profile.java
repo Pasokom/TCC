@@ -23,6 +23,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import main.Main;
 import statics.SESSION;
 
@@ -117,6 +118,8 @@ public class Profile extends Popup {
             stage.setScene(new Settings());
             stage.setWidth(400);
             stage.setHeight(400);
+            stage.setMaxWidth(400);
+            stage.setMaxHeight(400);
             stage.show();
 		});
 

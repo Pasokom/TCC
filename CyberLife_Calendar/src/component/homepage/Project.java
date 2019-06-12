@@ -3,7 +3,10 @@ package component.homepage;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
+import component.project.Feed;
 import component.project.Labels;
+import component.project.Performance;
+import component.project.Settings;
 import component.project.Tasks;
 import component.project.Team;
 import db.pojo.projectPOJO.ProjectDB;
@@ -80,8 +83,16 @@ public class Project extends VBox{
         this.setSpacing(20);
         this.getChildren().addAll(header, content_pane);
 
+        btn_feed.setOnAction(e -> {
+            content_pane.getChildren().set(0, new Feed(cod_project));
+        });
+
         btn_tasks.setOnAction(e -> {
             content_pane.getChildren().set(0, new Tasks(cod_project));
+        });
+
+        btn_performance.setOnAction(e -> {
+            content_pane.getChildren().set(0, new Performance(cod_project));
         });
 
         btn_team.setOnAction(e -> {
@@ -90,6 +101,10 @@ public class Project extends VBox{
 
         btn_labels.setOnAction(e -> {
             content_pane.getChildren().set(0, new Labels(cod_project));
+        });
+
+        btn_settings.setOnAction(e -> {
+            content_pane.getChildren().set(0, new Settings(cod_project));
         });
     }
 

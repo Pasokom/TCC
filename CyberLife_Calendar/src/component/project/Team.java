@@ -32,6 +32,8 @@ public class Team extends VBox {
         btn_add_user.setId("btn_add_user");
         lbl_all_users = new Label("Todos os integrantes");
         flw_all_users = new FlowPane();
+        flw_all_users.setHgap(10);
+        flw_all_users.setVgap(10);
 
         btn_add_user.setOnAction(e -> {
 
