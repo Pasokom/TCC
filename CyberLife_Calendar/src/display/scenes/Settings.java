@@ -3,10 +3,12 @@ package display.scenes;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.sql.Time;
 import java.util.Calendar;
 
 import component.TimePicker;
 import db.functions.registrationAndLogin.HandlerLogin;
+import db.functions.user.AccountSettings;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -32,6 +34,10 @@ public class Settings extends Scene {
     private Tab tab_general;
     private Tab tab_user;
     private Tab tab_notifications;
+    private Button save;
+
+    private TimePicker t_begin;
+    private TimePicker t_end;
 
     private Label userInitial;
     private Image img;
@@ -51,12 +57,21 @@ public class Settings extends Scene {
 
     private Tab general() {
 
+        AccountSettings accountSettings = new AccountSettings();
+
         Label lbl_task_schedule = new Label("Horario de tarefas");
-        
-        TimePicker t_begin = new TimePicker(Calendar.getInstance());
-        TimePicker t_end = new TimePicker(Calendar.getInstance());
+
+        t_begin = new TimePicker(accountSettings.startTask());
+        t_end = new TimePicker(accountSettings.endTask());
 
         Label lbl_until = new Label("até");
+
+        save = new Button("salvar");
+
+        save.setOnAction(e ->{
+
+            accountSettings.saveScheduleTask(Time.valueOf(t_begin.get_value() + ":00"), Time.valueOf(t_end.get_value() + ":00"));
+        });
 
         HBox hb_task_schedule = new HBox();
         hb_task_schedule.setSpacing(5);
@@ -65,7 +80,7 @@ public class Settings extends Scene {
         VBox vb_content = new VBox();
         vb_content.setSpacing(10);
         vb_content.setPadding(new Insets(10));
-        vb_content.getChildren().addAll(lbl_task_schedule, hb_task_schedule);
+        vb_content.getChildren().addAll(lbl_task_schedule, hb_task_schedule, save);
 
         Tab tab = new Tab("Geral");
         tab.setClosable(false);

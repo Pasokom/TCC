@@ -6,7 +6,9 @@ import java.util.Calendar;
 
 import db.functions.appointment.DeleteAppointment;
 import db.functions.appointment.EditAppointment;
+import db.functions.appointment.LoadAppointment;
 import db.pojo.eventPOJO.EventDB;
+import db.pojo.projectPOJO.ProjectDB;
 import db.pojo.projectPOJO.TarefaDB;
 import db.pojo.reminderPOJO.ReminderDB;
 import display.scenes.Event;
@@ -351,13 +353,24 @@ public class AppointmentInfo extends Popup {
 
         Separator separator = new Separator();
 
+        LoadAppointment appointment = new LoadAppointment();
+        ProjectDB project = appointment.loadProject(task.getFk_projeto());
+
+        /* projeto */
+        Label lbl_project = new Label("Projeto");
+        lbl_project.getStyleClass().add("pane_label");
+        Label lbl_project_value = new Label(project.getTitulo());
+        lbl_project_value.getStyleClass().add("inside_label");
+
+        root.getChildren().addAll(separator, lbl_project, lbl_project_value);
+
         /* importância */
         Label lbl_importancy = new Label("Importância");
         lbl_importancy.getStyleClass().add("pane_label");
         Label lbl_importancy_value = new Label("nível " + task.getImportancia());
         lbl_importancy_value.getStyleClass().add("inside_label");
 
-        root.getChildren().addAll(separator, lbl_importancy, lbl_importancy_value);
+        root.getChildren().addAll(lbl_importancy, lbl_importancy_value);
 
         /* dependência */
         if(task.getDependencia() > 0) {

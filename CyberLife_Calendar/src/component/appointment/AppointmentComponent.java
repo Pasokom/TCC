@@ -209,7 +209,7 @@ public class AppointmentComponent extends VBox{
 
         VBox card = new VBox();
 
-        if (task.getData_inicio() != null) {
+        if (task.getData_inicio() != null && !task.isConcluido()) {
 
             Calendar start_time = Calendar.getInstance();
             start_time.setTime(task.getData_inicio());

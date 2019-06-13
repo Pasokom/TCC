@@ -1,7 +1,12 @@
 package db.functions.user;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.Calendar;
 
 import db.Database;
 import main.Main;
@@ -20,9 +25,11 @@ public class AccountSettings {
 
 	public AccountSettings() {
 	}
+
 	public static enum changeThe {
 		EMAIL, NAME, LAST_NAME, PASSWORD, ACTIVE
 	}
+
 	public void changeProfile(Object newValue, int userID, changeThe whatChange) {
 		String sql = "UPDATE USUARIO SET ";
 		final String query_end = "' WHERE UCODIGO = " + userID + ";";
@@ -39,6 +46,7 @@ public class AccountSettings {
 		System.out.println(sql);
 		execute(sql);
 	}
+
 	private void execute(String sql) {
 		try {
 			this.connection = Database.get_connection();
@@ -48,6 +56,7 @@ public class AccountSettings {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * Muda a imagem no sistema de arquivos
 	 * 
@@ -60,8 +69,83 @@ public class AccountSettings {
 		ps.chooseImage(Main.main_stage, 1); // (int) SESSION.get_user_cod());
 		// SESSION.setImage(ps.getImageInFolder((int) SESSION.get_user_cod()));
 	}
+
 	public void removeImage() {
 
+	}
+
+	public Calendar startTask() {
+
+		Calendar calendar = Calendar.getInstance();
+		String sql = "SELECT HORARIO_TAREFA_INICIO FROM USUARIO_CONFIGURACOES WHERE FK_USUARIO = ?";
+
+		try {
+
+			PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+
+			statement.setInt(1, (int) SESSION.get_user_cod());
+
+			ResultSet rSet = statement.executeQuery();
+
+			if (rSet.next()) {
+
+				Timestamp time = rSet.getTimestamp("HORARIO_TAREFA_INICIO", calendar);
+				calendar.setTime(time);
+			}
+
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return calendar;
+	}
+
+	public Calendar endTask() {
+
+		Calendar calendar = Calendar.getInstance();
+		String sql = "SELECT HORARIO_TAREFA_FIM FROM USUARIO_CONFIGURACOES WHERE FK_USUARIO = ?";
+
+		try {
+
+			PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+
+			statement.setInt(1, (int) SESSION.get_user_cod());
+
+			ResultSet rSet = statement.executeQuery();
+
+			if (rSet.next()) {
+
+				Timestamp time = rSet.getTimestamp("HORARIO_TAREFA_FIM", calendar);
+				calendar.setTime(time);
+			}
+
+		} catch (ClassNotFoundException | SQLException e) {
+
+			e.printStackTrace();
+		}
+
+		return calendar;
+	}
+
+	public void saveScheduleTask(Time t_begin, Time t_end) {
+
+		String sql = "UPDATE USUARIO_CONFIGURACOES SET HORARIO_TAREFA_INICIO = ?, HORARIO_TAREFA_FIM = ? WHERE FK_USUARIO = ?";
+
+		try {
+
+			PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+
+			statement.setTime(1, t_begin, Calendar.getInstance());
+			statement.setTime(2, t_end, Calendar.getInstance());
+			statement.setInt(3, (int)SESSION.get_user_cod());
+
+			statement.execute();
+
+		} catch (ClassNotFoundException | SQLException e) {
+
+			e.printStackTrace();
+		}
 	}
 }
 
