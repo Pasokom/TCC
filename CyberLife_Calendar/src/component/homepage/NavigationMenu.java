@@ -2,6 +2,7 @@ package component.homepage;
 
 import java.util.ArrayList;
 
+import component.CustomScroll;
 import db.functions.appointment.LoadAppointment;
 import db.functions.registrationAndLogin.HandlerLogin;
 import db.pojo.UserSession;
@@ -22,6 +23,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -157,15 +159,23 @@ public class NavigationMenu extends AnchorPane {
 		vb_options.setSpacing(1);
 		vb_options.getChildren().addAll(btn_calendar, btn_goals);
 
+		CustomScroll cs_projects = new CustomScroll();
+		cs_projects.getStyleClass().add("custom-scroll");
+		cs_projects.setVbarPolicy(ScrollBarPolicy.NEVER);
+
 		vb_projects = new VBox();
+
+		cs_projects.setContent(vb_projects);
 
 		updateProjects();
 
-		vb_items.getChildren().addAll(vb_options, vb_projects);
+		vb_items.getChildren().addAll(vb_options, cs_projects);
 		vb_items.setSpacing(5);
 
 		AnchorPane.setLeftAnchor(vb_items, 0d);
 		AnchorPane.setTopAnchor(vb_items, 100d);
+		AnchorPane.setBottomAnchor(vb_items, 0d);
+		AnchorPane.setRightAnchor(vb_items, 0d);
 
 		btn_notifications = new Label();
 		btn_notifications.setId("btn_notifications");

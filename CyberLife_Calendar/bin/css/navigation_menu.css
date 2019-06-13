@@ -36,6 +36,10 @@
 	-fx-padding: 10;
 }
 
+.custom-scroll {
+	-fx-background-color: transparent;
+}
+
 HBox{
 	-fx-spacing: 10;
 }

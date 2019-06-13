@@ -24,6 +24,8 @@ public class Performance extends CustomScroll {
         
         this.cod_project = cod_project;
 
+        this.getStylesheets().add(this.getClass().getResource("../../css/project_component.css").toExternalForm());
+
         projectTeam = new ProjectTeam(this.cod_project);
 
         LoadFeature feature = new LoadFeature();
@@ -45,5 +47,6 @@ public class Performance extends CustomScroll {
         vb_content.setSpacing(10);
         vb_content.setPadding(new Insets(10));
         this.setContent(vb_content);
+        this.getStyleClass().add("custom-scroll");
     }
 }

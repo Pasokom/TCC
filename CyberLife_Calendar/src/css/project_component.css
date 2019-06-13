@@ -31,3 +31,7 @@
     -fx-background-color: rgba(0, 0, 0, 0.1);
     -fx-text-fill: #000000;;
 }
+
+.custom-scroll {
+    -fx-background-color: transparent;
+}

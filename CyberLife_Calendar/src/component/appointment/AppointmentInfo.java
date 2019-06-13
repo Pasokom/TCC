@@ -26,6 +26,7 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import statics.Enums;
+import statics.SESSION;
 import statics.Enums.DialogResult;
 
 /**
@@ -406,8 +407,10 @@ public class AppointmentInfo extends Popup {
 
         HBox hb_control_buttons = new HBox();
         hb_control_buttons.setAlignment(Pos.CENTER_RIGHT);
-        hb_control_buttons.getChildren().add(btn_done);
         hb_control_buttons.setId("hb_buttons");
+
+        if(task.getFk_usuario() == (int)SESSION.get_user_cod())
+            hb_control_buttons.getChildren().add(btn_done);
 
         root.getChildren().add(hb_control_buttons);
 
