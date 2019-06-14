@@ -10,11 +10,13 @@ import component.project.Settings;
 import component.project.Tasks;
 import component.project.Team;
 import db.pojo.projectPOJO.ProjectDB;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ToolBar;
+import javafx.scene.control.Tooltip;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
@@ -47,14 +49,22 @@ public class Project extends VBox{
 
         toolbar = new ToolBar();
 
+        Tooltip tooltip = new Tooltip();
+
         ToggleGroup grp_toolbar = new ToggleGroup();
 
-        ToggleButton btn_feed = new ToggleButton("Feed");
-        ToggleButton btn_tasks = new ToggleButton("Tarefas");
-        ToggleButton btn_performance = new ToggleButton("Desempenho");
-        ToggleButton btn_team = new ToggleButton("Equipe");
-        ToggleButton btn_labels = new ToggleButton("Marcadores");
-        ToggleButton btn_settings = new ToggleButton("Configurações");
+        ToggleButton btn_feed = new ToggleButton();
+        btn_feed.setId("btnFeed");
+        ToggleButton btn_tasks = new ToggleButton();
+        btn_tasks.setId("btnTasks");
+        ToggleButton btn_performance = new ToggleButton();
+        btn_performance.setId("btnPerformance");
+        ToggleButton btn_team = new ToggleButton();
+        btn_team.setId("btnTeam");
+        ToggleButton btn_labels = new ToggleButton();
+        btn_labels.setId("btnLabels");
+        ToggleButton btn_settings = new ToggleButton();
+        btn_settings.setId("btnSettings");
         
         btn_feed.setToggleGroup(grp_toolbar);
         btn_tasks.setToggleGroup(grp_toolbar);
@@ -82,6 +92,80 @@ public class Project extends VBox{
         content_pane = new StackPane();
         this.setSpacing(20);
         this.getChildren().addAll(header, content_pane);
+
+        btn_feed.setOnMouseEntered(e -> {
+
+            Point2D point = btn_feed.localToScreen(0d, 0d);
+
+            tooltip.setX(point.getX());
+            tooltip.setY(point.getY() + btn_feed.getHeight());
+            tooltip.setText("Feed");
+            tooltip.show(this.getScene().getWindow());
+        });
+
+        btn_feed.setOnMouseExited(e -> {
+            tooltip.hide();
+        });
+
+        btn_tasks.setOnMouseEntered(e -> {
+            Point2D point = btn_tasks.localToScreen(0d, 0d);
+            tooltip.setX(point.getX());
+            tooltip.setY(point.getY() + btn_feed.getHeight());
+            tooltip.setText("Tarefas");
+            tooltip.show(this.getScene().getWindow());
+        });
+
+        btn_tasks.setOnMouseExited(e -> {
+            tooltip.hide();
+        });
+
+        btn_performance.setOnMouseEntered(e -> {
+            Point2D point = btn_performance.localToScreen(0d, 0d);
+            tooltip.setX(point.getX());
+            tooltip.setY(point.getY() + btn_feed.getHeight());
+            tooltip.setText("Performance");
+            tooltip.show(this.getScene().getWindow());
+        });
+
+        btn_performance.setOnMouseExited(e -> {
+            tooltip.hide();
+        });
+
+        btn_team.setOnMouseEntered(e -> {
+            Point2D point = btn_team.localToScreen(0d, 0d);
+            tooltip.setX(point.getX());
+            tooltip.setY(point.getY() + btn_feed.getHeight());
+            tooltip.setText("Equipe");
+            tooltip.show(this.getScene().getWindow());
+        });
+
+        btn_team.setOnMouseExited(e -> {
+            tooltip.hide();
+        });
+
+        btn_labels.setOnMouseEntered(e -> {
+            Point2D point = btn_labels.localToScreen(0d, 0d);
+            tooltip.setX(point.getX());
+            tooltip.setY(point.getY() + btn_feed.getHeight());
+            tooltip.setText("Marcadores");
+            tooltip.show(this.getScene().getWindow());
+        });
+
+        btn_labels.setOnMouseExited(e -> {
+            tooltip.hide();
+        });
+
+        btn_settings.setOnMouseEntered(e -> {
+            Point2D point = btn_settings.localToScreen(0d, 0d);
+            tooltip.setX(point.getX());
+            tooltip.setY(point.getY() + btn_feed.getHeight());
+            tooltip.setText("Configurações");
+            tooltip.show(this.getScene().getWindow());
+        });
+
+        btn_settings.setOnMouseExited(e -> {
+            tooltip.hide();
+        });
 
         btn_feed.setOnAction(e -> {
             content_pane.getChildren().set(0, new Feed(cod_project));

@@ -17,6 +17,7 @@ import org.json.*;
 import db.Database;
 import db.pojo.AppointmentDB;
 import db.pojo.DayDB;
+import db.pojo.FeedTaskDB;
 import db.pojo.HolidayDB;
 import db.pojo.Moon;
 import db.pojo.eventPOJO.EventDB;
@@ -232,7 +233,7 @@ public class LoadAppointment {
 
             ResultSet rSet = statement.executeQuery();
 
-            if(rSet.next()) {
+            if (rSet.next()) {
 
                 task.setCod_tarefa(rSet.getInt("COD_TAREFA"));
                 task.setNome_tarefa(rSet.getString("NOME_TAREFA"));
@@ -365,7 +366,7 @@ public class LoadAppointment {
 
             PreparedStatement statement = Database.get_connection().prepareStatement(sql);
             statement.setInt(1, cod_project);
-            statement.setInt(2, (int)SESSION.get_user_cod());
+            statement.setInt(2, (int) SESSION.get_user_cod());
 
             ResultSet rSet = statement.executeQuery();
 
@@ -398,7 +399,7 @@ public class LoadAppointment {
             ResultSet rSet = statement.executeQuery();
 
             while (rSet.next()) {
-                
+
                 TarefaDB task = new TarefaDB();
                 task.setCod_tarefa(rSet.getInt("COD_TAREFA"));
                 task.setNome_tarefa(rSet.getString("NOME_TAREFA"));
@@ -411,7 +412,7 @@ public class LoadAppointment {
 
                 tasks.add(task);
             }
-            
+
         } catch (ClassNotFoundException | SQLException e) {
 
             e.printStackTrace();
@@ -435,7 +436,7 @@ public class LoadAppointment {
             ResultSet rSet = statement.executeQuery();
 
             while (rSet.next()) {
-                
+
                 TarefaDB task = new TarefaDB();
                 task.setCod_tarefa(rSet.getInt("COD_TAREFA"));
                 task.setNome_tarefa(rSet.getString("NOME_TAREFA"));
@@ -448,9 +449,41 @@ public class LoadAppointment {
 
                 tasks.add(task);
             }
-            
+
         } catch (ClassNotFoundException | SQLException e) {
 
+            e.printStackTrace();
+        }
+
+        return tasks;
+    }
+
+    public ArrayList<FeedTaskDB> loadFinishedTasks(int cod_project) {
+
+        ArrayList<FeedTaskDB> tasks = new ArrayList<>();
+
+        String sql = "SELECT NOME_TAREFA, FK_USUARIO, CONCAT(NOME, ' ', SOBRENOME) USUARIO_NOME, DATA_CONCLUIDO FROM TAREFA INNER JOIN USUARIO ON FK_USUARIO = COD_USUARIO WHERE CONCLUIDO = 1 AND FK_PROJETO = ? ORDER BY DATA_CONCLUIDO DESC";
+
+        try {
+
+            PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+            statement.setInt(1, cod_project);
+
+            ResultSet rSet = statement.executeQuery();
+
+            while(rSet.next()) {
+
+                FeedTaskDB task = new FeedTaskDB();
+                task.setFk_usuario(rSet.getInt("FK_USUARIO"));
+                task.setUsuario_nome(rSet.getString("USUARIO_NOME"));
+                task.setTarefa_nome(rSet.getString("NOME_TAREFA"));
+                task.setTarefa_data(rSet.getTimestamp("DATA_CONCLUIDO"));
+
+                tasks.add(task);
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+            
             e.printStackTrace();
         }
 

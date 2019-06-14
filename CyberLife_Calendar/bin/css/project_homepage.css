@@ -12,3 +12,65 @@
     -fx-font-weight: bold;
     -fx-text-fill: #013552;
 }
+
+#btnFeed{
+    -fx-graphic: url("../../resources/images/round_feedback_black_24dp.png");
+    -fx-background-color: transparent;
+    -fx-opacity: 0.8;
+}
+
+#btnTasks{
+    -fx-graphic: url("../../resources/images/round_assignment_black_24dp.png");
+    -fx-background-color: transparent;
+    -fx-opacity: 0.8;
+}
+
+#btnPerformance{
+    -fx-graphic: url("../../resources/images/round_trending_up_black_24dp.png");
+    -fx-background-color: transparent;
+    -fx-opacity: 0.8;
+}
+
+#btnTeam{
+    -fx-graphic: url("../../resources/images/round_group_black_24dp.png");
+    -fx-background-color: transparent;
+    -fx-opacity: 0.8;
+}
+
+#btnLabels{
+    -fx-graphic: url("../../resources/images/round_label_black_24dp.png");
+    -fx-background-color: transparent;
+    -fx-opacity: 0.8;
+}
+
+#btnSettings{
+    -fx-graphic: url("../../resources/images/round_settings_black_24dp.png");
+    -fx-background-color: transparent;
+    -fx-opacity: 0.8;
+}
+
+#btnFeed:hover{
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+}
+
+#btnTasks:hover{
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+}
+
+#btnPerformance:hover{
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+}
+
+#btnTeam:hover{
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+}
+
+#btnLabels:hover{
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+}
+
+#btnSettings:hover{
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+}
+
+
