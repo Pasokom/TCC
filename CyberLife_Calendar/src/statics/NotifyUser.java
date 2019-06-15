@@ -60,7 +60,7 @@ public class NotifyUser {
 			e.printStackTrace();
 		}
 		
-		//verify();
+		verify();
 	}
 	
 	private static void verify() {
