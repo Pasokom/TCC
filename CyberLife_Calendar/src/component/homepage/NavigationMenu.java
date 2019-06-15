@@ -47,6 +47,7 @@ public class NavigationMenu extends AnchorPane {
 	private Label userInitial;
 	private StackPane userImg;
 	private Label btn_notifications;
+	private Label btn_refresh;
 
 	public NavigationMenu() {
 
@@ -194,10 +195,24 @@ public class NavigationMenu extends AnchorPane {
 			notifications.show(this.getScene().getWindow());
 		});
 
+		btn_refresh = new Label();
+		btn_refresh.setId("btn_refresh");
+
+		btn_refresh.setOnMouseClicked(e -> {
+
+			HomePage.listCalendar.update(HomePage.listCalendar.getCurrentDate());
+			HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
+			HomePage.menu.update();
+			HomePage.project.update();
+		});
+
 		AnchorPane.setTopAnchor(btn_notifications, 25d);
 		AnchorPane.setLeftAnchor(btn_notifications, 80d);
 
-		this.getChildren().addAll(userImg, btn_notifications, vb_items, circleButton);
+		AnchorPane.setTopAnchor(btn_refresh, 25d);
+		AnchorPane.setLeftAnchor(btn_refresh, 120d);
+
+		this.getChildren().addAll(userImg, btn_notifications, btn_refresh, vb_items, circleButton);
 	}
 
 	public void updateProjects() {

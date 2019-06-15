@@ -69,6 +69,14 @@ Label{
 	-fx-cursor: hand;
 }
 
+#btn_refresh {
+	-fx-graphic: url("../../resources/images/round_refresh_white_24dp.png");
+}
+
+#btn_refresh:hover{
+	-fx-cursor: hand;
+}
+
 #logout{
 	-fx-image: url("../../resources/images/logout.png");
 }

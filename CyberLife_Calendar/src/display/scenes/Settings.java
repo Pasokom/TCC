@@ -33,7 +33,6 @@ public class Settings extends Scene {
     private TabPane tabs;
     private Tab tab_general;
     private Tab tab_user;
-    private Tab tab_notifications;
     private Button save;
 
     private TimePicker t_begin;
@@ -47,12 +46,12 @@ public class Settings extends Scene {
 
         tab_general = general();
         tab_user = user();
-        tab_notifications = notifications();
 
         tabs = new TabPane();
-        tabs.getTabs().addAll(tab_general, tab_user, tab_notifications);
+        tabs.getTabs().addAll(tab_general, tab_user);
 
         this.setRoot(tabs);
+        tabs.requestFocus();
     }
 
     private Tab general() {
@@ -232,13 +231,5 @@ public class Settings extends Scene {
 
     private static void copyFileUsingJava7Files(File source, File dest) throws IOException {
         Files.copy(source.toPath(), dest.toPath());
-    }
-
-    private Tab notifications() {
-
-        Tab tab = new Tab("Notificações");
-        tab.setClosable(false);
-
-        return tab;
     }
 }

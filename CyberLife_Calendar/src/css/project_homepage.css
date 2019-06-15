@@ -1,10 +1,14 @@
 .this {
-    -fx-background-color: #EEEEEE;
+    -fx-background-color: transparent;
     -fx-padding: 30px;
 }
 
 .bold {
     -fx-font-weight: bold;
+}
+
+.toolbar{
+    -fx-background-color: white;
 }
 
 #title {
@@ -73,4 +77,26 @@
     -fx-background-color: rgba(0, 0, 0, 0.2);
 }
 
+#btnFeed:selected{
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+}
 
+#btnTasks:selected{
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+}
+
+#btnPerformance:selected{
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+}
+
+#btnTeam:selected{
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+}
+
+#btnLabels:selected{
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+}
+
+#btnSettings:selected{
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+}

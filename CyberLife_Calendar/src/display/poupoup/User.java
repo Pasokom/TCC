@@ -1,6 +1,8 @@
 package display.poupoup;
 
+import component.project.Team;
 import db.functions.projectFeatures.CreateFeature;
+import display.scenes.HomePage;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -29,6 +31,9 @@ public class User extends Popup {
             
             CreateFeature create = new CreateFeature();
             create.sendNotification(txt_email.getText(), this.cod_project);
+
+            HomePage.project.setContentPane(new Team(this.cod_project));
+
             this.hide();
         });
         

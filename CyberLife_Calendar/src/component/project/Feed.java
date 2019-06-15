@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import db.functions.appointment.LoadAppointment;
 import db.pojo.FeedTaskDB;
+import javafx.geometry.Pos;
+import javafx.scene.control.Separator;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.VBox;
 
 public class Feed extends VBox {
@@ -20,9 +23,20 @@ public class Feed extends VBox {
         for (FeedTaskDB task : tasks) {
             
             FeedComponent feedComponent = new FeedComponent(task);
-            this.getChildren().add(feedComponent);
+            feedComponent.setMaxWidth(800);
+
+            Separator separator = new Separator();
+            separator.setMaxWidth(800);
+
+            this.getChildren().addAll(feedComponent, separator);
         }
 
-        this.setSpacing(10);
+        //this.setSpacing(10);
+        DropShadow shadow = new DropShadow();
+		shadow.setOffsetX(0);
+		shadow.setOffsetY(0);
+
+        this.setEffect(shadow);
+        this.setAlignment(Pos.CENTER);
     }
 }

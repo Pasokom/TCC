@@ -1,8 +1,10 @@
 package component.homepage;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
+import component.CustomScroll;
 import component.project.Feed;
 import component.project.Labels;
 import component.project.Performance;
@@ -12,6 +14,7 @@ import component.project.Team;
 import db.pojo.projectPOJO.ProjectDB;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -22,7 +25,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class Project extends VBox{
+public class Project extends CustomScroll {
 
     private Label lbl_title;
     private Label lbl_begin;
@@ -36,18 +39,21 @@ public class Project extends VBox{
     private int cod_project;
 
     public Project() {
-        
-        this.getStylesheets().add(this.getClass().getResource("../../css/project_homepage.css").toExternalForm());
-        this.getStyleClass().add("this");
-        
+
+        VBox vb_content = new VBox();
+
+        vb_content.getStylesheets().add(this.getClass().getResource("../../css/project_homepage.css").toExternalForm());
+        vb_content.getStyleClass().add("this");
+
         DropShadow shadow = new DropShadow();
-		shadow.setOffsetX(0);
+        shadow.setOffsetX(0);
         shadow.setOffsetY(0);
-        
+
         lbl_title = new Label();
         lbl_title.setId("title");
 
         toolbar = new ToolBar();
+        toolbar.getStyleClass().add("toolbar");
 
         Tooltip tooltip = new Tooltip();
 
@@ -55,6 +61,7 @@ public class Project extends VBox{
 
         ToggleButton btn_feed = new ToggleButton();
         btn_feed.setId("btnFeed");
+        btn_feed.getStyleClass().add("toggle-button");
         ToggleButton btn_tasks = new ToggleButton();
         btn_tasks.setId("btnTasks");
         ToggleButton btn_performance = new ToggleButton();
@@ -65,14 +72,14 @@ public class Project extends VBox{
         btn_labels.setId("btnLabels");
         ToggleButton btn_settings = new ToggleButton();
         btn_settings.setId("btnSettings");
-        
+
         btn_feed.setToggleGroup(grp_toolbar);
         btn_tasks.setToggleGroup(grp_toolbar);
         btn_performance.setToggleGroup(grp_toolbar);
         btn_team.setToggleGroup(grp_toolbar);
         btn_labels.setToggleGroup(grp_toolbar);
         btn_settings.setToggleGroup(grp_toolbar);
-        
+
         toolbar.getItems().add(btn_feed);
         toolbar.getItems().add(btn_tasks);
         toolbar.getItems().add(btn_performance);
@@ -90,8 +97,8 @@ public class Project extends VBox{
         header.getChildren().addAll(lbl_title, pane);
 
         content_pane = new StackPane();
-        this.setSpacing(20);
-        this.getChildren().addAll(header, content_pane);
+        vb_content.setSpacing(20);
+        vb_content.getChildren().addAll(header, content_pane);
 
         btn_feed.setOnMouseEntered(e -> {
 
@@ -190,6 +197,9 @@ public class Project extends VBox{
         btn_settings.setOnAction(e -> {
             content_pane.getChildren().set(0, new Settings(cod_project));
         });
+
+        vb_content.prefWidthProperty().bind(this.widthProperty());
+        this.setContent(vb_content);
     }
 
     public void loadProject(ProjectDB project) {
@@ -203,6 +213,27 @@ public class Project extends VBox{
             content_pane.getChildren().set(0, new Tasks(project.getCod_projeto()));
 
         ((ToggleButton) toolbar.getItems().get(1)).setSelected(true);
+    }
+
+    public void setContentPane(Node view) {
+
+        this.content_pane.getChildren().set(0, view);
+    }
+
+    public void update() {
+
+        if(!this.content_pane.getChildren().isEmpty()) {
+
+            try {
+                this.content_pane.getChildren().set(0, this.content_pane.getChildren().get(0).getClass()
+                        .getDeclaredConstructor(int.class).newInstance(this.cod_project));
+    
+            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                    | NoSuchMethodException | SecurityException e) {
+    
+                e.printStackTrace();
+            }
+        }
     }
 
     private String date(Timestamp date) {

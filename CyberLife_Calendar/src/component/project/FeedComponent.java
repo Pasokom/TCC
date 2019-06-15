@@ -1,8 +1,9 @@
 package component.project;
 
+import java.text.SimpleDateFormat;
+
 import db.functions.registrationAndLogin.HandlerLogin;
 import db.pojo.FeedTaskDB;
-import db.pojo.projectPOJO.TarefaDB;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -47,7 +48,11 @@ public class FeedComponent extends HBox {
         }
         
         lbl_message = new Label(task.getUsuario_nome() + " concluiu " + task.getTarefa_nome());
-        lbl_time = new Label("28/11/2019 15:30");
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        String formattedDate  = dateFormat.format(task.getTarefa_data());
+
+        lbl_time = new Label(formattedDate);
 
         VBox vb_message_time = new VBox(lbl_message, lbl_time);
 
@@ -55,7 +60,7 @@ public class FeedComponent extends HBox {
 		shadow.setOffsetX(0);
 		shadow.setOffsetY(0);
 
-        this.setEffect(shadow);
+        //this.setEffect(shadow);
         this.setSpacing(10);
         this.getChildren().addAll(profileImg, vb_message_time);
         this.getStyleClass().add("this");

@@ -1,5 +1,6 @@
 package display.scenes;
 
+import component.project.Labels;
 import db.functions.projectFeatures.CreateFeature;
 import db.pojo.LabelDB;
 import javafx.geometry.Insets;
@@ -33,6 +34,8 @@ public class Label extends Scene {
            
             CreateFeature feature = new CreateFeature();
             feature.create(this.getLabel());
+
+            HomePage.project.setContentPane(new Labels(this.project));
 
             ((Stage)this.getWindow()).close();
         });

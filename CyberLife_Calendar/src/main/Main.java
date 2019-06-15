@@ -10,6 +10,7 @@ import db.pojo.UserSession;
 import display.scenes.HomePage;
 import display.scenes.Login;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -28,6 +29,9 @@ public class Main extends Application {
 
 		Database.get_connection();
 		main_stage = primaryStage;
+
+		Platform.setImplicitExit(false);
+
 		main_stage.setWidth(875);
 		main_stage.setHeight(515);
 		//main_stage.setMaximized(true);

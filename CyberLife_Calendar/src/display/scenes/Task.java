@@ -3,6 +3,7 @@ package display.scenes;
 import java.util.ArrayList;
 
 import component.TimePicker;
+import component.project.Tasks;
 import db.functions.appointment.CreateAppointment;
 import db.functions.appointment.LoadAppointment;
 import db.functions.projectFeatures.LoadFeature;
@@ -113,6 +114,8 @@ public class Task extends Scene {
 
             CreateAppointment create = new CreateAppointment();
             create.create(this.getTarefa());
+
+            HomePage.project.setContentPane(new Tasks(this.cod_project));
 
             ((Stage)this.getWindow()).close();
         });

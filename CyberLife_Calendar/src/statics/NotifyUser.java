@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import db.functions.appointment.LoadAppointment;
+import javafx.application.Platform;
+import main.Main;
 
 public class NotifyUser {
 
@@ -22,6 +24,7 @@ public class NotifyUser {
 	
 	public static void init() {
 		
+		Toolkit.getDefaultToolkit();
 		tray = SystemTray.getSystemTray();
 		
 		/* Icone */
@@ -29,8 +32,10 @@ public class NotifyUser {
 		
 		/* Menu de opcoes */
 		PopupMenu popupMenu = new PopupMenu();
+
 		MenuItem mSair = new MenuItem("Sair");
 		mSair.addActionListener(e -> {
+		
 			System.exit(0);
 		});
 		
@@ -38,8 +43,15 @@ public class NotifyUser {
 		
 		trayIcon = new TrayIcon(image, "logo", popupMenu);
 		trayIcon.setImageAutoSize(true);
-		
 		trayIcon.setToolTip("CyberLife Calendar");
+
+		trayIcon.addActionListener(e -> {
+
+			Platform.runLater(() -> {
+
+				Main.main_stage.show();
+			});   
+		});
 		
 		try {
 			tray.add(trayIcon);
@@ -48,7 +60,7 @@ public class NotifyUser {
 			e.printStackTrace();
 		}
 		
-		verify();
+		//verify();
 	}
 	
 	private static void verify() {

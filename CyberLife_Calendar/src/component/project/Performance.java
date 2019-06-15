@@ -2,7 +2,6 @@ package component.project;
 
 import java.util.ArrayList;
 
-import component.CustomScroll;
 import component.project.performance.ProjectMember;
 import component.project.performance.ProjectTeam;
 import db.functions.projectFeatures.LoadFeature;
@@ -12,7 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 
-public class Performance extends CustomScroll {
+public class Performance extends VBox {
 
     private ProjectTeam projectTeam;
     private Label lbl_members;
@@ -43,10 +42,8 @@ public class Performance extends CustomScroll {
             flw_members.getChildren().add(projectMember);
         }
 
-        VBox vb_content = new VBox(projectTeam, lbl_members, flw_members);
-        vb_content.setSpacing(10);
-        vb_content.setPadding(new Insets(10));
-        this.setContent(vb_content);
-        this.getStyleClass().add("custom-scroll");
+        this.getChildren().addAll(projectTeam, lbl_members, flw_members);
+        this.setSpacing(10);
+        this.setPadding(new Insets(10));
     }
 }
