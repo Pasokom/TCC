@@ -407,6 +407,7 @@ public class AppointmentInfo extends Popup {
 
             HomePage.listCalendar.update(HomePage.listCalendar.getCurrentDate());
             HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
+            HomePage.project.update();
             this.hide();
         });
 
