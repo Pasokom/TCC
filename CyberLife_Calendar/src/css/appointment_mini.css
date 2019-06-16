@@ -28,3 +28,7 @@ Label{
 #holiday{
     -fx-background-color: #004D40;
 }
+
+#task{
+    -fx-background-color: #0277BD;
+}

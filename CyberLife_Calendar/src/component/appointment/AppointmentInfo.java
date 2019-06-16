@@ -3,10 +3,12 @@ package component.appointment;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Optional;
 
 import db.functions.appointment.DeleteAppointment;
 import db.functions.appointment.EditAppointment;
 import db.functions.appointment.LoadAppointment;
+import db.functions.projectFeatures.UpdateFeature;
 import db.pojo.eventPOJO.EventDB;
 import db.pojo.projectPOJO.ProjectDB;
 import db.pojo.projectPOJO.TarefaDB;
@@ -15,9 +17,12 @@ import display.scenes.Event;
 import display.scenes.HomePage;
 import display.scenes.Reminder;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -405,9 +410,49 @@ public class AppointmentInfo extends Popup {
             this.hide();
         });
 
+        btn_delete = new Button();
+        btn_delete.setId("btn_delete");
+
+        btn_delete.setOnAction(e -> {
+
+            Alert alert = new Alert(AlertType.CONFIRMATION, 
+                "Deseja realmente finalizar este projeto?", 
+                ButtonType.OK,
+                ButtonType.CANCEL);
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if(result.get() == ButtonType.OK) {
+
+                DeleteAppointment deleteAppointment = new DeleteAppointment();
+                deleteAppointment.delete(task);
+
+                HomePage.listCalendar.update(HomePage.listCalendar.getCurrentDate());
+                HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
+                HomePage.project.update();
+            }
+
+            /*DeleteConfirmation confirmation = new DeleteConfirmation();
+            confirmation.showAndWait();
+
+            if (confirmation.result == DialogResult.OK) {
+
+                if (confirmation.isAll())
+                    deleter.delete(event, true);
+                else
+                    deleter.delete(event, false);
+
+                HomePage.listCalendar.update(HomePage.listCalendar.getCurrentDate());
+                HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
+            }*/
+        });
+
         HBox hb_control_buttons = new HBox();
         hb_control_buttons.setAlignment(Pos.CENTER_RIGHT);
         hb_control_buttons.setId("hb_buttons");
+
+        if(project.getFk_usuario() == (int)SESSION.get_user_cod())
+            hb_control_buttons.getChildren().add(btn_delete);
 
         if(task.getFk_usuario() == (int)SESSION.get_user_cod())
             hb_control_buttons.getChildren().add(btn_done);

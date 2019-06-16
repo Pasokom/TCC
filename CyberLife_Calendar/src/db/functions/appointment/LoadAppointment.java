@@ -127,6 +127,9 @@ public class LoadAppointment {
                 case 2:
                     appointment = createMonthlyEvent(rSet);
                     break;
+                case 3:
+                    appointment = createDailyTask(rSet);
+                    break;
                 default:
                     appointment = createMonthlyReminder(rSet);
                     break;
@@ -294,7 +297,7 @@ public class LoadAppointment {
 
         ArrayList<ProjectDB> projects = new ArrayList<>();
 
-        String sql = "SELECT * FROM PROJETO WHERE FK_USUARIO = ?";
+        String sql = "SELECT * FROM PROJETO WHERE FK_USUARIO = ? AND FINALIZADO = 0";
 
         try {
 

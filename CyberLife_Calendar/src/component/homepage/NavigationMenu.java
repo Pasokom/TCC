@@ -202,6 +202,7 @@ public class NavigationMenu extends AnchorPane {
 
 			HomePage.listCalendar.update(HomePage.listCalendar.getCurrentDate());
 			HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
+			HomePage.menu.updateProjects();
 			HomePage.menu.update();
 			HomePage.project.update();
 		});
@@ -343,5 +344,13 @@ public class NavigationMenu extends AnchorPane {
 		});
 
 		return stage;
+	}
+
+	public void goToCalendar() {
+
+		HomePage.goals.setVisible(false);
+		HomePage.goals.setManaged(false);
+		HomePage.project.setVisible(false);
+		HomePage.project.setManaged(false);
 	}
 }

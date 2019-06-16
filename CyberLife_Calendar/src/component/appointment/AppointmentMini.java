@@ -2,6 +2,7 @@ package component.appointment;
 
 import db.pojo.HolidayDB;
 import db.pojo.eventPOJO.EventDB;
+import db.pojo.projectPOJO.TarefaDB;
 import db.pojo.reminderPOJO.ReminderDB;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -70,6 +71,22 @@ public class AppointmentMini extends HBox {
         card.getChildren().add(lbl_titulo);
         card.getStyleClass().add("hbox");
         card.setId("holiday");
+
+        this.getChildren().add(card);
+    }
+
+    public AppointmentMini(TarefaDB task) {
+        
+        this.getStylesheets().add(this.getClass().getResource("/css/appointment_mini.css").toExternalForm());
+		this.setId("this");
+
+        lbl_titulo = new Label(task.getNome_tarefa());
+        lbl_titulo.setId("titulo");
+        
+        HBox card = new HBox();
+        card.getChildren().add(lbl_titulo);
+        card.getStyleClass().add("hbox");
+        card.setId("task");
 
         this.getChildren().add(card);
     }

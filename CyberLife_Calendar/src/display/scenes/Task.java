@@ -116,6 +116,8 @@ public class Task extends Scene {
             create.create(this.getTarefa());
 
             HomePage.project.setContentPane(new Tasks(this.cod_project));
+            HomePage.listCalendar.update(HomePage.listCalendar.getCurrentDate());
+            HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
 
             ((Stage)this.getWindow()).close();
         });

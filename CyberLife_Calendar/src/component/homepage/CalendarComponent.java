@@ -123,7 +123,8 @@ public class CalendarComponent extends GridPane {
 			DayType type = DayType.NORMAL;
 
 			if(Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == (i + 1)
-				&& Calendar.getInstance().get(Calendar.MONTH) == date.get(Calendar.MONTH))
+				&& Calendar.getInstance().get(Calendar.MONTH) == date.get(Calendar.MONTH)
+				&& Calendar.getInstance().get(Calendar.YEAR) == date.get(Calendar.YEAR))
 				type = DayType.TODAY;
 
 			CalendarDayComponent dateItem = new CalendarDayComponent(calendar_day, list, type);

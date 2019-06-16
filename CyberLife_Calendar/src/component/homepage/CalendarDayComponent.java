@@ -6,6 +6,7 @@ import component.appointment.AppointmentMini;
 import db.pojo.AppointmentDB;
 import db.pojo.HolidayDB;
 import db.pojo.eventPOJO.EventDB;
+import db.pojo.projectPOJO.TarefaDB;
 import db.pojo.reminderPOJO.ReminderDB;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -127,6 +128,9 @@ public class CalendarDayComponent extends AnchorPane {
                         break;
                     case "holiday":
                         container.getChildren().add(new AppointmentMini((HolidayDB)appointments.get(i)));
+                        break;
+                    case "task":
+                        container.getChildren().add(new AppointmentMini((TarefaDB)appointments.get(i)));
                         break;
                     default:
                         container.getChildren().add(new AppointmentMini());
