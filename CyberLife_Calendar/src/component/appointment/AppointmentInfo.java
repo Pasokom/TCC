@@ -16,6 +16,7 @@ import db.pojo.reminderPOJO.ReminderDB;
 import display.scenes.Event;
 import display.scenes.HomePage;
 import display.scenes.Reminder;
+import display.scenes.Task;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -434,12 +435,29 @@ public class AppointmentInfo extends Popup {
             }
         });
 
+        btn_edit = new Button();
+        btn_edit.setId("btn_edit");
+
+        btn_edit.setOnAction(e -> {
+
+            Stage st = new Stage();
+            st.setWidth(300);
+            st.setHeight(350);
+            st.initStyle(StageStyle.UTILITY);
+            st.initModality(Modality.APPLICATION_MODAL);
+            st.setScene(new Task(task, task.getFk_projeto()));
+            st.show();
+        });
+
         HBox hb_control_buttons = new HBox();
         hb_control_buttons.setAlignment(Pos.CENTER_RIGHT);
         hb_control_buttons.setId("hb_buttons");
 
         if(project.getFk_usuario() == (int)SESSION.get_user_cod())
             hb_control_buttons.getChildren().add(btn_delete);
+
+        if(project.getFk_usuario() == (int)SESSION.get_user_cod())
+            hb_control_buttons.getChildren().add(btn_edit);
 
         if(task.getFk_usuario() == (int)SESSION.get_user_cod())
             hb_control_buttons.getChildren().add(btn_done);

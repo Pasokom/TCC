@@ -64,9 +64,9 @@ public class Profile extends Popup {
 		}
 		else {
 
-			Label userInitial = new Label(SESSION.get_user_name().substring(0, 1).toUpperCase());
-			userInitial.setFont(new Font(20));
-			userImg.getChildren().addAll(profileImg, userInitial);
+			Image img = new Image("http://localhost/cyberlife/imagens/person.png");
+			profileImg.setFill(new ImagePattern(img));
+			userImg.getChildren().addAll(profileImg);
 		}
 
         VBox vb_email_name = new VBox();

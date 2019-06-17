@@ -82,7 +82,7 @@ public class EditProfile extends Stage {
 			this.close();
 		});
 
-		btnSalvar.setOnAction(e -> {
+		/*btnSalvar.setOnAction(e -> {
 			int userID = (int) SESSION.get_user_cod();
 			AccountSettings as = new AccountSettings();
 			HandlerRegistration hr = new HandlerRegistration();
@@ -100,7 +100,7 @@ public class EditProfile extends Stage {
 
 			this.close();
 
-		});
+		});*/
 
 		GridPane pnlLayout = new GridPane();
 

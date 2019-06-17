@@ -2,6 +2,7 @@ package db.functions.appointment;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 
 import db.Database;
 import db.functions.event.CreateEvent;
@@ -40,6 +41,35 @@ public class EditAppointment {
 
             delete.delete(event, false);
             create.insert_event(event);
+
+        } catch (ClassNotFoundException | SQLException e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    public void edit(TarefaDB task) {
+
+        String sql = "UPDATE TAREFA SET NOME_TAREFA = ?, DURACAO_MINUTOS = ?, IMPORTANCIA = ?, DEPENDENCIA = ?, FK_NOME_MARCADOR = ?, FK_USUARIO = ? WHERE COD_TAREFA = ?";
+
+        try {
+
+            PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+
+            statement.setString(1, task.getNome_tarefa());
+            statement.setInt(2, task.getDuracao());
+            statement.setInt(3, task.getImportancia());
+
+            if (task.getDependencia() > 0)
+                statement.setInt(4, task.getDependencia());
+            else
+                statement.setNull(4, Types.INTEGER);
+                
+            statement.setString(5, task.getFk_nome_marcador());
+            statement.setInt(6, task.getFk_usuario());
+            statement.setInt(7, task.getCod_tarefa());
+
+            statement.execute();
 
         } catch (ClassNotFoundException | SQLException e) {
 

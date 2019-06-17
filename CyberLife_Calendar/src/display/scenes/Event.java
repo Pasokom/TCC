@@ -234,6 +234,11 @@ public class Event extends Scene {
 		opt_2.setToggleGroup(opt_group);
 		opt_2.setId("opt_2");
 
+		opt_group.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+			if (newVal == null)
+				oldVal.setSelected(true);
+		});
+
 		Button btn_done = new Button();
 		btn_done.setId("btn_done");
 

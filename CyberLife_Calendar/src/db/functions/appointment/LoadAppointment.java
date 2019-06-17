@@ -480,7 +480,7 @@ public class LoadAppointment {
                 task.setFk_usuario(rSet.getInt("FK_USUARIO"));
                 task.setUsuario_nome(rSet.getString("USUARIO_NOME"));
                 task.setTarefa_nome(rSet.getString("NOME_TAREFA"));
-                task.setTarefa_data(rSet.getTimestamp("DATA_CONCLUIDO"));
+                task.setTarefa_data(rSet.getTimestamp("DATA_CONCLUIDO", Calendar.getInstance()));
 
                 tasks.add(task);
             }

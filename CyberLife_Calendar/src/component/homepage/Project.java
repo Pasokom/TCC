@@ -80,6 +80,11 @@ public class Project extends CustomScroll {
         btn_labels.setToggleGroup(grp_toolbar);
         btn_settings.setToggleGroup(grp_toolbar);
 
+        grp_toolbar.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+			if (newVal == null)
+				oldVal.setSelected(true);
+		});
+
         toolbar.getItems().add(btn_feed);
         toolbar.getItems().add(btn_tasks);
         toolbar.getItems().add(btn_performance);

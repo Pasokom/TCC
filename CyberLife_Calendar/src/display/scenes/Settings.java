@@ -9,10 +9,12 @@ import java.util.Calendar;
 import component.TimePicker;
 import db.functions.registrationAndLogin.HandlerLogin;
 import db.functions.user.AccountSettings;
+import db.pojo.UserDB;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
@@ -115,17 +117,16 @@ public class Settings extends Scene {
 		}
 		else {
 
-			userInitial.setText(SESSION.get_user_name().substring(0, 1).toUpperCase());
-			userInitial.setFont(new Font(20));
+            Image img = new Image("http://localhost/cyberlife/imagens/person.png");
+			profileImg.setFill(new ImagePattern(img));
         }
         
-        userImg.getChildren().addAll(profileImg, userInitial);
-
         Image imgPhoto = new Image("http://localhost/cyberlife/imagens/camera.png");
-        
         profileEdit.setFill(new ImagePattern(imgPhoto));
+        profileEdit.setOpacity(0);
+        userImg.getChildren().addAll(profileImg, profileEdit);
 
-        profileImg.setOnMouseClicked(e -> {
+        profileEdit.setOnMouseClicked(e -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Escolha uma imagem");
             fileChooser.getExtensionFilters().addAll(
@@ -138,20 +139,6 @@ public class Settings extends Scene {
 
             selectedFile = fileChooser.showOpenDialog(new Stage());
 
-           /* if(selectedFile == null){
-                if(dest.exists()){
-                    Image imgUp = new Image("http://localhost/cyberlife/imagens/img" + SESSION.get_user_cod() + ".jpeg");
-                    profileImg.setFill(new ImagePattern(imgUp));
-                    userInitial.setText("");
-                    HomePage.menu.update();
-    
-                }else{
-                    userInitial = new Label(SESSION.get_user_name().substring(0, 1).toUpperCase());
-                    userInitial.setFont(new Font(20));
-                }
-
-            }
-            */
             if(selectedFile != null){
                
                 if(dest.exists()){
@@ -170,12 +157,12 @@ public class Settings extends Scene {
             }
         });
 
-        profileImg.setOnMouseEntered(e ->{
-            profileImg.setOpacity(0.5);
+        profileEdit.setOnMouseEntered(e ->{
+            profileEdit.setOpacity(0.3);
         });
 
-        profileImg.setOnMouseExited(e ->{
-            profileImg.setOpacity(5);
+        profileEdit.setOnMouseExited(e ->{
+            profileEdit.setOpacity(0);
         });
         
         Button btn_cancell = new Button("Cancelar");
@@ -190,13 +177,13 @@ public class Settings extends Scene {
         txt_email.setMaxWidth(200);
 
         Label lbl_passCurrent = new Label("Senha Atual");
-        TextField txt_passCurrent = new TextField();
+        PasswordField pwd_pass = new PasswordField();
 
-        VBox vb_current_password = new VBox(lbl_passCurrent, txt_passCurrent);
+        VBox vb_current_password = new VBox(lbl_passCurrent, pwd_pass);
         vb_current_password.setSpacing(5);
 
         Label lbl_newPass = new Label("Nova senha");
-        TextField txt_newPass = new TextField();
+        PasswordField txt_newPass = new PasswordField();
 
         VBox vb_new_password = new VBox(lbl_newPass, txt_newPass);
         vb_new_password.setSpacing(5);
@@ -225,6 +212,16 @@ public class Settings extends Scene {
         vb_content.getStyleClass().add("usuario");
 
         tab.setContent(vb_content);
+
+        btn_save.setOnAction(e -> {
+
+            AccountSettings settings = new AccountSettings();
+            settings.changeProfile(txt_name.getText(), txt_lastName.getText(), txt_email.getText(), pwd_pass.getText(), txt_newPass.getText());
+        });
+
+        btn_cancell.setOnAction(e ->{
+            ((Stage)this.getWindow()).close();
+        });
 
         return tab;
     }

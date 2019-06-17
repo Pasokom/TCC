@@ -30,21 +30,40 @@ public class AccountSettings {
 		EMAIL, NAME, LAST_NAME, PASSWORD, ACTIVE
 	}
 
-	public void changeProfile(Object newValue, int userID, changeThe whatChange) {
-		String sql = "UPDATE USUARIO SET ";
-		final String query_end = "' WHERE UCODIGO = " + userID + ";";
-		if (whatChange == changeThe.EMAIL)
-			sql = sql + this.EMAIL + (String) newValue.toString() + query_end;
-		if (whatChange == changeThe.NAME)
-			sql = sql + this.NOME + (String) newValue.toString() + query_end;
-		if (whatChange == changeThe.LAST_NAME)
-			sql = sql + this.SOBRENOME + (String) newValue.toString() + query_end;
-		if (whatChange == changeThe.PASSWORD)
-			sql = sql + this.SENHA + (String) newValue.toString() + query_end;
-		if (whatChange == changeThe.ACTIVE)
-			sql = sql + this.ATIVO + (String) newValue.toString() + query_end;
-		System.out.println(sql);
-		execute(sql);
+	public void changeProfile(String name, String lastname, String email, String oldPass, String newPass) {
+
+		String sql;
+
+		if(oldPass.equals(""))
+			sql = "UPDATE USUARIO SET EMAIL = ?, NOME = ?, SOBRENOME = ? WHERE COD_USUARIO = ?";
+		else
+			sql = "UPDATE USUARIO SET EMAIL = ?, NOME = ?, SOBRENOME = ?, SENHA = md5(?) WHERE COD_USUARIO = ? AND SENHA = md5(?)";
+
+		try {
+
+			PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+
+			statement.setString(1, email);
+			statement.setString(2, name);
+			statement.setString(3, lastname);
+
+			if(!newPass.equals("")) {
+
+				statement.setString(4, newPass);
+				statement.setInt(5, (int)SESSION.get_user_cod());
+				statement.setString(6, oldPass);
+				statement.execute();
+			}
+			else {
+				statement.setInt(4, (int)SESSION.get_user_cod());
+			}
+
+			statement.execute();
+
+		} catch (ClassNotFoundException | SQLException e) {
+
+			e.printStackTrace();
+		}
 	}
 
 	private void execute(String sql) {

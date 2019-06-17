@@ -4,11 +4,13 @@ import component.project.Team;
 import db.functions.projectFeatures.CreateFeature;
 import display.scenes.HomePage;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
+import statics.SESSION;
 
 public class User extends Popup {
 
@@ -26,15 +28,27 @@ public class User extends Popup {
         txt_email.setId("title");
         txt_email.setPrefWidth(300);
         btn_send = new Button("Enviar solicitação");
+
+        String txt_emailVerification = SESSION.get_user_email();
         
         btn_send.setOnAction(e -> {
 
-            CreateFeature create = new CreateFeature();
-            create.sendNotification(txt_email.getText(), this.cod_project);
+            if(txt_emailVerification == ""){
 
-            HomePage.project.setContentPane(new Team(this.cod_project));
+                CreateFeature create = new CreateFeature();
+                create.sendNotification(txt_email.getText(), this.cod_project);
 
-            this.hide();
+                HomePage.project.setContentPane(new Team(this.cod_project));
+
+                this.hide();
+            }else{
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("ERRO");
+                alert.setHeaderText("Convite inválido");
+                alert.setContentText("Non pode convidar você mesmo");
+                alert.showAndWait();
+            }
+
         });
         
         VBox root = new VBox(txt_email, btn_send);

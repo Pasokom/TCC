@@ -53,9 +53,9 @@ public class NotificationComponent extends HBox {
 		}
 		else {
 
-			userInitial = new Label(notification.getTitle().substring(0, 1).toUpperCase());
-			userInitial.setFont(new Font(15));
-			userImg.getChildren().addAll(profileImg, userInitial);
+			Image img = new Image("http://localhost/cyberlife/imagens/person.png");
+			profileImg.setFill(new ImagePattern(img));
+			userImg.getChildren().addAll(profileImg);
 		}
 
         btn_accept = new Button();
@@ -66,6 +66,8 @@ public class NotificationComponent extends HBox {
             this.getScene().getWindow().hide();
             ManageNotifications manage = new ManageNotifications();
             manage.accept(notification);
+
+            
         });
 
         btn_dismiss = new Button();

@@ -72,4 +72,33 @@ public class LoadFeature {
 
         return members;
     }
+
+    public UserDB loadUser(int cod_user) {
+
+        UserDB member = new UserDB();
+
+        String sql = "SELECT * FROM USUARIO WHERE COD_USUARIO = ?";
+
+        try {
+
+            PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+            statement.setInt(1, cod_user);
+
+            ResultSet rSet = statement.executeQuery();
+
+            if (rSet.next()) {
+                
+                member.setCod_usuario(rSet.getInt("COD_USUARIO"));
+                member.setNome(rSet.getString("NOME"));
+                member.setSobrenome(rSet.getString("SOBRENOME"));
+                member.setEmail(rSet.getString("EMAIL"));
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+            
+            e.printStackTrace();
+        }
+
+        return member;
+    }
 }

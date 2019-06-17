@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import statics.SESSION;
 
 public class FeatureComponent extends VBox {
 
@@ -52,16 +53,19 @@ public class FeatureComponent extends VBox {
         card.getChildren().add(lbl_titulo);
         card.setId("user_card");
 
-        this.setOnMouseClicked(e -> {
+        if(member.getCod_usuario() != (int)SESSION.get_user_cod()) {
 
-            Point2D point = this.localToScreen(0d, 0d);
-
-            RemoveUser removeUser = new RemoveUser(member, cod_project);
-            removeUser.setX(point.getX() + 10);
-            removeUser.setY(point.getY() + this.getHeight());
-
-            removeUser.show(this.getScene().getWindow());
-        });
+            this.setOnMouseClicked(e -> {
+    
+                Point2D point = this.localToScreen(0d, 0d);
+    
+                RemoveUser removeUser = new RemoveUser(member, cod_project);
+                removeUser.setX(point.getX() + 10);
+                removeUser.setY(point.getY() + this.getHeight());
+    
+                removeUser.show(this.getScene().getWindow());
+            });
+        }
 
         this.getChildren().add(card);
     }

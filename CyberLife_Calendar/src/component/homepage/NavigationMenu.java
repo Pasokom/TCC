@@ -30,7 +30,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -90,9 +89,9 @@ public class NavigationMenu extends AnchorPane {
 		}
 		else {
 
-			userInitial = new Label(SESSION.get_user_name().substring(0, 1).toUpperCase());
-			userInitial.setFont(new Font(20));
-			userImg.getChildren().addAll(profileImg, userInitial);
+			Image img = new Image("http://localhost/cyberlife/imagens/person.png");
+			profileImg.setFill(new ImagePattern(img));
+			userImg.getChildren().addAll(profileImg);
 		}
 
 		userImg.setOnMouseClicked(e -> {
@@ -139,6 +138,11 @@ public class NavigationMenu extends AnchorPane {
 		btn_calendar.setToggleGroup(grp_options);
 		btn_goals.setToggleGroup(grp_options);
 		btn_calendar.setSelected(true);
+
+		grp_options.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+			if (newVal == null)
+				oldVal.setSelected(true);
+		});
 
 		btn_calendar.setOnAction(e -> {
 
@@ -275,8 +279,6 @@ public class NavigationMenu extends AnchorPane {
 		HandlerLogin handlerLogin = new HandlerLogin();
 		/* Conteudo do perfil */
 
-		userInitial = new Label();
-
 		if (handlerLogin.userImageExists((int)SESSION.get_user_cod())){
 		
 			Image img = new Image("http://localhost/cyberlife/imagens/img" + SESSION.get_user_cod() + ".jpeg");
@@ -284,11 +286,12 @@ public class NavigationMenu extends AnchorPane {
 		}
 		else {
 
-			userInitial.setText(SESSION.get_user_name().substring(0, 1).toUpperCase());
-			userInitial.setFont(new Font(20));
+			Image img = new Image("http://localhost/cyberlife/imagens/person.png");
+			profileImg.setFill(new ImagePattern(img));
 		}
+
 		userImg.getChildren().clear();
-		userImg.getChildren().addAll(profileImg, userInitial);
+		userImg.getChildren().addAll(profileImg);
 	}
 
 	private Stage profileSelectorStageConstructor() {

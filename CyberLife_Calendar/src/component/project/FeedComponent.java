@@ -12,7 +12,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import javafx.scene.text.Font;
 
 public class FeedComponent extends HBox {
 
@@ -31,7 +30,6 @@ public class FeedComponent extends HBox {
         
         StackPane userImg = new StackPane();
         Image img;
-        Label userInitial;
         HandlerLogin handlerLogin = new HandlerLogin();
 
 		if (handlerLogin.userImageExists(task.getFk_usuario())){
@@ -42,10 +40,9 @@ public class FeedComponent extends HBox {
 		}
 		else {
 
-			//userInitial = new Label(task.getUsuario_nome().substring(0, 1).toUpperCase());
-            userInitial = new Label("R");
-            userInitial.setFont(new Font(15));
-			userImg.getChildren().addAll(profileImg, userInitial);
+			img = new Image("http://localhost/cyberlife/imagens/person.png");
+			profileImg.setFill(new ImagePattern(img));
+			userImg.getChildren().addAll(profileImg);
         }
         
         lbl_message = new Label(task.getUsuario_nome() + " concluiu " + task.getTarefa_nome());
