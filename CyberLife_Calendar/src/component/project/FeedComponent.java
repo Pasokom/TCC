@@ -42,8 +42,9 @@ public class FeedComponent extends HBox {
 		}
 		else {
 
-			userInitial = new Label(task.getUsuario_nome().substring(0, 1).toUpperCase());
-			userInitial.setFont(new Font(15));
+			//userInitial = new Label(task.getUsuario_nome().substring(0, 1).toUpperCase());
+            userInitial = new Label("R");
+            userInitial.setFont(new Font(15));
 			userImg.getChildren().addAll(profileImg, userInitial);
         }
         
