@@ -28,7 +28,7 @@ public class User extends Popup {
         btn_send = new Button("Enviar solicitação");
         
         btn_send.setOnAction(e -> {
-            
+
             CreateFeature create = new CreateFeature();
             create.sendNotification(txt_email.getText(), this.cod_project);
 

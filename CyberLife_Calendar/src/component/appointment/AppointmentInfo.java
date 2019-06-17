@@ -417,7 +417,7 @@ public class AppointmentInfo extends Popup {
         btn_delete.setOnAction(e -> {
 
             Alert alert = new Alert(AlertType.CONFIRMATION, 
-                "Deseja realmente finalizar este projeto?", 
+                "Deseja realmente excluir esta tarefa?", 
                 ButtonType.OK,
                 ButtonType.CANCEL);
 
