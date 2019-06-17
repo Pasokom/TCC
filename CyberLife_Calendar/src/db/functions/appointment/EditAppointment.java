@@ -117,6 +117,5 @@ public class EditAppointment {
 
             e.printStackTrace();
         }
-
     }
 }

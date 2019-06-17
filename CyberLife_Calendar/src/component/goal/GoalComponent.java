@@ -1,6 +1,7 @@
 package component.goal;
 
 import component.homepage.Goals;
+import db.functions.appointment.DeleteAppointment;
 import db.functions.appointment.EditAppointment;
 import db.pojo.goalPOJO.GoalDB;
 import display.scenes.HomePage;
@@ -99,6 +100,10 @@ public class GoalComponent extends VBox {
 
         lbl_delete.setOnMouseClicked(e -> {
             
+            DeleteAppointment appointment = new DeleteAppointment();
+            appointment.delete(goal);
+            HomePage.goals.update();
+            popup.hide();
         });
 
         VBox vb_options = new VBox();
