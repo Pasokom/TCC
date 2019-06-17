@@ -432,20 +432,6 @@ public class AppointmentInfo extends Popup {
                 HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
                 HomePage.project.update();
             }
-
-            /*DeleteConfirmation confirmation = new DeleteConfirmation();
-            confirmation.showAndWait();
-
-            if (confirmation.result == DialogResult.OK) {
-
-                if (confirmation.isAll())
-                    deleter.delete(event, true);
-                else
-                    deleter.delete(event, false);
-
-                HomePage.listCalendar.update(HomePage.listCalendar.getCurrentDate());
-                HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
-            }*/
         });
 
         HBox hb_control_buttons = new HBox();
