@@ -58,7 +58,7 @@ public class Team extends VBox {
 
         for (UserDB member : members) {
             
-            FeatureComponent member_component = new FeatureComponent(member);
+            FeatureComponent member_component = new FeatureComponent(member, cod_project);
             member_component.setMaxWidth(200);
             flw_all_users.getChildren().addAll(member_component);
             flw_progress.getChildren().addAll(new MemberProgress(member, cod_project));

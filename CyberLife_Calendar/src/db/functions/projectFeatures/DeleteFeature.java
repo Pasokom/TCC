@@ -5,18 +5,20 @@ import java.sql.SQLException;
 
 import db.Database;
 import db.pojo.LabelDB;
+import db.pojo.UserDB;
 
-public class UpdateFeature {
+public class DeleteFeature {
 
-    public void finishProject(int cod_project) {
+    public void delete(LabelDB label) {
 
-        String sql = "UPDATE PROJETO SET FINALIZADO = 1 WHERE COD_PROJETO = ?";
+        String sql = "DELETE FROM MARCADOR WHERE NOME_MARCADOR = ? AND FK_PROJETO = ?";
 
         try {
 
             PreparedStatement statement = Database.get_connection().prepareStatement(sql);
 
-            statement.setInt(1, cod_project);
+            statement.setString(1, label.getNome_marcador());
+            statement.setInt(2, label.getFk_projeto());
             statement.execute();
 
         } catch (ClassNotFoundException | SQLException e) {
@@ -24,18 +26,17 @@ public class UpdateFeature {
             e.printStackTrace();
         }
     }
+    
+    public void delete(UserDB user, int cod_project) {
 
-    public void update(LabelDB oldLabel, LabelDB newLabel) {
-
-        String sql = "UPDATE MARCADOR SET NOME_MARCADOR = ? WHERE NOME_MARCADOR = ? AND FK_PROJETO = ?";
+        String sql = "DELETE FROM USUARIO_PROJETO WHERE FK_USUARIO = ? AND FK_PROJETO = ?";
 
         try {
 
             PreparedStatement statement = Database.get_connection().prepareStatement(sql);
 
-            statement.setString(1, newLabel.getNome_marcador());
-            statement.setString(2, oldLabel.getNome_marcador());
-            statement.setInt(3, newLabel.getFk_projeto());
+            statement.setInt(1, user.getCod_usuario());
+            statement.setInt(2, cod_project);
             statement.execute();
 
         } catch (ClassNotFoundException | SQLException e) {
