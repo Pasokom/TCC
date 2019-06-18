@@ -12,6 +12,7 @@ import db.functions.user.AccountSettings;
 import db.pojo.UserDB;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -71,7 +72,22 @@ public class Settings extends Scene {
 
         save.setOnAction(e ->{
 
-            accountSettings.saveScheduleTask(Time.valueOf(t_begin.get_value() + ":00"), Time.valueOf(t_end.get_value() + ":00"));
+            if(Time.valueOf(t_begin.get_value() + ":00").getTime() < Time.valueOf(t_end.get_value() + ":00").getTime()) {
+
+                accountSettings.saveScheduleTask(Time.valueOf(t_begin.get_value() + ":00"), Time.valueOf(t_end.get_value() + ":00"));
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+				alert.setHeaderText("Sucesso!!!");
+				alert.setContentText("O horário de tarefas foi alterado com sucesso!");
+				alert.showAndWait();
+            }
+            else {
+
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+				alert.setHeaderText("Erro");
+				alert.setContentText("A hora inicial deve ser antes da hora final!");
+				alert.showAndWait();
+            }
+
         });
 
         HBox hb_task_schedule = new HBox();

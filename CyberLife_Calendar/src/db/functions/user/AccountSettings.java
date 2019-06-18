@@ -59,7 +59,7 @@ public class AccountSettings {
 
 				if(!login.checkPassword(oldPass)){
 	
-					Alert alert = new Alert(Alert.AlertType.INFORMATION);
+					Alert alert = new Alert(Alert.AlertType.WARNING);
 					alert.setTitle("ERRO");
 					alert.setHeaderText("Dados inválidos");
 					alert.setContentText("Senha inválida!");

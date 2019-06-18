@@ -100,7 +100,7 @@ BEGIN
         SET dtIni = dtUltima;
         SET dtFim = DATE_ADD(dtIni, INTERVAL DATEDIFF(dtFim, aDtIni) DAY);
 
-        WHILE CALCULO_RECORRENCIA(dtIni, nInterval, tRepeticao) < DATE_ADD(dtLimite, INTERVAL 1 DAY) DO
+        WHILE CALCULO_RECORRENCIA(dtIni, nInterval, tRepeticao) < dtLimite DO
 			SET dtIni = CALCULO_RECORRENCIA(dtIni, nInterval, tRepeticao);
             SET dtFim = CALCULO_RECORRENCIA(dtFim, nInterval, tRepeticao);
             
