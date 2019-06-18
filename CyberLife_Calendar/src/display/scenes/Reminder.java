@@ -294,8 +294,11 @@ public class Reminder extends Scene {
 				createReminder();
 				((Stage)this.getWindow()).close();
 			}
-			else
+			else {
+
 				editReminder();
+				((Stage)this.getWindow()).close();
+			}
 		});
 
 		Region region = new Region();
@@ -327,7 +330,9 @@ public class Reminder extends Scene {
 	private void editReminder() {
 
 		EditAppointment edit = new EditAppointment();
-		edit.edit(getReminder());
+		ReminderDB editReminder = getReminder();
+		editReminder.setCod_recorrencia(reminder.getCod_recorrencia());
+		edit.edit(editReminder);
 		HomePage.listCalendar.update(HomePage.listCalendar.getCurrentDate());
 		HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
 	}

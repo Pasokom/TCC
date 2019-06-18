@@ -260,8 +260,11 @@ public class Event extends Scene {
 				createEvent();
 				((Stage)getWindow()).close();
 			}
-			else
+			else {
+
 				editEvent();
+				((Stage)getWindow()).close();
+			}
 		});
 
 		Region region = new Region();
@@ -293,7 +296,9 @@ public class Event extends Scene {
 	private void editEvent() {
 
 		EditAppointment edit = new EditAppointment();
-		edit.edit(getEvent());
+		EventDB event = getEvent();
+		event.setCod_recorrencia(this.event.getCod_recorrencia());
+		edit.edit(event);
 		HomePage.listCalendar.update(HomePage.listCalendar.getCurrentDate());
 		HomePage.calendarComponent.createCalendar(HomePage.calendarComponent.getDate());
 	}

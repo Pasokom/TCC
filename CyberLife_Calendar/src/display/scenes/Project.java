@@ -1,6 +1,7 @@
 package display.scenes;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -35,7 +36,7 @@ public class Project extends Scene {
         txt_title.setId("title");
 
         lbl_data = new Label("Data de entrega");
-        dt_final = new DatePicker();
+        dt_final = new DatePicker(LocalDate.now());
 
         btn_create_project = new Button("Criar projeto");
 

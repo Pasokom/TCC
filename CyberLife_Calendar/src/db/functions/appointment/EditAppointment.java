@@ -23,7 +23,7 @@ public class EditAppointment {
 
         try {
 
-            delete.delete(reminder, false);
+            delete.delete(reminder, true);
             create.insert_reminder(reminder);
 
         } catch (ClassNotFoundException | SQLException e) {
@@ -39,7 +39,7 @@ public class EditAppointment {
 
         try {
 
-            delete.delete(event, false);
+            delete.delete(event, true);
             create.insert_event(event);
 
         } catch (ClassNotFoundException | SQLException e) {
