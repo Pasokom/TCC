@@ -100,11 +100,11 @@ BEGIN
         SET dtIni = dtUltima;
         SET dtFim = DATE_ADD(dtIni, INTERVAL DATEDIFF(dtFim, aDtIni) DAY);
 
-        WHILE dtIni < dtLimite DO
-            SET dtIni = CALCULO_RECORRENCIA(dtIni, nInterval, tRepeticao);
+        WHILE CALCULO_RECORRENCIA(dtIni, nInterval, tRepeticao) < DATE_ADD(dtLimite, INTERVAL 1 DAY) DO
+			SET dtIni = CALCULO_RECORRENCIA(dtIni, nInterval, tRepeticao);
             SET dtFim = CALCULO_RECORRENCIA(dtFim, nInterval, tRepeticao);
             
-            IF tRepeticao != 2 THEN
+			IF tRepeticao != 2 THEN
 				INSERT INTO EVENTO_RECORRENCIA (DATA_INICIO, DATA_FIM, FK_EVENTO) VALUES (dtIni, dtFim, eCod);
 			ELSE
 				CALL INSERT_SEMANA(2, dtIni, dtFim, eCod, tSemana);
@@ -168,7 +168,7 @@ BEGIN
 
         SET dtIni = dtUltima;
 
-        WHILE dtIni < dtLimite DO
+        WHILE CALCULO_RECORRENCIA(dtIni, nInterval, tRepeticao) < dtLimite DO
             SET dtIni = CALCULO_RECORRENCIA(dtIni, nInterval, tRepeticao);
             SET dtFim = CALCULO_RECORRENCIA(dtFim, nInterval, tRepeticao);
             
