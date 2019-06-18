@@ -42,8 +42,7 @@ public class HandlerLogin {
 
 				UserSession session = new UserSession(email, result.getInt(1));
 				session.serialize();
-			}
-			else {
+			} else {
 
 				UserSession session = new UserSession(email);
 				session.serialize();
@@ -85,38 +84,63 @@ public class HandlerLogin {
 
 		try {
 
-            String protocol = "http://";
-            String host = "localhost/cyberlife/calendar/API/query/photo.php";
-            String id = "?id=" + idInvite;
-            
-            URL url = new URL(protocol+host+id);
+			String protocol = "http://";
+			String host = "localhost/cyberlife/calendar/API/query/photo.php";
+			String id = "?id=" + idInvite;
 
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
+			URL url = new URL(protocol + host + id);
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setRequestMethod("GET");
 
-            String line;
-            StringBuffer buffer = new StringBuffer();
-            while ((line = reader.readLine()) != null) {
-                buffer.append(line);
-            }
-            reader.close();
-            con.disconnect();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+			String line;
+			StringBuffer buffer = new StringBuffer();
+			while ((line = reader.readLine()) != null) {
+				buffer.append(line);
+			}
+			reader.close();
+			con.disconnect();
 
 			String response = buffer.toString();
-			
-			if(response.equals("existe")) {
+
+			if (response.equals("existe")) {
 				return true;
-			}
-			else {
+			} else {
 				return false;
 			}
 
-        } catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
-			
+
 			return false;
-        }
+		}
+	}
+
+	public boolean checkPassword(String password) {
+
+		String sql = "SELECT * FROM USUARIO WHERE COD_USUARIO = ? AND SENHA = md5(?)";
+
+		try {
+
+			PreparedStatement statement = Database.get_connection().prepareStatement(sql);
+
+			statement.setInt(1, (int)SESSION.get_user_cod());
+			statement.setString(2, password);
+
+			ResultSet rSet = statement.executeQuery();
+
+			if(rSet.next()) {
+
+				return true;
+			}
+
+		} catch (ClassNotFoundException | SQLException e) {
+			
+			e.printStackTrace();
+		}
+
+		return false;
 	}
 }

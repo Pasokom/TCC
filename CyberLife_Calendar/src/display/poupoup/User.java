@@ -28,20 +28,19 @@ public class User extends Popup {
         txt_email.setId("title");
         txt_email.setPrefWidth(300);
         btn_send = new Button("Enviar solicitação");
-
-        String txt_emailVerification = SESSION.get_user_email();
-        
+            
         btn_send.setOnAction(e -> {
 
-            if(txt_emailVerification == ""){
-
+            if(!txt_email.getText().toLowerCase().equals(SESSION.get_user_email().toLowerCase())){
+                
                 CreateFeature create = new CreateFeature();
                 create.sendNotification(txt_email.getText(), this.cod_project);
-
                 HomePage.project.setContentPane(new Team(this.cod_project));
 
                 this.hide();
+                
             }else{
+
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("ERRO");
                 alert.setHeaderText("Convite inválido");

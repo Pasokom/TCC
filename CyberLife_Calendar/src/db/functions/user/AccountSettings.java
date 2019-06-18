@@ -9,6 +9,8 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 
 import db.Database;
+import db.functions.registrationAndLogin.HandlerLogin;
+import javafx.scene.control.Alert;
 import main.Main;
 import statics.SESSION;
 
@@ -52,13 +54,36 @@ public class AccountSettings {
 				statement.setString(4, newPass);
 				statement.setInt(5, (int)SESSION.get_user_cod());
 				statement.setString(6, oldPass);
-				statement.execute();
+
+				HandlerLogin login = new HandlerLogin();
+
+				if(!login.checkPassword(oldPass)){
+	
+					Alert alert = new Alert(Alert.AlertType.INFORMATION);
+					alert.setTitle("ERRO");
+					alert.setHeaderText("Dados inválidos");
+					alert.setContentText("Senha inválida!");
+					alert.showAndWait();
+					
+				}else{
+	
+					Alert alert = new Alert(Alert.AlertType.INFORMATION);
+					alert.setTitle("Parabéns");
+					alert.setHeaderText("Alteração bem sucedida");
+					alert.setContentText("Você alterou seus dados com sucesso!");
+					alert.showAndWait();
+					statement.execute();
+				}
 			}
 			else {
 				statement.setInt(4, (int)SESSION.get_user_cod());
+				Alert alert = new Alert(Alert.AlertType.INFORMATION);
+				alert.setTitle("Parabéns");
+				alert.setHeaderText("Alteração bem sucedida");
+				alert.setContentText("Você alterou seus dados com sucesso!");
+				alert.showAndWait();
+				statement.execute();
 			}
-
-			statement.execute();
 
 		} catch (ClassNotFoundException | SQLException e) {
 
