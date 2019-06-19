@@ -39,7 +39,7 @@ public class Labels extends VBox {
             stage.show();
         });
 
-        lbl_all_labels = new Label("Todas categorias");
+        lbl_all_labels = new Label("Todas as categorias");
 
         LoadFeature feature = new LoadFeature();
         ArrayList<LabelDB> labels = feature.loadLabels(this.cod_project);

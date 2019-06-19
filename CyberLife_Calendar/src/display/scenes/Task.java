@@ -61,12 +61,12 @@ public class Task extends Scene {
 
         VBox vb_duration = new VBox(lbl_duration, cbx_duration);
 
-        lbl_labels = new Label("Marcador");
+        lbl_labels = new Label("Categoria");
         cbx_labels = new ComboBox<>();
         cbx_labels.setPrefWidth(100);
         cbx_labels.setPadding(new Insets(2));
 
-        cbx_labels.getItems().add("Nenhum");
+        cbx_labels.getItems().add("Nenhuma");
         cbx_labels.getSelectionModel().select(0);
 
         LoadFeature feature = new LoadFeature();
