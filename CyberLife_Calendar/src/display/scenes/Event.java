@@ -277,8 +277,9 @@ public class Event extends Scene {
 			else {
 
 				Alert alert = new Alert(Alert.AlertType.WARNING);
-				alert.setHeaderText("ERRO");
-				alert.setContentText("A hora inicial deve ser antes da hora final!");
+				alert.setTitle("CyberLife");
+				alert.setHeaderText("Evento inválido!");
+				alert.setContentText("A data e hora inicial devem ser antes da hora final!");
 				alert.showAndWait();
 			}
 		});

@@ -42,9 +42,9 @@ public class User extends Popup {
             }else{
 
                 Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("ERRO");
-                alert.setHeaderText("Convite inválido");
-                alert.setContentText("Non pode convidar você mesmo");
+                alert.setTitle("CyberLife");
+                alert.setHeaderText("Convite inválido!");
+                alert.setContentText("Não é possível convidar a si mesmo!");
                 alert.showAndWait();
             }
 

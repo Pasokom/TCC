@@ -75,17 +75,20 @@ public class Settings extends Scene {
             if(Time.valueOf(t_begin.get_value() + ":00").getTime() < Time.valueOf(t_end.get_value() + ":00").getTime()) {
 
                 accountSettings.saveScheduleTask(Time.valueOf(t_begin.get_value() + ":00"), Time.valueOf(t_end.get_value() + ":00"));
+
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-				alert.setHeaderText("Sucesso!!!");
-				alert.setContentText("O horário de tarefas foi alterado com sucesso!");
-				alert.showAndWait();
+			    alert.setTitle("CyberLife");
+			    alert.setHeaderText("Sucesso!");
+			    alert.setContentText("O horário de tarefas foi alterado com sucesso!");
+			    alert.showAndWait();
             }
             else {
 
                 Alert alert = new Alert(Alert.AlertType.WARNING);
-				alert.setHeaderText("Erro");
+                alert.setTitle("CyberLife");
+				alert.setHeaderText("Horário da tarefas inválido!");
 				alert.setContentText("A hora inicial deve ser antes da hora final!");
-				alert.showAndWait();
+                alert.showAndWait();
             }
 
         });

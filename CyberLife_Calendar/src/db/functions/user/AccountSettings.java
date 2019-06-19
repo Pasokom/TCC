@@ -60,7 +60,7 @@ public class AccountSettings {
 				if(!login.checkPassword(oldPass)){
 	
 					Alert alert = new Alert(Alert.AlertType.WARNING);
-					alert.setTitle("ERRO");
+					alert.setTitle("CyberLife");
 					alert.setHeaderText("Dados inválidos");
 					alert.setContentText("Senha inválida!");
 					alert.showAndWait();
@@ -68,7 +68,7 @@ public class AccountSettings {
 				}else{
 	
 					Alert alert = new Alert(Alert.AlertType.INFORMATION);
-					alert.setTitle("Parabéns");
+					alert.setTitle("CyberLife");
 					alert.setHeaderText("Alteração bem sucedida");
 					alert.setContentText("Você alterou seus dados com sucesso!");
 					alert.showAndWait();
@@ -78,7 +78,7 @@ public class AccountSettings {
 			else {
 				statement.setInt(4, (int)SESSION.get_user_cod());
 				Alert alert = new Alert(Alert.AlertType.INFORMATION);
-				alert.setTitle("Parabéns");
+				alert.setTitle("CyberLife");
 				alert.setHeaderText("Alteração bem sucedida");
 				alert.setContentText("Você alterou seus dados com sucesso!");
 				alert.showAndWait();
