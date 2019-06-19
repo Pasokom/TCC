@@ -395,7 +395,7 @@ public class Login extends Scene {
 			return;
 		}
 
-		if (txtSenhaCadast.getText().length() < 4) { // 8) {
+		if (txtSenhaCadast.getText().length() < 3) { // 8) {
 			txtSenhaCadast.setStyle("-fx-focus-color: red;");
 			txtSenhaCadast.requestFocus();
 			//lblLog.setText("Senha deve conter no mínimo 3 caracteres!");
