@@ -28,7 +28,7 @@ public class Labels extends VBox {
 
         this.getStylesheets().add(this.getClass().getResource("../../css/project_component.css").toExternalForm());
 
-        btn_add_label = new Button(" + adicionar marcador");
+        btn_add_label = new Button(" + adicionar categoria");
         btn_add_label.setId("btn_add_label");
         btn_add_label.setOnAction(e -> {
             
@@ -39,7 +39,7 @@ public class Labels extends VBox {
             stage.show();
         });
 
-        lbl_all_labels = new Label("Todos os marcadores");
+        lbl_all_labels = new Label("Todas as categorias");
 
         LoadFeature feature = new LoadFeature();
         ArrayList<LabelDB> labels = feature.loadLabels(this.cod_project);

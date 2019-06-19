@@ -69,13 +69,13 @@ public class Tasks extends VBox {
             this.getChildren().addAll(lbl_current_task, tarefa_atual);
         }
 
-        lbl_all_tasks = new Label("Todas as tarefas");
+        lbl_all_tasks = new Label("Categorias");
 
         cbx_labels = new ComboBox<>();
         cbx_labels.setPrefWidth(100);
         cbx_labels.setPadding(new Insets(2));
 
-        cbx_labels.getItems().add("Todos");
+        cbx_labels.getItems().add("Todas");
         cbx_labels.getSelectionModel().select(0);
 
         LoadFeature feature = new LoadFeature();

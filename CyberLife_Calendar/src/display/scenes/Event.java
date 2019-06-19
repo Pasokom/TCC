@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Calendar;
 
 import component.Recurrence;
@@ -18,6 +20,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
@@ -256,14 +259,27 @@ public class Event extends Scene {
 
 		btn_done.setOnMouseClicked(e -> {
 
-			if(!this.edit) {
-				createEvent();
-				((Stage)getWindow()).close();
+			LocalDateTime start = LocalDateTime.of(dt_start.getValue(), LocalTime.parse(t_start.get_value()));
+			LocalDateTime end = LocalDateTime.of(dt_end.getValue(), LocalTime.parse(t_end.get_value()));
+
+			if (start.compareTo(end) == -1) {
+
+				if(!this.edit) {
+					createEvent();
+					((Stage)getWindow()).close();
+				}
+				else {
+	
+					editEvent();
+					((Stage)getWindow()).close();
+				}
 			}
 			else {
 
-				editEvent();
-				((Stage)getWindow()).close();
+				Alert alert = new Alert(Alert.AlertType.WARNING);
+				alert.setHeaderText("ERRO");
+				alert.setContentText("A hora inicial deve ser antes da hora final!");
+				alert.showAndWait();
 			}
 		});
 

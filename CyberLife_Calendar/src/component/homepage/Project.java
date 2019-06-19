@@ -159,7 +159,7 @@ public class Project extends CustomScroll {
             Point2D point = btn_labels.localToScreen(0d, 0d);
             tooltip.setX(point.getX());
             tooltip.setY(point.getY() + btn_feed.getHeight());
-            tooltip.setText("Marcadores");
+            tooltip.setText("Categorias de tarefas");
             tooltip.show(this.getScene().getWindow());
         });
 
