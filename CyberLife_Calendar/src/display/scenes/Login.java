@@ -395,10 +395,18 @@ public class Login extends Scene {
 			return;
 		}
 
-		if (txtSenhaCadast.getText().length() < 1) { // 8) {
+		if (txtSenhaCadast.getText().length() < 4) { // 8) {
 			txtSenhaCadast.setStyle("-fx-focus-color: red;");
 			txtSenhaCadast.requestFocus();
-			lblLog.setText("Senha deve conter no mínimo 8 caracteres!");
+			//lblLog.setText("Senha deve conter no mínimo 3 caracteres!");
+			//Optional<ButtonType> result = new Alert(AlertType.WARNING, "Senha deve conter no mínimo 3 caracteres!").showAndWait();
+			
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("CyberLife");
+			alert.setHeaderText("Dados inválidos!");
+			alert.setContentText("Senha deve conter no mínimo 3 caracteres!");
+			alert.showAndWait();
+
 			return;
 		}
 		boolean password_are_diferent = txtSenhaCadast.getText().equals(txtSenhaConfirmCadast.getText());
@@ -406,7 +414,15 @@ public class Login extends Scene {
 		if (!password_are_diferent) {
 			txtSenhaConfirmCadast.setStyle("-fx-focus-color: red;");
 			txtSenhaConfirmCadast.requestFocus();
-			lblLog.setText("senhas informadas não correspondem!");
+			//lblLog.setText("Senhas informadas não correspondem!");
+			//Optional<ButtonType> result = new Alert(AlertType.WARNING,"Senhas informadas não correspondem!").showAndWait();
+			
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("CyberLife");
+			alert.setHeaderText("Dados inválidos!");
+			alert.setContentText("Senhas informadas não correspondem!");
+			alert.showAndWait();
+			
 			return;
 		}
 
@@ -415,7 +431,15 @@ public class Login extends Scene {
 			
 			txtEmailCadast.setStyle("-fx-focus-color: red;");
 			txtEmailCadast.requestFocus();
-			lblLog.setText("Formato de e-mail não reconhecido!");
+			//lblLog.setText("Formato de e-mail não reconhecido!");
+			//Optional<ButtonType> result = new Alert(AlertType.WARNING,"Formato de e-mail não reconhecido!").showAndWait();
+
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("CyberLife");
+			alert.setHeaderText("Dados inválidos!");
+			alert.setContentText("Formato de email não reconhecido!");
+			alert.showAndWait();
+			
 			return;
 		}
 
@@ -432,17 +456,35 @@ public class Login extends Scene {
 			 * aparentemente o valor que a query retorna para quando o insert dá certo é
 			 * false heuehueh
 			 */
-			if (this.registration.insert_user(name, last_name, email, password)) {
+			/*if (this.registration.insert_user(name, last_name, email, password)) {
 				Optional<ButtonType> vOptional = new Alert(AlertType.CONFIRMATION, "Você foi cadastrado com sucesso! "
 						+ txtNomeCadast.getText() + " " + txtSobrenomeCadast.getText()).showAndWait();
 				if (vOptional.get() == ButtonType.OK) {
 					componenteLogin();
 				}
-			}
-			lblLog.setText("Usuário cadastrado com sucesso");
+			}*/
+			
+			//Optional<ButtonType> result = new Alert(AlertType.CONFIRMATION,"Cadastrado! Voltar ao login?").showAndWait();
+
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+			alert.setTitle("CyberLife");
+			alert.setHeaderText("Novo usuário!");
+			alert.setContentText("Cadastrado! Voltar ao login?");
+			Optional<ButtonType> result = alert.showAndWait();
+
+			if(result.get() == ButtonType.OK)
+				Main.main_stage.setScene(new Login());
+				
 			return;
 		}
-		lblLog.setText("email informado já foi cadastrado");
+		//lblLog.setText("Email informado já foi cadastrado");
+
+		Alert alert = new Alert(Alert.AlertType.WARNING);
+		alert.setTitle("CyberLife");
+		alert.setHeaderText("Dados inválidos!");
+		alert.setContentText("Email informado já foi cadastrado");
+		alert.showAndWait();
+		
 		return;
 	}
 }
